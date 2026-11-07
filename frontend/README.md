@@ -42,3 +42,5 @@ Browser checks covered all four camera selections, search/no-results/reset, each
 ## Still open
 
 Worker-to-dashboard delivery, synchronized video, valid road calibration, road regions/gates, contextual integrations, and Vercel deployment remain separate integration work. The UI does not claim a measured environmental improvement, model accuracy, or live deployment.
+
+**Dependency note (7 November 2026, 18:12 America/New_York / 23:12 UTC):** Mert upgraded MapLibre GL JS to 6.17.0 to resolve [GHSA-jrc7-96c5-q579](https://github.com/maplibre/maplibre-gl-js/security/advisories/GHSA-jrc7-96c5-q579). The current map uses third-party style and attribution data, so the patched sanitizer is relevant. The dashboard behavior is preserved.

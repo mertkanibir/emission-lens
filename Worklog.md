@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:12 America/New_York (23:12 UTC)
+
+- **Who:** Mert
+- **Done:** Started the independently completable integration scope authorized by Mert, preserving Carter's labeling work. Upgraded MapLibre GL JS to 6.17.0 for the maintainer's critical sanitizer advisory and adapted its named-module import. Added a Git attributes rule preserving published CARB factor artifacts byte-for-byte across operating systems.
+- **Completed:** All 29 backend tests and the production frontend build pass. The first build exposed MapLibre 6's removal of its default export; the import was corrected and the rebuild passed. The production dependency audit reports zero vulnerabilities. The factor files are preserved without changing their published bytes.
+- **Still open:** Worker orchestration, authenticated ingestion, persistence, sustained four-camera GPU evaluation, and dashboard delivery are in progress. Valid road calibration and reviewed class mappings remain prerequisites for live emissions; none are assumed by this change.
+
 ### 7 November 2026, 16:28 America/New_York (21:28 UTC)
 
 - **Who:** Carter

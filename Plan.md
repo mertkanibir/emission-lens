@@ -472,6 +472,8 @@ Agree on schemas before parallel implementation. Typed contracts and migrations 
 
 ## 15. Repository and agent work packages
 
+**Scope note (7 November 2026, 18:12 America/New_York / 23:12 UTC):** Mert directed completion of all remaining work that can proceed independently, including worker orchestration, validated ingestion, persistence, evaluation, and integration. Carter's in-progress labeling and training data are preserved. Mert coordinates these integration changes. The additive worker transport uses the existing 1.1 records; no scientific calibration or live class mapping is assumed.
+
 Suggested layout:
 
 ```text
