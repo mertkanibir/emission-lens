@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 15:46 America/New_York (20:46 UTC)
+
+- **Who:** Carter
+- **Done:** Added `worker/detect.py`, a pretrained YOLO wrapper, and `worker/dataset.py`, which drafts boxes for labeling and builds the checked, time-split training zip.
+- **Completed:** 39 tests pass. Draft boxes ran on 16 real frames at about 0.29 s per frame on the laptop CPU at 1280 pixels, with frame collection running. Ultralytics accepted the generated `data.yaml`.
+- **Still open:** That speed is about 3.4 frames per second in total, below the 20 needed for four cameras at 5 each, so live detection needs a GPU or lighter settings. Pretrained boxes miss vehicles and mark some SUVs as trucks, so every frame needs human review. No labeled dataset exists yet. Tracking and the live view are next.
+
 ### 7 November 2026, 15:24 America/New_York (20:24 UTC)
 
 - **Who:** Carter
