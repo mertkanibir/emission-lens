@@ -1,6 +1,11 @@
+import re
+from pathlib import Path
+
 import pytest
 
 from worker.config import CameraConfigError, load_camera, load_cameras
+
+CONTRACT_CAMERAS = Path(__file__).resolve().parents[1] / "contracts" / "src" / "cameras.ts"
 
 VALID = """\
 id: "999"
@@ -20,6 +25,24 @@ def write(tmp_path, text, name="999.yaml"):
 
 def test_project_configs_load_all_four_cameras():
     assert [camera.id for camera in load_cameras()] == ["220", "222", "223", "228"]
+
+
+def test_project_configs_match_the_shared_contract():
+    pattern = re.compile(
+        r'id: "(\d+)",\s+name: "([^"]+)",\s+latitude: ([\d.-]+),'
+        r'\s+longitude: ([\d.-]+),\s+stream_url: "([^"]+)"'
+    )
+    contract = {
+        camera_id: (name, float(latitude), float(longitude), url)
+        for camera_id, name, latitude, longitude, url in pattern.findall(
+            CONTRACT_CAMERAS.read_text(encoding="utf-8")
+        )
+    }
+    configs = {
+        camera.id: (camera.name, camera.latitude, camera.longitude, camera.stream_url)
+        for camera in load_cameras()
+    }
+    assert configs == contract
 
 
 def test_valid_camera_loads(tmp_path):
