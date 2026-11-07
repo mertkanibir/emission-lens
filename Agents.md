@@ -6,7 +6,7 @@ Guidance for coding agents and teammates working in this repository.
 
 **Coordination:** Mert coordinates project decisions, data/product/dashboard work, and implementation agents. Carter’s proposed ownership is vision and emissions unless the team changes that.
 
-**Last updated:** 7 November 2026, 14:55 America/New_York (19:55 UTC). Mert’s commits in this repository use the mertkanibir GitHub email.
+**Last updated:** 7 November 2026, 14:58 America/New_York (19:58 UTC). Pushes must use the mertkanibir or CarterWhite8232 GitHub account.
 
 ---
 
@@ -34,7 +34,14 @@ Repository files, commit messages, pull requests, dashboard copy, briefs, and me
 
 Do not name the coding tool or model. That includes Codex, Claude, Cursor, GPT, Gemini, and similar product names. Do not sign work as an assistant, bot, or tool. When a note needs an author, use Mert or Carter, matching who directed or owns that work. Mert coordinates implementation. Carter owns the proposed vision and emissions work unless the team changes that.
 
-Mert’s commits in this repository use `Mert Kanıbir <231364752+mertkanibir@users.noreply.github.com>`. Do not commit as `ascendoteam@gmail.com`. Carter’s commits stay on Carter’s own email.
+Every commit and push uses one of these two GitHub accounts, and no other:
+
+| Who | GitHub account | Author email GitHub already accepts |
+|---|---|---|
+| Mert | `mertkanibir` | `231364752+mertkanibir@users.noreply.github.com` |
+| Carter | `CarterWhite8232` | `CarterWhite8232@icloud.com` |
+
+The authenticated account for `git push` and `gh` must be the same person as the commit author. Mert does not push as `ascendoteam`. Carter does not push from any other account. Before pushing, check `gh auth status` and the commit email. If they do not match the table, stop and fix the author before the push.
 
 Do not add a `Co-authored-by` or `Made-with` trailer for a tool or model. That trailer is what adds a tool account to the GitHub contributors list.
 

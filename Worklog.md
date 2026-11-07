@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 14:58 America/New_York (19:58 UTC)
+
+- **Who:** Mert
+- **Done:** Required every commit and push to use the `mertkanibir` or `CarterWhite8232` GitHub account, with the author email that account already accepts.
+- **Completed:** The account rule is in `Agents.md`.
+- **Still open:** Carter’s explicit handoff, the Empire AI GPU test, is still not run. The removed commit that names a tool account may still appear in GitHub’s contributor list until that list refreshes.
+
 ### 7 November 2026, 14:55 America/New_York (19:55 UTC)
 
 - **Who:** Mert
