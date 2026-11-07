@@ -10,8 +10,22 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 - **Who:** Mert
 - **Done:** Started the independently completable integration scope authorized by Mert, preserving Carter's labeling work. Upgraded MapLibre GL JS to 6.17.0 for the maintainer's critical sanitizer advisory and adapted its named-module import. Added a Git attributes rule preserving published CARB factor artifacts byte-for-byte across operating systems.
-- **Completed:** All 29 backend tests and the production frontend build pass. The first build exposed MapLibre 6's removal of its default export; the import was corrected and the rebuild passed. The production dependency audit reports zero vulnerabilities. The factor files are preserved without changing their published bytes.
+- **Completed:** All 29 backend tests and the production frontend build pass. The first build exposed MapLibre 6's removal of its default export; the import was corrected and the rebuild passed. The production dependency audit reports zero vulnerabilities. The factor files are preserved without changing their published bytes. Integrated Carter's recorder, reviewed-label merge, and training-job commits after the first push detected concurrent remote work; preserved both worklog records.
 - **Still open:** Worker orchestration, authenticated ingestion, persistence, sustained four-camera GPU evaluation, and dashboard delivery are in progress. Valid road calibration and reviewed class mappings remain prerequisites for live emissions; none are assumed by this change.
+
+### 7 November 2026, 17:26 America/New_York (22:26 UTC)
+
+- **Who:** Carter
+- **Done:** Added `python -m worker.dataset merge`, which puts Label Studio test-frame exports in place of the drafts and records them as human-reviewed. `build` now reads `data/raw/reviewed` and refuses to run until every test frame was reviewed by a person. Added `infra/train.sbatch` for Mert's Empire AI training job.
+- **Completed:** 76 Python tests pass, excluding the two Windows checksum tests in `tests/test_emfac.py`. On the real reviewed folder, `build` correctly refuses because test frames still have unreviewed boxes. Ultralytics' GPU precision check builds a model from config, so the job needs only `yolo11s.pt` downloaded beforehand.
+- **Still open:** Carter's and Mert's test-frame exports. The training job has not been run on the real dataset.
+
+### 7 November 2026, 17:06 America/New_York (22:06 UTC)
+
+- **Who:** Carter
+- **Done:** Added `worker/record_clips.py`, which saves each camera's original HLS segments into one clip per camera in the git-ignored `data/raw/clips/` folder, with a record of source, capture times, gaps, and a replay label. Started a 20-minute daylight recording of all four cameras. Training labels: pretrained truck boxes were classified from crops, signs and unclear boxes were dropped, and 25 Tesla boxes were confirmed by Carter. Provenance is in `data/raw/reviewed/provenance.json`.
+- **Completed:** 7 recorder tests pass. A one-minute live check of camera 222 saved 78.5 seconds of video that decodes at 15 frames per second through OpenCV.
+- **Still open:** Replay playback pacing is not built; reading a file runs faster than real time. Clips must be deleted after the event. Carter and Mert are reviewing the 60 test frames in Label Studio. Training has no tractor_trailer examples and few Tesla examples.
 
 ### 7 November 2026, 16:28 America/New_York (21:28 UTC)
 
