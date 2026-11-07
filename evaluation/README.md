@@ -77,3 +77,28 @@ Mert owns GPU execution. Carter’s frame collector is available, but raw frames
 `python -m evaluation.compare_models --tuned path/to/best.pt` scores detectors on the 60 human-reviewed test frames and writes [model_comparison.md](./model_comparison.md) and its JSON. Both models are compared on coarse classes (car, truck, bus, motorcycle); the tuned model is also scored on its seven classes, with a check of single-frame Tesla calls at 85% confidence. Boxes under 25 px are ignored on both sides, matching the labeling rule. Settings: image size 1280, confidence 0.25, IoU 0.5.
 
 Pretrained `yolo11s.pt` baseline on CPU: any-vehicle precision 94%, recall 86%. Its truck precision is 21%, because 83 labeled cars, mostly SUVs, were called trucks. Training labels came mostly from pretrained draft boxes and AI-assisted truck classification; only the test frames are fully human-reviewed (see `data/raw/reviewed/provenance.json`, not committed).
+
+## Four-camera tracking and local delivery — 7 November 2026, 18:32 America/New_York / 23:32 UTC
+
+Mert completed Empire AI job **175627** on `alphagpu01`, H100 MIG `1g.10gb`, Python 3.12.3 / Torch 2.7.1+cu128 / Ultralytics 8.4.206, using pretrained YOLO11n at 640 pixels and independent ByteTrack state per camera. Scheduler state is `COMPLETED`, exit `0:0`, elapsed 11:56. This allocation has been released.
+
+The [120-second benchmark](./empire-ai-175627-benchmark.json) excludes one warmup frame per camera:
+
+| Camera | Processed frames | Processed wall FPS | Median tracking wall ms | Buffer drops during measurement |
+|---|---:|---:|---:|---:|
+| 220 | 626 | 5.22 | 24.75 | 0 |
+| 222 | 620 | 5.17 | 22.34 | 0 |
+| 223 | 716 | 5.97 | 21.40 | 56 |
+| 228 | 693 | 5.77 | 22.45 | 26 |
+
+Measurement duration was 120.018 seconds. All four inference backends were CUDA and all reader threads stopped. Peak Torch allocated memory was 127.28 MiB; this excludes non-Torch memory. Frame bursts and initial buffered samples affect wall FPS. Media span includes gaps and is not footage coverage. The 82 drops on cameras 223/228 prevent a no-drop or complete-coverage claim. No reconnect occurred during this measurement; FFmpeg logged HTTP end-of-file warnings. This does not validate recovery from a forced outage or six-hour reliability.
+
+The separate [90-second delivery run](./empire-ai-175627-delivery.json) processed 1,855 frames across the four cameras, persisted **18 batches in 18 attempts**, and sent **47 temporary annotated previews** with no preview failures or queued aggregate batches. Desktop and 390 px phone browser checks decoded camera 222's matching frame/overlay with no page errors or horizontal overflow. Live status was observed for all four cameras; ending the worker set all four offline. Captured timestamps and capture-to-dashboard latency remain unavailable.
+
+A [paced replay check](./empire-ai-175627-replay.json) used a temporary six-second clip of 30 sampled real camera-222 frames. It delivered four replay-only batches and one annotated preview, with no pending uploads. The temporary clip was removed after verification. Live and replay records stayed separate. No imagery or temporary track IDs are committed.
+
+The [final runtime check](./empire-ai-175627-final-runtime.json) additionally exercised the optional measurement configuration with the disabled example. No traffic or emissions metrics were enabled, and delivery completed. All **150 Python tests and 29 subtests** passed on the compute environment, including the current model-comparison and optional aggregation tests. All **49 backend tests**, package type checks, retained-factor checks and production build passed locally; [the integration CI run](https://github.com/mertkanibir/emission-lens/actions/runs/42425068712) passed both application and CPU-worker jobs.
+
+The [source manifest](./empire-ai-175627-source.json) ties the checks to tested script hashes. The benchmark/delivery/replay used a source-only snapshot on a detached worktree at `7e87aea`; their tested implementation files match published commit `ac09714`. The final runtime extends that source with the optional aggregation wiring and records matching follow-up hashes. This avoids presenting a worktree's base commit as the entire tested source.
+
+These records establish bounded GPU execution, status delivery, exact-frame previews, graceful shutdown and replay isolation. They do **not** establish held-out accuracy, validated crossing counts, stopped-time accuracy, physical calibration, emissions, environmental savings or a hosted deployment. See [the calibration guide](./calibration-guide.md) before enabling geometry. Real camera configurations remain disabled/unreviewed; no regulatory class mapping is silently activated.

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:32 America/New_York (23:32 UTC)
+
+- **Who:** Mert
+- **Done:** Completed job 175627's four-camera CUDA benchmark, authenticated GPU-to-dashboard status/preview delivery, paced real-source replay and shutdown verification. Published scalar diagnostics and tested-source hashes, documented the verified loopback-only SSH relay, and wired optional reviewed image-gate metrics into receipt-minute snapshots with stable batch IDs and cumulative revisions. Clarified empty traffic copy so it does not imply a disconnected detector. Updated the current project status and setup documentation.
+- **Completed:** The 120-second benchmark processed 2,655 frames and recorded 82 buffer drops on two cameras. A separate 90-second live run delivered 18 persisted batches and 47 matching annotated previews with no pending uploads or preview failures. Browser checks decoded the frame/overlay at desktop and 390 px phone widths with no page errors/overflow; all four cameras changed offline at graceful shutdown. Paced replay stayed separate from live and delivered successfully. The final runtime check kept the example geometry disabled and completed delivery. All 150 Python tests plus 29 subtests passed on compute; all 49 backend tests, package type checks, factor checks, production build and the integration CI jobs passed. The tested runtime hashes match the corresponding source manifest. The temporary clip was removed, the private relay closed, and scheduler state is COMPLETED/0:0 for job 175627; its allocation is released.
+- **Still open:** Actual road ROI/gate review and independent measured calibration, validated completed traversals and visual-to-CARB mappings, held-out model promotion, longer operation/forced-outage testing, and hosted shared persistence/deployment. No live crossing count, physical speed, emissions, accuracy or environmental-benefit claim was invented. Optional metrics remain disabled for real cameras. Other work in progress is preserved; no teammate input or raw labeling work was changed.
+
 ### 7 November 2026, 18:23 America/New_York (23:23 UTC)
 
 - **Who:** Mert

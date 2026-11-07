@@ -18,15 +18,13 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
-**Integration note (7 November 2026, 18:18 America/New_York / 23:18 UTC):** Mert added the runnable four-camera worker, authenticated batch delivery, durable local ingestion, mode-isolated read endpoints and automatic dashboard refresh. The local single-host store is ready for GPU integration verification; hosted shared persistence, calibrated traffic and live emissions are still open. The worker publishes no invented crossing counts when gates are absent. See [worker setup](./worker/README.md) and [ingestion](./backend/INGESTION.md).
+**Updated: 7 November 2026, 18:30 America/New_York / 23:30 UTC.** Mert demonstrated four-camera CUDA tracking and delivery to the local dashboard on Empire AI job `175627`. A 90-second run delivered 18 persisted batches and 47 temporary annotated previews, with no pending uploads; shutdown correctly marked cameras offline. A separate 120-second benchmark processed 2,655 frames across four cameras and recorded 82 buffer drops across two cameras. This is bounded performance evidence, not evaluated accuracy or capture-to-dashboard latency.
 
-**Factor-data note (7 November 2026, 16:25 America/New_York / 21:25 UTC):** Mert acquired 1,296 validated CARB EMFAC2025 v2.1.1 running-exhaust CO₂/NOₓ factors for Los Angeles (SC), 2026. The [factor package](./emissions/README.md) includes source data, provenance, reproducible import and a completed-traversal calculation interface. Camera pages show the loaded catalog. Live estimates still require calibration, documented class mappings, completed traversals and persistence. Training and labeling were not changed.
+Implemented: per-camera ingestion/tracking, authenticated delivery with restartable retries, validated contract 1.1 records, a durable local store, live/replay/synthetic isolation, synchronized expiring previews, dashboard/history/scenarios/briefs, and 1,296 traceable CARB running-exhaust factors. An optional image-gate metrics engine is available but **no real camera geometry is enabled**. Crossing counts, calibrated traversals, speeds and live emissions remain unavailable until their required evidence exists.
 
-**Status note (7 November 2026, 15:55 America/New_York / 20:55 UTC):** Mert verified pretrained vehicle detection on Empire AI using his account: YOLO11n processed 50 live frames from camera 222 on an H100 10 GB slice. The [evaluation record](./evaluation/README.md) includes the script, diagnostics, versions, and limitations. Carter’s ingestion, frame collector, detector wrapper, and labeling-dataset tools are implemented; all 39 Python tests passed on the compute node after integrating his latest commit. Mert’s dashboard still reads fixtures and is not connected to the worker. Tracking, calibration, CARB factors, and live emissions remain open. Fine-tuning needs reviewed labels and held-out evaluation; no reviewed dataset is available yet.
+The file store supports one persistent host. Hosted shared persistence and deployment remain open. Reviewed labels and held-out comparison gate model promotion; the pretrained model remains the fallback. No accuracy, measured air quality or environmental-savings claim is established.
 
-See **[Plan.md](./Plan.md)** for the full master plan, **[Agents.md](./Agents.md)** for coding-agent work packages and rules, and **[Worklog.md](./Worklog.md)** for timestamped notes of completed work.
-
-**Docs note (7 November 2026, 14:28 America/New_York / 19:28 UTC):** agent instructions now require a timestamped worklog entry and a push on every turn that leaves the tree in a sound state. Teammate-facing text names Mert and Carter only.
+See [GPU evidence](./evaluation/README.md), [worker setup](./worker/README.md), [ingestion](./backend/INGESTION.md), [Plan.md](./Plan.md), [Agents.md](./Agents.md) and [Worklog.md](./Worklog.md).
 
 ## Proposed stack
 
@@ -38,7 +36,7 @@ See **[Plan.md](./Plan.md)** for the full master plan, **[Agents.md](./Agents.md
 | Web app | Next.js + TypeScript, MapLibre |
 | Hosting | Vercel (frontend / short API requests) |
 
-## Repository layout (planned)
+## Repository layout
 
 ```text
 Plan.md

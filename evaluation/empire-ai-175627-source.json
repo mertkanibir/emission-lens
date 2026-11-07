@@ -1,0 +1,25 @@
+{
+  "verification_source_base_commit": "7e87aea",
+  "published_implementation_commit": "ac09714db0f7ff7ebfa8c1fce8c7c487a0af9338",
+  "source_archive_sha256": "b1fdcff9fe228bb6fe8e328132db070ec3d7d48a50ce9d8e753a29bcd5b5be4d",
+  "source_files": {
+    "evaluation/benchmark.py": "833a8ce38f713a4d0fb3e8bbd1e52f3192b938f2ca6ac43a6f610451c99c0ebb",
+    "worker/main.py": "09442737c259751d1b527b66778a4a8454b21d94a7d1b02c7cde6171ca1b41fd",
+    "worker/track.py": "65a5c46113543fcde3ec5e08ddef69f01f769ddba0dfa28da8d7cb07d8052b80",
+    "worker/publish.py": "e40ef41811e279789aaea84ee2384de0d9187bcd2cf0616568d028390afbbfed",
+    "worker/stream.py": "164018b8a45c42837e4d637f959159f09548ad16a0b0eb32a8eed989eba86d23",
+    "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1",
+    "worker/config.py": "80acf5841d2eb4efb9a50ef0b98e7e45aff060a69e1ad400286fe201e4f85bc3"
+  },
+  "limitations": [
+    "The check used a source-only snapshot on a detached worktree at the recorded base commit. File hashes identify the tested implementations.",
+    "No footage, previews, credentials or model weights are included in this manifest."
+  ],
+  "followup_source_files": {
+    "worker/main.py": "e7c67fc7ff28b311f72a160306e447c018d564da3f962878ae6745547ee8c7bf",
+    "worker/publish.py": "73841d0916158563f9a0db0f184bdc80296ec8f918f8366ff23564970a48212a",
+    "worker/aggregate.py": "067f89deb334ef0ce117d6a41c981c3322316558b1f577a10d9a5567b112ccfa",
+    "worker/metrics.py": "1cef779e94e0a7ce7bc971e4d563816b29aafaaf9efec173a6a75637a9196b2b"
+  },
+  "followup_note": "The final runtime diagnostic tests optional measurement wiring with the disabled example through paced replay. Its runtime hash matches the followup source; no real geometry or traffic metrics were enabled. All 150 Python tests and 29 subtests passed on this compute environment."
+}

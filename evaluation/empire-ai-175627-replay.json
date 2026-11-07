@@ -1,0 +1,80 @@
+{
+  "check": "multi_camera_tracking_delivery",
+  "run": {
+    "run_id": "9ea901c0-234a-4eb8-96f1-fbd4e1e667fb",
+    "model_version": "yolo11n.pt",
+    "device": "cuda:0",
+    "started_at": "2026-11-07T23:28:50.432193+00:00",
+    "ended_at": "2026-11-07T23:29:05.538677+00:00",
+    "mode": "replay"
+  },
+  "finished_at": "2026-11-07T23:29:05.687850+00:00",
+  "host": "alphagpu01",
+  "slurm_job_id": "175627",
+  "git_commit": "7e87aea49aabbc959ccb5c30f45761c4857cce58",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "runtime_sha256": "09442737c259751d1b527b66778a4a8454b21d94a7d1b02c7cde6171ca1b41fd",
+  "settings": {
+    "target_sampling_fps": 5,
+    "image_size": 640,
+    "duration_s": 15.0,
+    "device": "0"
+  },
+  "packages": {
+    "torch": "2.7.1+cu128",
+    "ultralytics": "8.4.206",
+    "opencv-python": "5.0.0.93"
+  },
+  "cuda_runtime": "12.8",
+  "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+  "peak_torch_allocated_mib": 56.1201171875,
+  "cameras": {
+    "222": {
+      "processed_frames": 29,
+      "sessions": [
+        1
+      ],
+      "media_by_session": {
+        "1": {
+          "first_s": 0.0,
+          "last_s": 5.800000000000001,
+          "frames": 29
+        }
+      },
+      "median_track_wall_ms": 9.523112326860428,
+      "p95_track_wall_ms": 25.78064054250717,
+      "tracked_detection_observations_by_class": {
+        "car": 368,
+        "truck": 6
+      },
+      "reader_frames_kept": 29,
+      "reader_frames_dropped": 0,
+      "reader_state": "live",
+      "last_processed_at": "2026-11-07T23:28:59.417174+00:00",
+      "last_received_at": "2026-11-07T23:28:57.598089+00:00",
+      "last_error": null
+    }
+  },
+  "delivery": {
+    "enabled": true,
+    "delivered_batches": 4,
+    "attempts": 4,
+    "pending_batches": 0
+  },
+  "previews": {
+    "enabled": true,
+    "sent_by_camera": {
+      "222": 1
+    },
+    "failure_count_by_camera": {}
+  },
+  "failure": null,
+  "limitations": [
+    "Tracked detection observations are repeated per-frame observations, not unique vehicle crossings or evaluated accuracy.",
+    "No configured gates/calibration: counts, queues, stopped time, speed and emissions remain unavailable.",
+    "Camera-minute timestamps are receipt windows; source capture UTC and capture-to-dashboard latency are unavailable.",
+    "Tracking timing includes preprocessing/postprocessing and first-frame model warmup.",
+    "No raw frames, video, or temporary track identifiers are persisted by this runtime; optional annotated previews are sent transiently in memory.",
+    "Tailpipe fuel type cannot be established from a vehicle's appearance."
+  ]
+}

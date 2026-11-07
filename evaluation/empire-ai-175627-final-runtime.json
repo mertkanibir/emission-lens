@@ -1,0 +1,96 @@
+{
+  "check": "multi_camera_tracking_delivery",
+  "run": {
+    "run_id": "a8edafda-3f76-4f39-adc3-dfb8ef69d6ff",
+    "model_version": "yolo11n.pt",
+    "device": "cuda:0",
+    "started_at": "2026-11-07T23:30:29.427340+00:00",
+    "ended_at": "2026-11-07T23:30:41.528794+00:00",
+    "mode": "replay"
+  },
+  "finished_at": "2026-11-07T23:30:41.686178+00:00",
+  "host": "alphagpu01",
+  "slurm_job_id": "175627",
+  "git_commit": "7e87aea49aabbc959ccb5c30f45761c4857cce58",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "runtime_sha256": "e7c67fc7ff28b311f72a160306e447c018d564da3f962878ae6745547ee8c7bf",
+  "settings": {
+    "target_sampling_fps": 5,
+    "image_size": 640,
+    "duration_s": 12.0,
+    "device": "0"
+  },
+  "packages": {
+    "torch": "2.7.1+cu128",
+    "ultralytics": "8.4.206",
+    "opencv-python": "5.0.0.93"
+  },
+  "cuda_runtime": "12.8",
+  "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+  "peak_torch_allocated_mib": 56.1201171875,
+  "cameras": {
+    "222": {
+      "processed_frames": 29,
+      "sessions": [
+        1
+      ],
+      "media_by_session": {
+        "1": {
+          "first_s": 0.0,
+          "last_s": 5.800000000000001,
+          "frames": 29
+        }
+      },
+      "median_track_wall_ms": 9.410751983523369,
+      "p95_track_wall_ms": 29.872577637434006,
+      "tracked_detection_observations_by_class": {
+        "car": 368,
+        "truck": 6
+      },
+      "reader_frames_kept": 29,
+      "reader_frames_dropped": 0,
+      "reader_state": "live",
+      "last_processed_at": "2026-11-07T23:30:37.890358+00:00",
+      "last_received_at": "2026-11-07T23:30:36.389970+00:00",
+      "last_error": null
+    }
+  },
+  "delivery": {
+    "enabled": true,
+    "delivered_batches": 3,
+    "attempts": 3,
+    "pending_batches": 0
+  },
+  "previews": {
+    "enabled": false
+  },
+  "measurements": {
+    "enabled": false,
+    "image_geometry_version": "example-disabled-unvalidated",
+    "count_gate_id": "example-counting-gate",
+    "minute_basis": "frame_receipt_utc",
+    "supported_classes": [
+      "bus",
+      "car",
+      "motorcycle",
+      "truck"
+    ],
+    "observed_minutes": 0,
+    "selected_gate_crossings_by_class": {},
+    "limitations": [
+      "Partial receipt windows; source capture UTC and footage coverage unavailable.",
+      "Count only the selected image gate; no physical calibration, stopped time or completed traversals are inferred.",
+      "An overlapping camera-minute from another run is rejected by persistence and requires review; never overwrite or merge it silently."
+    ],
+    "config_sha256": "5f107b6f40dbbb289551affd0706de92542df5a1d458f34487f17c5ad5118ad6"
+  },
+  "failure": null,
+  "limitations": [
+    "Tracked detection observations are repeated per-frame observations, not unique vehicle crossings or evaluated accuracy.",
+    "Counts/image queues require explicitly enabled reviewed image geometry; physical calibration, stopped time, speed and emissions remain unavailable.",
+    "Camera-minute timestamps are receipt windows; source capture UTC and capture-to-dashboard latency are unavailable.",
+    "Tracking timing includes preprocessing/postprocessing and first-frame model warmup.",
+    "No raw frames, video, or temporary track identifiers are persisted by this runtime; optional annotated previews are sent transiently in memory.",
+    "Tailpipe fuel type cannot be established from a vehicle's appearance."
+  ]
+}

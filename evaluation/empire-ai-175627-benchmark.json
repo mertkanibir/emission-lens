@@ -1,0 +1,204 @@
+{
+  "check": "multi_camera_cuda_tracking_benchmark",
+  "success": true,
+  "failure": null,
+  "mode": "live",
+  "started_at": "2026-11-07T23:22:51.686629+00:00",
+  "finished_at": "2026-11-07T23:25:24.246301+00:00",
+  "measurement_wall_s": 120.01843973435462,
+  "requested_measurement_s": 120.0,
+  "warmup_frames_excluded_per_camera": {
+    "220": 1,
+    "222": 1,
+    "223": 1,
+    "228": 1
+  },
+  "host": "alphagpu01",
+  "slurm_job_id": "175627",
+  "git_commit": "7e87aea49aabbc959ccb5c30f45761c4857cce58",
+  "benchmark_script_sha256": "833a8ce38f713a4d0fb3e8bbd1e52f3192b938f2ca6ac43a6f610451c99c0ebb",
+  "weights": "yolo11n.pt",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "python": "3.12.3",
+  "packages": {
+    "torch": "2.7.1+cu128",
+    "torchvision": "0.22.1+cu128",
+    "ultralytics": "8.4.206",
+    "opencv-python": "5.0.0.93",
+    "lap": "0.5.14"
+  },
+  "cuda_runtime": "12.8",
+  "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+  "peak_torch_allocated_mib": 127.28076171875,
+  "settings": {
+    "imgsz": 640,
+    "tracking_confidence": 0.1,
+    "tracker": "bytetrack.yaml",
+    "device": "cuda:0",
+    "target_sampling_fps_per_camera": 5.0,
+    "torch_threads": 1,
+    "independent_models_and_trackers": true
+  },
+  "cameras": {
+    "220": {
+      "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-220.stream/playlist.m3u8",
+      "frames_processed": 626,
+      "processed_wall_fps": 5.215865173598078,
+      "processed_media_span_s": 124.987,
+      "media_span_per_wall_second": 1.0413983074321134,
+      "median_tracking_wall_ms": 24.748002178967,
+      "p95_tracking_wall_ms": 27.721787802875042,
+      "max_tracking_wall_ms": 41.14079102873802,
+      "median_receipt_to_processing_ms": 1114.6529912948608,
+      "p95_receipt_to_processing_ms": 8590.857744216919,
+      "nonadvancing_frames": 0,
+      "sessions": [
+        {
+          "session": 1,
+          "frames": 626,
+          "first_media_s": 23.865000000000002,
+          "last_media_s": 148.852,
+          "first_received_at": "2026-11-07T23:22:54.410401+00:00",
+          "last_received_at": "2026-11-07T23:25:01.997295+00:00",
+          "maximum_media_gap_s": 0.26700000000002433
+        }
+      ],
+      "tracked_box_observations_by_class": {
+        "car": 6875,
+        "bus": 877,
+        "truck": 6
+      },
+      "reader_final_state": "live",
+      "reader_session": 1,
+      "reader_reconnections_during_measurement": 0,
+      "reader_frames_kept_during_measurement": 565,
+      "reader_frames_dropped_during_measurement": 0,
+      "reader_frames_kept_total": 759,
+      "reader_frames_dropped_total": 118,
+      "reader_thread_stopped": true,
+      "inference_backend_device": "cuda:0"
+    },
+    "222": {
+      "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-222.stream/playlist.m3u8",
+      "frames_processed": 620,
+      "processed_wall_fps": 5.165872855640269,
+      "processed_media_span_s": 123.85600000000001,
+      "media_span_per_wall_second": 1.0319747554970664,
+      "median_tracking_wall_ms": 22.34145998954773,
+      "p95_tracking_wall_ms": 27.475930657237768,
+      "max_tracking_wall_ms": 48.14726300537586,
+      "median_receipt_to_processing_ms": 1081.2588930130005,
+      "p95_receipt_to_processing_ms": 7818.7405943870535,
+      "nonadvancing_frames": 0,
+      "sessions": [
+        {
+          "session": 1,
+          "frames": 620,
+          "first_media_s": 0.2,
+          "last_media_s": 124.05600000000001,
+          "first_received_at": "2026-11-07T23:22:55.332915+00:00",
+          "last_received_at": "2026-11-07T23:25:02.315894+00:00",
+          "maximum_media_gap_s": 0.2670000000000101
+        }
+      ],
+      "tracked_box_observations_by_class": {
+        "car": 6368,
+        "bus": 1
+      },
+      "reader_final_state": "live",
+      "reader_session": 1,
+      "reader_reconnections_during_measurement": 0,
+      "reader_frames_kept_during_measurement": 604,
+      "reader_frames_dropped_during_measurement": 0,
+      "reader_frames_kept_total": 645,
+      "reader_frames_dropped_total": 0,
+      "reader_thread_stopped": true,
+      "inference_backend_device": "cuda:0"
+    },
+    "223": {
+      "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-223.stream/playlist.m3u8",
+      "frames_processed": 716,
+      "processed_wall_fps": 5.965749942965214,
+      "processed_media_span_s": 154.186,
+      "media_span_per_wall_second": 1.2846859227737912,
+      "median_tracking_wall_ms": 21.396499127149582,
+      "p95_tracking_wall_ms": 26.828610338270664,
+      "max_tracking_wall_ms": 46.75525613129139,
+      "median_receipt_to_processing_ms": 995.0011968612671,
+      "p95_receipt_to_processing_ms": 5989.636480808258,
+      "nonadvancing_frames": 0,
+      "sessions": [
+        {
+          "session": 1,
+          "frames": 716,
+          "first_media_s": 5.8660000000000005,
+          "last_media_s": 160.05200000000002,
+          "first_received_at": "2026-11-07T23:22:57.360212+00:00",
+          "last_received_at": "2026-11-07T23:24:58.352104+00:00",
+          "maximum_media_gap_s": 1.6000000000000014
+        }
+      ],
+      "tracked_box_observations_by_class": {
+        "car": 4969,
+        "truck": 43,
+        "bus": 254
+      },
+      "reader_final_state": "live",
+      "reader_session": 1,
+      "reader_reconnections_during_measurement": 0,
+      "reader_frames_kept_during_measurement": 698,
+      "reader_frames_dropped_during_measurement": 56,
+      "reader_frames_kept_total": 801,
+      "reader_frames_dropped_total": 84,
+      "reader_thread_stopped": true,
+      "inference_backend_device": "cuda:0"
+    },
+    "228": {
+      "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-228.stream/playlist.m3u8",
+      "frames_processed": 693,
+      "processed_wall_fps": 5.774112724126946,
+      "processed_media_span_s": 143.58499999999998,
+      "media_span_per_wall_second": 1.1963578289953354,
+      "median_tracking_wall_ms": 22.445544600486755,
+      "p95_tracking_wall_ms": 25.54747648537159,
+      "max_tracking_wall_ms": 44.305844232439995,
+      "median_receipt_to_processing_ms": 1294.9588298797607,
+      "p95_receipt_to_processing_ms": 4687.068891525269,
+      "nonadvancing_frames": 0,
+      "sessions": [
+        {
+          "session": 1,
+          "frames": 693,
+          "first_media_s": 5.8660000000000005,
+          "last_media_s": 149.451,
+          "first_received_at": "2026-11-07T23:22:58.962001+00:00",
+          "last_received_at": "2026-11-07T23:24:54.180580+00:00",
+          "maximum_media_gap_s": 2.599
+        }
+      ],
+      "tracked_box_observations_by_class": {
+        "car": 4577,
+        "truck": 83
+      },
+      "reader_final_state": "live",
+      "reader_session": 1,
+      "reader_reconnections_during_measurement": 0,
+      "reader_frames_kept_during_measurement": 645,
+      "reader_frames_dropped_during_measurement": 26,
+      "reader_frames_kept_total": 748,
+      "reader_frames_dropped_total": 54,
+      "reader_thread_stopped": true,
+      "inference_backend_device": "cuda:0"
+    }
+  },
+  "limitations": [
+    "Tracked-box observations include the same vehicle in multiple frames; these are not line crossings or unique vehicle counts.",
+    "This bounded run does not establish held-out detection, tracking, classification, stopped-time or calibration accuracy.",
+    "Tracking wall times include preprocessing, inference, postprocessing and association, but exclude stream waits and per-camera warmup.",
+    "Receipt-to-processing age measures local buffer age. Capture UTC is unavailable; no capture-to-dashboard latency is measured.",
+    "Media span includes gaps between processed samples and is not footage coverage. Sessions are separate and never added as overlapping source-time estimates.",
+    "Memory is peak Torch allocated memory across these models, not total GPU memory use.",
+    "Live delivery, calibrated traffic aggregation and emissions calculations are outside this benchmark.",
+    "No raw frames or temporary vehicle identities are persisted."
+  ]
+}

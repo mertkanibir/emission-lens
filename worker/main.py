@@ -1,7 +1,7 @@
 """Run independent camera trackers and publish honest, aggregate-only status.
 
-No image coordinates are converted into distances or crossing counts without
-configured gates and calibration. Raw frames stay in memory and are not saved.
+Crossing counts require explicitly reviewed image gates. Physical distances
+require calibration. Raw frames stay in memory and are not saved.
 """
 
 import argparse
@@ -233,6 +233,8 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--outbox", type=Path, default=Path("runs/worker-outbox"))
     result.add_argument("--output", type=Path, required=True)
     result.add_argument("--replay-file", type=Path, help="Local clip for one --camera; visibly published as replay.")
+    result.add_argument("--measurement-config", type=Path, help="Optional reviewed image ROI/gates JSON; no geometry enabled by default.")
+    result.add_argument("--count-gate-id", help="Required explicit counting gate when a measurement config has multiple gates.")
     return result
 
 
@@ -255,6 +257,15 @@ def run(args, stop_requested=None) -> dict:
     if args.replay_file and (len(cameras) != 1 or not args.replay_file.is_file()):
         raise ValueError("Replay requires one camera and an existing local clip.")
     mode = "replay" if args.replay_file else "live"
+    measurement_config = None
+    if args.measurement_config:
+        from worker.metrics import MetricsConfig
+        measurement_bytes = args.measurement_config.read_bytes()
+        measurement_config = MetricsConfig.from_dict(json.loads(measurement_bytes))
+        if measurement_config.camera_id not in {camera.id for camera in cameras}:
+            raise ValueError("Measurement camera must be selected and enabled.")
+    elif args.count_gate_id:
+        raise ValueError("A counting gate requires --measurement-config.")
     url, token = os.environ.get("EMISSION_LENS_INGEST_URL"), os.environ.get("EMISSION_LENS_WORKER_TOKEN")
     if bool(url) != bool(token):
         raise ValueError("Set both ingest URL and worker token, or neither for diagnostic-only execution.")
@@ -276,6 +287,20 @@ def run(args, stop_requested=None) -> dict:
     models = {camera.id: DeviceModel(load_model(args.weights), args.device) for camera in cameras}
     vehicle_labels = frozenset({"car", "tesla", "pickup", "truck", "box_truck", "tractor_trailer", "bus", "motorcycle", "unknown"})
     trackers = {camera.id: CameraTracker(weights=args.weights, labels=vehicle_labels, image_size=args.image_size, model=models[camera.id]) for camera in cameras}
+    metrics = aggregate = None
+    if measurement_config:
+        from worker.aggregate import MinuteAggregator
+        from worker.metrics import CameraMetrics
+        labels = frozenset(models[measurement_config.camera_id].names.values()) & vehicle_labels
+        if "tesla" in labels:
+            labels |= {"car"}  # TrackLabeler's conservative Tesla fallback.
+        aggregate = MinuteAggregator(measurement_config, run_record["run_id"], mode, args.count_gate_id, labels)
+        metrics = CameraMetrics(measurement_config)
+        measurement_hash = hashlib.sha256(measurement_bytes).hexdigest()
+        if aggregate.enabled:
+            run_record["model_version"] += f"|m:{measurement_config.version}|g:{aggregate.count_gate_id}|s:{measurement_hash[:16]}"
+            if len(run_record["model_version"]) > 256:
+                raise ValueError("Model, measurement version and gate identifiers exceed the provenance field length.")
 
     class ReplayReader(StreamReader):
         def run(self):
@@ -315,6 +340,9 @@ def run(args, stop_requested=None) -> dict:
             # Unconfigured metrics are unavailable, not empty observations.
             # Do not reserve a camera-minute with an all-null placeholder.
             outbox.enqueue(envelope(run_record, statuses, []))
+            if aggregate:
+                for batch in aggregate.batches(run_record):
+                    outbox.enqueue(batch)
             outbox.flush()
 
     for reader in readers.values():
@@ -339,6 +367,8 @@ def run(args, stop_requested=None) -> dict:
                 run_record["device"] = ",".join(sorted(verified_devices))
                 processed_at = utc_now()
                 progress[camera.id].observe(frame, vehicles, time.perf_counter() - before, processed_at, time.monotonic())
+                if metrics and camera.id == measurement_config.camera_id:
+                    aggregate.observe(frame, metrics.update(frame, vehicles))
                 if previews:
                     previews.submit(frame, vehicles, run_record["run_id"], mode, processed_at, time.monotonic())
             if time.monotonic() >= next_publish:
@@ -387,10 +417,11 @@ def run(args, stop_requested=None) -> dict:
                 "cameras": {c.id: progress[c.id].diagnostic(readers[c.id].status()) for c in cameras},
                 "delivery": {"enabled": bool(outbox), "delivered_batches": outbox.delivered if outbox else 0, "attempts": outbox.attempts if outbox else 0, "pending_batches": len(outbox.pending()) if outbox else 0},
                 "previews": {"enabled": bool(previews), **(previews.diagnostic() if previews else {})},
+                "measurements": {**aggregate.diagnostic(), "config_sha256": measurement_hash} if aggregate else {"enabled": False},
                 "failure": failure,
                 "limitations": [
                     "Tracked detection observations are repeated per-frame observations, not unique vehicle crossings or evaluated accuracy.",
-                    "No configured gates/calibration: counts, queues, stopped time, speed and emissions remain unavailable.",
+                    "Counts/image queues require explicitly enabled reviewed image geometry; physical calibration, stopped time, speed and emissions remain unavailable.",
                     "Camera-minute timestamps are receipt windows; source capture UTC and capture-to-dashboard latency are unavailable.",
                     "Tracking timing includes preprocessing/postprocessing and first-frame model warmup.",
                     "No raw frames, video, or temporary track identifiers are persisted by this runtime; optional annotated previews are sent transiently in memory.",

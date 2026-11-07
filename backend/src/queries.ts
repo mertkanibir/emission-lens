@@ -112,10 +112,10 @@ export function get_traffic_window(input: {
   const queueLength = uniqueOrNull(rows.map((row) => row.queue_length_m));
   let note = "No traffic rows in this window.";
   if (input.mode === "replay") note = rows.length === 0
-    ? "Replay is empty. No clip is loaded, and replay is not mixed into live totals."
+    ? "No replay traffic aggregates in this window. Replay is not mixed into live totals."
     : "Recorded observations are kept separate from live totals. Missing metrics remain unavailable.";
   else if (input.mode === "live") note = rows.length === 0
-    ? "No live worker output in this window. Missing counts stay unavailable."
+    ? "No live traffic aggregates in this window. Counts require configured crossing gates; missing metrics stay unavailable."
     : "Live worker records received. Counts require configured crossing gates; missing metrics stay unavailable.";
   else if (rows.length > 0 && totals.stopped_vehicle_seconds === null) {
     note = "Synthetic sample. Stopped time is incomplete for at least one class, so the mix total is unavailable.";

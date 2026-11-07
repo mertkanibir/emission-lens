@@ -37,3 +37,5 @@ The runtime should publish empty traffic/emissions arrays until it has the requi
 ## Verification
 
 `npm test` covers persisted rereads, idempotent retries, revision conflicts and replacement, out-of-order progress, run provenance, cross-run overlaps, mode isolation, whole-batch rejection, unknown capture UTC, calibration suppression, malformed input, expired/future events, corruption, and unconfigured persistence. `npm run typecheck` checks the shared parser and backend when that root script is present.
+
+**Preview note (7 November 2026, 18:30 America/New_York / 23:30 UTC):** `POST /api/frames` uses the same private bearer token and a bounded JSON body containing one JPEG with matching worker-drawn overlays. `GET /api/cameras/[id]/frame?mode=live|replay` returns the latest labeled frame. The process holds at most eight camera/mode frames, removes them within 60 seconds, and never writes them to disk or the aggregate ledger. Multi-process or multi-host deployments need a separate ephemeral preview transport; this implementation is verified in one local server process.

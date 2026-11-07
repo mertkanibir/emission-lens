@@ -79,8 +79,14 @@ class Outbox:
         batch_id = envelope["batch_id"]
         if not isinstance(batch_id, str) or any(c not in "0123456789abcdef-" for c in batch_id) or len(batch_id) != 36:
             raise ValueError("Expected a UUID batch ID.")
+        revision = envelope.get("revision")
+        if isinstance(revision, bool) or not isinstance(revision, int) or revision < 0:
+            raise ValueError("Expected a nonnegative integer batch revision.")
         # Time prefix provides FIFO order even when requests use random UUIDs.
-        existing = list(self.directory.glob("*-" + batch_id + ".json"))
+        # Each cumulative revision remains immutable and separately retryable.
+        # Old filename format remains readable for already queued batches.
+        candidates = [*self.directory.glob(f"*-{batch_id}-r{revision}.json"), *self.directory.glob(f"*-{batch_id}.json")]
+        existing = [path for path in candidates if json.loads(path.read_bytes()).get("revision") == revision]
         if existing:
             if existing[0].read_bytes() != body:
                 raise PublishError("A queued batch ID cannot be reused with different content.")
@@ -90,7 +96,7 @@ class Outbox:
             raise PublishError("Worker outbox is full; undelivered batches were preserved.")
         import time
 
-        path = self.directory / f"{time.time_ns():020d}-{batch_id}.json"
+        path = self.directory / f"{time.time_ns():020d}-{batch_id}-r{revision}.json"
         fd, temporary = tempfile.mkstemp(prefix=".batch-", dir=self.directory)
         try:
             with os.fdopen(fd, "wb") as handle:

@@ -1,7 +1,7 @@
 # Camera worker
 
 **Owner:** Mert, runtime integration; Carter, detection, tracking and labeling.
-**Updated:** 7 November 2026, 18:20 America/New_York (23:20 UTC).
+**Updated:** 7 November 2026, 18:28 America/New_York (23:28 UTC).
 
 From the repository root, inside the verified compute-node Python environment:
 
@@ -22,9 +22,19 @@ Set `EMISSION_LENS_INGEST_URL` and `EMISSION_LENS_WORKER_TOKEN` privately in the
 
 Use `--require-delivery` for an integration check: disabled publishing or a remaining final outbox fails the run. A camera that processes no advancing frames also fails, with diagnostics retained. Required CUDA checks the actual tracker backend after inference, not only whether a GPU is installed.
 
-`--outbox` defaults to the ignored `runs/worker-outbox/`. Use a separate directory for each concurrent worker. Batches are atomically persisted before sending, replayed oldest first after restart, and retain their UUID and exact content across retries. Network failures, 429 and server failures stay queued. Other HTTP rejections stop delivery and retain the batch for inspection. The bounded queue fails closed rather than dropping evidence when full. A hard-killed process relies on dashboard freshness checks; SIGTERM/SIGINT publishes an ended run and offline statuses before bounded reader shutdown.
+`--outbox` defaults to the ignored `runs/worker-outbox/`. Use a separate directory for each concurrent worker. Batches are atomically persisted before sending, replayed oldest first after restart, and retain their UUID, revision and exact content across retries. Multiple cumulative revisions remain separately queued in order; an earlier revision is never silently replaced. Network failures, 429 and server failures stay queued. Other HTTP rejections stop delivery and retain the batch for inspection. The bounded queue fails closed rather than dropping evidence when full. A hard-killed process relies on dashboard freshness checks; SIGTERM/SIGINT publishes an ended run and offline statuses before bounded reader shutdown.
 
-The worker publishes contract 1.1 run/status envelopes with empty traffic/emissions arrays until metrics are supported. Capture UTC is unknown, so `last_source_timestamp` and capture-to-processing delay remain null. Heartbeats represent successfully processed advancing frames, not timer ticks; stale receipt or processing progress degrades status. No placeholder traffic minute is inserted when road gates and calibration are missing. There are no invented zeros, stopped times, distances, speeds, or emissions.
+The worker publishes contract 1.1 run/status envelopes with empty traffic/emissions arrays by default. Capture UTC is unknown, so `last_source_timestamp` and capture-to-processing delay remain null. Heartbeats represent successfully processed advancing frames, not timer ticks; stale receipt or processing progress degrades status. No placeholder traffic minute is inserted when reviewed road regions and gates are missing. There are no invented zeros, stopped times, distances, speeds, or emissions.
+
+## Optional reviewed image measurements
+
+`--measurement-config /private/path/reviewed-camera.json` enables the separate image-measurement path only when its configuration says `enabled: true` and `image_geometry_status: reviewed`. No real camera geometry is enabled in the repository. `config/cameras/measurement.example.json` is a disabled, unvalidated structural example, not usable calibration. Geometry needs review against the actual camera before activation.
+
+When a configuration has multiple gates, `--count-gate-id` must choose one explicitly; crossing counts are never summed across entry/exit gates. The worker aggregates actual crossing events into **frame-receipt UTC minutes**, with the model's supported vehicle classes only. A zero requires an advancing observed frame under the enabled reviewed gate. Pretrained weights do not produce supported Tesla/pickup/etc. zeros. The optional image-space queue observation is stored on one class row so it cannot be summed per class. Stopped time, physical distance, traversal time, completed traversals, coverage and emissions remain null in these rows.
+
+Each camera-minute has a stable batch UUID and increasing revisions of the cumulative count snapshot. Revisions replace the prior snapshot rather than adding counts again. The run's pipeline version includes measurement version, selected gate and a hash prefix; diagnostics retain the full configuration hash and supported class list. The engine suppresses crossings across source gaps and resets temporary identities on reconnect.
+
+These are partial receipt windows: HLS capture UTC and footage coverage remain unavailable. A new worker run overlapping another run's camera-minute is rejected by persistence instead of silently overwriting or merging observations. Its outbox is retained for review. Resolve the conflict explicitly or start a fresh run at a later UTC-minute boundary with a separate outbox; no automatic restart merge is claimed.
 
 ## Optional synchronized previews
 
@@ -45,6 +55,6 @@ Replay uses the same reader sampler, buffer and tracker, with a paced local inpu
 
 ## Checks and limits
 
-`python3 -m unittest discover -s tests -p test_publish.py -v` and the corresponding `test_runtime.py` command exercise real local HTTP response handling, restart retries, bounded queues, camera separation, stale processing, mode labels and null metrics without a model download. The complete worker suite uses the pinned `worker/requirements.txt` in the verified Python environment.
+`python3 -m unittest discover -s tests -p test_publish.py -v` and the corresponding `test_runtime.py` and `test_aggregate.py` commands exercise real local HTTP response handling, immutable revision retries, bounded queues, camera separation, stale processing, mode labels, supported zero/null metrics, selected gates, UTC-minute boundaries and cumulative snapshot revisions without a model download. The complete worker suite uses the pinned `worker/requirements.txt` in the verified Python environment.
 
 Delivery and tracking do not validate calibration, vehicle-count accuracy, stopped time, fuel type, CARB class mixtures or emissions. GPU benchmark results belong in `evaluation/`, with job IDs and explicit limitations.

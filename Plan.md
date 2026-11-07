@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Camera access, ingestion, a one-camera Empire AI GPU inference smoke test, and a scoped CARB factor table are verified. Mert has a fixture-backed dashboard and read API. Calibrated traffic metrics, approved class mappings, sustained inference, and worker-to-dashboard delivery remain open.
+**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. Configured crossing observations, valid road calibration, approved class mappings, calibrated traversals, held-out accuracy and hosted shared persistence remain open.
 
 ---
 
@@ -124,6 +124,8 @@ Long-running video processing runs in a worker, separate from web request handle
 
 ## 6. GPU deployment
 
+**Verification update (7 November 2026, 18:30 America/New_York / 23:30 UTC):** Job `175627` ran all four independent YOLO11n/ByteTrack pipelines on CUDA for a 120-second benchmark (2,655 processed frames, 82 reader-buffer drops on two cameras) and a separate 90-second delivery check (18 persisted batches, 47 temporary previews, no pending uploads). The dashboard decoded a matching frame/overlay, showed advancing processing status, and changed all cameras to offline at worker shutdown. A paced local replay also delivered only to replay mode. See the diagnostic records and limitations in `evaluation/README.md`. This verifies bounded processing/delivery, not calibrated traffic, accuracy, capture latency or six-hour reliability.
+
 The hacker guide specifies:
 
 - Partition: `alpha`
@@ -176,7 +178,7 @@ nvidia-smi -L
 python -m worker.main
 ```
 
-The Python entry point above is a proposed implementation interface. The account and QOS above are Mert’s verified hackathon settings; other accounts must check their own associations. The runnable GPU smoke-test command is documented in `evaluation/README.md`.
+The Python entry point above is implemented; `infra/worker.slurm` supplies the bounded runnable job. The account and QOS above are Mert’s verified hackathon settings; other accounts must check their own associations. The runnable GPU smoke-test command is documented in `evaluation/README.md`.
 
 Never put passwords, scratch codes, tokens, or personal credentials in this document, source control, logs, or shared prompts.
 
@@ -630,11 +632,11 @@ Do not claim deployment to NYSDOT or Binghamton. Describe that as a possible fut
 ## 21. Immediate unresolved items
 
 1. Confirm visual-to-CARB class mappings; the scoped RUNEX factor table is acquired and validated (7 November 2026, 16:25 America/New_York / 21:25 UTC).
-2. Verify sustained Empire AI inference, delivery networking, and restarts; the environment and one-camera GPU smoke test are verified.
-3. Choose relay transport if required.
+2. Extend the bounded four-camera GPU/delivery verification to long-duration operation and forced-failure recovery; the 120-second benchmark and local authenticated delivery are verified.
+3. Loopback-only SSH forwarding is verified for local delivery; a hosted shared persistence adapter remains required for deployment.
 4. Configure and validate each camera’s road region and gates.
 5. Finalize schemas and service ownership.
-6. Benchmark four-camera performance.
+6. Four-camera bounded performance is recorded; evaluate longer runs, dropped-frame effects and held-out tracking accuracy.
 7. Select the minimum contextual layer that adds demonstrated value.
 
 ## 22. Sources

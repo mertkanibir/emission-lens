@@ -59,9 +59,22 @@ class PublishTests(unittest.TestCase):
             outbox.enqueue(payload)
             outbox.enqueue(payload)
             self.assertEqual(len(outbox.pending()), 1)
-            payload["revision"] = 1
+            payload["traffic"] = [{"changed": True}]
             with self.assertRaisesRegex(PublishError, "different content"):
                 outbox.enqueue(payload)
+
+    def test_multiple_cumulative_revisions_retry_in_order_without_mutation(self):
+        with tempfile.TemporaryDirectory() as folder:
+            delivered = []
+            outbox = Outbox(Path(folder), lambda body: delivered.append(json.loads(body)) or True)
+            first = batch()
+            second = {**first, "revision": 1, "traffic": [{"count": 2}]}
+            outbox.enqueue(first)
+            outbox.enqueue(second)
+            outbox.enqueue(second)
+            self.assertEqual(len(outbox.pending()), 2)
+            self.assertEqual(outbox.flush(), 2)
+            self.assertEqual(delivered, [first, second])
 
     def test_nonfinite_content_is_rejected_before_disk(self):
         with tempfile.TemporaryDirectory() as folder:

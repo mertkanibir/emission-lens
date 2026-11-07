@@ -32,3 +32,43 @@ Only reviewed diagnostic JSON should be copied out of ignored `runs/` for public
 ## Automated checks
 
 `.github/workflows/checks.yml` runs application type checks, backend tests, retained CARB data checks, the production web build, and Python worker tests on pushes and pull requests. It grants read-only repository access and cancels superseded runs for the same branch. It requires no camera, GPU, account password, API token, or hosted service credential. Passing CI does not establish live integration or field accuracy.
+
+## Verified local SSH delivery — 7 November 2026, 18:32 America/New_York / 23:32 UTC
+
+Mert verified a loopback-only, two-hop SSH path from the compute node to a local application. No inbound GPU HTTP server or public listening port was required. The application must run in one Node process with a persistent local store; previews are intentionally ephemeral process memory. Another account must verify its own SSH and scheduler access.
+
+Start the built app on the laptop with `npm run start -w @emission-lens/frontend -- --hostname 127.0.0.1 --port 3011`, using private server settings in ignored `frontend/.env.local` (see the root `.env.example`). Through an existing authenticated SSH master socket, forward the login node's loopback port:
+
+```bash
+ssh -S "$task_socket" -O forward \
+  -R 127.0.0.1:43011:127.0.0.1:3011 student032@alpha1.empireai.edu
+```
+
+Inside the allocated compute shell, create the second encrypted hop to the login node:
+
+```bash
+ssh -M -S "/tmp/emission-lens-${SLURM_JOB_ID}-relay.sock" -fN \
+  -o BatchMode=yes -o ExitOnForwardFailure=yes \
+  -L 127.0.0.1:43012:127.0.0.1:43011 alpha1.empireai.edu
+export EMISSION_LENS_INGEST_URL=http://127.0.0.1:43012/api/worker
+read -r EMISSION_LENS_WORKER_TOKEN < "$HOME/.config/emission-lens/worker-token"
+export EMISSION_LENS_WORKER_TOKEN
+python -m worker.main --require-cuda --require-delivery --device 0 \
+  --seconds 300 --preview-every 3 \
+  --outbox "runs/outbox-${SLURM_JOB_ID}" \
+  --output "runs/delivery-${SLURM_JOB_ID}.json"
+```
+
+Provision the same private random token on server and worker beforehand, with private directory/file permissions. Do not print it, place it in command arguments, or commit it. The loopback HTTP legs remain inside the encrypted SSH tunnels. A failed required delivery leaves exact retry batches on disk and fails the worker check.
+
+After the worker finishes, close its compute relay, unset process credentials, exit the job to release the slice, and cancel the laptop's login forward:
+
+```bash
+ssh -S "/tmp/emission-lens-${SLURM_JOB_ID}-relay.sock" -O exit alpha1.empireai.edu
+unset EMISSION_LENS_WORKER_TOKEN EMISSION_LENS_INGEST_URL
+# Exit the compute allocation, then on the laptop:
+ssh -S "$task_socket" -O cancel \
+  -R 127.0.0.1:43011:127.0.0.1:3011 student032@alpha1.empireai.edu
+```
+
+Keep the authenticated master open only while it is needed. `infra/train.sbatch` now uses the verified Python environment and explicit account/QOS, checks that reviewed data/weights exist, chooses memory-aware AutoBatch, and creates a unique run directory. No training is launched by these delivery checks.
