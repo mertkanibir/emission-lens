@@ -1,0 +1,88 @@
+{
+ "test_frames": 60,
+ "settings": {
+  "image_size": 1280,
+  "confidence": 0.25,
+  "iou": 0.5,
+  "min_width_px": 25
+ },
+ "truth_boxes": {
+  "car": 1141,
+  "tesla": 28,
+  "box_truck": 13,
+  "pickup": 35,
+  "tractor_trailer": 4,
+  "bus": 13,
+  "motorcycle": 3
+ },
+ "models": {
+  "pretrained": {
+   "weights": "yolo11s.pt",
+   "coarse": {
+    "classes": {
+     "car": {
+      "true_pos": 946,
+      "false_pos": 36,
+      "false_neg": 223,
+      "precision": 0.9633401221995926,
+      "recall": 0.8092386655260907,
+      "f1": 0.8795908879590888
+     },
+     "truck": {
+      "true_pos": 30,
+      "false_pos": 116,
+      "false_neg": 22,
+      "precision": 0.2054794520547945,
+      "recall": 0.5769230769230769,
+      "f1": 0.30303030303030304
+     },
+     "bus": {
+      "true_pos": 11,
+      "false_pos": 1,
+      "false_neg": 2,
+      "precision": 0.9166666666666666,
+      "recall": 0.8461538461538461,
+      "f1": 0.8799999999999999
+     },
+     "motorcycle": {
+      "true_pos": 2,
+      "false_pos": 1,
+      "false_neg": 1,
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666
+     }
+    },
+    "any_vehicle": {
+     "true_pos": 1070,
+     "false_pos": 73,
+     "false_neg": 167,
+     "precision": 0.9361329833770778,
+     "recall": 0.8649959579628133,
+     "f1": 0.8991596638655461
+    },
+    "count_error": {
+     "mean_absolute": 2.3666666666666667,
+     "mean_signed": -1.5666666666666667
+    },
+    "confusion": {
+     "bus -> bus": 11,
+     "bus -> not detected": 1,
+     "bus -> truck": 1,
+     "car -> car": 940,
+     "car -> not detected": 146,
+     "car -> truck": 83,
+     "motorcycle -> motorcycle": 2,
+     "motorcycle -> not detected": 1,
+     "no vehicle -> bus": 1,
+     "no vehicle -> car": 38,
+     "no vehicle -> motorcycle": 1,
+     "no vehicle -> truck": 33,
+     "truck -> car": 4,
+     "truck -> not detected": 19,
+     "truck -> truck": 29
+    }
+   }
+  }
+ }
+}
