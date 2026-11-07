@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:49 America/New_York (23:49 UTC)
+
+- **Who:** Mert
+- **Done:** Replaced receipt-minute vehicle aggregation with a per-session minimum-offset HLS media clock. Added scalar-prefix rebins for earlier frames when startup backlog improves the anchor, ordered empty-revision retractions before replacement minutes, source-ordered queue selection, exact microsecond boundaries, and clock-version provenance/read-path disclosures. Hardened outbox FIFO across backward wall-clock steps. Documented the change before implementation; contract 1.1 fields remain unchanged and capture UTC stays unavailable.
+- **Completed:** Focused Python timing/aggregation/runtime/delivery tests pass, as do all 51 backend tests, package type checks and the production build. Tests cover the 30-second backlog, publishing before anchor convergence, retraction persistence without duplicate/null totals, reconnect/mode isolation, queue ordering, minute boundaries and FIFO restart behavior. A 30-second live camera-222 timing check processed 204 advancing frames with no reader drops and a 25.060645-second anchor improvement; the reader stopped cleanly and no imagery was saved. The former receipt-boundary test was updated for the intended media-time semantics. Existing live/model evidence is preserved.
+- **Still open:** Estimated media UTC still has unknown minimum transport delay; this is not source capture UTC, measured latency or validated coverage. Historical receipt windows are unchanged. Overlapping footage after reconnect, cross-run minute conflicts, physical calibration, reviewed class mappings and emissions remain separate work. No real geometry or training state was changed. Concurrent dashboard/training edits are preserved.
+
 ### 7 November 2026, 18:47 America/New_York (23:47 UTC)
 
 - **Who:** Mert

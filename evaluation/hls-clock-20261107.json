@@ -1,0 +1,37 @@
+{
+  "check": "live_hls_media_clock_alignment",
+  "mode": "live",
+  "camera_id": "222",
+  "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-222.stream/playlist.m3u8",
+  "clock_method": "hls-min-anchor-v1",
+  "started_at": "2026-11-07T23:46:25.350544+00:00",
+  "finished_at": "2026-11-07T23:46:55.965124+00:00",
+  "clock_script_sha256": "abed869b6cb37cd894b192717f52e9b9e15371bed0737a8b95e6a09b5296fa24",
+  "reader_frames_dropped": 0,
+  "reader_thread_stopped": true,
+  "sessions": [
+    {
+      "session": 1,
+      "frames": 204,
+      "first_media_s": 0.0,
+      "last_media_s": 40.662,
+      "first_received_at": "2026-11-07T23:46:28.527826+00:00",
+      "last_received_at": "2026-11-07T23:46:44.129181+00:00",
+      "initial_anchor_utc": "2026-11-07T23:46:28.527826+00:00",
+      "final_anchor_utc": "2026-11-07T23:46:03.467181+00:00",
+      "anchor_improvement_s": 25.060645,
+      "frames_by_receipt_minute": {
+        "2026-11-07T23:46:00+00:00": 204
+      },
+      "frames_by_estimated_media_minute": {
+        "2026-11-07T23:46:00+00:00": 204
+      }
+    }
+  ],
+  "limitations": [
+    "This observes frame timing only; no detector, vehicle count or accuracy is evaluated.",
+    "Minimum transport delay is unknown; estimated media UTC is not source capture UTC.",
+    "Anchor improvement is a change in time alignment, not a measured network or capture-to-dashboard latency.",
+    "Only scalar timings are retained; no imagery is saved."
+  ]
+}

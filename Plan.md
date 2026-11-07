@@ -186,6 +186,8 @@ Never put passwords, scratch codes, tokens, or personal credentials in this docu
 
 ### Ingestion
 
+**Timing correction (7 November 2026, 18:49 America/New_York / 23:49 UTC):** Mert replaced receipt-minute aggregation with a session-local estimated media clock: `anchor = min(received_at - media_time)` and `estimated_time = anchor + media_time`. Later anchor improvements rebin earlier scalar observations; existing batch revisions retract superseded minute rows before publishing replacements. Capture UTC and capture-to-dashboard latency remain unavailable. Existing core contract 1.1 fields stay unchanged; the worker pipeline version and diagnostic/read-path notes distinguish this time basis from historical receipt windows.
+
 - Maintain independent state per camera.
 - Decode HLS and preserve source timing where available.
 - Distinguish capture time, receipt time, and processing time.

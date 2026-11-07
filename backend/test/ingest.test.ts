@@ -6,6 +6,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { parseWorkerBatch, type WorkerBatch } from "../../contracts/src/ingest.ts";
 import { ingestWorkerBatch, IngestError, readWorkerStore } from "../src/ingest.ts";
+import { get_traffic_window } from "../src/queries.ts";
 import { statusesFor, trafficFor } from "../src/store.ts";
 
 const NOW = new Date("2026-11-07T23:00:40.000Z");
@@ -59,6 +60,72 @@ test("revisions replace their batch atomically; changed same or older revisions 
   batch.revision = 0;
   assert.throws(() => ingestWorkerBatch(batch, NOW), status(409));
 }));
+
+test("clock rebins retract the prior minute before filling its corrected minute without duplicate or null totals", () => withStore((path) => {
+  const original = fixture();
+  original.statuses = [];
+  original.emissions = [];
+  original.traffic[0].count = 1;
+  original.traffic[0].queue_count = 3;
+  original.traffic.push({ ...original.traffic[0], vehicle_class: "bus", count: 0, queue_count: null });
+  const staleOriginal = structuredClone(original);
+  ingestWorkerBatch(original, NOW);
+  assert.equal(get_traffic_window({ cameraId: "222", mode: "live", now: NOW }).totals.count, 1);
+
+  // A lower session anchor moves these observations into the preceding minute.
+  // Replacing the old minute's own batch with an empty revision retracts it;
+  // no invented zero or null tombstone remains in the reporting window.
+  const retraction = structuredClone(original);
+  retraction.revision = 1;
+  retraction.traffic = [];
+  ingestWorkerBatch(retraction, NOW);
+  assert.deepEqual(readWorkerStore().traffic, []);
+  assert.equal(get_traffic_window({ cameraId: "222", mode: "live", now: NOW }).totals.count, null);
+  const ledger = JSON.parse(readFileSync(path, "utf8"));
+  assert.equal(ledger.batches.length, 1);
+  assert.equal(ledger.batches[0].batch.batch_id, original.batch_id);
+  assert.equal(ledger.batches[0].batch.revision, 1);
+  assert.deepEqual(ledger.batches[0].batch.traffic, []);
+
+  const corrected = structuredClone(original);
+  corrected.batch_id = randomUUID();
+  corrected.traffic = corrected.traffic.map((row) => ({ ...row, minute: "2026-11-07T22:59:00Z" }));
+  ingestWorkerBatch(corrected, NOW);
+  const window = get_traffic_window({ cameraId: "222", mode: "live", now: NOW });
+  assert.equal(window.totals.count, 1);
+  assert.deepEqual([...new Set(window.rows.map((row) => row.minute))], ["2026-11-07T22:59:00Z"]);
+  assert.deepEqual(window.rows.map((row) => row.count).sort(), [0, 1]);
+  assert.deepEqual(window.rows.flatMap((row) => row.queue_count === null ? [] : [row.queue_count]), [3]);
+
+  assert.equal(ingestWorkerBatch(retraction, NOW).duplicate, true);
+  assert.throws(() => ingestWorkerBatch(staleOriginal, NOW), status(409));
+  assert.equal(get_traffic_window({ cameraId: "222", mode: "live", now: NOW }).totals.count, 1);
+  assert.equal(readWorkerStore().traffic.length, 2);
+}));
+
+test("traffic windows disclose estimated or mixed timing bases without changing synthetic provenance", () => {
+  for (const mode of ["live", "replay"] as const) withStore(() => {
+    const syntheticNote = get_traffic_window({ cameraId: "222", mode: "synthetic", now: NOW }).note;
+    const estimated = fixture(mode);
+    estimated.run.model_version += "|t:hls-min-anchor-v1";
+    estimated.statuses = [];
+    estimated.emissions = [];
+    ingestWorkerBatch(estimated, NOW);
+    const estimatedWindow = get_traffic_window({ cameraId: "222", mode, now: NOW });
+    assert.match(estimatedWindow.note, /estimated HLS media time/i);
+    assert.match(estimatedWindow.note, /capture UTC.*unavailable/i);
+
+    const legacy = fixture(mode);
+    legacy.run.run_id = "legacy-run";
+    legacy.statuses = [];
+    legacy.emissions = [];
+    legacy.traffic[0].run_id = legacy.run.run_id;
+    legacy.traffic[0].minute = "2026-11-07T22:59:00Z";
+    ingestWorkerBatch(legacy, NOW);
+    assert.match(get_traffic_window({ cameraId: "222", mode, now: NOW }).note, /mixed.*timing bases/i);
+    assert.equal(get_traffic_window({ cameraId: "222", mode: "synthetic", now: NOW }).note, syntheticNote);
+  });
+});
 
 test("newer heartbeat and cumulative minute snapshots survive delayed old batches", () => withStore(() => {
   const newer = fixture();

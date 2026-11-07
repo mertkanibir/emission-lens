@@ -1,7 +1,9 @@
-"""Receipt-minute aggregation uses synthetic events and no camera assumptions."""
+"""Estimated-media-minute aggregation uses synthetic events and no camera assumptions."""
 
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
+from collections import Counter
+import random
 import unittest
 
 from worker.aggregate import MinuteAggregator
@@ -66,12 +68,12 @@ class AggregateTests(unittest.TestCase):
         aggregate.observe(frame(), update((event(),)))
         self.assertEqual(sum(r["count"] for r in aggregate.batches(run())[0]["traffic"]), 1)
 
-    def test_receipt_utc_minute_boundary_keeps_mode_separate(self):
+    def test_estimated_media_utc_minute_boundary_keeps_mode_separate(self):
         live = MinuteAggregator(config(), "run-1", "live")
         replay = MinuteAggregator(config(), "run-1", "replay")
         for aggregate in (live, replay):
             aggregate.observe(frame(), update((event(),)))
-            aggregate.observe(frame(0.2, NOW + timedelta(seconds=1)), update())
+            aggregate.observe(frame(1, NOW + timedelta(seconds=1)), update())
         batches = live.batches(run())
         self.assertEqual([b["traffic"][0]["minute"] for b in batches], ["2026-11-07T23:30:00+00:00", "2026-11-07T23:31:00+00:00"])
         replay_batches = replay.batches(run("replay"))
@@ -133,6 +135,113 @@ class AggregateTests(unittest.TestCase):
             vehicle = SimpleNamespace(track_id=1, label="car", detection=SimpleNamespace(x1=49, x2=51, y1=y * 100 - 2, y2=y * 100))
             aggregate.observe(current, metrics.update(current, [vehicle]))
         self.assertEqual(sum(row["count"] for row in aggregate.batches(run())[0]["traffic"]), 1)
+
+    def test_thirty_second_backlog_uses_final_anchor_for_all_earlier_events(self):
+        aggregate = MinuteAggregator(config(), "run-1", "live")
+        received = NOW + timedelta(seconds=11)  # 23:31:10
+        for media, label in ((0, "car"), (10, "bus"), (20, "truck"), (30, None)):
+            aggregate.observe(frame(media, received), update((event(label=label),) if label else ()))
+        batches = aggregate.batches(run())
+        totals = {batch["traffic"][0]["minute"]: sum(row["count"] for row in batch["traffic"]) for batch in batches}
+        self.assertEqual(totals, {"2026-11-07T23:30:00+00:00": 2, "2026-11-07T23:31:00+00:00": 1})
+        diagnostic = aggregate.diagnostic()
+        self.assertEqual(diagnostic["minute_basis"], "estimated_hls_media_utc")
+        self.assertEqual(diagnostic["sessions"][0]["estimated_anchor_utc"], "2026-11-07T23:30:40+00:00")
+        self.assertFalse(diagnostic["source_capture_utc_available"])
+
+    def test_burst_receipt_crossing_a_minute_does_not_move_media_minute(self):
+        aggregate = MinuteAggregator(config(), "run-1", "live")
+        aggregate.observe(frame(), update((event(),)))
+        aggregate.observe(frame(0.2, NOW + timedelta(seconds=1)), update((event(),)))
+        batches = aggregate.batches(run())
+        self.assertEqual(len(batches), 1)
+        self.assertEqual(batches[0]["traffic"][0]["minute"], "2026-11-07T23:30:00+00:00")
+        self.assertEqual(sum(row["count"] for row in batches[0]["traffic"]), 2)
+
+    def test_rebin_retracts_empty_old_minute_before_publishing_new_counts(self):
+        aggregate = MinuteAggregator(config(), "run-1", "live")
+        aggregate.observe(frame(), update((event(),)))
+        original = aggregate.batches(run())[0]
+        # Catching up 120 media seconds in 60 wall seconds shifts the first
+        # event to 23:29:59. The originally published 23:30 minute is unobserved.
+        aggregate.observe(frame(120, NOW + timedelta(seconds=60)), update())
+        corrected = aggregate.batches(run())
+        self.assertEqual(corrected[0]["batch_id"], original["batch_id"])
+        self.assertEqual(corrected[0]["revision"], 1)
+        self.assertEqual(corrected[0]["traffic"], [])  # Retraction, not a fabricated zero.
+        self.assertEqual([b["traffic"][0]["minute"] for b in corrected[1:]], ["2026-11-07T23:29:00+00:00", "2026-11-07T23:31:00+00:00"])
+        self.assertEqual(sum(row["count"] for batch in corrected for row in batch["traffic"]), 1)
+        self.assertEqual(aggregate.batches(run()), [])
+
+    def test_rebin_revises_partly_occupied_minutes_without_transient_inflation(self):
+        aggregate = MinuteAggregator(config(), "run-1", "live")
+        received = NOW + timedelta(seconds=11)
+        aggregate.observe(frame(0, received), update((event(),)))
+        original = aggregate.batches(run())[0]
+        aggregate.observe(frame(20, received), update((event(label="bus"),)))
+        corrected = aggregate.batches(run())
+        self.assertEqual(corrected[0]["traffic"], [])
+        old_minute = [batch for batch in corrected if batch["batch_id"] == original["batch_id"]]
+        self.assertEqual([batch["revision"] for batch in old_minute], [1, 2])
+        ledger = {original["batch_id"]: original}
+        for batch in corrected:
+            ledger[batch["batch_id"]] = batch
+            self.assertLessEqual(sum(row["count"] for value in ledger.values() for row in value["traffic"]), 2)
+
+    def test_reconnect_does_not_shift_prior_session_or_share_camera_anchors(self):
+        aggregate = MinuteAggregator(config(), "run-1", "live")
+        aggregate.observe(frame(), update((event(),)))
+        original = aggregate.batches(run())[0]
+        later = NOW + timedelta(minutes=10)
+        aggregate.observe(frame(0, later, session=2), update((event(session=2),), session=2))
+        aggregate.observe(frame(30, later, session=2), update(session=2))
+        corrected = aggregate.batches(run())
+        self.assertTrue(all(batch["batch_id"] != original["batch_id"] for batch in corrected))
+        self.assertEqual(aggregate.diagnostic()["sessions"][0]["estimated_anchor_utc"], NOW.isoformat())
+        independent = MinuteAggregator(config(), "run-2", "live")
+        independent.observe(frame(), update())
+        self.assertEqual(independent.diagnostic()["sessions"][0]["estimated_anchor_utc"], NOW.isoformat())
+
+    def test_microsecond_edges_agree_with_binning_after_datetime_rounding(self):
+        aggregate = MinuteAggregator(config(), "run-1", "live")
+        start = NOW.replace(second=0)
+        for media, received in ((0, start), (59.9999994, start + timedelta(seconds=61)), (59.9999996, start + timedelta(seconds=61))):
+            aggregate.observe(frame(media, received), update((event(),)))
+        self.assertEqual([sum(row["count"] for row in batch["traffic"]) for batch in aggregate.batches(run())], [2, 1])
+
+    def test_prefix_rebins_match_offline_reference_across_bursts_sessions_and_queue_updates(self):
+        settings = config(stopped_threshold_per_s=0.01, queue_region=[[0.2, 0.2], [0.8, 0.2], [0.8, 0.8], [0.2, 0.8]])
+        aggregate = MinuteAggregator(settings, "run-1", "live")
+        history, ledger = [], {}
+        rng = random.Random(7)
+        for session in (1, 2):
+            for index in range(70):
+                media = index * 2
+                received = NOW + timedelta(seconds=(session - 1) * 100 + (index // 10) * 20 + 20)
+                label = rng.choice([None, "car", "bus", "truck"])
+                queue = rng.randrange(8)
+                aggregate.observe(frame(media, received, session), update((event(label=label, session=session),) if label else (), queue=queue, session=session))
+                history.append((session, media, received, label, queue))
+                if index % 7 != 0 and index != 69:
+                    continue
+                for batch in aggregate.batches(run()):
+                    ledger[batch["batch_id"]] = batch
+                    self.assertLessEqual(sum(row["count"] for value in ledger.values() for row in value["traffic"]), sum(item[3] is not None for item in history))
+                anchors = {sid: min(received - timedelta(seconds=media) for s, media, received, _, _ in history if s == sid) for sid in {item[0] for item in history}}
+                expected = {}
+                for sid, media, _, label, value in history:
+                    at = anchors[sid] + timedelta(seconds=media)
+                    minute = at.replace(second=0, microsecond=0).isoformat()
+                    state = expected.setdefault(minute, {"counts": Counter(), "queue": None, "latest": None})
+                    if label:
+                        state["counts"][label] += 1
+                    if state["latest"] is None or (at, sid) >= state["latest"]:
+                        state["queue"], state["latest"] = value, (at, sid)
+                actual = {batch["traffic"][0]["minute"]: batch["traffic"] for batch in ledger.values() if batch["traffic"]}
+                self.assertEqual(actual.keys(), expected.keys())
+                for minute, rows in actual.items():
+                    self.assertEqual({row["vehicle_class"]: row["count"] for row in rows}, {label: expected[minute]["counts"][label] for label in aggregate.supported_classes})
+                    self.assertEqual([row["queue_count"] for row in rows if row["queue_count"] is not None], [expected[minute]["queue"]])
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ import {
 } from "@emission-lens/contracts";
 import { asOf, isStale, reportingWindow } from "./clock.ts";
 import { emissionsFor, statusesFor, trafficFor } from "./store.ts";
+import { readWorkerStore } from "./persistence.ts";
 import { get_factor_catalog_status } from "../../emissions/src/index.ts";
 
 export interface CameraStatusView extends CameraStatus {
@@ -121,6 +122,15 @@ export function get_traffic_window(input: {
     note = "Synthetic sample. Stopped time is incomplete for at least one class, so the mix total is unavailable.";
   } else if (rows.length > 0) {
     note = "Synthetic sample. Not a live total.";
+  }
+  if (input.mode !== "synthetic" && rows.length > 0) {
+    const versions = new Map(readWorkerStore().runs.map((run) => [run.run_id, run.model_version]));
+    const estimated = rows.filter((row) => row.run_id !== null && versions.get(row.run_id)?.includes("|t:hls-min-anchor-v1")).length;
+    if (estimated === rows.length) {
+      note += " Camera-minutes use estimated HLS media time; minimum transport delay and capture UTC remain unavailable.";
+    } else if (estimated > 0) {
+      note += " This window has mixed timing bases: estimated HLS media time and legacy or unspecified record times. Their UTC boundaries are not directly comparable.";
+    }
   }
   return {
     camera_id: input.cameraId,

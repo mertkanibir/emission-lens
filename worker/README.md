@@ -1,7 +1,7 @@
 # Camera worker
 
 **Owner:** Mert, runtime integration; Carter, detection, tracking and labeling.
-**Updated:** 7 November 2026, 18:28 America/New_York (23:28 UTC).
+**Updated:** 7 November 2026, 18:49 America/New_York (23:49 UTC).
 
 From the repository root, inside the verified compute-node Python environment:
 
@@ -30,11 +30,15 @@ The worker publishes contract 1.1 run/status envelopes with empty traffic/emissi
 
 `--measurement-config /private/path/reviewed-camera.json` enables the separate image-measurement path only when its configuration says `enabled: true` and `image_geometry_status: reviewed`. No real camera geometry is enabled in the repository. `config/cameras/measurement.example.json` is a disabled, unvalidated structural example, not usable calibration. Geometry needs review against the actual camera before activation.
 
-When a configuration has multiple gates, `--count-gate-id` must choose one explicitly; crossing counts are never summed across entry/exit gates. The worker aggregates actual crossing events into **frame-receipt UTC minutes**, with the model's supported vehicle classes only. A zero requires an advancing observed frame under the enabled reviewed gate. Pretrained weights do not produce supported Tesla/pickup/etc. zeros. The optional image-space queue observation is stored on one class row so it cannot be summed per class. Stopped time, physical distance, traversal time, completed traversals, coverage and emissions remain null in these rows.
+When a configuration has multiple gates, `--count-gate-id` must choose one explicitly; crossing counts are never summed across entry/exit gates. The worker aggregates actual crossing events into **estimated HLS media UTC minutes**, with the model's supported vehicle classes only. A zero requires an advancing observed frame under the enabled reviewed gate. Pretrained weights do not produce supported Tesla/pickup/etc. zeros. The optional image-space queue observation is stored on one class row so it cannot be summed per class. Stopped time, physical distance, traversal time, completed traversals, coverage and emissions remain null in these rows.
 
-Each camera-minute has a stable batch UUID and increasing revisions of the cumulative count snapshot. Revisions replace the prior snapshot rather than adding counts again. The run's pipeline version includes measurement version, selected gate and a hash prefix; diagnostics retain the full configuration hash and supported class list. The engine suppresses crossings across source gaps and resets temporary identities on reconnect.
+Each camera-minute has a stable batch UUID and increasing revisions of the cumulative count snapshot. Revisions replace the prior snapshot rather than adding counts again. The run's pipeline version includes measurement version, selected gate, a hash prefix and `t:hls-min-anchor-v1`; diagnostics retain the full configuration hash and supported class list. The engine suppresses crossings across source gaps and resets temporary identities on reconnect.
 
-These are partial receipt windows: HLS capture UTC and footage coverage remain unavailable. A new worker run overlapping another run's camera-minute is rejected by persistence instead of silently overwriting or merging observations. Its outbox is retained for review. Resolve the conflict explicitly or start a fresh run at a later UTC-minute boundary with a separate outbox; no automatic restart merge is claimed.
+The session-local clock uses `anchor = min(received_at - media_time)` and places frames at `anchor + media_time`. Every reconnect starts an independent anchor. When later backlog frames improve an anchor, all earlier scalar observations are rebinned using prefix sums and exact microsecond boundaries. This is an **estimated** source-time alignment: the minimum transport delay, capture UTC and footage coverage remain unknown. Heartbeat and preview receipt timestamps retain their original meaning.
+
+If counts move out of a published minute, higher revisions retract its prior batch before filling corrected minutes. A fully emptied minute has no rows; it does not become an unsupported zero or a null row that would spoil window totals. Retractions and replacements remain FIFO in the disk outbox, including after a wall-clock step backwards and restart. Historical stored receipt-time records are not rewritten without source evidence. The read path labels new estimated-media windows and warns about mixed timing bases.
+
+A new worker run overlapping another run's camera-minute is rejected by persistence instead of silently overwriting or merging observations. Its outbox is retained for review. Resolve overlapping source windows explicitly; starting at a new receipt-minute boundary alone cannot guarantee disjoint source footage when HLS opens with backlog. Reconnects may also re-deliver earlier footage: this clock does not establish source-frame deduplication or validated coverage.
 
 ## Optional synchronized previews
 
@@ -51,10 +55,12 @@ python -m worker.main --camera 222 --replay-file /private/path/clip.mp4 \
   --device cpu --seconds 60 --output runs/replay-check.json
 ```
 
-Replay uses the same reader sampler, buffer and tracker, with a paced local input and no automatic looping. It is published only in `replay` mode, separate from live records. Retain source attribution and capture context alongside private demo media; do not commit footage. Diagnostics record receipt timestamps rather than the clip's original capture UTC.
+Replay uses the same reader sampler, buffer and tracker, with a paced local input and no automatic looping. It is published only in `replay` mode, separate from live records. Retain source attribution and capture context alongside private demo media; do not commit footage. Diagnostics record receipt timestamps, and optional aggregates use the playback-anchored estimated media clock. Neither establishes the clip's original capture UTC; historical factor/weather attribution still needs original capture context.
 
 ## Checks and limits
 
 `python3 -m unittest discover -s tests -p test_publish.py -v` and the corresponding `test_runtime.py` and `test_aggregate.py` commands exercise real local HTTP response handling, immutable revision retries, bounded queues, camera separation, stale processing, mode labels, supported zero/null metrics, selected gates, UTC-minute boundaries and cumulative snapshot revisions without a model download. The complete worker suite uses the pinned `worker/requirements.txt` in the verified Python environment.
 
 Delivery and tracking do not validate calibration, vehicle-count accuracy, stopped time, fuel type, CARB class mixtures or emissions. GPU benchmark results belong in `evaluation/`, with job IDs and explicit limitations.
+
+**Timing verification (7 November 2026, 18:49 America/New_York / 23:49 UTC):** Mert reproduced a 25.060645-second session-anchor improvement across 204 advancing live camera-222 frames with zero reader drops. This was a timing-only check, not a detector/vehicle-count or capture-latency measurement. Controlled tests cover 30-second startup backlog, minute boundaries, rebins after publication, queue ordering, reconnect isolation and retraction persistence. See [timing evidence](../evaluation/timing-alignment.md). No core contract fields changed.

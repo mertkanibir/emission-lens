@@ -298,7 +298,8 @@ def run(args, stop_requested=None) -> dict:
         metrics = CameraMetrics(measurement_config)
         measurement_hash = hashlib.sha256(measurement_bytes).hexdigest()
         if aggregate.enabled:
-            run_record["model_version"] += f"|m:{measurement_config.version}|g:{aggregate.count_gate_id}|s:{measurement_hash[:16]}"
+            from worker.timing import MEDIA_CLOCK_VERSION
+            run_record["model_version"] += f"|m:{measurement_config.version}|g:{aggregate.count_gate_id}|s:{measurement_hash[:16]}|t:{MEDIA_CLOCK_VERSION}"
             if len(run_record["model_version"]) > 256:
                 raise ValueError("Model, measurement version and gate identifiers exceed the provenance field length.")
 
@@ -422,7 +423,7 @@ def run(args, stop_requested=None) -> dict:
                 "limitations": [
                     "Tracked detection observations are repeated per-frame observations, not unique vehicle crossings or evaluated accuracy.",
                     "Counts/image queues require explicitly enabled reviewed image geometry; physical calibration, stopped time, speed and emissions remain unavailable.",
-                    "Camera-minute timestamps are receipt windows; source capture UTC and capture-to-dashboard latency are unavailable.",
+                    "Camera-minutes use a session-local estimated HLS media clock, not receipt windows or verified capture UTC; capture-to-dashboard latency is unavailable.",
                     "Tracking timing includes preprocessing/postprocessing and first-frame model warmup.",
                     "No raw frames, video, or temporary track identifiers are persisted by this runtime; optional annotated previews are sent transiently in memory.",
                     "Tailpipe fuel type cannot be established from a vehicle's appearance.",

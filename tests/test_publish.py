@@ -3,6 +3,7 @@ import tempfile
 import threading
 import unittest
 import uuid
+from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -62,6 +63,19 @@ class PublishTests(unittest.TestCase):
             payload["traffic"] = [{"changed": True}]
             with self.assertRaisesRegex(PublishError, "different content"):
                 outbox.enqueue(payload)
+
+    def test_retraction_stays_before_replacement_after_restart_and_clock_step_back(self):
+        with tempfile.TemporaryDirectory() as folder:
+            retract = batch()
+            replacement = {**retract, "revision": 1, "traffic": [{"count": 1}]}
+            with patch("time.time_ns", return_value=2000):
+                Outbox(Path(folder), lambda _: False).enqueue(retract)
+            delivered = []
+            restarted = Outbox(Path(folder), lambda body: delivered.append(json.loads(body)) or True)
+            with patch("time.time_ns", return_value=1000):
+                restarted.enqueue(replacement)
+            self.assertEqual(restarted.flush(), 2)
+            self.assertEqual(delivered, [retract, replacement])
 
     def test_multiple_cumulative_revisions_retry_in_order_without_mutation(self):
         with tempfile.TemporaryDirectory() as folder:

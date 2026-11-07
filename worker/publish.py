@@ -96,7 +96,11 @@ class Outbox:
             raise PublishError("Worker outbox is full; undelivered batches were preserved.")
         import time
 
-        path = self.directory / f"{time.time_ns():020d}-{batch_id}-r{revision}.json"
+        # A backwards wall-clock adjustment must not put a replacement before
+        # the earlier retraction, including when resuming a nonempty outbox.
+        last_order = max((int(path.name.split("-", 1)[0]) for path in queued), default=-1)
+        order = max(time.time_ns(), last_order + 1)
+        path = self.directory / f"{order:020d}-{batch_id}-r{revision}.json"
         fd, temporary = tempfile.mkstemp(prefix=".batch-", dir=self.directory)
         try:
             with os.fdopen(fd, "wb") as handle:
