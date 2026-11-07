@@ -65,7 +65,15 @@ def write_draft(frames: list[Path], detector, output_dir: Path) -> None:
         label_path.write_text("".join(f"{line}\n" for line in lines), encoding="utf-8")
 
 
-def label_errors(path: Path) -> list[str]:
+def read_class_names(draft_dir: Path) -> list[str]:
+    """Labeling tools may export classes in their own order, so ids are matched by name."""
+    path = draft_dir / "classes.txt"
+    if not path.exists():
+        raise DatasetError(f"missing {path}")
+    return path.read_text(encoding="utf-8").split()
+
+
+def label_errors(path: Path, names: list[str] = DRAFT_CLASSES) -> list[str]:
     """Return every problem in one reviewed label file."""
     errors = []
     for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
@@ -77,13 +85,24 @@ def label_errors(path: Path) -> list[str]:
         except (IndexError, ValueError):
             errors.append(f"{where}: not a YOLO label")
             continue
-        if class_id == DRAFT_CLASSES.index(NEEDS_REVIEW):
-            errors.append(f"{where}: still needs review")
-        elif not 0 <= class_id < len(CLASSES):
+        if not 0 <= class_id < len(names):
             errors.append(f"{where}: unknown class {class_id}")
+        elif names[class_id] == NEEDS_REVIEW:
+            errors.append(f"{where}: still needs review")
+        elif names[class_id] not in CLASSES:
+            errors.append(f"{where}: unknown class {names[class_id]}")
         if len(box) != 4 or not all(0 <= value <= 1 for value in box):
             errors.append(f"{where}: box must be four values from 0 to 1")
     return errors
+
+
+def renumber(path: Path, names: list[str]) -> str:
+    """Rewrite a checked label file with ids in CLASSES order."""
+    lines = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        class_id, *box = line.split()
+        lines.append(" ".join([str(CLASSES.index(names[int(class_id)])), *box]))
+    return "".join(f"{line}\n" for line in lines)
 
 
 def split_by_time(images: list[Path]) -> dict[str, list[Path]]:
@@ -110,11 +129,12 @@ def build_dataset(draft_dir: Path, output_dir: Path) -> Path:
     if not images:
         raise DatasetError(f"no images in {draft_dir / 'images'}")
 
+    names = read_class_names(draft_dir)
     errors = []
     for image in images:
         label = draft_dir / "labels" / f"{image.stem}.txt"
         if label.exists():
-            errors.extend(label_errors(label))
+            errors.extend(label_errors(label, names))
         else:
             errors.append(f"{label.name}: missing")
     if errors:
@@ -129,7 +149,9 @@ def build_dataset(draft_dir: Path, output_dir: Path) -> Path:
         for image in frames:
             shutil.copy2(image, output_dir / "images" / split / image.name)
             label = f"{image.stem}.txt"
-            shutil.copy2(draft_dir / "labels" / label, output_dir / "labels" / split / label)
+            (output_dir / "labels" / split / label).write_text(
+                renumber(draft_dir / "labels" / label, names), encoding="utf-8"
+            )
 
     # No path key: Ultralytics then resolves these folders next to this file.
     names = "\n".join(f"  {i}: {name}" for i, name in enumerate(CLASSES))

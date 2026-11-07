@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 16:28 America/New_York (21:28 UTC)
+
+- **Who:** Carter
+- **Done:** Contract 1.1 adds `tesla`, `pickup`, `box_truck`, and `tractor_trailer`, and keeps `truck` as the pretrained fallback. Updated the type, the `traffic_minutes` check in `001_contract_v1.sql`, the backend sort order, the contracts README, and a `Plan.md` §7 note. Dataset build now matches classes by name, so a labeling tool that reorders classes cannot mislabel boxes. Collected 726 frames and drafted boxes on 400, split into labeling folders by camera (Carter 220 and 222, Mert 223 and 228). Mert's emissions mapping check now reads the contract class list instead of the old five classes. Checked Label Studio 1.23.2 offline: draft boxes import, export back to YOLO unchanged, and build correctly renumbers its alphabetical classes.
+- **Completed:** 55 Python tests and Mert's 14 backend tests pass. A Python test keeps worker classes inside the contract list. The draft has 100 frames per camera and 8,114 boxes, including 860 trucks that need review.
+- **Still open:** Mert should review the contract change. `001_contract_v1.sql` was edited in place because no hosted database exists; a database already built from 1.0 needs the check constraint replaced. Type-checking each package with `tsc -p` reports the same 20 errors before and after this change: 5 in contracts and 15 in backend, from imports ending in `.ts`. On Windows checkouts, `tests/test_emfac.py` fails its checksum test because Git converts the CARB files to CRLF; a `.gitattributes` rule for `emissions/data/` would fix it. Labeling has not started.
+
 ### 7 November 2026, 16:27 America/New_York (21:27 UTC)
 
 - **Who:** Mert

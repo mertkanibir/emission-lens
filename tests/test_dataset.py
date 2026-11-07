@@ -133,3 +133,31 @@ def test_build_writes_a_complete_zip(tmp_path):
     data_yaml = (tmp_path / "dataset" / "data.yaml").read_text(encoding="utf-8")
     assert all(name in data_yaml for name in CLASSES)
     assert NEEDS_REVIEW not in data_yaml
+
+
+def test_worker_classes_are_all_in_the_shared_contract():
+    import re
+    from pathlib import Path
+
+    from worker.detect import PRETRAINED_VEHICLE_LABELS
+
+    types_ts = Path(__file__).resolve().parents[1] / "contracts" / "src" / "types.ts"
+    block = re.search(r"VEHICLE_CLASSES = \[(.*?)\]", types_ts.read_text(encoding="utf-8"), re.S)
+    contract = set(re.findall(r'"(\w+)"', block.group(1)))
+    assert set(CLASSES) <= contract
+    assert PRETRAINED_VEHICLE_LABELS <= contract
+
+
+def test_build_matches_classes_by_name_when_the_tool_reorders_them(tmp_path):
+    draft = make_draft(tmp_path, label="1 0.5 0.5 0.1 0.1\n")  # 1 = "car" in the export below.
+    (draft / "classes.txt").write_text("bus\ncar\ntesla\n", encoding="utf-8")
+    build_dataset(draft, tmp_path / "dataset")
+    label = next((tmp_path / "dataset" / "labels" / "train").glob("*.txt"))
+    assert label.read_text(encoding="utf-8").split()[0] == str(CLASSES.index("car"))
+
+
+def test_build_rejects_a_class_name_outside_the_training_classes(tmp_path):
+    draft = make_draft(tmp_path, label="0 0.5 0.5 0.1 0.1\n")
+    (draft / "classes.txt").write_text("sedan\n", encoding="utf-8")
+    with pytest.raises(DatasetError, match="unknown class sedan"):
+        build_dataset(draft, tmp_path / "dataset")
