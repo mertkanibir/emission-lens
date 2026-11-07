@@ -1,0 +1,259 @@
+{
+ "test_frames": 60,
+ "settings": {
+  "image_size": 1280,
+  "confidence": 0.25,
+  "iou": 0.5,
+  "min_width_px": 25
+ },
+ "truth_boxes": {
+  "car": 1141,
+  "tesla": 28,
+  "box_truck": 13,
+  "pickup": 35,
+  "tractor_trailer": 4,
+  "bus": 13,
+  "motorcycle": 3
+ },
+ "models": {
+  "pretrained": {
+   "weights": "yolo11s.pt",
+   "coarse": {
+    "classes": {
+     "car": {
+      "true_pos": 946,
+      "false_pos": 36,
+      "false_neg": 223,
+      "precision": 0.9633401221995926,
+      "recall": 0.8092386655260907,
+      "f1": 0.8795908879590888
+     },
+     "truck": {
+      "true_pos": 31,
+      "false_pos": 116,
+      "false_neg": 21,
+      "precision": 0.2108843537414966,
+      "recall": 0.5961538461538461,
+      "f1": 0.31155778894472363
+     },
+     "bus": {
+      "true_pos": 11,
+      "false_pos": 1,
+      "false_neg": 2,
+      "precision": 0.9166666666666666,
+      "recall": 0.8461538461538461,
+      "f1": 0.88
+     },
+     "motorcycle": {
+      "true_pos": 2,
+      "false_pos": 1,
+      "false_neg": 1,
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666
+     }
+    },
+    "any_vehicle": {
+     "true_pos": 1071,
+     "false_pos": 73,
+     "false_neg": 166,
+     "precision": 0.9361888111888111,
+     "recall": 0.8658043654001617,
+     "f1": 0.8996220075598488
+    },
+    "count_error": {
+     "mean_absolute": 2.35,
+     "mean_signed": -1.55
+    },
+    "confusion": {
+     "bus -> bus": 11,
+     "bus -> not detected": 1,
+     "bus -> truck": 1,
+     "car -> car": 940,
+     "car -> not detected": 146,
+     "car -> truck": 83,
+     "motorcycle -> motorcycle": 2,
+     "motorcycle -> not detected": 1,
+     "no vehicle -> bus": 1,
+     "no vehicle -> car": 38,
+     "no vehicle -> motorcycle": 1,
+     "no vehicle -> truck": 33,
+     "truck -> car": 4,
+     "truck -> not detected": 18,
+     "truck -> truck": 30
+    }
+   }
+  },
+  "tuned": {
+   "weights": "best.pt",
+   "coarse": {
+    "classes": {
+     "car": {
+      "true_pos": 928,
+      "false_pos": 145,
+      "false_neg": 241,
+      "precision": 0.8648648648648649,
+      "recall": 0.7938408896492729,
+      "f1": 0.8278322925958965
+     },
+     "truck": {
+      "true_pos": 14,
+      "false_pos": 30,
+      "false_neg": 38,
+      "precision": 0.3181818181818182,
+      "recall": 0.2692307692307692,
+      "f1": 0.2916666666666667
+     },
+     "bus": {
+      "true_pos": 10,
+      "false_pos": 11,
+      "false_neg": 3,
+      "precision": 0.47619047619047616,
+      "recall": 0.7692307692307693,
+      "f1": 0.5882352941176471
+     },
+     "motorcycle": {
+      "true_pos": 0,
+      "false_pos": 0,
+      "false_neg": 3,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    },
+    "any_vehicle": {
+     "true_pos": 980,
+     "false_pos": 158,
+     "false_neg": 257,
+     "precision": 0.8611599297012302,
+     "recall": 0.7922392886014551,
+     "f1": 0.8252631578947368
+    },
+    "count_error": {
+     "mean_absolute": 2.816666666666667,
+     "mean_signed": -1.65
+    },
+    "confusion": {
+     "bus -> bus": 9,
+     "bus -> car": 2,
+     "bus -> not detected": 2,
+     "car -> bus": 2,
+     "car -> car": 921,
+     "car -> not detected": 227,
+     "car -> truck": 19,
+     "motorcycle -> not detected": 3,
+     "no vehicle -> bus": 8,
+     "no vehicle -> car": 136,
+     "no vehicle -> truck": 14,
+     "truck -> bus": 2,
+     "truck -> car": 14,
+     "truck -> not detected": 25,
+     "truck -> truck": 11
+    }
+   },
+   "fine": {
+    "classes": {
+     "car": {
+      "true_pos": 907,
+      "false_pos": 165,
+      "false_neg": 234,
+      "precision": 0.8460820895522388,
+      "recall": 0.7949167397020158,
+      "f1": 0.8197017623136015
+     },
+     "pickup": {
+      "true_pos": 10,
+      "false_pos": 29,
+      "false_neg": 25,
+      "precision": 0.2564102564102564,
+      "recall": 0.2857142857142857,
+      "f1": 0.2702702702702703
+     },
+     "box_truck": {
+      "true_pos": 3,
+      "false_pos": 2,
+      "false_neg": 10,
+      "precision": 0.6,
+      "recall": 0.23076923076923078,
+      "f1": 0.3333333333333333
+     },
+     "tractor_trailer": {
+      "true_pos": 0,
+      "false_pos": 0,
+      "false_neg": 4,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0
+     },
+     "bus": {
+      "true_pos": 10,
+      "false_pos": 11,
+      "false_neg": 3,
+      "precision": 0.47619047619047616,
+      "recall": 0.7692307692307693,
+      "f1": 0.5882352941176471
+     },
+     "motorcycle": {
+      "true_pos": 0,
+      "false_pos": 0,
+      "false_neg": 3,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0
+     },
+     "tesla": {
+      "true_pos": 0,
+      "false_pos": 1,
+      "false_neg": 28,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    },
+    "any_vehicle": {
+     "true_pos": 980,
+     "false_pos": 158,
+     "false_neg": 257,
+     "precision": 0.8611599297012302,
+     "recall": 0.7922392886014551,
+     "f1": 0.8252631578947368
+    },
+    "count_error": {
+     "mean_absolute": 2.816666666666667,
+     "mean_signed": -1.65
+    },
+    "confusion": {
+     "box_truck -> box_truck": 3,
+     "box_truck -> not detected": 10,
+     "bus -> bus": 9,
+     "bus -> car": 2,
+     "bus -> not detected": 2,
+     "car -> bus": 2,
+     "car -> car": 901,
+     "car -> not detected": 220,
+     "car -> pickup": 18,
+     "motorcycle -> not detected": 3,
+     "no vehicle -> box_truck": 1,
+     "no vehicle -> bus": 8,
+     "no vehicle -> car": 135,
+     "no vehicle -> pickup": 13,
+     "no vehicle -> tesla": 1,
+     "pickup -> car": 14,
+     "pickup -> not detected": 14,
+     "pickup -> pickup": 7,
+     "tesla -> car": 20,
+     "tesla -> not detected": 7,
+     "tesla -> pickup": 1,
+     "tractor_trailer -> box_truck": 1,
+     "tractor_trailer -> bus": 2,
+     "tractor_trailer -> not detected": 1
+    }
+   },
+   "tesla_rule": {
+    "labeled_teslas": 28,
+    "confident_tesla_calls": 0,
+    "correct_calls": 0
+   }
+  }
+ }
+}

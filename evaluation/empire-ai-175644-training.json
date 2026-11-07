@@ -1,0 +1,100 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-07T23:47:29.180664+00:00",
+  "job_id": "175644",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "started_at_utc": "2026-11-07T23:33:53Z",
+  "ended_at_utc": "2026-11-07T23:44:18Z",
+  "elapsed_seconds": 625,
+  "node": "alphagpu01",
+  "partition": "alpha",
+  "account": "rpicourse",
+  "qos": "normal",
+  "reservation": "binghamton_hackathon",
+  "gpu_request": "gpu:1g.10gb:1",
+  "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+  "inference_tensor_device": "cuda:0",
+  "software": {
+    "python": "3.12.3",
+    "torch": "2.7.1+cu128",
+    "ultralytics": "8.4.206"
+  },
+  "training": {
+    "maximum_epochs": 100,
+    "completed_epochs": 40,
+    "best_epoch": 20,
+    "patience": 20,
+    "image_size": 1280,
+    "autobatch_target": 0.6,
+    "selected_batch_size": 4,
+    "workers": 1,
+    "cache": false,
+    "seed": 0,
+    "deterministic": true,
+    "checkpoint_selection": "validation only",
+    "stop_reason": "No validation improvement in the last 20 epochs."
+  },
+  "data": {
+    "sha256": "901d38a8cf0bbaa10a1b9ad225fa46af373ed8e225c77c944b85c15d6b932d84",
+    "train": 280,
+    "validation": 60,
+    "test": 60,
+    "audit": "empire-ai-175644-data.json"
+  },
+  "preflight": {
+    "job_id": "175643",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 46,
+    "model": "yolo11s.pt",
+    "dataset": "COCO8",
+    "epochs": 1,
+    "image_size": 1280,
+    "batch": 8,
+    "camera_222_opened": true,
+    "camera_222_read_frame": true
+  },
+  "verification": {
+    "focused_tests_passed": 17,
+    "checkpoint_download_sha256_matches": true,
+    "gpu_allocation_released": true
+  },
+  "model_decision": "not_promoted",
+  "reason": "The tuned candidate underperforms pretrained YOLO11s on every coarse-class F1, any-vehicle precision/recall and image-count MAE.",
+  "checkpoint_sha256": "43a2e7057f596a05241672be2834db3b37319ec4cfa8622115a8a5c6081c69ff",
+  "results_csv_sha256": "7772153d63251ad388dac64d8f1abffd4468e1cf20c4f65bb308016ddd108db0",
+  "source": {
+    "owner": "Mert",
+    "training_job_id": "175644",
+    "preflight_job_id": "175643",
+    "source_base_commit": "ac09714",
+    "dataset_sha256": "901d38a8cf0bbaa10a1b9ad225fa46af373ed8e225c77c944b85c15d6b932d84",
+    "pretrained_weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+    "source_files": {
+      "infra/train.sbatch": "0d0aff41c9ba997ae400761a6256f080b948f66d4c9f10fd46abde6ab80be219",
+      "evaluation/compare_models.py": "10b8ecde0670de045459064cdc87f3782a47dfca4db1cd81eb10ed9860833c06",
+      "tests/test_compare_models.py": "12ee631c8c3a8e95f5c3cd6de9f97ffecd4cdde2e35e5cfe55db1726d66ca37e",
+      "worker/dataset.py": "7d722bb7aa96faf453abb6661a0d99cec7f8d92eb562134abae22097f8033aae",
+      "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1",
+      "runs/gpu-training/train-and-compare.sbatch": "13cd53fdcfde7664c2f2215787e117e366c8d44a3a1f86dc2a292b36412f6825",
+      "runs/gpu-training/preflight.sbatch": "e0d8842814588cabb06c3ec7de4c4a1750b2d2933093335caac6f826926c64fb"
+    }
+  },
+  "limitations": [
+    "Training labels include pretrained drafts and assisted review.",
+    "No tractor-trailer train/validation examples; only four motorcycle training boxes and none in validation.",
+    "Single collection period and same camera views; no substantial temporal purge gap.",
+    "Single-frame Tesla scoring does not validate the three-frame tracking rule.",
+    "No traffic crossing, calibrated speed, emissions or environmental-benefit validation."
+  ],
+  "actual_batch_script": "empire-ai-175644.sbatch",
+  "handoff": {
+    "local_package": "emission-lens-model-175644.zip",
+    "package_sha256": "4263c170c2e206d8b095c2f6572c25bd627278cf42b4f7a89b742770648dfe40",
+    "package_size_bytes": 17715431,
+    "drive_visibility": "Mert owner; Carter reader; no public or domain permission",
+    "sent_to": "Carter",
+    "sent_at_utc": "2026-11-07T23:47:29.180664+00:00"
+  }
+}
