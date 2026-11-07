@@ -69,3 +69,11 @@ Model attribution and API references: [Ultralytics YOLO11](https://docs.ultralyt
 ## Fine-tuning handoff
 
 Mert owns GPU execution. Carter’s frame collector is available, but raw frames alone do not provide supervised training labels. Before training, prepare reviewed boxes/classes, separate training and held-out footage, and agree on any incompatible class-contract changes. The proposed pickup, box truck, tractor trailer, and Tesla classes are not supplied by this pretrained model. Carter’s proposed 85% Tesla threshold is not a validated result. Keep the pretrained baseline unless a candidate improves held-out results.
+
+## Detector comparison
+
+**Added:** 7 November 2026, 18:20 America/New_York (23:20 UTC), Carter.
+
+`python -m evaluation.compare_models --tuned path/to/best.pt` scores detectors on the 60 human-reviewed test frames and writes [model_comparison.md](./model_comparison.md) and its JSON. Both models are compared on coarse classes (car, truck, bus, motorcycle); the tuned model is also scored on its seven classes, with a check of single-frame Tesla calls at 85% confidence. Boxes under 25 px are ignored on both sides, matching the labeling rule. Settings: image size 1280, confidence 0.25, IoU 0.5.
+
+Pretrained `yolo11s.pt` baseline on CPU: any-vehicle precision 94%, recall 86%. Its truck precision is 21%, because 83 labeled cars, mostly SUVs, were called trucks. Training labels came mostly from pretrained draft boxes and AI-assisted truck classification; only the test frames are fully human-reviewed (see `data/raw/reviewed/provenance.json`, not committed).

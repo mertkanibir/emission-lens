@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:20 America/New_York (23:20 UTC)
+
+- **Who:** Carter
+- **Done:** Merged Carter's and Mert's Label Studio test exports and built the training dataset (280 train, 60 validation, 60 human-reviewed test frames). Added `evaluation/compare_models.py`, which scores pretrained and fine-tuned detectors on the test frames, and recorded the pretrained baseline in `evaluation/model_comparison.md`.
+- **Completed:** 89 Python tests pass after restoring the CARB files with LF endings under Mert's `.gitattributes`. Pretrained baseline: any-vehicle precision 94%, recall 86%; truck precision 21%, mostly SUVs called trucks.
+- **Still open:** Mert's training run on Empire AI. The tuned model's comparison runs once `best.pt` arrives. Training has no tractor-trailer examples and few Tesla, box-truck, and motorcycle examples.
+
 ### 7 November 2026, 18:12 America/New_York (23:12 UTC)
 
 - **Who:** Mert
