@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:40 America/New_York (23:40 UTC)
+
+- **Who:** Carter
+- **Done:** Added `python -m worker.draw_geometry <camera>`, a click tool that draws a camera's road region, parking exclusions, and counting gates on a frame from its recorded clip, shows each gate's positive side, and saves `config/cameras/<id>.measurement.json` for Mert's `MetricsConfig`. Set aside Carter's duplicate slice 4 worker in favour of Mert's runtime. Mert's training job is running on an H100 MIG 1g.10gb slice.
+- **Completed:** 167 Python tests pass. The tool validates with the worker's own `MetricsConfig.from_dict` before saving, saves only as disabled and unvalidated, and its `+` arrow matches the worker's signed-distance direction. Frames load from all four recorded clips.
+- **Still open:** Carter draws the four cameras. Counts then need checking against manual crossing counts on held-out clip time before any camera is marked reviewed and enabled. Mert's worker assigns camera-minutes by receipt time, which bursty HLS delivery and the opening backlog distort; a media-time anchor was proposed to Mert.
+
 ### 7 November 2026, 18:35 America/New_York (23:35 UTC)
 
 - **Who:** Mert
