@@ -149,7 +149,7 @@ export function OverviewBoard({
         className="metric-grid overview-metrics"
         aria-label={`Selected camera ${selectedId} summary`}
       >
-        <section className="summary-card summary-featured">
+        <section className="summary-card summary-featured summary-card--crossings">
           <div className="summary-label">
             <span>Line crossings</span>
             <Car size={19} />
@@ -162,7 +162,7 @@ export function OverviewBoard({
             {mode === "synthetic" ? "synthetic sample" : "reporting hour"}
           </span>
         </section>
-        <section className="summary-card">
+        <section className="summary-card summary-card--queue">
           <div className="summary-label">
             <span>Queue count</span>
             <VideoCamera size={19} />
@@ -174,7 +174,7 @@ export function OverviewBoard({
             An image-based observation, not length
           </span>
         </section>
-        <section className="summary-card">
+        <section className="summary-card summary-card--emissions">
           <div className="summary-label">
             <span>Estimated CO₂</span>
             <Cloud size={19} />
@@ -191,7 +191,7 @@ export function OverviewBoard({
               : "Awaiting valid road calibration"}
           </span>
         </section>
-        <section className="summary-card">
+        <section className="summary-card summary-card--coverage">
           <div className="summary-label">
             <span>Recorded minutes</span>
             <Clock size={19} />
@@ -453,7 +453,7 @@ export function OverviewBoard({
               </span>
             </div>
           </section>
-          <section className="selection-card">
+          <section className="selection-card" key={`evidence-${selectedId}`}>
             <header>
               <span className="section-kicker">
                 In focus · Camera {selectedId}
@@ -499,7 +499,7 @@ export function OverviewBoard({
               Explore intersection <ArrowRight size={16} />
             </Link>
           </section>
-          <section className="class-card">
+          <section className="class-card" key={`classes-${selectedId}`}>
             <header>
               <h2>Vehicle mix</h2>
               <Car size={17} />

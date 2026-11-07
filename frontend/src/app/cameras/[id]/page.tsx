@@ -251,14 +251,14 @@ export default async function CameraPage({
           ))}
         </nav>
         <div className="metric-grid">
-          <article className="summary-card">
+          <article className="summary-card summary-card--crossings">
             <span className="section-kicker">Line crossings</span>
             <strong>
               <Quantity value={traffic.totals.count} digits={0} />
             </strong>
             <p>Unique crossings, never frame detections.</p>
           </article>
-          <article className="summary-card">
+          <article className="summary-card summary-card--traversals">
             <span className="section-kicker">Completed traversals</span>
             <strong>
               <Quantity
@@ -268,7 +268,7 @@ export default async function CameraPage({
             </strong>
             <p>Vehicles that completed the observed segment.</p>
           </article>
-          <article className="summary-card">
+          <article className="summary-card summary-card--queue">
             <span className="section-kicker">Queue count</span>
             <strong>
               <Quantity
@@ -279,7 +279,7 @@ export default async function CameraPage({
             </strong>
             <p>Image-based observation; distance is separate.</p>
           </article>
-          <article className="summary-card">
+          <article className="summary-card summary-card--coverage">
             <span className="section-kicker">Recorded-minute coverage</span>
             <strong>
               {traffic.totals.coverage === null ? (

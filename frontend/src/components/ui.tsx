@@ -1,6 +1,7 @@
 import { Leaf } from "@phosphor-icons/react/dist/ssr";
 import type { CameraState, QualityState } from "@emission-lens/contracts";
-import { formatNumber, qualityLabel, stateLabel } from "@/lib/format";
+import { qualityLabel, stateLabel } from "@/lib/format";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
 
 /** Three-lamp signal head: green lit for live, amber for degraded, unlit for offline. */
 export function SignalHead({
@@ -50,7 +51,7 @@ export function Quantity({
   if (value === null) return <span className="q-null">{unavailable}</span>;
   return (
     <span className="q">
-      {formatNumber(value, digits)}
+      <AnimatedNumber value={value} digits={digits} />
       {unit ? <span className="q-unit">{unit}</span> : null}
     </span>
   );

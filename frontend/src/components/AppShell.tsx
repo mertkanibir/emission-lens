@@ -107,7 +107,7 @@ export function AppShell({
             suppressHydrationWarning
             data-menu
             className="sidebar-cameras"
-            open={section === "camera"}
+            data-active={section === "camera"}
           >
             <summary aria-label="Camera network" title="Camera network">
               <VideoCamera size={20} />

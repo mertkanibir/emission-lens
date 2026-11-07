@@ -24,13 +24,13 @@ function softenStyle(style: StyleSpecification): StyleSpecification {
       if (layer.type === "background")
         return {
           ...layer,
-          paint: { ...layer.paint, "background-color": "#eef0e4" },
+          paint: { ...layer.paint, "background-color": "#f6f0e4" },
         };
       if (layer.type !== "fill") return layer;
       const color = /water/i.test(layer.id)
-        ? "#cbded8"
+        ? "#d2e2dc"
         : /park|wood|grass|landcover/i.test(layer.id)
-          ? "#cbdcb8"
+          ? "#d5e1bf"
           : null;
       if (!color) return layer;
       const paint = { ...layer.paint, "fill-color": color };
@@ -195,7 +195,7 @@ export function CameraMap({
     if (camera)
       mapRef.current?.easeTo({
         center: [camera.longitude, camera.latitude],
-        duration: motionAllowed() ? 500 : 0,
+        duration: motionAllowed() ? 650 : 0,
       });
   }, [ready, selectedId]);
 
