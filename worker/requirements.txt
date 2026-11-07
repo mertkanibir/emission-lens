@@ -1,0 +1,7 @@
+# Verified on Python 3.12 (Windows, CPU). Re-check on the Empire AI node before relying on it there.
+# torch comes in through ultralytics, so each machine installs the build that suits it.
+ultralytics==8.4.206
+opencv-python==5.0.0.93
+lap==0.5.14
+PyYAML==6.0.3
+pytest==9.2.0
