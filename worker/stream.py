@@ -31,7 +31,7 @@ class Frame:
     session: int  # Goes up on every reconnect; media time restarts with it.
     sequence: int
     media_time_s: float
-    received_at: datetime  # Arrival time, not capture time. The stream has no capture time.
+    received_at: datetime  # Arrival time. Capture time exists only as text burned into the image.
     image: np.ndarray
 
 
@@ -125,7 +125,7 @@ class StreamReader(threading.Thread):
         super().__init__(name=f"stream-{camera.id}", daemon=True)
         self.camera = camera
         self.target_fps = target_fps
-        self.frames = FrameBuffer(int(target_fps * BUFFER_SECONDS))
+        self.frames = FrameBuffer(max(1, int(target_fps * BUFFER_SECONDS)))
         self._open_stream = open_stream
         self._clock = clock
         self._backoff = backoff or Backoff()

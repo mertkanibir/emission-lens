@@ -118,6 +118,12 @@ def test_buffer_drops_the_oldest_frame_when_full():
     assert [buffer.get(0), buffer.get(0), buffer.get(0)] == ["b", "c", None]
 
 
+def test_slow_sampling_still_has_room_for_a_frame():
+    reader = run_reader([FakeCapture([0.0])], target_fps=0.05)
+    assert len(drain(reader)) == 1
+    assert reader.status().frames_dropped == 0
+
+
 def test_frames_keep_media_time_and_order():
     reader = run_reader([FakeCapture([0.0, 0.2, 0.4])])
     frames = drain(reader)

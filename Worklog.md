@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 15:24 America/New_York (20:24 UTC)
+
+- **Who:** Carter
+- **Done:** Added `worker/collect_frames.py` to save spaced-out labeling frames into the git-ignored `data/raw/frames/` folder. Fixed the reader buffer size at slow sampling rates. Moved fine-tuning forward with Mert: Mert trains on Empire AI and updates the contract.
+- **Completed:** 24 tests pass. A one-minute live run saved frames from all four cameras. Agreed classes: car, pickup, box_truck, tractor_trailer, bus, motorcycle, and tesla. A Tesla below 85% confidence is reported as car.
+- **Still open:** Contract classes need updating by Mert. The 85% threshold needs checking on held-out frames. Pretrained YOLO stays the fallback unless the tuned model wins on held-out frames. CARB factors are still missing.
+
 ### 7 November 2026, 15:20 America/New_York (20:20 UTC)
 
 - **Who:** Mert
