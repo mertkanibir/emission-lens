@@ -13,6 +13,7 @@ from worker.dataset import (
     choose_frames,
     label_errors,
     label_line,
+    merge_exports,
     split_by_time,
     write_draft,
 )
@@ -161,3 +162,63 @@ def test_build_rejects_a_class_name_outside_the_training_classes(tmp_path):
     (draft / "classes.txt").write_text("sedan\n", encoding="utf-8")
     with pytest.raises(DatasetError, match="unknown class sedan"):
         build_dataset(draft, tmp_path / "dataset")
+
+
+def make_reviewed(tmp_path, count=20):
+    """A reviewed folder like data/raw/reviewed: draft labels plus provenance."""
+    draft = make_draft(tmp_path, count=count)
+    (draft / "provenance.json").write_text("{}", encoding="utf-8")
+    return draft
+
+
+def write_export(path, stems, label="1 0.5 0.5 0.1 0.1\n", classes="bus\ncar\ntesla\n"):
+    """A Label Studio YOLO export: alphabetical classes.txt plus one label file per frame."""
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr("classes.txt", classes)
+        for stem in stems:
+            archive.writestr(f"labels/{stem}.txt", label)
+    return path
+
+
+def held_out_stems(reviewed):
+    images = sorted((reviewed / "images").glob("*.jpg"))
+    return [image.stem for image in split_by_time(images)["test"]]
+
+
+def test_build_refuses_until_every_test_frame_is_human_reviewed(tmp_path):
+    reviewed = make_reviewed(tmp_path)
+    with pytest.raises(DatasetError, match="not reviewed by a person"):
+        build_dataset(reviewed, tmp_path / "dataset")
+    stems = held_out_stems(reviewed)
+    merge_exports(reviewed, [write_export(tmp_path / "a.zip", stems[:1])])
+    with pytest.raises(DatasetError, match="not reviewed by a person"):
+        build_dataset(reviewed, tmp_path / "dataset")
+    result = merge_exports(reviewed, [write_export(tmp_path / "b.zip", stems[1:])])
+    assert result["still_missing"] == 0
+    build_dataset(reviewed, tmp_path / "dataset")
+
+
+def test_merge_renumbers_export_classes_into_draft_order(tmp_path):
+    reviewed = make_reviewed(tmp_path)
+    stem = held_out_stems(reviewed)[0]
+    merge_exports(reviewed, [write_export(tmp_path / "a.zip", [stem])])
+    saved = (reviewed / "labels" / f"{stem}.txt").read_text(encoding="utf-8")
+    assert saved.split()[0] == str(DRAFT_CLASSES.index("car"))
+
+
+def test_merge_rejects_a_frame_outside_the_test_set(tmp_path):
+    reviewed = make_reviewed(tmp_path)
+    train_stem = sorted(p.stem for p in (reviewed / "images").glob("*.jpg"))[0]
+    with pytest.raises(DatasetError, match="not a test frame"):
+        merge_exports(reviewed, [write_export(tmp_path / "a.zip", [train_stem])])
+
+
+def test_merge_writes_nothing_when_any_label_is_bad(tmp_path):
+    reviewed = make_reviewed(tmp_path)
+    good, bad = held_out_stems(reviewed)[:2]
+    before = (reviewed / "labels" / f"{good}.txt").read_text(encoding="utf-8")
+    write_export(tmp_path / "good.zip", [good])
+    write_export(tmp_path / "bad.zip", [bad], classes="car\nneeds_review\n")
+    with pytest.raises(DatasetError, match="still needs review"):
+        merge_exports(reviewed, [tmp_path / "good.zip", tmp_path / "bad.zip"])
+    assert (reviewed / "labels" / f"{good}.txt").read_text(encoding="utf-8") == before
