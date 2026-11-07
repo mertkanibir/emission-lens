@@ -1,7 +1,16 @@
 # Evaluation
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 15:55 America/New_York (20:55 UTC)
+**Updated:** 7 November 2026, 18:55 America/New_York (23:55 UTC)
+
+## Current evidence index — 7 November 2026, 18:55 America/New_York / 23:55 UTC
+
+- [HLS media-clock alignment](./timing-alignment.md): per-session minimum-offset clock, earlier-observation rebins, ordered retractions, and the [204-frame live timing check](./hls-clock-20261107.json). A 25.060645-second anchor improvement is not a capture-latency measurement. [Timing CI](https://github.com/mertkanibir/emission-lens/actions/runs/42427132206) passed; capture UTC remains unavailable.
+- [Four-camera CUDA benchmark](./empire-ai-175627-benchmark.json) and [local delivery](./empire-ai-175627-delivery.json): bounded performance, persisted status and matching previews; frame drops and limits are recorded.
+- [Fine-tuning comparison](./empire-ai-175644-comparison.md) and [training provenance](./empire-ai-175644-training.json): completed training, underperforming candidate, no model promotion.
+- [Geometry/calibration guide](./calibration-guide.md): configured-image review and independent physical calibration remain necessary before claiming validated traffic metrics or emissions.
+
+The dated sections below retain their original run settings and limitations. The 50-frame smoke test is an earlier experiment, not the full current project status.
 
 ## Empire AI GPU smoke test
 
@@ -68,7 +77,7 @@ Model attribution and API references: [Ultralytics YOLO11](https://docs.ultralyt
 
 ## Fine-tuning handoff
 
-Mert owns GPU execution. Carter’s frame collector is available, but raw frames alone do not provide supervised training labels. Before training, prepare reviewed boxes/classes, separate training and held-out footage, and agree on any incompatible class-contract changes. The proposed pickup, box truck, tractor trailer, and Tesla classes are not supplied by this pretrained model. Carter’s proposed 85% Tesla threshold is not a validated result. Keep the pretrained baseline unless a candidate improves held-out results.
+Mert owns GPU execution. Job 175644 has completed and its candidate was not promoted; the comparison and provenance are linked above. Future iterations still need reviewed boxes/classes, independent held-out footage, adequate rare-class coverage, and agreement before incompatible contract changes. Contract 1.1 supports pickup, box truck, tractor trailer and Tesla labels; pretrained weights do not supply those refinements. The three-frame 85% Tesla rule remains unvalidated. Keep the working pretrained model unless a candidate improves held-out results.
 
 ## Detector comparison
 

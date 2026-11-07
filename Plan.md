@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. Configured crossing observations, valid road calibration, approved class mappings, calibrated traversals, held-out accuracy and hosted shared persistence remain open.
+**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. Estimated HLS media-clock alignment and a held-out detector comparison are recorded; the tuned candidate was not promoted. Validated crossing/tracking observations, road calibration, class mappings, calibrated traversals and hosted shared persistence remain open.
 
 ---
 
@@ -152,7 +152,7 @@ GPU slices have separate memory allocations; two slices do not automatically bec
 
 **Fallback transport:** Laptop ingests streams and relays timestamped compressed batches to the allocated worker using an available authenticated connection.
 
-Direct Caltrans access, the installed detector environment, and one-camera GPU inference were verified on a compute node. Sustained processing, relay bandwidth, installed modules beyond this environment, and inbound networking remain unverified. Do not assume a public GPU HTTP endpoint is available.
+Direct Caltrans access, four-camera GPU processing, and loopback-only SSH delivery to a local dashboard are verified for the bounded runs documented above. Long-duration operation, forced-outage recovery and a hosted delivery path remain unverified. No public GPU HTTP endpoint is required by the verified local relay.
 
 **GPU verification note (7 November 2026, 15:55 America/New_York / 20:55 UTC):** Mert runs GPU work on his account. Job `175330` on `alphagpu01` processed 50 advancing live frames from camera 222 with pretrained YOLO11n on an H100 MIG `1g.10gb` device. The verified allocation uses account `rpicourse` and QOS `normal`; an explicit account is required. All 39 Python tests passed there after integrating Carter’s detector and dataset tools. See `evaluation/README.md` and `evaluation/empire-ai-175330.json`. This is a smoke test, with 27 bounded-buffer drops; it does not establish sustained throughput, accuracy, or dashboard delivery. Fine-tuning awaits labeled images and held-out evaluation. Custom-class contract changes remain a separate proposal before implementation.
 
@@ -173,9 +173,11 @@ If live remote processing is blocked, retain a working local pipeline and use Em
 #SBATCH -J emission-lens
 #SBATCH -o %x-%j.out
 
-# Load the verified environment here.
+# Activate Mert's verified compute-node environment.
+source "${EMISSION_LENS_VENV:-$HOME/emission-lens-py312}/bin/activate"
 nvidia-smi -L
-python -m worker.main
+python -m worker.main --require-cuda --device 0 --seconds 300 \
+  --output "runs/worker-${SLURM_JOB_ID}.json"
 ```
 
 The Python entry point above is implemented; `infra/worker.slurm` supplies the bounded runnable job. The account and QOS above are Mert’s verified hackathon settings; other accounts must check their own associations. The runnable GPU smoke-test command is documented in `evaluation/README.md`.
@@ -439,7 +441,7 @@ A delayed detection overlay must not be drawn over unrelated current video.
 
 ## 14. Shared data contract
 
-**Integration note (7 November 2026, 18:18 America/New_York / 23:18 UTC):** The additive worker transport carries version 1.1 records in authenticated, revisioned batches. Local single-host persistence and server read routes are implemented. Capture UTC remains null when unavailable; processing freshness uses advancing-frame heartbeats. A hosted database adapter and actual GPU-to-dashboard verification remain separate checks.
+**Integration note (7 November 2026, 18:18 America/New_York / 23:18 UTC):** The additive worker transport carries version 1.1 records in authenticated, revisioned batches. Local single-host persistence and server read routes are implemented. Capture UTC remains null when unavailable; processing freshness uses advancing-frame heartbeats. Local GPU-to-dashboard status/preview delivery was subsequently verified in job 175627; a hosted shared database adapter remains open.
 
 **Contract version:** `1.1`
 
@@ -633,11 +635,13 @@ Do not claim deployment to NYSDOT or Binghamton. Describe that as a possible fut
 
 ## 21. Immediate unresolved items
 
+**Status reconciliation (7 November 2026, 18:55 America/New_York / 23:55 UTC):** Mert synchronized these remaining items with the delivered worker, timing correction, factor catalog and evaluation records. Fine-tuning completed with no candidate promotion; validated traffic/emissions and hosted deployment remain open. See [timing alignment](./evaluation/timing-alignment.md) and [evaluation](./evaluation/README.md).
+
 1. Confirm visual-to-CARB class mappings; the scoped RUNEX factor table is acquired and validated (7 November 2026, 16:25 America/New_York / 21:25 UTC).
 2. Extend the bounded four-camera GPU/delivery verification to long-duration operation and forced-failure recovery; the 120-second benchmark and local authenticated delivery are verified.
 3. Loopback-only SSH forwarding is verified for local delivery; a hosted shared persistence adapter remains required for deployment.
 4. Configure and validate each camera’s road region and gates.
-5. Finalize schemas and service ownership.
+5. Keep contract 1.1 validation and local persistence aligned while adding a hosted shared-store adapter.
 6. Four-camera bounded performance is recorded; evaluate longer runs, dropped-frame effects and held-out tracking accuracy.
 7. Select the minimum contextual layer that adds demonstrated value.
 

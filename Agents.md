@@ -6,7 +6,7 @@ Guidance for coding agents and teammates working in this repository.
 
 **Coordination:** Mert coordinates project decisions, data/product/dashboard work, and implementation agents. Carter’s proposed ownership is vision and emissions unless the team changes that.
 
-**Last updated:** 7 November 2026, 14:58 America/New_York (19:58 UTC). Pushes must use the mertkanibir or CarterWhite8232 GitHub account.
+**Last updated:** 7 November 2026, 18:55 America/New_York (23:55 UTC). Pushes must use the mertkanibir or CarterWhite8232 GitHub account.
 
 ---
 
@@ -150,12 +150,14 @@ The every-turn rules above are mandatory. In addition, every completion report s
 
 ## Immediate unresolved items (from Plan.md)
 
-1. Obtain usable CARB factors and confirm class/process mappings.
-2. Verify Empire AI environment, networking, and sustained inference.
-3. Choose relay transport if required.
-4. Configure and validate each camera’s road region and gates.
-5. Finalize schemas and service ownership.
-6. Benchmark four-camera performance.
+**Status note (7 November 2026, 18:55 America/New_York / 23:55 UTC):** Mert reconciled this summary with completed factor acquisition, bounded four-camera GPU delivery, fine-tuning evaluation and media-clock alignment. Ownership and hard product rules are unchanged.
+
+1. Confirm visual-to-CARB class mappings; the scoped RUNEX factor table is acquired and validated.
+2. Extend bounded GPU/delivery checks to longer operation and forced-outage recovery.
+3. Add shared hosted persistence; loopback-only SSH relay is verified locally.
+4. Draw and review actual camera road regions/gates, check held-out crossings, and independently validate physical calibration. The drawing tool saves disabled/unvalidated geometry.
+5. Keep contract 1.1 validation and local persistence aligned with any hosted-store adapter.
+6. Evaluate dropped-frame effects and held-out traffic/tracking accuracy. Fine-tuning completed, underperformed the pretrained comparator and was not promoted.
 7. Select the minimum contextual layer that adds demonstrated value.
 
 ---

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:55 America/New_York (23:55 UTC)
+
+- **Who:** Mert
+- **Done:** Reconciled the root README, master plan, agent status summary, contracts, backend/ingestion, frontend and evaluation Markdown with completed HLS timing integration and current GPU/training evidence. Added discoverable timing links, estimated-versus-capture semantics, empty-revision retractions, mixed-basis notes and remaining blockers. Corrected the master plan's worker command to include the required output path and verified compute environment. Historical run/worklog results remain dated records.
+- **Completed:** Documentation now distinguishes local GPU status/previews from hosted deployment and validated traffic/emissions, and records that fine-tuning completed without promotion. Checked local documentation targets, evidence/provenance references, runnable CLI flags and whitespace. No runtime, schema or scientific-model change in this documentation pass.
+- **Still open:** Actual image-geometry review, held-out traffic validation, independent physical calibration, visual-to-CARB mappings, extended outage/reliability checks and shared hosted persistence. Capture UTC and validated coverage remain unavailable. Concurrent dashboard edits are preserved.
+
 ### 7 November 2026, 18:49 America/New_York (23:49 UTC)
 
 - **Who:** Mert

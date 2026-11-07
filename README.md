@@ -18,11 +18,13 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
-**Updated: 7 November 2026, 18:30 America/New_York / 23:30 UTC.** Mert demonstrated four-camera CUDA tracking and delivery to the local dashboard on Empire AI job `175627`. A 90-second run delivered 18 persisted batches and 47 temporary annotated previews, with no pending uploads; shutdown correctly marked cameras offline. A separate 120-second benchmark processed 2,655 frames across four cameras and recorded 82 buffer drops across two cameras. This is bounded performance evidence, not evaluated accuracy or capture-to-dashboard latency.
+**Updated: 7 November 2026, 18:55 America/New_York / 23:55 UTC.** Mert demonstrated four-camera CUDA tracking and delivery to the local dashboard on Empire AI job `175627`. A 90-second run delivered 18 persisted batches and 47 temporary annotated previews, with no pending uploads; shutdown correctly marked cameras offline. A separate 120-second benchmark processed 2,655 frames across four cameras and recorded 82 buffer drops across two cameras. This is bounded performance evidence, not evaluated accuracy or capture-to-dashboard latency.
 
 Implemented: per-camera ingestion/tracking, authenticated delivery with restartable retries, validated contract 1.1 records, a durable local store, live/replay/synthetic isolation, synchronized expiring previews, dashboard/history/scenarios/briefs, and 1,296 traceable CARB running-exhaust factors. An optional image-gate metrics engine is available but **no real camera geometry is enabled**. Crossing counts, calibrated traversals, speeds and live emissions remain unavailable until their required evidence exists.
 
-The file store supports one persistent host. Hosted shared persistence and deployment remain open. Reviewed labels and held-out comparison gate model promotion; the pretrained model remains the fallback. No accuracy, measured air quality or environmental-savings claim is established.
+Camera-minutes now use a session-local **estimated HLS media clock**, with rebucketing and explicit revisions when startup backlog improves the time alignment. Capture UTC remains unavailable. The [timing record](./evaluation/timing-alignment.md) documents the method, live check and remaining limitations.
+
+The file store supports one persistent host. Hosted shared persistence and deployment remain open. Fine-tuning job `175644` completed, but its candidate underperformed pretrained YOLO11s in the [held-out comparison](./evaluation/empire-ai-175644-comparison.md) and was not promoted. Runtime model selection is unchanged. Validated traffic counts, measured air quality and environmental savings are not established.
 
 See [GPU evidence](./evaluation/README.md), [worker setup](./worker/README.md), [ingestion](./backend/INGESTION.md), [Plan.md](./Plan.md), [Agents.md](./Agents.md) and [Worklog.md](./Worklog.md).
 
