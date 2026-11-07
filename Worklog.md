@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 15:20 America/New_York (20:20 UTC)
+
+- **Who:** Mert
+- **Done:** Redesigned the dashboard as a dark map console. The overview now has a camera list, a map with signal-head markers, the selected camera's evidence, and a system-check log built from stored records. The camera detail, review, and brief pages use the same design system. A single mode strip labels live, replay, and synthetic data on every page. The map switches between vehicle activity and modeled emissions. The brief can be saved as a local text file and is never sent. A stopped-time reduction outside 0 to 100 in the URL no longer crashes the camera or brief page. Twelve untracked frontend files ending in " 2" were moved to `../emission-lens-duplicate-backup/`. Each was byte-identical to a committed file, and two of them broke the type check.
+- **Completed:** The frontend build passes and the 14 backend tests pass. Overview, camera detail, review, and brief were checked in a browser at 1440, 1187, and 390 px wide. Live, replay, and synthetic modes were all checked. Unavailable values never display as zero.
+- **Still open:** The video panel still has no frame source, and road regions and gates are not drawn because they are not configured. The console does not read Carter's worker status yet. The other " 2" duplicates in `backend/`, `contracts/`, and the root are untouched, and some of them differ from the committed files. `next dev` generates an untracked `frontend/AGENTS.md`, which was left uncommitted.
+
 ### 7 November 2026, 15:08 America/New_York (20:08 UTC)
 
 - **Who:** Carter
