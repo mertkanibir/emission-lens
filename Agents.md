@@ -6,7 +6,7 @@ Guidance for coding agents and teammates working in this repository.
 
 **Coordination:** Mert coordinates project decisions, data/product/dashboard work, and implementation agents. Carter’s proposed ownership is vision and emissions unless the team changes that.
 
-**Last updated:** 7 November 2026, 14:40 America/New_York (19:40 UTC). Named Mert and Carter on each work package. Mert’s packages now have a first implementation.
+**Last updated:** 7 November 2026, 14:55 America/New_York (19:55 UTC). Mert’s commits in this repository use the mertkanibir GitHub email.
 
 ---
 
@@ -33,6 +33,10 @@ If `Plan.md`, this file, `README.md`, or a package document changed status or in
 Repository files, commit messages, pull requests, dashboard copy, briefs, and messages to teammates name **Mert** and **Carter** only.
 
 Do not name the coding tool or model. That includes Codex, Claude, Cursor, GPT, Gemini, and similar product names. Do not sign work as an assistant, bot, or tool. When a note needs an author, use Mert or Carter, matching who directed or owns that work. Mert coordinates implementation. Carter owns the proposed vision and emissions work unless the team changes that.
+
+Mert’s commits in this repository use `Mert Kanıbir <231364752+mertkanibir@users.noreply.github.com>`. Do not commit as `ascendoteam@gmail.com`. Carter’s commits stay on Carter’s own email.
+
+Do not add a `Co-authored-by` or `Made-with` trailer for a tool or model. That trailer is what adds a tool account to the GitHub contributors list.
 
 ### 3. Push when nothing looks broken
 

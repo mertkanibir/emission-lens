@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 14:55 America/New_York (19:55 UTC)
+
+- **Who:** Mert
+- **Done:** Rewrote Mert’s commits so the author email is the mertkanibir GitHub address. Left Carter’s gitignore commit authored by Carter. Recorded that email in `Agents.md` so later commits do not use `ascendoteam@gmail.com`.
+- **Completed:** Current history no longer uses the ascendoteam email, and current commit messages have no tool co-author trailer.
+- **Still open:** GitHub can keep a removed commit available by its old id, so an extra contributor avatar may linger until GitHub refreshes that list. Carter should reset local `main` onto this rewritten history before pushing again.
+
 ### 7 November 2026, 14:40 America/New_York (19:40 UTC)
 
 - **Who:** Mert
