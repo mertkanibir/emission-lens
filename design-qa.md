@@ -1,7 +1,7 @@
 # Interface verification
 
 **Who:** Mert  
-**Updated:** 7 November 2026, 17:26 America/New_York / 22:26 UTC
+**Updated:** 7 November 2026, 18:22 America/New_York / 23:22 UTC
 
 **Current visual target:** the latest user-provided tan/green palette, applied to the earlier logistics/travel dashboard composition. Bold typography, distinguishable metric categories, environmental imagery, and purposeful motion are the requested direction.
 
@@ -37,3 +37,11 @@ No live worker, synchronized video, valid camera calibration, loaded contextual 
 No actionable P0/P1/P2 visual or interaction findings remain in the requested scope.
 
 final result: passed
+
+## Worker-loading regression — 7 November 2026, 18:22 America/New_York / 23:22 UTC
+
+Mert reproduced the map's “Worker failed to load” overlay at `/?camera=222` after the MapLibre 6.17.0 upgrade. The split ESM worker's inferred sibling URL does not survive bundling correctly. `CameraMap.tsx` now sets an explicit literal worker URL with `new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url)` before constructing the map. Next emits the matching worker as a local hashed asset; no separate CDN or manually copied worker is required.
+
+Verification: `npm run build` passes. The production worker responds with HTTP 200 and JavaScript MIME, and its SHA-256 matches the installed distribution. Fresh development and production browser loads render actual streets and four markers with no warnings/errors or map fallback. Zoom, fit, camera selection, detail navigation, and map remounts work. The original browser is reloaded at `http://localhost:3000/?camera=222`; proof is `/tmp/emission-lens-ui/map-worker-fixed.jpg`.
+
+This fix does not alter telemetry, calculations, contracts, or the tan/green design. Map tiles still require the external geographic provider. Concurrent integration work remains outside this change.

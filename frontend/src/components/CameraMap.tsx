@@ -73,6 +73,10 @@ export function CameraMap({
   useEffect(() => {
     const element = container.current;
     if (!element) return;
+    // Emit the matching worker as a local asset; its default sibling URL is lost during bundling.
+    maplibregl.setWorkerUrl(
+      new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).href,
+    );
     const controller = new AbortController();
     let map: maplibregl.Map | null = null;
     let observer: ResizeObserver | null = null;
