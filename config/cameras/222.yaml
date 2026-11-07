@@ -1,0 +1,6 @@
+id: "222"
+name: SR-107 at Carson Boulevard
+latitude: 33.83135
+longitude: -118.35286
+stream_url: https://wzmedia.dot.ca.gov/D7/CCTV-222.stream/playlist.m3u8
+enabled: true

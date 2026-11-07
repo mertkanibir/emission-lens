@@ -1,0 +1,6 @@
+id: "220"
+name: SR-1 at Crenshaw Boulevard
+latitude: 33.79214
+longitude: -118.3335
+stream_url: https://wzmedia.dot.ca.gov/D7/CCTV-220.stream/playlist.m3u8
+enabled: true

@@ -26,6 +26,14 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Started Mert’s packages: contract 1.0 types and fixtures, a Postgres draft, the read API, the dashboard, and the investigation brief. Named Mert and Carter on the work-package table. Left Carter’s vision and emissions paths untouched.
 - **Completed:** Live, replay, and synthetic modes stay separate. Empty emissions stay unavailable rather than zero. The dashboard shows four cameras, stale versus offline status, a shorter-stop scenario without invented grams, an empty review queue, and a draft brief that is not sent. Backend checks pass, and the dashboard build passes.
 - **Still open:** No worker heartbeat, no valid calibration, no CARB factor table, no hosted database, and no GPU run. Queue length in metres and speed stay suppressed. The synthetic minute is only a labeled sample.
+### 7 November 2026, 14:44 America/New_York (19:44 UTC)
+
+- **Who:** Carter
+- **Done:** Added pinned worker dependencies, config files for cameras 220, 222, 223, and 228, and a validating config loader with tests. Checked coordinates and stream URLs against the Caltrans D7 metadata.
+- **Completed:** 10 config tests pass on Python 3.12. All four configured streams opened and decoded a 1280 x 720 frame through OpenCV on Carter's laptop, with nothing saved. Carter now has push access.
+- **Still open:** Dependencies are unverified on the Empire AI node, and the GPU test is with Mert. Road regions and gates are not configured yet. Continuous ingestion is the next slice.
+
+---
 
 ### 7 November 2026, 14:34 America/New_York (19:34 UTC)
 
