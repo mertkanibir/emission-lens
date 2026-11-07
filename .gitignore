@@ -1,0 +1,56 @@
+# Secrets and local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Media and local demo artifacts (never commit raw footage)
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.ts
+clips/
+footage/
+replay-local/
+data/raw/
+
+# Model weights (pin/download separately)
+*.pt
+*.pth
+*.onnx
+weights/
+models/weights/
+
+# Logs and job outputs
+*.log
+*-*.out
+slurm-*.out
