@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Camera access verified. Mert has a first dashboard and read API. GPU deployment, vision, and the factor table are not yet verified.
+**Status:** Camera access, ingestion, and a one-camera Empire AI GPU inference smoke test are verified. Mert has a fixture-backed dashboard and read API. Tracking, calibration, factors, sustained inference, and worker-to-dashboard delivery remain open.
 
 ---
 
@@ -150,7 +150,9 @@ GPU slices have separate memory allocations; two slices do not automatically bec
 
 **Fallback transport:** Laptop ingests streams and relays timestamped compressed batches to the allocated worker using an available authenticated connection.
 
-Compute-node internet access, relay bandwidth, installed modules, and inbound networking remain unverified. Test them immediately. Do not assume a public GPU HTTP endpoint is available.
+Direct Caltrans access, the installed detector environment, and one-camera GPU inference were verified on a compute node. Sustained processing, relay bandwidth, installed modules beyond this environment, and inbound networking remain unverified. Do not assume a public GPU HTTP endpoint is available.
+
+**GPU verification note (7 November 2026, 15:55 America/New_York / 20:55 UTC):** Mert runs GPU work on his account. Job `175330` on `alphagpu01` processed 50 advancing live frames from camera 222 with pretrained YOLO11n on an H100 MIG `1g.10gb` device. The verified allocation uses account `rpicourse` and QOS `normal`; an explicit account is required. All 39 Python tests passed there after integrating Carter’s detector and dataset tools. See `evaluation/README.md` and `evaluation/empire-ai-175330.json`. This is a smoke test, with 27 bounded-buffer drops; it does not establish sustained throughput, accuracy, or dashboard delivery. Fine-tuning awaits labeled images and held-out evaluation. Custom-class contract changes remain a separate proposal before implementation.
 
 If live remote processing is blocked, retain a working local pipeline and use Empire AI for genuine benchmark or training work. Disclose the actual architecture.
 
@@ -159,6 +161,8 @@ If live remote processing is blocked, retain a working local pipeline and use Em
 ```bash
 #!/bin/bash
 #SBATCH -p alpha
+#SBATCH --account=rpicourse
+#SBATCH --qos=normal
 #SBATCH --reservation=binghamton_hackathon
 #SBATCH --gres=gpu:1g.10gb:1
 #SBATCH -c 1
@@ -172,7 +176,7 @@ nvidia-smi -L
 python -m worker.main
 ```
 
-The Python entry point above is a proposed implementation interface.
+The Python entry point above is a proposed implementation interface. The account and QOS above are Mert’s verified hackathon settings; other accounts must check their own associations. The runnable GPU smoke-test command is documented in `evaluation/README.md`.
 
 Never put passwords, scratch codes, tokens, or personal credentials in this document, source control, logs, or shared prompts.
 
@@ -618,7 +622,7 @@ Do not claim deployment to NYSDOT or Binghamton. Describe that as a possible fut
 ## 21. Immediate unresolved items
 
 1. Obtain usable CARB factors and confirm class/process mappings.
-2. Verify Empire AI environment, networking, and sustained inference.
+2. Verify sustained Empire AI inference, delivery networking, and restarts; the environment and one-camera GPU smoke test are verified.
 3. Choose relay transport if required.
 4. Configure and validate each camera’s road region and gates.
 5. Finalize schemas and service ownership.

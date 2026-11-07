@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 15:55 America/New_York (20:55 UTC)
+
+- **Who:** Mert
+- **Done:** Reused an authenticated SSH connection for direct shell execution, cloned the repository into the Empire AI home directory, and installed the pinned worker packages into the existing compute-node Python 3.12 environment. Verified account `rpicourse`, QOS `normal`, and an H100 10 GB slice. Added `evaluation/gpu_smoke.py` and a diagnostic record, updated the master plan and README, and documented the reproducible allocation and inference commands. Pulled Carter’s frame-collector commit before testing, then integrated his detector/dataset commit and preserved both worklog entries when the initial push encountered newer remote work. No raw frames, weights, or credentials are committed.
+- **Completed:** Job `175330` processed 50 advancing live camera-222 frames with pretrained YOLO11n on CUDA. Median prediction wall time was 4.38 ms excluding warmup; 27 reader-buffer drops were observed, so no sustained-throughput claim is made. `python -m pip check` passed, all 24 initial Python tests passed on the compute node, all 39 tests passed there after integrating Carter’s latest commit, and all 14 backend tests passed locally. The smoke script checks the actual CUDA inference backend; its first attempt checked the CPU wrapper and was corrected before the passing run. The recorded script hash matches the tested file. The scheduler confirmed the job completed with exit `0:0`, and the GPU slice was released.
+- **Still open:** Labeled images and held-out splits are needed before fine-tuning. Proposed custom classes and the Tesla threshold need contract agreement and validation. Tracking, calibration, sustained four-camera inference, reconnect evaluation with detection, worker-to-dashboard delivery, and CARB factors remain open. The live dashboard still reads empty fixtures. No accuracy or emissions-savings claim was established.
+
 ### 7 November 2026, 15:46 America/New_York (20:46 UTC)
 
 - **Who:** Carter

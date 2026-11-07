@@ -18,7 +18,7 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
-Camera access was verified on 7 November 2026. As of 14:40 America/New_York (19:40 UTC), Mert’s packages have a contract, a fixture-backed read API, and a dashboard. Live mode stays offline until a worker heartbeat exists. Estimated emissions stay unavailable until a factor table is loaded. Carter’s vision worker and emissions factors are not started. Empire AI GPU deployment is not verified.
+**Status note (7 November 2026, 15:55 America/New_York / 20:55 UTC):** Mert verified pretrained vehicle detection on Empire AI using his account: YOLO11n processed 50 live frames from camera 222 on an H100 10 GB slice. The [evaluation record](./evaluation/README.md) includes the script, diagnostics, versions, and limitations. Carter’s ingestion, frame collector, detector wrapper, and labeling-dataset tools are implemented; all 39 Python tests passed on the compute node after integrating his latest commit. Mert’s dashboard still reads fixtures and is not connected to the worker. Tracking, calibration, CARB factors, and live emissions remain open. Fine-tuning needs reviewed labels and held-out evaluation; no reviewed dataset is available yet.
 
 See **[Plan.md](./Plan.md)** for the full master plan, **[Agents.md](./Agents.md)** for coding-agent work packages and rules, and **[Worklog.md](./Worklog.md)** for timestamped notes of completed work.
 

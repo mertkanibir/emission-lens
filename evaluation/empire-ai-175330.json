@@ -1,0 +1,63 @@
+{
+  "check": "single_camera_gpu_inference_smoke",
+  "mode": "live",
+  "camera_id": "222",
+  "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-222.stream/playlist.m3u8",
+  "started_at": "2026-11-07T20:50:49.975532+00:00",
+  "finished_at": "2026-11-07T20:51:01.394670+00:00",
+  "git_commit": "4cfee2e1f9f306618200fa7ce834b6cb178031d1",
+  "smoke_script_sha256": "1a8bb5f707640f3864305421af3548afa80aebcdc78ce10a30496433dc049f72",
+  "slurm_job_id": "175330",
+  "host": "alphagpu01",
+  "python": "3.12.3",
+  "packages": {
+    "torch": "2.7.1+cu128",
+    "torchvision": "0.22.1+cu128",
+    "ultralytics": "8.4.206",
+    "opencv-python": "5.0.0.93"
+  },
+  "cuda_runtime": "12.8",
+  "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+  "inference_backend_device": "cuda:0",
+  "model": "yolo11n.pt",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "inference_settings": {
+    "imgsz": 640,
+    "confidence": 0.25,
+    "device": "cuda:0",
+    "target_sampling_fps": 5
+  },
+  "frames": 50,
+  "warmup_frames_excluded": 1,
+  "frame_shape_hwc": [
+    720,
+    1280,
+    3
+  ],
+  "media_time_first_s": 5.666,
+  "media_time_last_s": 15.465,
+  "first_frame_received_at": "2026-11-07T20:50:52.418284+00:00",
+  "last_frame_received_at": "2026-11-07T20:50:52.974939+00:00",
+  "median_predict_wall_ms": 4.380218684673309,
+  "mean_predict_wall_ms": 5.242874957621098,
+  "peak_torch_allocated_mib": 56.1201171875,
+  "reader_state": "live",
+  "reader_session": 1,
+  "reader_frames_kept": 103,
+  "reader_frames_dropped": 27,
+  "detection_observations_by_class": {
+    "car": 662,
+    "motorcycle": 0,
+    "bus": 0,
+    "truck": 1
+  },
+  "limitations": [
+    "Smoke test only; no held-out accuracy or sustained four-camera throughput evaluation.",
+    "Repeated per-frame detections are observations, not unique vehicles or line crossings.",
+    "Prediction timings include preprocessing and postprocessing and exclude warmup; they are not capture-to-dashboard latency.",
+    "Capture UTC is not extracted; frame receipt UTC and relative media time are recorded separately.",
+    "No tracking, calibration, traffic aggregation, emissions calculation, or dashboard delivery is tested.",
+    "Pretrained classes do not establish pickup, box truck, tractor trailer, Tesla, or fuel type.",
+    "Raw frames and annotated imagery are not saved."
+  ]
+}
