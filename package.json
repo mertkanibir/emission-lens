@@ -1,0 +1,14 @@
+{
+  "name": "emission-lens",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "test": "npm test -w @emission-lens/backend",
+    "dev": "npm run dev -w @emission-lens/frontend",
+    "build": "npm run build -w @emission-lens/frontend"
+  }
+}

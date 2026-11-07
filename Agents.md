@@ -6,7 +6,7 @@ Guidance for coding agents and teammates working in this repository.
 
 **Coordination:** Mert coordinates project decisions, data/product/dashboard work, and implementation agents. Carter’s proposed ownership is vision and emissions unless the team changes that.
 
-**Last updated:** 7 November 2026, 14:28 America/New_York (19:28 UTC). Added every-turn logging, teammate attribution, and push rules.
+**Last updated:** 7 November 2026, 14:40 America/New_York (19:40 UTC). Named Mert and Carter on each work package. Mert’s packages now have a first implementation.
 
 ---
 
@@ -78,14 +78,14 @@ Stay inside your assigned directories unless coordination explicitly expands sco
 
 ## Work packages
 
-| Work package | Paths (typical) | Ownership | Acceptance |
+| Work package | Paths (typical) | Who | Acceptance |
 |---|---|---|---|
-| Contracts / backend | `contracts/`, `backend/` | Schema, migrations, APIs, access policies | Fixtures and real writes use the same validated contract |
-| Vision | `worker/`, `config/cameras/` | Ingestion, GPU detector, tracking, calibration, metrics | No frame-count inflation; reconnect and four-camera isolation work |
-| Emissions | `emissions/` | Factor table, mappings, units, uncertainty, scenarios | No ordinary-idle double-counting; calculations reproducible |
-| Frontend | `frontend/` | Map, details, timeline, simulator, review | Handles null, stale, replay, and degraded states |
-| Assistant | Assistant tools / brief generation (backend + frontend as agreed) | Evidence queries, brief generation | Numbers trace to records; no invented claims or sending tools |
-| Integration / evaluation | `tests/`, `evaluation/`, `infra/` | Complete flow, benchmarks, demo | Live GPU-to-dashboard path demonstrated and limitations recorded |
+| Contracts / backend | `contracts/`, `backend/` | Mert | Fixtures and real writes use the same validated contract |
+| Vision | `worker/`, `config/cameras/` | Carter | No frame-count inflation; reconnect and four-camera isolation work |
+| Emissions | `emissions/` | Carter | No ordinary-idle double-counting; calculations reproducible |
+| Frontend | `frontend/` | Mert | Handles null, stale, replay, and degraded states |
+| Assistant | Backend tools and the frontend brief | Mert | Numbers trace to records; no invented claims or sending tools |
+| Integration / evaluation | `tests/`, `evaluation/`, `infra/` | Mert coordinates; Carter covers vision and emissions checks | Live GPU-to-dashboard path demonstrated and limitations recorded |
 
 Agent messages are **proposals**, not automatic changes to project scope. Avoid broad rewrites of another work package.
 
