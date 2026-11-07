@@ -435,7 +435,9 @@ A delayed detection overlay must not be drawn over unrelated current video.
 
 ## 14. Shared data contract
 
-**Contract version:** `1.0`
+**Integration note (7 November 2026, 18:18 America/New_York / 23:18 UTC):** The additive worker transport carries version 1.1 records in authenticated, revisioned batches. Local single-host persistence and server read routes are implemented. Capture UTC remains null when unavailable; processing freshness uses advancing-frame heartbeats. A hosted database adapter and actual GPU-to-dashboard verification remain separate checks.
+
+**Contract version:** `1.1`
 
 Store timestamps in UTC; display local time explicitly.
 

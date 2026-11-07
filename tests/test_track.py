@@ -91,9 +91,74 @@ def test_tracker_keeps_state_within_a_session_and_resets_on_reconnect():
     model = FakeModel()
     tracker = CameraTracker(model=model)
     tracker.update(frame(1))
+    resets = []
+    model.predictor = SimpleNamespace(trackers=[SimpleNamespace(
+        reset=lambda: resets.append(True), tracked_stracks=[], lost_stracks=[],
+    )])
     tracker.update(frame(1))
+    assert resets == []
     tracker.update(frame(2))
-    assert [call["persist"] for call in model.calls] == [False, True, False]
+    assert resets == [True]
+    assert [call["persist"] for call in model.calls] == [True, True, True]
+
+
+def test_track_label_history_releases_expired_tracks_and_bounds_tesla_evidence():
+    labeler = TrackLabeler()
+    for _ in range(100):
+        labeler.add(1, detection("tesla", 0.9))
+    labeler.add(2, detection("bus"))
+    assert labeler.label(1) == "tesla"
+    assert len(labeler._tesla_evidence[1]) == 2
+    labeler.retain({2})
+    assert set(labeler._scores) == {2}
+    assert not labeler._tesla_evidence
+
+
+def test_real_bytetrack_callbacks_preserve_state_and_reset_on_reconnect():
+    """Use actual CPU callbacks and synthetic boxes; no model download needed."""
+    from collections import defaultdict
+    import torch
+    from ultralytics.engine.results import Results
+    from ultralytics.trackers import register_tracker
+
+    class SyntheticModel:
+        names = {2: "car"}
+
+        def __init__(self):
+            self.callbacks = defaultdict(list)
+            self.predictor = SimpleNamespace(
+                args=SimpleNamespace(mode="track", task="detect", tracker="bytetrack.yaml"),
+                dataset=SimpleNamespace(bs=1, mode="image"),
+                device=torch.device("cpu"),
+            )
+
+        def add_callback(self, event, callback):
+            self.callbacks[event].append(callback)
+
+        def track(self, image, **kwargs):
+            register_tracker(self, kwargs["persist"])
+            for callback in self.callbacks["on_predict_start"]:
+                callback(self.predictor)
+            self.predictor.results = [Results(
+                orig_img=image, path="synthetic-frame.jpg", names=self.names,
+                boxes=torch.tensor([[0, 0, 10, 10, 0.9, 2]], dtype=torch.float32),
+            )]
+            for callback in self.callbacks["on_predict_postprocess_end"]:
+                callback(self.predictor)
+            return self.predictor.results
+
+    model = SyntheticModel()
+    tracker = CameraTracker(model=model)
+    assert [v.track_id for v in tracker.update(frame(1))] == [1]
+    actual_tracker = model.predictor.trackers[0]
+    assert actual_tracker.frame_id == 1
+    assert [v.track_id for v in tracker.update(frame(1))] == [1]
+    assert model.predictor.trackers[0] is actual_tracker
+    assert actual_tracker.frame_id == 2
+    assert [v.track_id for v in tracker.update(frame(2))] == [1]
+    assert model.predictor.trackers[0] is actual_tracker
+    assert actual_tracker.frame_id == 1
+    assert len(model.callbacks["on_predict_start"]) == 1
 
 
 def test_tracker_only_asks_for_vehicle_classes():

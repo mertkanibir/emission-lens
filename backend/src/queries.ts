@@ -67,7 +67,9 @@ function uniqueOrNull(values: Array<number | null>): number | null {
 }
 
 export function displayedState(status: CameraStatus, asOfIso: string): CameraState {
-  if (status.heartbeat_at === null || status.last_source_timestamp === null) return "offline";
+  // Caltrans does not expose capture UTC. A worker heartbeat records advancing
+  // frame processing; capture time remains independently unavailable.
+  if (status.heartbeat_at === null) return "offline";
   if (isStale(status.heartbeat_at, asOfIso)) return "degraded";
   return status.state;
 }
@@ -109,8 +111,12 @@ export function get_traffic_window(input: {
   const queueCount = uniqueOrNull(rows.map((row) => row.queue_count));
   const queueLength = uniqueOrNull(rows.map((row) => row.queue_length_m));
   let note = "No traffic rows in this window.";
-  if (input.mode === "replay") note = "Replay is empty. No clip is loaded, and replay is not mixed into live totals.";
-  else if (input.mode === "live") note = "No live worker output yet. Missing counts stay unavailable.";
+  if (input.mode === "replay") note = rows.length === 0
+    ? "Replay is empty. No clip is loaded, and replay is not mixed into live totals."
+    : "Recorded observations are kept separate from live totals. Missing metrics remain unavailable.";
+  else if (input.mode === "live") note = rows.length === 0
+    ? "No live worker output in this window. Missing counts stay unavailable."
+    : "Live worker records received. Counts require configured crossing gates; missing metrics stay unavailable.";
   else if (rows.length > 0 && totals.stopped_vehicle_seconds === null) {
     note = "Synthetic sample. Stopped time is incomplete for at least one class, so the mix total is unavailable.";
   } else if (rows.length > 0) {
@@ -145,8 +151,9 @@ export function get_emissions_window(input: {
     if (matching.some((row) => row.quality_state !== "ok")) return null;
     return sumStrict(matching.map((row) => row.estimate_g));
   };
-  const quality_state: QualityState =
-    rows.length === 0 ? "unavailable" : rows.some((row) => row.quality_state !== "ok") ? rows[0].quality_state : "ok";
+  const quality_state: QualityState = rows.length === 0
+    ? "unavailable"
+    : rows.find((row) => row.quality_state !== "ok")?.quality_state ?? "ok";
   const calibration = calibrationFor(input.cameraId);
   const note =
     quality_state === "ok"

@@ -8,19 +8,20 @@ import {
   type Mode,
   type TrafficMinute,
 } from "@emission-lens/contracts";
+import { readWorkerStore } from "./persistence.ts";
 
 export function statusesFor(mode: Mode): CameraStatus[] {
-  if (mode === "live") return LIVE_STATUS;
   if (mode === "synthetic") return SYNTHETIC_STATUS;
-  return LIVE_STATUS.map((row) => ({ ...row, mode: "replay" as const }));
+  const rows = readWorkerStore().statuses.filter((row) => row.mode === mode);
+  return LIVE_STATUS.map((fallback) => rows.find((row) => row.camera_id === fallback.camera_id) ?? { ...fallback, mode });
 }
 
 export function trafficFor(mode: Mode): TrafficMinute[] {
   if (mode === "synthetic") return SYNTHETIC_TRAFFIC;
-  return [];
+  return readWorkerStore().traffic.filter((row) => row.mode === mode);
 }
 
 export function emissionsFor(mode: Mode): EmissionsMinute[] {
   if (mode === "synthetic") return SYNTHETIC_EMISSIONS;
-  return [];
+  return readWorkerStore().emissions.filter((row) => row.mode === mode);
 }

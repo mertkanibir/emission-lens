@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:23 America/New_York (23:23 UTC)
+
+- **Who:** Mert
+- **Done:** Added the runnable four-camera worker, strict contract-1.1 batch parser, authenticated ingestion, atomic single-host persistence, read API, automatic dashboard refresh, expiring same-frame previews, bounded delivery outbox, paced labeled replay, and independent tracker/session handling. Added an offline gate/ROI metrics engine and disabled configuration example, four-camera benchmark tooling, CI, package type checks, and corrected Mert's training job account/QOS/environment. No real camera geometry or live class mapping is enabled. Local runtime credentials are private ignored files.
+- **Completed:** Both shared packages and the frontend type-check, all 49 backend/HTTP/storage/preview tests pass, and the production web build passes. All 127 Python tests and 29 subtests passed on the allocated compute node, including real Ultralytics tracker continuity/reset callbacks without a model download. The preview route's first type check exposed a handler-context mismatch; the route now wraps the testable handler and checks pass. The worker emits no placeholder traffic rows or invented emissions. Processing freshness is independent of unavailable capture UTC. GPU job 175627 is running bounded four-camera evaluation; results are not yet claimed.
+- **Still open:** Complete the real GPU delivery and browser verification, publish diagnostic evidence, and release the allocation. Camera geometry, measured calibration, reviewed regulatory-class mappings and held-out model promotion remain required. The local file store is for one persistent host; hosted shared persistence and deployment remain open. Carter's label work is preserved and no training run is started on incomplete data.
+
 ### 7 November 2026, 18:20 America/New_York (23:20 UTC)
 
 - **Who:** Carter

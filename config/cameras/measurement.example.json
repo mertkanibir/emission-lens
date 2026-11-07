@@ -1,0 +1,17 @@
+{
+  "camera_id": "222",
+  "version": "example-disabled-unvalidated",
+  "enabled": false,
+  "image_geometry_status": "unvalidated",
+  "road_region": [[0.1, 0.1], [0.9, 0.1], [0.9, 0.9], [0.1, 0.9]],
+  "excluded_regions": [],
+  "gates": [
+    {"id": "example-counting-gate", "start": [0.2, 0.5], "end": [0.8, 0.5], "direction": "both"}
+  ],
+  "min_track_hits": 3,
+  "hysteresis": 0.01,
+  "max_gap_s": 1.0,
+  "stopped_threshold_per_s": null,
+  "stopped_min_duration_s": 3.0,
+  "queue_region": null
+}

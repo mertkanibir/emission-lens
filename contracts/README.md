@@ -4,7 +4,7 @@
 **Owner:** Mert  
 **Updated:** 7 November 2026, 14:40 America/New_York (19:40 UTC)
 
-Typed records for the shared data contract in `Plan.md` §14. Fixtures and the backend read path use this package. There is no hosted database yet, so these fixtures are the current store.
+Typed records for the shared data contract in `Plan.md` §14. Fixtures and the backend read path use this package. There is no hosted database yet. A configured local worker store supplies live/replay records; labeled synthetic fixtures remain separate.
 
 ## Clarification added with this package
 
@@ -32,3 +32,5 @@ Typed records for the shared data contract in `Plan.md` §14. Fixtures and the b
 ## Not in this package
 
 Vision output, factor tables, and GPU runs are Carter’s packages and are not implied by these fixtures. Calibration for every camera is `missing`. Road-region geometry is null.
+
+**Transport note (7 November 2026, 18:18 America/New_York / 23:18 UTC):** Mert added `WorkerBatch` and `parseWorkerBatch`: strict runtime validation of the existing 1.1 records, whole-batch rejection, explicit batch UUID/revision, and per-run mode isolation. This adds a transport envelope without changing core record fields. Capture UTC may be unavailable while an advancing-frame processing heartbeat is fresh. No live calibration or class mapping is silently enabled.

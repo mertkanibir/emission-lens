@@ -20,6 +20,7 @@ import {
 import { MotionControl } from "@/components/MotionControl";
 import { WorkspaceMenus } from "@/components/WorkspaceMenus";
 import { Clock } from "@/components/Clock";
+import { LiveRefresh } from "@/components/LiveRefresh";
 import {
   formatClock,
   hrefWith,
@@ -74,6 +75,7 @@ export function AppShell({
 
   return (
     <div className="app" data-mode={mode}>
+      <LiveRefresh mode={mode} />
       <WorkspaceMenus />
       <a href="#main-content" className="skip-link">
         Skip to content

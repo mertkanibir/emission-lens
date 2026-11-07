@@ -3,7 +3,7 @@
 **Owner:** Mert  
 **Updated:** 7 November 2026, 17:26 America/New_York (22:26 UTC)
 
-The four-camera Torrance dashboard reads the shared backend contract. The current store is fixture-backed: live cameras have no worker output, replay is empty, and the synthetic sample is explicitly labeled and excluded from live totals.
+The four-camera Torrance dashboard reads the shared backend contract. The server reads live/replay worker records from the configured local store. Without a worker, those modes remain empty. The synthetic sample is explicitly labeled and excluded from live totals.
 
 ## Environmental workspace
 
@@ -19,7 +19,7 @@ The four-camera Torrance dashboard reads the shared backend contract. The curren
 
 ## Data meanings
 
-Unavailable is never substituted with zero. Camera health uses a source timestamp and heartbeat evaluated against the active data clock. Synthetic camera 223 is stale, not live. Mode labels and separate wall/data clocks remain visible on every route.
+Unavailable is never substituted with zero. Camera health uses an advancing-frame processing heartbeat evaluated against the active data clock; source capture UTC is reported separately when available. Synthetic camera 223 is stale, not live. Mode labels and separate wall/data clocks remain visible on every route.
 
 The sample for camera 222 contains **one recorded minute**, with 24 crossings, 16 completed traversals, and a queue count of 5. The overview says **1 / 60 recorded minutes**, not full-hour coverage. Detail coverage is explicitly recorded-minute coverage. Other cameras are not silently treated as zero. Stopped time does not establish whether an engine is running.
 
@@ -44,3 +44,5 @@ Browser checks covered all four camera selections, search/no-results/reset, each
 Worker-to-dashboard delivery, synchronized video, valid road calibration, road regions/gates, contextual integrations, and Vercel deployment remain separate integration work. The UI does not claim a measured environmental improvement, model accuracy, or live deployment.
 
 **Dependency note (7 November 2026, 18:12 America/New_York / 23:12 UTC):** Mert upgraded MapLibre GL JS to 6.17.0 to resolve [GHSA-jrc7-96c5-q579](https://github.com/maplibre/maplibre-gl-js/security/advisories/GHSA-jrc7-96c5-q579). The current map uses third-party style and attribution data, so the patched sanitizer is relevant. The dashboard behavior is preserved.
+
+**Integration note (7 November 2026, 18:18 America/New_York / 23:18 UTC):** Mert connected server pages to validated local worker persistence and added ten-second refreshes for visible live/replay pages. Refresh pauses while a form has focus. Capture timestamps and capture-to-dashboard latency remain unavailable for feeds without machine-readable capture UTC. Local server settings belong in ignored `frontend/.env.local`. Synchronized preview and live GPU delivery are the next verification steps.

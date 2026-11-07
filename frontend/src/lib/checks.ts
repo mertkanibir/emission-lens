@@ -33,7 +33,7 @@ export function systemChecks(mode: Mode, cards: CameraEvidence[]): CheckLine[] {
         level: "warn",
         at: status.heartbeat_at,
         source,
-        text: "Heartbeat present but no source timestamp. Shown offline.",
+        text: "The worker reports no active frame processing. Shown offline.",
       });
     } else if (status.displayed_state === "degraded") {
       lines.push({

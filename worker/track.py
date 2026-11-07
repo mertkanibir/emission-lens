@@ -44,31 +44,39 @@ class TrackLabeler:
 
     def __init__(self):
         self._scores: dict[int, Counter] = defaultdict(Counter)
-        self._tesla_confidences: dict[int, list[float]] = defaultdict(list)
+        # Keep exact lifetime count/sum rather than one value per frame.
+        self._tesla_evidence: dict[int, list[float]] = defaultdict(lambda: [0, 0.0])
 
     def add(self, track_id: int, detection: Detection) -> str:
         if detection.label == TESLA:
-            self._tesla_confidences[track_id].append(detection.confidence)
+            self._tesla_evidence[track_id][0] += 1
+            self._tesla_evidence[track_id][1] += detection.confidence
             self._scores[track_id][FALLBACK_FOR_TESLA] += detection.confidence
         else:
             self._scores[track_id][detection.label] += detection.confidence
         return self.label(track_id)
 
     def label(self, track_id: int) -> str:
-        teslas = self._tesla_confidences[track_id]
+        tesla_frames, tesla_score = self._tesla_evidence.get(track_id, (0, 0.0))
         majority, majority_score = self._scores[track_id].most_common(1)[0]
         if (
             majority == FALLBACK_FOR_TESLA
-            and len(teslas) >= TESLA_MIN_FRAMES
-            and sum(teslas) / len(teslas) >= TESLA_MIN_CONFIDENCE
-            and sum(teslas) > majority_score / 2
+            and tesla_frames >= TESLA_MIN_FRAMES
+            and tesla_score / tesla_frames >= TESLA_MIN_CONFIDENCE
+            and tesla_score > majority_score / 2
         ):
             return TESLA
         return majority
 
     def reset(self) -> None:
         self._scores.clear()
-        self._tesla_confidences.clear()
+        self._tesla_evidence.clear()
+
+    def retain(self, track_ids: set[int]) -> None:
+        """Retain class history while ByteTrack can still recover the track."""
+        for mapping in (self._scores, self._tesla_evidence):
+            for track_id in set(mapping) - track_ids:
+                del mapping[track_id]
 
 
 class CameraTracker:
@@ -91,17 +99,32 @@ class CameraTracker:
         new_session = frame.session != self._session
         if new_session:
             self._labeler.reset()
+            # Always persist frame-to-frame and explicitly clear state at a
+            # media discontinuity. This does not depend on whether a library
+            # version refreshes its registered callback's persist argument.
+            predictor = getattr(self._model, "predictor", None)
+            for tracker in getattr(predictor, "trackers", ()):
+                tracker.reset()
             self._session = frame.session
 
         result = self._model.track(
             frame.image,
-            persist=not new_session,  # False builds a fresh tracker.
+            persist=True,
             tracker="bytetrack.yaml",
             imgsz=self._image_size,
             conf=TRACKING_MIN_CONFIDENCE,
             classes=self._class_ids,
             verbose=False,
         )[0]
+        predictor = getattr(self._model, "predictor", None)
+        trackers = getattr(predictor, "trackers", ())
+        if trackers:
+            recoverable = {
+                int(track.track_id)
+                for tracker in trackers
+                for track in (*tracker.tracked_stracks, *tracker.lost_stracks)
+            }
+            self._labeler.retain(recoverable)
         if result.boxes.id is None:  # No confirmed tracks in this frame.
             return []
 

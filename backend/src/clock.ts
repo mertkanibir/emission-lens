@@ -18,5 +18,5 @@ export function reportingWindow(mode: Mode, now = new Date()): { from: string; t
 export function isStale(heartbeatAt: string | null, asOfIso: string): boolean {
   if (heartbeatAt === null) return true;
   const age = Date.parse(asOfIso) - Date.parse(heartbeatAt);
-  return !Number.isFinite(age) || age > STALE_MS;
+  return !Number.isFinite(age) || age < -30_000 || age > STALE_MS;
 }

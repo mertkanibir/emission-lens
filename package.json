@@ -11,6 +11,7 @@
     "test:emissions": "python3 -m unittest discover -s tests -p test_emfac.py -v",
     "emissions:example": "tsx emissions/example.ts",
     "dev": "npm run dev -w @emission-lens/frontend",
-    "build": "npm run build -w @emission-lens/frontend"
+    "build": "npm run build -w @emission-lens/frontend",
+    "typecheck": "tsc -p contracts/tsconfig.json && tsc -p backend/tsconfig.json && tsc -p frontend/tsconfig.json"
   }
 }

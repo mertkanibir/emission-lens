@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { ReductionInput } from "@/components/ReductionInput";
+import { CameraPreview } from "@/components/CameraPreview";
 import {
   Panel,
   Quantity,
@@ -306,19 +307,7 @@ export default async function CameraPage({
                 meta={<span>Caltrans District 7 · {modeLabel(mode)}</span>}
                 flush
               >
-                <div className="viewport">
-                  <span className="burn-in burn-in-tl">Camera {id}</span>
-                  <span className="burn-in burn-in-tr">Frame unavailable</span>
-                  <div className="viewport-msg">
-                    <span className="section-kicker">Evidence first</span>
-                    <strong>No synchronized video frame yet</strong>
-                    <span>
-                      Traffic records can be inspected below. Video and
-                      detection overlays will appear together when a
-                      timestamp-matched source is connected.
-                    </span>
-                  </div>
-                </div>
+                <CameraPreview key={`${id}-${mode}`} cameraId={id} mode={mode} />
                 <div className="panel-body">
                   <dl className="readouts readouts-2">
                     <Readout
@@ -337,7 +326,7 @@ export default async function CameraPage({
                         </span>
                       )}
                     </Readout>
-                    <Readout label="Last source frame">
+                    <Readout label="Source capture time" detail="Independent of the worker heartbeat; unavailable when the feed has no capture metadata.">
                       {status.last_source_timestamp === null ? (
                         <Quantity value={null} />
                       ) : (

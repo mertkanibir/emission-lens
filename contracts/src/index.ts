@@ -31,3 +31,5 @@ export type {
   WorkerRun,
 } from "./types.ts";
 export { sumStrict, validateEmissionsMinute, validateTrafficMinute } from "./validate.ts";
+export { parseWorkerBatch } from "./ingest.ts";
+export type { WorkerBatch } from "./ingest.ts";
