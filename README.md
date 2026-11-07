@@ -18,7 +18,7 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
-Architecture and implementation brief are in place. Camera access was verified on 7 November 2026. Application implementation and Empire AI GPU deployment are not yet verified.
+Camera access was verified on 7 November 2026. As of 14:40 America/New_York (19:40 UTC), Mert’s packages have a contract, a fixture-backed read API, and a dashboard. Live mode stays offline until a worker heartbeat exists. Estimated emissions stay unavailable until a factor table is loaded. Carter’s vision worker and emissions factors are not started. Empire AI GPU deployment is not verified.
 
 See **[Plan.md](./Plan.md)** for the full master plan, **[Agents.md](./Agents.md)** for coding-agent work packages and rules, and **[Worklog.md](./Worklog.md)** for timestamped notes of completed work.
 

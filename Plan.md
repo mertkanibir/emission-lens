@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Architecture and implementation brief. Camera access verified; application implementation and GPU deployment are not yet verified.
+**Status:** Camera access verified. Mert has a first dashboard and read API. GPU deployment, vision, and the factor table are not yet verified.
 
 ---
 
@@ -439,7 +439,7 @@ Store timestamps in UTC; display local time explicitly.
 | `camera_calibration` | Camera, version, gates, reference measurements, transform, validation status |
 | `worker_run` | Run ID, model version, device, start/end, mode |
 | `camera_status` | Camera, heartbeat, last source timestamp, processing delay, FPS, state |
-| `traffic_minute` | Camera, minute, run, class, counts, completed traversals, stopped vehicle-seconds, distance, queue metrics, coverage |
+| `traffic_minute` | Camera, minute, run, class, mode, counts, completed traversals, stopped vehicle-seconds, traversal time, distance, queue metrics, coverage |
 | `emissions_minute` | Camera, minute, pollutant, estimate/range, factor version, method version, quality state |
 | `context_snapshot` | Camera/region, source, retrieved time, applicable time, values |
 | `scenario_result` | Input window, assumptions, baseline, scenario, uncertainty, versions |
@@ -459,6 +459,8 @@ Store timestamps in UTC; display local time explicitly.
 - Keep service credentials server-side.
 
 Agree on schemas before parallel implementation. Typed contracts and migrations must match this document.
+
+**Contract note (7 November 2026, 14:40 America/New_York / 19:40 UTC):** `traversal_time_s` is recorded on `traffic_minute` because average speed needs total traversal time, including stops. `mode` is stored on records that can be live, replay, or synthetic. Both are additive. Queue count is a camera-minute observation and must not be summed once per vehicle class.
 
 ## 15. Repository and agent work packages
 
@@ -489,6 +491,8 @@ evaluation/
 | Integration/evaluation | Complete flow, benchmarks, demo | Live GPU-to-dashboard path demonstrated and limitations recorded |
 
 Carter’s original plan assigns him vision and emissions. Preserve that proposed ownership unless the team changes it. Mert coordinates data, product, dashboard, and implementation agents.
+
+**Section note (7 November 2026, 14:40 America/New_York / 19:40 UTC):** Mert started `contracts/`, `backend/`, `frontend/`, and the draft brief. Carter’s `worker/` and `emissions/` paths were not changed.
 
 Each coding agent must:
 
