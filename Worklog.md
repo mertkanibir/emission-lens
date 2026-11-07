@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 16:14 America/New_York (21:14 UTC)
+
+- **Who:** Carter
+- **Done:** Added `worker/track.py` (per-camera ByteTrack tracking that resets on reconnect, plus one class per track with the Tesla rule) and `worker/live_view.py` (on-screen view with IDs, classes, and processing rate; nothing saved). Added an image-size option to the detector.
+- **Completed:** 52 tests pass. On camera 222 the laptop CPU processed 6.2 frames per second at 640 pixels and 2.8 at 1280, with frame collection also running. A Tesla needs at least 3 frames averaging 85% confidence; otherwise it is a car.
+- **Still open:** The laptop cannot track four cameras live, so live tracking depends on the GPU. When processing falls behind, dropped frames leave gaps that split tracks: in 30 seconds of video there were about 100 tracks, with a median of 6 frames each. Mert should rerun the GPU check inside `srun`, because `nvidia-smi` was not found.
+
 ### 7 November 2026, 15:55 America/New_York (20:55 UTC)
 
 - **Who:** Mert

@@ -22,29 +22,44 @@ class Detection:
     y2: float
 
 
+def load_model(weights: Path = DEFAULT_WEIGHTS) -> YOLO:
+    weights.parent.mkdir(parents=True, exist_ok=True)
+    return YOLO(str(weights))
+
+
+def class_ids_for(model, labels: frozenset[str]) -> list[int]:
+    return [i for i, name in model.names.items() if name in labels]
+
+
+def detections_from(result) -> list[Detection]:
+    """Convert one Ultralytics result into plain detections."""
+    return [
+        Detection(result.names[int(class_id)], float(confidence), *map(float, box))
+        for class_id, confidence, box in zip(
+            result.boxes.cls, result.boxes.conf, result.boxes.xyxy
+        )
+    ]
+
+
 class Detector:
     def __init__(
         self,
         weights: Path = DEFAULT_WEIGHTS,
         labels: frozenset[str] = PRETRAINED_VEHICLE_LABELS,
         min_confidence: float = MIN_CONFIDENCE,
+        image_size: int = IMAGE_SIZE,
     ):
-        weights.parent.mkdir(parents=True, exist_ok=True)
-        self._model = YOLO(str(weights))
-        self._class_ids = [i for i, name in self._model.names.items() if name in labels]
+        self._model = load_model(weights)
+        self._class_ids = class_ids_for(self._model, labels)
         self._min_confidence = min_confidence
+        self._image_size = image_size
 
     def detect(self, image: np.ndarray) -> list[Detection]:
         result = self._model.predict(
             image,
-            imgsz=IMAGE_SIZE,
+            imgsz=self._image_size,
             conf=self._min_confidence,
             classes=self._class_ids,
             verbose=False,
         )[0]
-        return [
-            Detection(result.names[int(class_id)], float(confidence), *map(float, box))
-            for class_id, confidence, box in zip(
-                result.boxes.cls, result.boxes.conf, result.boxes.xyxy
-            )
-        ]
+        return detections_from(result)
