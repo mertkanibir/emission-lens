@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 15:08 America/New_York (20:08 UTC)
+
+- **Who:** Carter
+- **Done:** Added `worker/stream.py`, a threaded HLS reader with media-time sampling, a bounded frame buffer, reconnect backoff, stall detection, and live, degraded, and offline status. Added tests, including one that keeps the camera YAML files matched to `contracts/src/cameras.ts`.
+- **Completed:** 21 tests pass. In one 75-second laptop run, all four cameras held 5 frames per second of video with no dropped frames and no reconnects. A dead URL stayed offline.
+- **Still open:** A real mid-stream drop has not been observed; reconnect is tested with scripted failures only. The stream has no capture timestamp, so end-to-end delay is not measured. Detection and tracking are next.
+
 ### 7 November 2026, 14:58 America/New_York (19:58 UTC)
 
 - **Who:** Mert
