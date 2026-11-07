@@ -1,0 +1,34 @@
+{
+  "source": "California Air Resources Board, EMFAC Web Project Analysis",
+  "request_id": 859,
+  "source_url": "https://emfac.arb.ca.gov/media/project_analysis/EMFAC2025%20v2.1.1/20261107131601-n86/EMFAC2025_v2.1.1_PL_LosAngelesSC_2026_Annual_20261107131601.zip",
+  "archive_sha256": "6402932e22851a06e56fb2e29063fbd103c2521b1d0355e77105d0fcf4d9931a",
+  "archive_member": "EMFAC2025_v2.1.1_PL_LosAngelesSC_2026_Annual_20261107131601.csv",
+  "retrieved_at": "2026-11-07T21:19:40.466230Z",
+  "source_sha256": "a03a7eab0847efcf7ea354c8fbae9b063e37c4609cd7781a2a3afb026341ee67",
+  "normalized_sha256": "4c5a8cb2d8e3d0b6f45ac73d781c52fbb187741e9a5bfd75f6feec0d2454cf9b",
+  "request": {
+    "emfacVersion": "EMFAC2025 v2.1.1",
+    "regionType": "Sub-Area",
+    "region": "Los Angeles (SC)",
+    "calendarYears": "2026",
+    "seasonMonth": "Season",
+    "seasonMonthValue": "Annual",
+    "vehicleCategoryMode": "emfac2007",
+    "vehicleCategory": "LDA,LDT1,LDT2,MDV,MCY,LHDT1,LHDT2,MHDT,HHDT,SBUS,UBUS,OBUS",
+    "modelYears": "Aggregate",
+    "speeds": "5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90",
+    "fuelMode": "Aggregate",
+    "temperatureHumidity": "60,60:70,60:80,60",
+    "output_format": "csv"
+  },
+  "validation": {
+    "source_rows": 15186,
+    "excluded_other_process_or_pollutant_rows": 13890,
+    "factor_rows": 1296,
+    "expected_factor_rows": 1296,
+    "duplicate_keys": 0,
+    "missing_cells": 0,
+    "non_finite_or_negative_rates": 0
+  }
+}

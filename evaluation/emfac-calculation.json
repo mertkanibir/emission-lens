@@ -1,0 +1,115 @@
+{
+  "purpose": "Synthetic arithmetic example using actual CARB factors; not observed traffic, real calibration, measured emissions, or an accuracy evaluation.",
+  "expected_identity": "For one vehicle-mile at 10 mph, estimated grams equal the original CARB g/vehicle-mile rate at the 10 mph speed bin.",
+  "factor_catalog": {
+    "state": "validated",
+    "factor_version": "emfac2025-v2.1.1-la-sc-2026-annual-a03a7eab0847",
+    "model_version": "EMFAC2025 v2.1.1",
+    "source_url": "https://emfac.arb.ca.gov/media/project_analysis/EMFAC2025%20v2.1.1/20261107131601-n86/EMFAC2025_v2.1.1_PL_LosAngelesSC_2026_Annual_20261107131601.zip",
+    "source_sha256": "a03a7eab0847efcf7ea354c8fbae9b063e37c4609cd7781a2a3afb026341ee67",
+    "retrieved_at": "2026-11-07T21:19:40.466230Z",
+    "region": "Los Angeles (SC)",
+    "calendar_year": 2026,
+    "season": "Annual",
+    "vehicle_category_scheme": "EMFAC2007",
+    "vehicle_classes": [
+      "LDA",
+      "LDT1",
+      "LDT2",
+      "MDV",
+      "MCY",
+      "LHDT1",
+      "LHDT2",
+      "MHDT",
+      "HHDT",
+      "SBUS",
+      "UBUS",
+      "OBUS"
+    ],
+    "process": "RUNEX",
+    "units": "g/vehicle-km",
+    "fuel_assumption": "CARB regional VMT-weighted fuel mixture; aggregated by CARB",
+    "model_year_assumption": "CARB regional age mixture; aggregated by CARB",
+    "meteorology_assumptions": [
+      {
+        "temperature_f": 60,
+        "relative_humidity_pct": 60
+      },
+      {
+        "temperature_f": 70,
+        "relative_humidity_pct": 60
+      },
+      {
+        "temperature_f": 80,
+        "relative_humidity_pct": 60
+      }
+    ],
+    "validation": {
+      "source_rows": 15186,
+      "excluded_other_process_or_pollutant_rows": 13890,
+      "factor_rows": 1296,
+      "expected_factor_rows": 1296,
+      "duplicate_keys": 0,
+      "missing_cells": 0,
+      "non_finite_or_negative_rates": 0
+    },
+    "production_mapping_loaded": false
+  },
+  "result": {
+    "rows": [
+      {
+        "camera_id": "222",
+        "minute": "2026-11-07T21:00:00.000Z",
+        "mode": "synthetic",
+        "pollutant": "co2",
+        "estimate_g": 522.7040374906867,
+        "range_low_g": null,
+        "range_high_g": null,
+        "factor_version": "emfac2025-v2.1.1-la-sc-2026-annual-a03a7eab0847",
+        "method_version": "completed-traversals-runex-v1.0",
+        "quality_state": "ok"
+      },
+      {
+        "camera_id": "222",
+        "minute": "2026-11-07T21:00:00.000Z",
+        "mode": "synthetic",
+        "pollutant": "nox",
+        "estimate_g": 0.0586826695139753,
+        "range_low_g": null,
+        "range_high_g": null,
+        "factor_version": "emfac2025-v2.1.1-la-sc-2026-annual-a03a7eab0847",
+        "method_version": "completed-traversals-runex-v1.0",
+        "quality_state": "ok"
+      }
+    ],
+    "evidence": [
+      {
+        "session_id": "synthetic-example",
+        "traversal_id": "one-mile",
+        "completed_at": "2026-11-07T21:00:30Z",
+        "vehicle_class": "car",
+        "distance_m": 1609.344,
+        "traversal_time_s": 360,
+        "speed_mph": 9.999999999999998,
+        "speed_bin_mph": 10,
+        "co2_g": 522.7040374906867,
+        "nox_g": 0.0586826695139753
+      }
+    ],
+    "mapping_version": "synthetic-LDA-assumption",
+    "mapping_evidence": "Arithmetic example only: assume all example cars are EMFAC LDA. Not an approved live class mapping.",
+    "calibration_version": "synthetic-example-only",
+    "meteorology": {
+      "temperature_f": 70,
+      "relative_humidity_pct": 60
+    },
+    "range_kind": "not_calculated",
+    "limitations": [
+      "Estimated tailpipe CO2 and NOx for completed calibrated traversals of the observed segment only.",
+      "RUNEX includes ordinary driving-cycle stops; no separate ordinary-idle emissions are added.",
+      "CARB fuel and model-year mixtures are already included. No additional EV discount is applied.",
+      "Upper-edge speed-bin lookup is a segment-average approximation, not a second-by-second engine model.",
+      "Temperature and humidity are explicit assumptions, not observed current weather. No uncertainty range is calculated."
+    ]
+  }
+}

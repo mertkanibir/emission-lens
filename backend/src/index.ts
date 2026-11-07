@@ -12,4 +12,6 @@ export {
 } from "./queries.ts";
 export type { CameraStatusView, EmissionsWindow, TrafficTotals, TrafficWindow } from "./queries.ts";
 export { compare_scenario } from "./scenario.ts";
+export { estimate_completed_traversals, get_factor_catalog_status, lookup_runex_factor } from "../../emissions/src/index.ts";
+export type { ClassMapping, CompletedTraversal, EstimateInput, EstimateResult, Meteorology } from "../../emissions/src/index.ts";
 export type { ClassComparison, ScenarioComparison, ScenarioSide } from "./scenario.ts";

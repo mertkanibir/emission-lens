@@ -14,6 +14,7 @@ import {
 } from "@emission-lens/contracts";
 import { asOf, isStale, reportingWindow } from "./clock.ts";
 import { emissionsFor, statusesFor, trafficFor } from "./store.ts";
+import { get_factor_catalog_status } from "../../emissions/src/index.ts";
 
 export interface CameraStatusView extends CameraStatus {
   displayed_state: CameraState;
@@ -150,8 +151,8 @@ export function get_emissions_window(input: {
     quality_state === "ok"
       ? "Estimated emissions use the loaded factor table for this window."
       : calibration.validation_status !== "valid"
-        ? "Estimated emissions are unavailable. Usable factors are not loaded, and calibration is not valid, so distance-based emissions stay empty. This is not a zero."
-        : "Estimated emissions are unavailable until a traceable factor table is loaded. This is not a zero.";
+        ? `CARB ${get_factor_catalog_status().model_version} factors are validated for Los Angeles (SC), 2026. Camera calibration is not valid, so estimated emissions stay unavailable. This is not a zero.`
+        : "CARB factors are validated. Estimated emissions still require completed traversals and a documented class mapping. This is not a zero.";
   return {
     camera_id: input.cameraId,
     mode: input.mode,

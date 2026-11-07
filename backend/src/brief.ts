@@ -77,7 +77,7 @@ export function rank_investigation_priorities(input: {
       {
         dimension: "emissions",
         evidence: emissions.note,
-        suggested_step: "Load a traceable CARB factor table before comparing estimated emissions.",
+        suggested_step: "Validate camera calibration and visual-class mappings, then collect completed traversals before comparing estimated emissions.",
       },
       {
         dimension: "uncertainty",

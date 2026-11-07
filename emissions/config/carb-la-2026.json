@@ -1,0 +1,15 @@
+{
+  "emfacVersion": "EMFAC2025 v2.1.1",
+  "regionType": "Sub-Area",
+  "region": "Los Angeles (SC)",
+  "calendarYears": "2026",
+  "seasonMonth": "Season",
+  "seasonMonthValue": "Annual",
+  "vehicleCategoryMode": "emfac2007",
+  "vehicleCategory": "LDA,LDT1,LDT2,MDV,MCY,LHDT1,LHDT2,MHDT,HHDT,SBUS,UBUS,OBUS",
+  "modelYears": "Aggregate",
+  "speeds": "5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90",
+  "fuelMode": "Aggregate",
+  "temperatureHumidity": "60,60:70,60:80,60",
+  "output_format": "csv"
+}

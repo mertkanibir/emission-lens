@@ -69,7 +69,7 @@ test("shorter-stop scenario does not invent grams or speed", () => {
   assert.equal(scenario.baseline.stopped_vehicle_seconds, null);
 });
 
-test("electric fleet share is not applied without a factor", () => {
+test("electric fleet share does not discount an already aggregated factor twice", () => {
   const scenario = compare_scenario({
     cameraId: "222",
     mode: "synthetic",
@@ -78,6 +78,7 @@ test("electric fleet share is not applied without a factor", () => {
   });
   assert.equal(scenario.scenario.estimate_g, null);
   assert.ok(scenario.limitations.some((line) => /fleet-average factor/i.test(line)));
+  assert.ok(scenario.limitations.some((line) => /already include a regional fuel mix/i.test(line)));
 });
 
 test("stopped-time reduction outside 0 to 100 is rejected", () => {

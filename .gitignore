@@ -42,6 +42,7 @@ clips/
 footage/
 replay-local/
 data/raw/
+emissions/.local/
 evaluation/frames/
 runs/
 

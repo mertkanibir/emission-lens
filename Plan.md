@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Camera access, ingestion, and a one-camera Empire AI GPU inference smoke test are verified. Mert has a fixture-backed dashboard and read API. Tracking, calibration, factors, sustained inference, and worker-to-dashboard delivery remain open.
+**Status:** Camera access, ingestion, a one-camera Empire AI GPU inference smoke test, and a scoped CARB factor table are verified. Mert has a fixture-backed dashboard and read API. Calibrated traffic metrics, approved class mappings, sustained inference, and worker-to-dashboard delivery remain open.
 
 ---
 
@@ -239,6 +239,8 @@ Exclude parked vehicles and non-road regions where possible. Report incomplete t
 
 ## 8. Emissions methodology
 
+**Scope note (7 November 2026, 16:16 America/New_York / 21:16 UTC):** Mert directed immediate implementation of CARB factor acquisition, validation, and the calculation interface. This expands Mert's current work into the factor-data portion of `emissions/`; Carter continues training, labeling, and vision work. No detector classes or contract 1.0 fields change in this work.
+
 ### Essential correction
 
 The original formula was:
@@ -282,7 +284,7 @@ Every factor table must record:
 
 Convert source units consistently to metres, kilometres, seconds, and grams.
 
-**Current status:** CARB documentation was retrieved, but the usable factor table has not yet been obtained and validated. This is an early implementation dependency.
+**Factor status (7 November 2026, 16:25 America/New_York / 21:25 UTC):** Mert acquired and validated 1,296 CARB EMFAC2025 v2.1.1 RUNEX CO₂/NOₓ factors for Los Angeles (SC), 2026, Annual, across 12 EMFAC2007 categories, 18 speed bins, and 60/70/80 °F at 60% relative humidity. Original CSV, request settings, provenance, checksums, a reproducible importer, and a completed-traversal calculation interface are in `emissions/`. These temperatures are scenario assumptions. Live estimates remain unavailable pending valid calibration, documented visual-class mappings and completed traversals. No uncertainty range or EV adjustment is silently applied. See `emissions/README.md`.
 
 ### Vehicle categories and fuel
 
@@ -621,7 +623,7 @@ Do not claim deployment to NYSDOT or Binghamton. Describe that as a possible fut
 
 ## 21. Immediate unresolved items
 
-1. Obtain usable CARB factors and confirm class/process mappings.
+1. Confirm visual-to-CARB class mappings; the scoped RUNEX factor table is acquired and validated (7 November 2026, 16:25 America/New_York / 21:25 UTC).
 2. Verify sustained Empire AI inference, delivery networking, and restarts; the environment and one-camera GPU smoke test are verified.
 3. Choose relay transport if required.
 4. Configure and validate each camera’s road region and gates.

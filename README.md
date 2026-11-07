@@ -18,6 +18,8 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
+**Factor-data note (7 November 2026, 16:25 America/New_York / 21:25 UTC):** Mert acquired 1,296 validated CARB EMFAC2025 v2.1.1 running-exhaust CO₂/NOₓ factors for Los Angeles (SC), 2026. The [factor package](./emissions/README.md) includes source data, provenance, reproducible import and a completed-traversal calculation interface. Camera pages show the loaded catalog. Live estimates still require calibration, documented class mappings, completed traversals and persistence. Training and labeling were not changed.
+
 **Status note (7 November 2026, 15:55 America/New_York / 20:55 UTC):** Mert verified pretrained vehicle detection on Empire AI using his account: YOLO11n processed 50 live frames from camera 222 on an H100 10 GB slice. The [evaluation record](./evaluation/README.md) includes the script, diagnostics, versions, and limitations. Carter’s ingestion, frame collector, detector wrapper, and labeling-dataset tools are implemented; all 39 Python tests passed on the compute node after integrating his latest commit. Mert’s dashboard still reads fixtures and is not connected to the worker. Tracking, calibration, CARB factors, and live emissions remain open. Fine-tuning needs reviewed labels and held-out evaluation; no reviewed dataset is available yet.
 
 See **[Plan.md](./Plan.md)** for the full master plan, **[Agents.md](./Agents.md)** for coding-agent work packages and rules, and **[Worklog.md](./Worklog.md)** for timestamped notes of completed work.

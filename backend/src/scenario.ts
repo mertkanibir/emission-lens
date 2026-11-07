@@ -111,7 +111,7 @@ export function compare_scenario(input: {
   }
   if (share !== null) {
     limitations.push(
-      "Electric fleet share was not applied. No fleet-average factor is loaded, and an EV adjustment must not be subtracted twice.",
+      "Electric fleet share was not applied. Loaded CARB fleet-average factors already include a regional fuel mix; replacing it requires explicit fuel-specific factors and mappings to avoid subtracting EVs twice.",
     );
   }
   if (traffic.rows.length === 0) {

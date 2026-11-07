@@ -3,6 +3,7 @@ import {
   compare_scenario,
   get_camera_status,
   get_emissions_window,
+  get_factor_catalog_status,
   get_traffic_window,
 } from "@emission-lens/backend";
 import { calibrationFor, cameraById, sumStrict, type Pollutant } from "@emission-lens/contracts";
@@ -103,6 +104,7 @@ export default async function CameraPage({
   const status = get_camera_status(id, mode);
   const traffic = get_traffic_window({ cameraId: id, mode });
   const emissions = get_emissions_window({ cameraId: id, mode });
+  const factors = get_factor_catalog_status();
   const calibration = calibrationFor(id);
   const calibrationValid = calibration.validation_status === "valid";
   const scenario = validReduction ? compare_scenario({ cameraId: id, mode, stoppedTimeReductionPct: reduction }) : null;
@@ -367,6 +369,11 @@ export default async function CameraPage({
                 </Readout>
               </dl>
               <p>{emissions.note}</p>
+              <p className="fine">
+                Factor catalog: <a href={factors.source_url}>CARB {factors.model_version}</a>, {factors.region}, {factors.calendar_year}, annual.
+                {" "}{factors.validation.factor_rows.toLocaleString("en-US")} validated CO₂ / NOₓ running-exhaust factors in g/vehicle-km.
+                {" "}Fuel and model-year mixtures are aggregated by CARB. Temperature assumptions: 60, 70, and 80 °F at 60% relative humidity; these are not current weather observations.
+              </p>
               <p className="fine">
                 Modeled tailpipe estimates, not a measured concentration or air-quality index. Scenario ranges are not
                 statistical confidence intervals.

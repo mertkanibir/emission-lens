@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 16:27 America/New_York (21:27 UTC)
+
+- **Who:** Mert
+- **Done:** Took the explicitly requested factor-data slice of `emissions/` while leaving Carter's training and labeling work untouched. Obtained CARB EMFAC2025 v2.1.1 project-analysis request 859 for Los Angeles (SC), 2026, Annual. Retained the original 15,186-row CSV and validated a 1,296-row RUNEX CO₂/NOₓ subset covering 12 EMFAC2007 categories, 18 speed bins, and 60/70/80 °F at 60% relative humidity. Added a reproducible acquisition/normalization path, request settings, source-line references, source/archive/normalized checksums, a backend calculation interface, provenance on the camera detail page, and a labeled synthetic arithmetic example. Updated the plan and package documentation. Fast-forwarded Carter's tracking commit `1968718` without changing his files before preparing this change for the shared branch.
+- **Completed:** `npm run test:emissions` passes all 12 data-integrity checks; `npm test` passes all 29 backend tests; `npm run build` passes. Every normalized factor traces back to its original CSV line and unit conversion. The one-vehicle-mile example reproduces the original CARB CO₂ and NOₓ rates. Tests caught a speed-bin floating-point boundary issue; it was corrected and the full relevant checks passed. Camera 222 was checked in the browser: loaded catalog, source link and meteorology assumptions are visible, while live estimates remain unavailable. Missing factors, unknown classes, unsupported weather/year, incomplete traversal evidence and invalid calibration never become an invented zero. Ordinary-idle and EV double-counting are prevented by process selection and explicit assumptions. Contract 1.0 fields are unchanged. No known failing check remains; the changes are ready to commit and push as Mert.
+- **Still open:** Valid camera calibration, documented visual-to-regulatory class mixtures, completed worker traversals and worker-to-dashboard persistence are required for live estimates. Broad visual labels are not regulatory weight classes. The retained table uses illustrative fixed meteorology and annual regional fleet assumptions; it is not current observed weather. No comprehensive uncertainty range, fuel-share replacement, live emissions result, accuracy or environmental-savings claim is established. Class-mapping candidates are proposals only; no production mapping is silently activated. Carter's tracking/training evaluation and GPU work remain separate.
+
 ### 7 November 2026, 16:14 America/New_York (21:14 UTC)
 
 - **Who:** Carter
