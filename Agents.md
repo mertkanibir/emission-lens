@@ -6,6 +6,42 @@ Guidance for coding agents and teammates working in this repository.
 
 **Coordination:** Mert coordinates project decisions, data/product/dashboard work, and implementation agents. Carter’s proposed ownership is vision and emissions unless the team changes that.
 
+**Last updated:** 7 November 2026, 14:28 America/New_York (19:28 UTC). Added every-turn logging, teammate attribution, and push rules.
+
+---
+
+## Every turn
+
+Do these three things on every turn that changes the repository, before the turn ends.
+
+### 1. Timestamp the work
+
+Update the markdown that this turn actually changed, and append one entry to [Worklog.md](./Worklog.md).
+
+Each entry must include:
+
+- Local time in America/New_York and the matching UTC time.
+- Who: **Mert** or **Carter**.
+- What was done.
+- What is now completed.
+- What is still open.
+
+If `Plan.md`, this file, `README.md`, or a package document changed status or instructions, put a short dated note in that file as well. Do not leave the running record only in chat.
+
+### 2. Speak as Mert and Carter
+
+Repository files, commit messages, pull requests, dashboard copy, briefs, and messages to teammates name **Mert** and **Carter** only.
+
+Do not name the coding tool or model. That includes Codex, Claude, Cursor, GPT, Gemini, and similar product names. Do not sign work as an assistant, bot, or tool. When a note needs an author, use Mert or Carter, matching who directed or owns that work. Mert coordinates implementation. Carter owns the proposed vision and emissions work unless the team changes that.
+
+### 3. Push when nothing looks broken
+
+If the turn changed tracked files, commit and push to the current remote branch before ending the turn.
+
+Push when the change is coherent and nothing you ran looks broken. Hold the push when a check you ran failed, the app or worker no longer starts, the change would commit a secret, or the tree is left in a state you know is unsafe to share. Say that clearly in `Worklog.md`.
+
+Do not force-push unless Mert or Carter explicitly asks. Do not skip a push because the change feels small.
+
 ---
 
 ## Before you start
@@ -24,6 +60,7 @@ Guidance for coding agents and teammates working in this repository.
 ```text
 Plan.md
 Agents.md
+Worklog.md
 contracts/
 config/cameras/
 worker/
@@ -91,7 +128,7 @@ Agent messages are **proposals**, not automatic changes to project scope. Avoid 
 
 ## Reporting after a change
 
-Every agent completion report should include:
+The every-turn rules above are mandatory. In addition, every completion report should include:
 
 1. What changed (paths and intent).
 2. Verification performed (commands, fixtures, manual checks).
