@@ -1,6 +1,6 @@
 # Contracts
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Owner:** Mert  
 **Updated:** 7 November 2026, 14:40 America/New_York (19:40 UTC)
 
@@ -9,6 +9,17 @@ Typed records for the shared data contract in `Plan.md` §14. Fixtures and the b
 ## Clarification added with this package
 
 `traffic_minute.traversal_time_s` is total traversal time for completed traversals, in vehicle-seconds, including stops. `Plan.md` §8 needs it to recover average speed. It is additive: older readers can ignore it. Queue count and queue length in metres stay separate. Queue count is a camera-minute observation and is stored on one class row so it is not summed per class.
+
+## Vehicle classes (1.1)
+
+**Changed:** 7 November 2026, 16:22 America/New_York (21:22 UTC), agreed by Mert and Carter.
+
+`car`, `tesla`, `pickup`, `truck`, `box_truck`, `tractor_trailer`, `bus`, `motorcycle`, and `unknown`.
+
+- The fine-tuned detector produces `pickup`, `box_truck`, `tractor_trailer`, and `tesla`.
+- `truck` stays for the pretrained detector, which has one truck class. It is the fallback if the fine-tuned model does not beat the pretrained one on held-out frames.
+- A track is `tesla` only with at least three Tesla frames averaging 85% confidence. Anything less is reported as `car`, so the contract never claims an electric vehicle the evidence does not support.
+- Only additions: every 1.0 value is still valid.
 
 ## Modes
 

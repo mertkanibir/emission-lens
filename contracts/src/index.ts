@@ -14,7 +14,7 @@ export {
   SYNTHETIC_STATUS,
   SYNTHETIC_TRAFFIC,
 } from "./fixtures.ts";
-export { CONTRACT_VERSION } from "./types.ts";
+export { CONTRACT_VERSION, VEHICLE_CLASSES } from "./types.ts";
 export type {
   Camera,
   CameraCalibration,

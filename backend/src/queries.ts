@@ -10,6 +10,7 @@ import {
   type Mode,
   type QualityState,
   type TrafficMinute,
+  VEHICLE_CLASSES,
   type VehicleClass,
 } from "@emission-lens/contracts";
 import { asOf, isStale, reportingWindow } from "./clock.ts";
@@ -183,6 +184,6 @@ export function listCameras(): typeof CAMERAS {
 }
 
 export function classRows(rows: TrafficMinute[]): TrafficMinute[] {
-  const order: VehicleClass[] = ["car", "truck", "bus", "motorcycle", "unknown"];
+  const order: readonly VehicleClass[] = VEHICLE_CLASSES;
   return [...rows].sort((a, b) => order.indexOf(a.vehicle_class) - order.indexOf(b.vehicle_class));
 }

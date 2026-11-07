@@ -45,7 +45,9 @@ create table traffic_minutes (
   camera_id text not null references cameras (id),
   minute timestamptz not null,
   run_id text references worker_runs (run_id),
-  vehicle_class text not null check (vehicle_class in ('car', 'truck', 'bus', 'motorcycle', 'unknown')),
+  vehicle_class text not null check (vehicle_class in (
+    'car', 'tesla', 'pickup', 'truck', 'box_truck', 'tractor_trailer', 'bus', 'motorcycle', 'unknown'
+  )),
   mode text not null check (mode in ('live', 'replay', 'synthetic')),
   count integer,
   completed_traversals integer,

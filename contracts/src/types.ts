@@ -1,4 +1,4 @@
-export const CONTRACT_VERSION = "1.0" as const;
+export const CONTRACT_VERSION = "1.1" as const;
 
 export const MODES = ["live", "replay", "synthetic"] as const;
 export type Mode = (typeof MODES)[number];
@@ -6,7 +6,19 @@ export type Mode = (typeof MODES)[number];
 export const CAMERA_STATES = ["live", "degraded", "offline"] as const;
 export type CameraState = (typeof CAMERA_STATES)[number];
 
-export const VEHICLE_CLASSES = ["car", "truck", "bus", "motorcycle", "unknown"] as const;
+// "truck" is the pretrained detector's single truck class, kept as the fallback.
+// "tesla" is reported only when the per-track rule is met; otherwise the vehicle is "car".
+export const VEHICLE_CLASSES = [
+  "car",
+  "tesla",
+  "pickup",
+  "truck",
+  "box_truck",
+  "tractor_trailer",
+  "bus",
+  "motorcycle",
+  "unknown",
+] as const;
 export type VehicleClass = (typeof VEHICLE_CLASSES)[number];
 
 export const POLLUTANTS = ["co2", "nox"] as const;

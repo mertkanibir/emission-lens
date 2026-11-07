@@ -207,6 +207,8 @@ Start with pretrained classes:
 
 Sedan, SUV, pickup, box truck, and articulated truck are optional refinements requiring validation. Do not claim that a generic pretrained detector already distinguishes all these classes.
 
+**Section note (7 November 2026, 16:22 America/New_York (21:22 UTC)):** Mert and Carter moved fine-tuning forward. Target classes are car, tesla, pickup, box_truck, tractor_trailer, bus, and motorcycle. A Tesla below 85% average confidence over at least three frames is reported as car. The pretrained model stays the fallback unless the tuned model wins on held-out frames. Contract 1.1 adds these classes and keeps `truck` and `unknown`.
+
 ### Tracking
 
 - Maintain IDs within each camera session.

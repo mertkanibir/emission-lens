@@ -1,6 +1,7 @@
 import catalog from "../data/la-2026/factors.json";
 import {
   validateEmissionsMinute,
+  VEHICLE_CLASSES,
   type CameraCalibration,
   type EmissionsMinute,
   type Mode,
@@ -146,7 +147,7 @@ function validateMapping(mapping: ClassMapping): void {
     throw new Error("Class mappings require a version and documented evidence or explicit scenario assumptions.");
   }
   for (const [visual, mix] of Object.entries(mapping.classes)) {
-    if (!["car", "truck", "bus", "motorcycle", "unknown"].includes(visual) || !mix || mix.length === 0) {
+    if (!(VEHICLE_CLASSES as readonly string[]).includes(visual) || !mix || mix.length === 0) {
       throw new Error("Unsupported or empty visual-class mapping.");
     }
     const seen = new Set<string>();
