@@ -9,9 +9,16 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 ### 7 November 2026, 18:47 America/New_York (23:47 UTC)
 
 - **Who:** Mert
-- **Done:** Completed Carter's Empire AI fine-tuning sequence. Job 175644 trained YOLO11s on the audited dataset, ran the fixed 60-frame held-out comparison and a CUDA tensor check, and released its allocation. Retrieved and checksummed the best checkpoint and epoch CSV, preserved the job log and actual batch script, and delivered the requested private results package to Carter through Mert's Binghamton Drive and email.
+- **Done:** Completed Carter's Empire AI fine-tuning sequence. Job 175644 trained YOLO11s on the audited dataset, ran the fixed 60-frame held-out comparison and a CUDA tensor check, and released its allocation. Retrieved and checksummed the best checkpoint and epoch CSV, preserved the job log and actual batch script, and delivered the requested private results package to Carter through Mert's Binghamton Drive and email. Merged Carter's concurrent geometry-tool commit while retaining both dated worklog entries and preserving unrelated working changes.
 - **Completed:** Scheduler reports COMPLETED / 0:0, 10m25s; early stopping at epoch 40, best validation checkpoint epoch 20. All 17 focused evaluation tests passed on compute. Downloaded checkpoint SHA-256 matches the remote GPU verification. Held-out any-vehicle F1 was 0.8253 tuned versus 0.8996 pretrained; image-count MAE was 2.8167 versus 2.35. The candidate was not promoted; existing runtime model selection is unchanged. Published scalar comparison/provenance only; no raw imagery, weights, credentials or private download tokens are committed. Verified Carter has reader-only access to the package. Both GPU allocations are released; Mert's SSH connection remains available.
 - **Still open:** Improving assisted training-label quality and class coverage, then collecting a new independent evaluation set for a future training iteration. Tractor-trailer training and motorcycle validation evidence are absent, and the Tesla tracking rule is not validated. Calibration, emissions and runtime integration work remain separate; this result does not establish traffic-count or environmental accuracy. No contract or product-scope change was applied.
+
+### 7 November 2026, 18:40 America/New_York (23:40 UTC)
+
+- **Who:** Carter
+- **Done:** Added `python -m worker.draw_geometry <camera>`, a click tool that draws a camera's road region, parking exclusions, and counting gates on a frame from its recorded clip, shows each gate's positive side, and saves `config/cameras/<id>.measurement.json` for Mert's `MetricsConfig`. Set aside Carter's duplicate slice 4 worker in favour of Mert's runtime. Mert's training job is running on an H100 MIG 1g.10gb slice.
+- **Completed:** 167 Python tests pass. The tool validates with the worker's own `MetricsConfig.from_dict` before saving, saves only as disabled and unvalidated, and its `+` arrow matches the worker's signed-distance direction. Frames load from all four recorded clips.
+- **Still open:** Carter draws the four cameras. Counts then need checking against manual crossing counts on held-out clip time before any camera is marked reviewed and enabled. Mert's worker assigns camera-minutes by receipt time, which bursty HLS delivery and the opening backlog distort; a media-time anchor was proposed to Mert.
 
 ### 7 November 2026, 18:35 America/New_York (23:35 UTC)
 
