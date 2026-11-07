@@ -1,10 +1,21 @@
+import { Leaf } from "@phosphor-icons/react/dist/ssr";
 import type { CameraState, QualityState } from "@emission-lens/contracts";
 import { formatNumber, qualityLabel, stateLabel } from "@/lib/format";
 
 /** Three-lamp signal head: green lit for live, amber for degraded, unlit for offline. */
-export function SignalHead({ state, large = false }: { state: CameraState; large?: boolean }) {
+export function SignalHead({
+  state,
+  large = false,
+}: {
+  state: CameraState;
+  large?: boolean;
+}) {
   return (
-    <span className={large ? "signal signal-lg" : "signal"} data-state={state} aria-hidden="true">
+    <span
+      className={large ? "signal signal-lg" : "signal"}
+      data-state={state}
+      aria-hidden="true"
+    >
       <i />
       <i />
       <i />
@@ -17,7 +28,11 @@ export function StateChip({ state }: { state: CameraState }) {
 }
 
 export function QualityChip({ state }: { state: QualityState }) {
-  return <span className={state === "ok" ? "chip chip-ok" : "chip chip-missing"}>{qualityLabel(state)}</span>;
+  return (
+    <span className={state === "ok" ? "chip chip-ok" : "chip chip-missing"}>
+      {qualityLabel(state)}
+    </span>
+  );
 }
 
 /** Null renders as an outlined "Unavailable" so it can never be read as zero. */
@@ -87,10 +102,6 @@ export function Panel({
 
 export function LensMark() {
   return (
-    <svg className="brand-mark" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="8.25" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="12" cy="12" r="3" fill="currentColor" />
-      <path d="M12 0.75v3.5M12 19.75v3.5M0.75 12h3.5M19.75 12h3.5" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
+    <Leaf className="brand-mark" size={26} weight="fill" aria-hidden="true" />
   );
 }

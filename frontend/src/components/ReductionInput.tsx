@@ -3,7 +3,13 @@
 import { useState } from "react";
 
 /** Slider and number stay in sync; only the number is submitted. */
-export function ReductionInput({ defaultValue, id }: { defaultValue: number; id: string }) {
+export function ReductionInput({
+  defaultValue,
+  id,
+}: {
+  defaultValue: number;
+  id: string;
+}) {
   const [value, setValue] = useState(String(defaultValue));
   const numeric = Number(value);
 
@@ -14,7 +20,9 @@ export function ReductionInput({ defaultValue, id }: { defaultValue: number; id:
         min={0}
         max={100}
         step={1}
-        value={Number.isFinite(numeric) ? Math.min(100, Math.max(0, numeric)) : 0}
+        value={
+          Number.isFinite(numeric) ? Math.min(100, Math.max(0, numeric)) : 0
+        }
         onChange={(event) => setValue(event.target.value)}
         aria-controls={id}
         aria-label="Stopped-time reduction slider"
@@ -24,6 +32,7 @@ export function ReductionInput({ defaultValue, id }: { defaultValue: number; id:
           id={id}
           name="reduce"
           type="number"
+          required
           min={0}
           max={100}
           step={1}

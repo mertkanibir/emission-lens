@@ -1,27 +1,43 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 16:35 America/New_York (21:35 UTC)
+**Updated:** 7 November 2026, 17:09 America/New_York (22:09 UTC)
 
-Next.js dashboard for the four Torrance cameras. Overview, camera detail, review, and the investigation brief read `@emission-lens/backend`.
+The four-camera Torrance dashboard reads the shared backend contract. The current store is fixture-backed: live cameras have no worker output, replay is empty, and the synthetic sample is explicitly labeled and excluded from live totals.
 
-Live mode shows offline cameras and unavailable estimates. Replay is empty and labeled. The synthetic sample is labeled and stays out of live totals. A stale heartbeat is shown as degraded, not live.
+## Environmental workspace
 
-Map tiles come from OpenFreeMap. If they fail, the camera list remains the record. Road regions are not drawn because they are not configured.
+**Design note (7 November 2026, 17:09 America/New_York / 22:09 UTC):** Mert rebuilt the entire interface around the selected logistics and travel dashboard references: rounded charcoal surfaces, green accents, a light street map, restrained typography, and editorial environmental imagery. This supersedes the earlier cyan console. No scientific calculation or shared-contract change was made.
 
-## Spatial workspace
+- **Overview:** selected-camera metrics, four-camera map, searchable/filterable/sortable intersection table, selected evidence, actual vehicle-class bars, and a plain-language explanation of the estimation steps.
+- **Camera detail:** four-camera switcher, section links, observations and diagnostics, class totals across recorded minutes, actual minute history, factor provenance, calibration readiness, and shorter-stop scenarios.
+- **Evidence review:** an explicit disconnected review feed and a useful explanation of corrections. An empty queue does not imply approved evidence.
+- **Planning brief:** a readable draft, camera and scenario controls, evidence references, clipboard action, and a real text attachment. Export returns the exact draft text, normalizes native-form line endings, and neither stores nor sends it.
+- **Menus:** camera network, help, data status, and reporting-window explanation. Menus dismiss with Escape or an outside click; only one opens at a time. Native disclosures remain keyboard accessible.
+- **Motion:** brief entrance and camera-focus transitions, with a local preference and operating-system reduced-motion support. No simulated telemetry, fake history, or pollution plumes.
 
-**Design note (7 November 2026, 16:35 America/New_York / 21:35 UTC):** Mert replaced the flat console with a map-led intelligence workspace. This is a presentation change; the existing contract, calculations, and source records are unchanged by this redesign.
+## Data meanings
 
-- A tilted geographic basemap sits behind floating camera, evidence, and log panels. The selected camera uses cyan rings; these indicate selection, not a pollution radius or measured coverage.
-- The selected camera has a prominent line-crossing count. Missing readings still say Unavailable. Feed diagnostics, calibration, and map configuration expand on demand.
-- Camera changes ease the map to the selection and reveal its evidence panel. Fit network restores the four-camera view. The basemap refits when the viewport changes.
-- Ambient motion can be switched off in the header. The preference persists locally when storage is available, and the operating-system reduced-motion setting disables animation. Offline camera markers do not pulse.
-- Every page retains an explicit live, replay, or synthetic label and separate wall/data clocks. Synthetic samples never enter live totals.
-- At phone widths, the map, camera network, selected evidence, and evidence log stack without horizontal page scrolling.
+Unavailable is never substituted with zero. Camera health uses a source timestamp and heartbeat evaluated against the active data clock. Synthetic camera 223 is stale, not live. Mode labels and separate wall/data clocks remain visible on every route.
 
-Space Grotesk and IBM Plex Mono are loaded through `next/font`. Cyan indicates selection; green, amber, and unlit markers retain camera-health meanings, repeated in text. There are no invented activity graphs, emissions plumes, or live-video placeholders pretending to be footage.
+The sample for camera 222 contains **one recorded minute**, with 24 crossings, 16 completed traversals, and a queue count of 5. The overview says **1 / 60 recorded minutes**, not full-hour coverage. Detail coverage is explicitly recorded-minute coverage. Other cameras are not silently treated as zero. Stopped time does not establish whether an engine is running.
 
-Verification: production build, all 29 backend tests, and browser checks at 390, 992, and 1440 px. Camera selection, activity/emissions layers, live/replay/synthetic states, diagnostics, motion controls, and camera-detail navigation were checked. The missing basemap wood-pattern warning was resolved by using solid fills.
+Estimated tailpipe CO₂ and NOₓ require calibrated completed traversals and documented mappings. Scenario ranges are not statistical confidence intervals. Weather, schools, road regions, and gates are not invented or drawn when unavailable.
 
-Open: the dashboard remains fixture-backed. No synchronized video source, valid road calibration, configured road regions/gates, or worker delivery is connected. Vercel deployment remains a later step.
+## Assets and typography
+
+Manrope and italic Lora are self-hosted in `src/app/fonts/`, with their open font licenses. Icons come from Phosphor. Map geography is OpenFreeMap/OpenStreetMap; camera locations are actual configured coordinates. If map tiles fail, the table remains usable.
+
+Environmental image: `public/images/greener-city.png`, 1536 × 1024. It is generated illustrative imagery, clearly labeled as such, and is not a Torrance site observation or camera frame.
+
+Image prompt: “Premium editorial photograph of a sunlit coastal California urban park, lush trees framing a curved pale path, distant understated buildings, warm natural light, deep leafy greens and muted cream; no people, identifiable vehicles, text, logos, or CCTV appearance.” Generated with the built-in image-generation tool; no external image API credentials were used.
+
+## Verification
+
+Production build passes. All 29 backend tests pass with `node --import tsx --test backend/test/*.test.ts` (the ordinary test wrapper's IPC socket is restricted in this environment). Attachment checks cover a valid export and invalid filename; the actual browser-downloaded synthetic brief matches the displayed draft content.
+
+Browser checks covered all four camera selections, search/no-results/reset, each status filter and sort option, traffic/emissions layers, live/replay/synthetic on overview/detail/review/brief, menus and disclosures, scenario 0/40/100 and invalid 101, blank-number validation, keyboard slider synchronization, all four brief camera options, copying, actual download, mobile layouts, and reduced motion. Desktop and phone captures and comparison details are recorded in `../design-qa.md`.
+
+## Still open
+
+Worker-to-dashboard delivery, synchronized video, valid road calibration, road regions/gates, contextual integrations, and Vercel deployment remain separate integration work. The UI does not claim a measured environmental improvement, model accuracy, or live deployment.

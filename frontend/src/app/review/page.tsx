@@ -1,62 +1,121 @@
+import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Panel } from "@/components/ui";
-import { hrefWith, parseMode } from "@/lib/format";
+import { hrefWith, modeLabel, parseMode } from "@/lib/format";
 
-export default async function ReviewPage({ searchParams }: { searchParams: Promise<{ mode?: string }> }) {
+export default async function ReviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string }>;
+}) {
   const mode = parseMode((await searchParams).mode);
-
   return (
-    <AppShell mode={mode} section="review" modeHref={(option) => hrefWith("/review", { mode: option })}>
+    <AppShell
+      mode={mode}
+      section="review"
+      modeHref={(option) => hrefWith("/review", { mode: option })}
+    >
       <div className="page">
         <header className="page-head">
-          <h1 className="page-title">Review queue</h1>
+          <p className="section-kicker">Evidence quality</p>
+          <h1 className="page-title">A little review. Better evidence.</h1>
           <p className="prose">
-            Uncertain observations wait here for a person to check them. A correction is stored next to the original
-            record, never over it.
+            A place to check uncertain observations, flag camera changes, and
+            keep the reasoning behind every estimate clear.
           </p>
         </header>
-
+        <div className="metric-grid">
+          <article className="summary-card">
+            <span className="section-kicker">Loaded review items</span>
+            <strong>0</strong>
+            <p>
+              No review records are connected in {modeLabel(mode).toLowerCase()}{" "}
+              mode.
+            </p>
+          </article>
+          <article className="summary-card">
+            <span className="section-kicker">Review history</span>
+            <strong>Not connected</strong>
+            <p>Corrections will stay linked to the original observation.</p>
+          </article>
+          <article className="summary-card">
+            <span className="section-kicker">What stays protected</span>
+            <strong>Original evidence</strong>
+            <p>A review adds context rather than overwriting a record.</p>
+          </article>
+        </div>
         <div className="split split-narrow">
-          <Panel title="How a review works">
-            <ul className="checklist">
+          <Panel title="What belongs in a review?">
+            <ul className="dimension-list">
               <li>
-                <span className="check-mark" aria-hidden="true">1</span>
-                <span>The original observation and its provenance are kept.</span>
-                <span />
+                <b>Uncertain vehicle class</b>
+                <p>
+                  Check a low-confidence classification against its source
+                  evidence.
+                </p>
               </li>
               <li>
-                <span className="check-mark" aria-hidden="true">2</span>
-                <span>A correction or calibration flag is recorded separately, with its own UTC timestamp.</span>
-                <span />
+                <b>Camera movement or calibration</b>
+                <p>
+                  Flag a shifted view before using distance, speed, or
+                  movement-dependent emissions.
+                </p>
               </li>
               <li>
-                <span className="check-mark" aria-hidden="true">3</span>
-                <span>Dependent results are recalculated only where the method supports it.</span>
-                <span />
+                <b>Incomplete observations</b>
+                <p>
+                  Inspect missing coverage, interrupted tracks, or inconsistent
+                  timestamps.
+                </p>
               </li>
             </ul>
+            <details className="disclosure">
+              <summary>How a correction will be recorded</summary>
+              <ol className="limits">
+                <li>Keep the original observation and its provenance.</li>
+                <li>
+                  Add the correction or calibration flag with its own UTC
+                  timestamp.
+                </li>
+                <li>
+                  Recalculate dependent results only where the method supports
+                  it.
+                </li>
+              </ol>
+            </details>
           </Panel>
-
-          <Panel title="Open items" meta={<span className="mono">0 open</span>} flush>
-            <div className="table-scroll">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Evidence</th>
-                    <th>Issue</th>
-                    <th>Correction</th>
-                    <th>Status</th>
-                    <th>Updated (UTC)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="empty-row">
-                    <td colSpan={5}>
-                      No open reviews. Nothing is waiting, so no placeholder item is shown.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <Panel
+            title="Review queue"
+            meta={<span className="chip">{modeLabel(mode)}</span>}
+            flush
+          >
+            <div className="empty-state">
+              <span className="section-kicker">Nothing loaded yet</span>
+              <h2>No observations waiting here</h2>
+              <p>
+                The review feed is not connected. An empty queue does not mean
+                the camera observations have been checked or approved.
+              </p>
+              <div className="button-row">
+                <Link
+                  className="button button-primary"
+                  href={hrefWith("/", { mode })}
+                >
+                  Explore intersections
+                </Link>
+                <Link
+                  className="button"
+                  href={hrefWith("/cameras/222", { mode }) + "#evidence"}
+                >
+                  View calibration readiness
+                </Link>
+              </div>
+            </div>
+            <div className="panel-body">
+              <p className="context-note">
+                Reviewing evidence supports better estimates. It does not turn
+                modeled emissions into measured air quality.
+              </p>
             </div>
           </Panel>
         </div>
