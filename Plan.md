@@ -466,6 +466,8 @@ Suggested layout:
 
 ```text
 PLAN.md
+Agents.md
+Worklog.md
 contracts/
 config/cameras/
 worker/
@@ -496,6 +498,11 @@ Each coding agent must:
 4. Propose contract changes before implementing incompatible ones.
 5. Report what changed, verification performed, and remaining limitations.
 6. Avoid broad rewrites of another work package.
+7. On every turn, timestamp completed work in `Worklog.md` and in any markdown whose status or instructions changed. See `Agents.md`.
+8. Name only Mert and Carter in repo files, commits, and teammate-facing text. Do not name the coding tool or model.
+9. Commit and push at the end of every turn when nothing looks broken.
+
+**Section note (7 November 2026, 14:28 America/New_York / 19:28 UTC):** items 7–9 record the team’s every-turn logging, attribution, and push rules. Operational detail lives in `Agents.md`.
 
 Agent messages are proposals, not automatic changes to project scope.
 

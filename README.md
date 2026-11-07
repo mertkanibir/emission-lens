@@ -20,7 +20,9 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 Architecture and implementation brief are in place. Camera access was verified on 7 November 2026. Application implementation and Empire AI GPU deployment are not yet verified.
 
-See **[Plan.md](./Plan.md)** for the full master plan, and **[Agents.md](./Agents.md)** for coding-agent work packages and rules.
+See **[Plan.md](./Plan.md)** for the full master plan, **[Agents.md](./Agents.md)** for coding-agent work packages and rules, and **[Worklog.md](./Worklog.md)** for timestamped notes of completed work.
+
+**Docs note (7 November 2026, 14:28 America/New_York / 19:28 UTC):** agent instructions now require a timestamped worklog entry and a push on every turn that leaves the tree in a sound state. Teammate-facing text names Mert and Carter only.
 
 ## Proposed stack
 
@@ -37,6 +39,7 @@ See **[Plan.md](./Plan.md)** for the full master plan, and **[Agents.md](./Agent
 ```text
 Plan.md
 Agents.md
+Worklog.md
 contracts/
 config/cameras/
 worker/
