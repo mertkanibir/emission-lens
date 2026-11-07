@@ -6,6 +6,15 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 14:34 America/New_York (19:34 UTC)
+
+- **Who:** Carter
+- **Done:** Removed the global `*.ts` rule from `.gitignore`, which was hiding TypeScript source. Added ignores for evaluation frames, Ultralytics `runs/` output, and TensorRT and OpenVINO model exports.
+- **Completed:** TypeScript files can be committed. Sampled frames and exported models stay out of the public repo.
+- **Still open:** Carter needs push access. Empire AI GPU test is with Mert. The rest of `Plan.md` §21 is unchanged.
+
+---
+
 ### 7 November 2026, 14:28 America/New_York (19:28 UTC)
 
 - **Who:** Mert
