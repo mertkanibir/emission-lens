@@ -6,6 +6,7 @@ import {
 } from "@emission-lens/backend";
 import { calibrationFor, type Mode } from "@emission-lens/contracts";
 import Link from "next/link";
+import { MotionControl } from "@/components/MotionControl";
 import { Clock } from "@/components/Clock";
 import { LensMark } from "@/components/ui";
 import { formatClock, hrefWith, modeLabel, PACIFIC, zoneAbbreviation } from "@/lib/format";
@@ -68,18 +69,18 @@ export function AppShell({
       <header className="topbar">
         <Link className="brand" href={hrefWith("/", { mode })}>
           <LensMark />
-          <span className="brand-name">Emission Lens</span>
-          <span className="brand-place">Torrance, California</span>
+          <span className="brand-lockup"><span className="brand-name">EMISSION LENS</span><span className="brand-subtitle">ENVIRONMENTAL INTELLIGENCE</span></span>
+
         </Link>
 
         <nav className="primary-nav" aria-label="Sections">
-          {NAV.map((item) => (
+          {NAV.map((item, index) => (
             <Link
               key={item.key}
               href={hrefWith(item.path, { mode })}
               aria-current={item.key === activeNav ? (section === "camera" ? "true" : "page") : undefined}
             >
-              {item.label}
+              <span className="nav-index">0{index + 1}</span>{item.label}
             </Link>
           ))}
         </nav>
@@ -93,6 +94,7 @@ export function AppShell({
           ))}
         </nav>
 
+        <MotionControl />
         <Clock />
       </header>
 

@@ -1,7 +1,7 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 15:20 America/New_York (20:20 UTC)
+**Updated:** 7 November 2026, 16:35 America/New_York (21:35 UTC)
 
 Next.js dashboard for the four Torrance cameras. Overview, camera detail, review, and the investigation brief read `@emission-lens/backend`.
 
@@ -9,16 +9,19 @@ Live mode shows offline cameras and unavailable estimates. Replay is empty and l
 
 Map tiles come from OpenFreeMap. If they fail, the camera list remains the record. Road regions are not drawn because they are not configured.
 
-## Console layout
+## Spatial workspace
 
-**Note (7 November 2026, 15:20 America/New_York / 20:20 UTC):** the dashboard was redesigned as a dark map console.
+**Design note (7 November 2026, 16:35 America/New_York / 21:35 UTC):** Mert replaced the flat console with a map-led intelligence workspace. This is a presentation change; the existing contract, calculations, and source records are unchanged by this redesign.
 
-- **Top bar.** Sections, the data mode switch, and a wall clock in Torrance time and UTC.
-- **Mode strip.** Every page shows the active mode and that mode's camera counts. It also shows the data clock, which is separate from the wall clock. Replay pages carry a pink rule, and synthetic pages carry a hatched violet rule.
-- **Overview.** A camera list and layer status sit on the left, the map in the middle, and the selected camera on the right. A system-check log runs along the bottom. Each log line restates a stored record or its absence.
-- **Map markers.** Each marker is a three-lamp signal head. Green means live, amber means degraded, and unlit means offline, and the marker text repeats the state. The map switches between vehicle activity and modeled emissions.
-- **Unavailable values.** These render as a dashed "Unavailable" outline, so a missing value is never read as zero.
+- A tilted geographic basemap sits behind floating camera, evidence, and log panels. The selected camera uses cyan rings; these indicate selection, not a pollution radius or measured coverage.
+- The selected camera has a prominent line-crossing count. Missing readings still say Unavailable. Feed diagnostics, calibration, and map configuration expand on demand.
+- Camera changes ease the map to the selection and reveal its evidence panel. Fit network restores the four-camera view. The basemap refits when the viewport changes.
+- Ambient motion can be switched off in the header. The preference persists locally when storage is available, and the operating-system reduced-motion setting disables animation. Offline camera markers do not pulse.
+- Every page retains an explicit live, replay, or synthetic label and separate wall/data clocks. Synthetic samples never enter live totals.
+- At phone widths, the map, camera network, selected evidence, and evidence log stack without horizontal page scrolling.
 
-The typefaces are Overpass and Overpass Mono, loaded through `next/font`. Selection uses lane-paint yellow. Design patterns were studied from public open-source dashboards: ShadowBroker, OSIRIS, and Flowsint. No code was copied from them.
+Space Grotesk and IBM Plex Mono are loaded through `next/font`. Cyan indicates selection; green, amber, and unlit markers retain camera-health meanings, repeated in text. There are no invented activity graphs, emissions plumes, or live-video placeholders pretending to be footage.
 
-A stopped-time reduction outside 0 to 100 in the URL now shows a message instead of an error page.
+Verification: production build, all 29 backend tests, and browser checks at 390, 992, and 1440 px. Camera selection, activity/emissions layers, live/replay/synthetic states, diagnostics, motion controls, and camera-detail navigation were checked. The missing basemap wood-pattern warning was resolved by using solid fills.
+
+Open: the dashboard remains fixture-backed. No synchronized video source, valid road calibration, configured road regions/gates, or worker delivery is connected. Vercel deployment remains a later step.

@@ -72,10 +72,21 @@ export default async function OverviewPage({
   return (
     <AppShell mode={mode} section="overview" modeHref={(option) => link({ mode: option })}>
       <div className="console">
+        <header className="console-intro">
+          <div>
+            <p className="eyebrow">TORRANCE, CALIFORNIA <span>/</span> AREA OVERVIEW</p>
+            <h1>Intersection <span>intelligence.</span></h1>
+            <p className="intro-caption">A closer look at traffic. A clearer view of its footprint.</p>
+          </div>
+          <dl className="overview-stats">
+            <div><dt>Intersections</dt><dd>{String(cards.length).padStart(2, "0")}</dd></div>
+            <div><dt>Fresh heartbeats</dt><dd>{String(cards.filter((card) => card.status.displayed_state === "live").length).padStart(2, "0")}<small> / {String(cards.length).padStart(2, "0")}</small></dd></div>
+          </dl>
+        </header>
         <aside className="rail" aria-label="Cameras and layers">
           <div className="rail-head">
-            <h2>Cameras</h2>
-            <span>{cards.length} intersections</span>
+            <h2>Camera network</h2>
+            <span className="panel-index">01 / NETWORK</span>
           </div>
           <ul className="cam-list">
             {cards.map((card) => {
@@ -99,10 +110,8 @@ export default async function OverviewPage({
             })}
           </ul>
 
-          <div className="rail-head">
-            <h2>Map layers</h2>
-            <span>Status</span>
-          </div>
+          <details className="layer-disclosure">
+          <summary>Map layers <span>Configuration</span></summary>
           <ul className="layer-list">
             <li className="layer-row is-on">
               <span>Camera locations</span>
@@ -125,6 +134,8 @@ export default async function OverviewPage({
             Unconfigured layers are left off the map rather than guessed. Roads outside a configured region are not
             observed.
           </p>
+          </details>
+          <div className="rail-bottom"><span className="small-cross" aria-hidden="true">+</span> Caltrans public camera network</div>
         </aside>
 
         <section className="map-pane" aria-label="Camera map">
@@ -142,7 +153,7 @@ export default async function OverviewPage({
             }))}
           />
           <div className="map-overlay map-view">
-            <span>Show</span>
+            <span className="map-label">DISPLAY LAYER</span>
             <nav className="mode-switch" aria-label="Map metric">
               <Link href={link({ view: "activity" })} scroll={false} aria-current={view === "activity" ? "page" : undefined}>
                 Vehicle activity
@@ -156,24 +167,25 @@ export default async function OverviewPage({
               </Link>
             </nav>
           </div>
+          <div className="map-coordinate mono" aria-hidden="true">{formatCoordinates(selected.camera.latitude, selected.camera.longitude)} <b>TORRANCE</b></div>
           <div className="map-overlay map-legend" aria-label="Map legend">
             <div>
-              <SignalHead state="live" /> Live: fresh heartbeat
+              <SignalHead state="live" /> Fresh heartbeat
             </div>
             <div>
-              <SignalHead state="degraded" /> Degraded: heartbeat is stale
+              <SignalHead state="degraded" /> Stale heartbeat
             </div>
             <div>
-              <SignalHead state="offline" /> Offline: no heartbeat or source time
+              <SignalHead state="offline" /> Offline
             </div>
           </div>
         </section>
 
-        <aside className="dossier" aria-label={`Camera ${selected.camera.id} summary`}>
+        <aside className="dossier" key={selected.camera.id} aria-label={`Camera ${selected.camera.id} summary`}>
           <header className="dossier-head">
             <div className="dossier-kicker">
-              <SignalHead state={selected.status.displayed_state} large />
-              Camera {selected.camera.id}
+              <span className="panel-index">02 / INSPECT</span>
+              <span>CAM {selected.camera.id}</span>
             </div>
             <h2>{selected.camera.name}</h2>
             <div className="dossier-meta">
@@ -184,48 +196,12 @@ export default async function OverviewPage({
             </div>
           </header>
 
+          <div className="dossier-hero">
+            <span className="eyebrow">LINE CROSSINGS</span>
+            <div className="hero-value"><Quantity value={selected.traffic.totals.count} digits={0} /><span className="hero-unit">vehicles</span></div>
+            <div className="hero-context"><span>{formatWindow(selected.traffic.from, selected.traffic.to, PACIFIC)}</span><span>{mode === "synthetic" ? "SYNTHETIC" : mode.toUpperCase()}</span></div>
+          </div>
           <div className="dossier-sections">
-            <section className="dossier-section">
-              <h3>Feed status</h3>
-              <dl className="readouts readouts-2">
-                <Readout
-                  label="Heartbeat"
-                  detail={
-                    selected.status.heartbeat_at === null
-                      ? undefined
-                      : `${formatAge(selected.status.heartbeat_at, asOf)} before data clock`
-                  }
-                >
-                  {selected.status.heartbeat_at === null ? (
-                    <Quantity value={null} unavailable="None received" />
-                  ) : (
-                    <span className="q">{localClock(selected.status.heartbeat_at)}</span>
-                  )}
-                </Readout>
-                <Readout label="Last source frame">
-                  {selected.status.last_source_timestamp === null ? (
-                    <Quantity value={null} />
-                  ) : (
-                    <span className="q">{localClock(selected.status.last_source_timestamp)}</span>
-                  )}
-                </Readout>
-                <Readout label="Processing delay">
-                  <Quantity
-                    value={selected.status.processing_delay_ms === null ? null : selected.status.processing_delay_ms / 1000}
-                    unit="s"
-                  />
-                </Readout>
-                <Readout label="Inference rate">
-                  <Quantity value={selected.status.fps} unit="frames/s" />
-                </Readout>
-              </dl>
-              {selected.status.state !== selected.status.displayed_state ? (
-                <p className="note">
-                  The worker last reported {selected.status.state}. It is shown {selected.status.displayed_state}{" "}
-                  because the heartbeat is stale at the data clock.
-                </p>
-              ) : null}
-            </section>
 
             <section className="dossier-section">
               <h3>
@@ -273,25 +249,67 @@ export default async function OverviewPage({
               <p>{selected.emissions.note}</p>
             </section>
 
-            <section className="dossier-section">
-              <h3>
+            <details className="dossier-section diagnostic-disclosure">
+              <summary>Feed diagnostics</summary>
+              <dl className="readouts readouts-2">
+                <Readout
+                  label="Heartbeat"
+                  detail={
+                    selected.status.heartbeat_at === null
+                      ? undefined
+                      : `${formatAge(selected.status.heartbeat_at, asOf)} before data clock`
+                  }
+                >
+                  {selected.status.heartbeat_at === null ? (
+                    <Quantity value={null} unavailable="None received" />
+                  ) : (
+                    <span className="q">{localClock(selected.status.heartbeat_at)}</span>
+                  )}
+                </Readout>
+                <Readout label="Last source frame">
+                  {selected.status.last_source_timestamp === null ? (
+                    <Quantity value={null} />
+                  ) : (
+                    <span className="q">{localClock(selected.status.last_source_timestamp)}</span>
+                  )}
+                </Readout>
+                <Readout label="Processing delay">
+                  <Quantity
+                    value={selected.status.processing_delay_ms === null ? null : selected.status.processing_delay_ms / 1000}
+                    unit="s"
+                  />
+                </Readout>
+                <Readout label="Inference rate">
+                  <Quantity value={selected.status.fps} unit="frames/s" />
+                </Readout>
+              </dl>
+              {selected.status.state !== selected.status.displayed_state ? (
+                <p className="note">
+                  The worker last reported {selected.status.state}. It is shown {selected.status.displayed_state}{" "}
+                  because the heartbeat is stale at the data clock.
+                </p>
+              ) : null}
+            </details>
+
+            <details className="dossier-section diagnostic-disclosure">
+              <summary>
                 Calibration{" "}
                 <span className={selected.calibration.validation_status === "valid" ? "chip chip-ok" : "chip chip-missing"}>
                   {selected.calibration.validation_status}
                 </span>
-              </h3>
+              </summary>
               <p>
                 Version {selected.calibration.version}.{" "}
                 {selected.calibration.validation_status === "valid"
                   ? "Speeds and distance-based emissions are supported."
                   : "Counts and image-based queue observations remain. Speeds and distance-based emissions are suppressed."}
               </p>
-            </section>
+            </details>
           </div>
 
           <div className="dossier-actions">
             <Link className="button button-primary" href={hrefWith(`/cameras/${selected.camera.id}`, { mode })}>
-              Open camera {selected.camera.id}
+              Inspect camera <span aria-hidden="true">↗</span>
             </Link>
             <Link className="button" href={hrefWith("/brief", { mode, camera: selected.camera.id })}>
               Draft a brief
@@ -301,9 +319,9 @@ export default async function OverviewPage({
 
         <section className="syslog" aria-label="System checks">
           <div className="syslog-head">
-            <h2>System checks</h2>
+            <h2><span className="log-dot" aria-hidden="true" /> Evidence log</h2>
             <span className="mono">
-              Evaluated at the data clock, {formatInstant(asOf, PACIFIC)} / {formatClock(asOf, "UTC")} UTC
+              Data clock · {formatInstant(asOf, PACIFIC)} / {formatClock(asOf, "UTC")} UTC
             </span>
           </div>
           <ol>

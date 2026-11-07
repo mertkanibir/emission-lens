@@ -104,3 +104,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Updated `Agents.md` and `Plan.md` §15 so every turn must timestamp completed work, speak only as Mert and Carter, and push when nothing looks broken. Added this worklog.
 - **Completed:** The every-turn logging, attribution, and push rules are written into the agent instructions and the master plan.
 - **Still open:** The rest of the immediate unresolved items in `Plan.md` §21. No application or GPU work in this turn.
+
+### 7 November 2026, 16:35 America/New_York (21:35 UTC)
+
+- **Who:** Mert
+- **Done:** Redesigned `frontend/` as a spatial intelligence workspace with a tilted basemap, floating camera and evidence panels, cyan selection rings, new typography, a prominent crossings readout, progressive disclosure for diagnostics, camera-focus transitions, Fit network, and a persistent ambient-motion control. All motion respects the operating-system reduced-motion setting. Camera health and live/replay/synthetic provenance remain explicit. Updated `frontend/README.md`.
+- **Completed:** Production build and all 29 backend tests pass. Browser checks at 390, 992, and 1440 px covered layout, camera selection, all data modes, both map layers, motion on/off, feed diagnostics, and camera-detail navigation. Generated duplicate route/validator types caused the initial build failure; those local duplicate artifacts were removed and the build passed. Removed an unavailable basemap texture reference. Integrated Carter's concurrent contract and dataset commits before pushing; production build and all 29 backend tests also pass on the combined tree. No contract, calculation, or work-package scope change from the redesign.
+- **Still open:** Worker-to-dashboard delivery, synchronized video, valid calibration and road regions/gates, and Vercel deployment. This remains a fixture-backed UI; no measured accuracy or emissions claim was added.
