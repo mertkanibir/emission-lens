@@ -33,20 +33,24 @@ out/
 *.swp
 
 # Media and local demo artifacts (never commit raw footage)
+# HLS .ts segments stay inside these folders; a global *.ts rule would hide TypeScript
 *.mp4
 *.mkv
 *.avi
 *.mov
-*.ts
 clips/
 footage/
 replay-local/
 data/raw/
+evaluation/frames/
+runs/
 
 # Model weights (pin/download separately)
 *.pt
 *.pth
 *.onnx
+*.engine
+*_openvino_model/
 weights/
 models/weights/
 
