@@ -100,11 +100,8 @@ def coarse(boxes: list[Box]) -> list[Box]:
 def rates(true_pos: int, false_pos: int, false_neg: int) -> dict:
     precision = true_pos / (true_pos + false_pos) if true_pos + false_pos else None
     recall = true_pos / (true_pos + false_neg) if true_pos + false_neg else None
-    f1 = (
-        2 * precision * recall / (precision + recall)
-        if precision is not None and recall is not None and precision + recall
-        else None
-    )
+    f1_denominator = 2 * true_pos + false_pos + false_neg
+    f1 = 2 * true_pos / f1_denominator if f1_denominator else None
     return {"true_pos": true_pos, "false_pos": false_pos, "false_neg": false_neg,
             "precision": precision, "recall": recall, "f1": f1}
 
@@ -168,7 +165,10 @@ def predict(weights: Path, images: list[Path], labels: frozenset[str] | None) ->
 
 
 def load_truth(dataset: Path) -> tuple[list[Path], list[list[Box]]]:
-    images = sorted((dataset / "images" / "test").glob("*.jpg"))
+    test_images = dataset / "images" / "test"
+    images = sorted(test_images.glob("*.jpg"))
+    if not images:
+        raise ValueError(f"No held-out test images found in {test_images}")
     truth = []
     for image in images:
         height, width = cv2.imread(str(image)).shape[:2]

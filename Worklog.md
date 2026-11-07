@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 18:35 America/New_York (23:35 UTC)
+
+- **Who:** Mert
+- **Done:** Read Carter's Empire AI fine-tuning instructions, reused Mert's authenticated SSH connection and verified compute environment, downloaded and audited the shared dataset, completed GPU preflight job 175643, and launched fine-tuning job 175644 with held-out comparison after training. Corrected supported-zero F1 and explicit empty-test errors in the detector comparison; preserved unrelated integration work.
+- **Completed:** Dataset has 280 train / 60 validation / 60 test images, matching class order, valid labels, no cross-split filename or exact-image duplicates, chronological camera splits and 30/30 matching Mert test exports. Preflight completed one YOLO11s COCO8 epoch at size 1280 / batch 8 and direct HLS access passed. All 17 focused comparison tests passed on the allocated compute environment. No raw images, weights or credentials are committed.
+- **Still open:** Job 175644 training, checkpoint retrieval, final held-out comparison and private handoff package. Training labels include assisted drafts. Tractor-trailer has no train/validation examples; motorcycle validation is absent. No model promotion, accuracy improvement or environmental-impact claim is established.
+
 ### 7 November 2026, 18:32 America/New_York (23:32 UTC)
 
 - **Who:** Mert

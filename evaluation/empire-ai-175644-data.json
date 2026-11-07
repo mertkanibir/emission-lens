@@ -1,0 +1,174 @@
+{
+  "audited_at_utc": "2026-11-07T23:33:01.019055+00:00",
+  "archive_size_bytes": 161810587,
+  "archive_sha256": "901d38a8cf0bbaa10a1b9ad225fa46af373ed8e225c77c944b85c15d6b932d84",
+  "issues": [],
+  "zip_integrity": "OK",
+  "data_yaml": {
+    "train": "images/train",
+    "val": "images/val",
+    "test": "images/test",
+    "names": {
+      "0": "car",
+      "1": "pickup",
+      "2": "box_truck",
+      "3": "tractor_trailer",
+      "4": "bus",
+      "5": "motorcycle",
+      "6": "tesla"
+    }
+  },
+  "canonical_class_order_matches": true,
+  "splits": {
+    "train": {
+      "images": 280,
+      "labels": 280,
+      "cameras": {
+        "220": 70,
+        "222": 70,
+        "223": 70,
+        "228": 70
+      },
+      "classes": {
+        "car": 5465,
+        "pickup": 144,
+        "bus": 51,
+        "box_truck": 22,
+        "tesla": 19,
+        "motorcycle": 4
+      },
+      "boxes": 5705,
+      "dimensions": {
+        "(1280, 720)": 280
+      },
+      "missing_label_stems": [],
+      "extra_label_stems": []
+    },
+    "val": {
+      "images": 60,
+      "labels": 60,
+      "cameras": {
+        "220": 15,
+        "222": 15,
+        "223": 15,
+        "228": 15
+      },
+      "classes": {
+        "car": 1079,
+        "pickup": 29,
+        "tesla": 6,
+        "bus": 12,
+        "box_truck": 6
+      },
+      "boxes": 1132,
+      "dimensions": {
+        "(1280, 720)": 60
+      },
+      "missing_label_stems": [],
+      "extra_label_stems": []
+    },
+    "test": {
+      "images": 60,
+      "labels": 60,
+      "cameras": {
+        "220": 15,
+        "222": 15,
+        "223": 15,
+        "228": 15
+      },
+      "classes": {
+        "car": 1201,
+        "tesla": 28,
+        "pickup": 41,
+        "box_truck": 13,
+        "tractor_trailer": 4,
+        "bus": 13,
+        "motorcycle": 4
+      },
+      "boxes": 1304,
+      "dimensions": {
+        "(1280, 720)": 60
+      },
+      "missing_label_stems": [],
+      "extra_label_stems": []
+    }
+  },
+  "camera_time_ranges": {
+    "220": {
+      "train": {
+        "first": "2026-11-07T20:24:27+00:00",
+        "last": "2026-11-07T21:05:47+00:00"
+      },
+      "val": {
+        "first": "2026-11-07T21:06:18+00:00",
+        "last": "2026-11-07T21:14:48+00:00"
+      },
+      "test": {
+        "first": "2026-11-07T21:15:20+00:00",
+        "last": "2026-11-07T21:24:05+00:00"
+      }
+    },
+    "222": {
+      "train": {
+        "first": "2026-11-07T20:24:29+00:00",
+        "last": "2026-11-07T21:05:28+00:00"
+      },
+      "val": {
+        "first": "2026-11-07T21:06:11+00:00",
+        "last": "2026-11-07T21:14:50+00:00"
+      },
+      "test": {
+        "first": "2026-11-07T21:15:11+00:00",
+        "last": "2026-11-07T21:23:52+00:00"
+      }
+    },
+    "223": {
+      "train": {
+        "first": "2026-11-07T20:24:31+00:00",
+        "last": "2026-11-07T21:05:19+00:00"
+      },
+      "val": {
+        "first": "2026-11-07T21:06:08+00:00",
+        "last": "2026-11-07T21:14:45+00:00"
+      },
+      "test": {
+        "first": "2026-11-07T21:15:03+00:00",
+        "last": "2026-11-07T21:23:41+00:00"
+      }
+    },
+    "228": {
+      "train": {
+        "first": "2026-11-07T20:24:32+00:00",
+        "last": "2026-11-07T21:05:42+00:00"
+      },
+      "val": {
+        "first": "2026-11-07T21:06:32+00:00",
+        "last": "2026-11-07T21:14:53+00:00"
+      },
+      "test": {
+        "first": "2026-11-07T21:15:24+00:00",
+        "last": "2026-11-07T21:24:07+00:00"
+      }
+    }
+  },
+  "cross_split_filename_duplicates": {},
+  "cross_split_image_sha256_duplicates": {},
+  "within_split_image_sha256_duplicates": {},
+  "camera_time_ordering": {
+    "220": true,
+    "222": true,
+    "223": true,
+    "228": true
+  },
+  "mert_export_comparison": {
+    "export_sha256": "1d33ea69ed2d961d266914f83ed097b07e5ecf9ad5501b40bba70323ee122828",
+    "files": 30,
+    "matched": 30,
+    "mismatches": [],
+    "coordinate_tolerance": 1e-05,
+    "export_file": "mert_test_export.zip"
+  },
+  "validation_passed": true,
+  "source": "Carter dataset.zip, shared Drive file 1oIPK_LPHn7Rcu7v_Mf0ehPHbTcNjKhbO",
+  "label_provenance_note": "Training labels include pretrained drafts and assisted class review; the 60 test frames are human reviewed. No raw images are committed."
+}

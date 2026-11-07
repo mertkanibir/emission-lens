@@ -5,8 +5,10 @@ from evaluation.compare_models import (
     coarse,
     iou,
     large_enough,
+    load_truth,
     markdown,
     match,
+    rates,
     read_labels,
     score,
     tesla_rule,
@@ -69,6 +71,24 @@ def test_score_counts_hits_misses_and_false_alarms():
     assert result["any_vehicle"]["recall"] == pytest.approx(2 / 3)
     assert result["confusion"]["bus -> truck"] == 1
     assert result["count_error"]["mean_signed"] == -0.5
+
+
+@pytest.mark.parametrize("false_pos,false_neg", [(2, 3), (2, 0), (0, 3)])
+def test_f1_is_zero_when_all_supported_detections_are_wrong(false_pos, false_neg):
+    assert rates(0, false_pos, false_neg)["f1"] == 0.0
+
+
+def test_f1_is_unavailable_when_the_class_has_no_evidence():
+    assert rates(0, 0, 0)["f1"] is None
+
+
+@pytest.mark.parametrize("create_directory", [False, True])
+def test_load_truth_rejects_missing_or_empty_test_images(tmp_path, create_directory):
+    test_images = tmp_path / "images" / "test"
+    if create_directory:
+        test_images.mkdir(parents=True)
+    with pytest.raises(ValueError, match="No held-out test images found"):
+        load_truth(tmp_path)
 
 
 def test_tesla_rule_only_counts_confident_tesla_calls():
