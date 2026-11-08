@@ -4,10 +4,11 @@ import type { MeasurementWindowView } from "@emission-lens/backend";
 // This is presentation context, never an approval or a calculation input.
 const SHARED_MAPPING = "pretrained-visual-to-emfac2007-v1";
 const COMBINED_REVISION = "222-223-2026-11-08T04:03:40Z";
+const FOUR_CAMERA_REVISION = "220-222-223-228-2026-11-08T05:15:18Z";
 const REVIEWED_PROFILES = [
   {
     camera: "222",
-    revisions: ["222-first-camera-2026-11-08T03:19:55Z", COMBINED_REVISION],
+    revisions: ["222-first-camera-2026-11-08T03:19:55Z", COMBINED_REVISION, FOUR_CAMERA_REVISION],
     calibration: "222-ground-esri-v1-7f52d53d8fc8",
     title: "Eastern 20 m segment",
     direction: "eastbound",
@@ -15,7 +16,7 @@ const REVIEWED_PROFILES = [
   },
   {
     camera: "223",
-    revisions: [COMBINED_REVISION],
+    revisions: [COMBINED_REVISION, FOUR_CAMERA_REVISION],
     calibration: "223-ground-esri-v1-34782d640860",
     title: "15 m southbound segment",
     direction: "southbound",

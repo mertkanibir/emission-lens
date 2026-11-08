@@ -184,3 +184,43 @@ test("223 registration without records supplies context but never manufactures w
   mixed.scenario.completed_cohort.baseline.stopped_time_s = 0;
   assert.doesNotMatch(measurementScope(mixed).assumptions.join(" "), /stopped time is unavailable/);
 });
+
+test("the validated four-camera revision preserves only its exact unchanged 222 and 223 display scopes", () => {
+  for (const camera of ["222", "223"] as const) {
+    for (const mode of ["live", "replay"] as const) {
+      const view = windowView(camera, true); view.mode = mode;
+      view.registry.revision = "220-222-223-228-2026-11-08T05:15:18Z";
+      const before = structuredClone(view);
+      const scope = measurementScope(view);
+      assert.equal(scope.known, true);
+      assert.equal(scope.title, camera === "222" ? "Eastern 20 m segment" : "15 m southbound segment");
+      assert.match(scope.summary, /completed .* movement vehicles, not every crossing or the whole intersection/);
+      assert.deepEqual(view, before);
+    }
+  }
+});
+
+test("four-camera revision recognition still rejects unapproved cameras and unknown or mixed authority", () => {
+  const changes: Array<(view: MeasurementWindowView) => void> = [
+    (v) => { v.camera_id = "220"; },
+    (v) => { v.camera_id = "228"; },
+    (v) => { v.mode = "synthetic"; },
+    (v) => { v.registry.revision = "220-222-223-228-unknown"; },
+    (v) => { v.registry.state = "missing"; },
+    (v) => { v.registry.state = "invalid"; },
+    (v) => { v.registry.physical_calibration_approved = false; },
+    (v) => { v.registry.calibration_version = "another-calibration"; },
+    (v) => { v.registry.mapping_versions = ["another-mapping"]; },
+    (v) => { v.registry.mapping_versions.push("another-mapping"); },
+    (v) => { v.minutes[0].calibration_version = "another-calibration"; },
+    (v) => { v.minutes[0].mapping_version = null; },
+    (v) => { v.minutes.push({ ...v.minutes[0], mapping_version: "another-mapping" }); },
+  ];
+  for (const camera of ["222", "223"] as const) {
+    for (const change of changes) {
+      const view = windowView(camera, true); view.registry.revision = "220-222-223-228-2026-11-08T05:15:18Z";
+      change(view);
+      assert.equal(measurementScope(view).known, false);
+    }
+  }
+});
