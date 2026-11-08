@@ -72,3 +72,26 @@ ssh -S "$task_socket" -O cancel \
 ```
 
 Keep the authenticated master open only while it is needed. `infra/train.sbatch` now uses the verified Python environment and explicit account/QOS, checks that reviewed data/weights exist, chooses memory-aware AutoBatch, and creates a unique run directory. No training is launched by these delivery checks.
+
+## Persistent local SSH master — 8 November 2026, 00:10 America/New_York / 8 November 2026, 05:10 UTC
+
+Mert reauthenticated using a persistent socket directory after the prior temporary directory was removed. The same authenticated master is available to the implementation work streams; credentials and authenticator codes stay in Terminal.
+
+```bash
+mkdir -p "$HOME/.ssh/emission-lens"
+chmod 700 "$HOME/.ssh/emission-lens"
+ssh -o ControlMaster=auto -o ControlPersist=no \
+  -S "$HOME/.ssh/emission-lens/control" \
+  student032@alpha1.empireai.edu
+```
+
+Keep that Terminal session open while its connection and relays are in use. Set `task_socket="$HOME/.ssh/emission-lens/control"` in the delivery examples above. Verify access without another password prompt using:
+
+```bash
+ssh -S "$HOME/.ssh/emission-lens/control" -O check student032@alpha1.empireai.edu
+ssh -S "$HOME/.ssh/emission-lens/control" -o BatchMode=yes student032@alpha1.empireai.edu 'id -un'
+```
+
+Both checks pass on this recovery. This changes local connection plumbing only; it does not grant scientific acceptance or start an inference job. Camera-222 live operation is separately authorized by Mert, with one GPU slice, a six-hour scheduler cap and a shorter worker interval reserving time for setup/shutdown. Running-state evidence and the final job/end time are recorded in Worklog.md and Coordination.md after verification. Private runtime manifests, relays and credentials remain outside Git.
+
+**Running checkpoint (8 November 2026, 00:23 America/New_York / 05:23 UTC):** Live job 176075 is running on CUDA and delivering to the single production application on loopback port 3138. Its scheduled allocation end is 06:12:38 America/New_York / 11:12:38 UTC. An owned idle-awake process follows the corrected connection guard's lifetime; system sleep settings are unchanged. Keep the authenticated Terminal and laptop/network available. Only this job's relays are scheduled for cleanup; the user's SSH master is preserved. Actual end-of-job cleanup and sustained reliability remain unverified. See [the startup and relay-repair evidence](../evaluation/222-live-restart-176075.md).

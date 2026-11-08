@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 21:54 America/New_York / 8 November 2026, 02:54 UTC
+**Updated:** 8 November 2026, 00:23 America/New_York / 05:23 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -187,3 +187,23 @@ The actual full-snapshot consumer check passes. The existing evidence disclosure
 Mert checked the running production build in the browser: camera 222 has one timestamped live heat point at 17.3 g; Traffic hides it, Replay uses its own 35.7 g record, Synthetic clears all points, and Live restores its own reading. The map reports a ready layer and no browser errors. The lifecycle review's one-time-load issue is corrected. All 41 frontend tests, TypeScript and the isolated production build pass. The heat-map consumer reads the actual local ingestion store and supplied registry, matching its live/replay public records without modifying snapshot bytes or receiving a worker token. The original localhost and read-only 3137 snapshot-review instance remain unchanged. See [the heat-map record](./frontend/HEATMAP.md).
 
 Carter's new `4c5a5ea` enables camera 223/count-1 based on the explicitly assisted review and records a 15 m southbound movement. Preserve that owner decision and its non-human reference; it does not establish configured 223 GPU-to-dashboard physical delivery. No 223 heat point is invented without actual supported data. Camera 228 stays unapproved and the fresh window remains untouched. The bounded 222 worker is offline; shared hosting, longer operation/outage checks, independent physical/traversal validation, 223 delivery and final rehearsal/submission remain open.
+
+## Live recovery and current allocation — 8 November 2026, 00:23 America/New_York / 05:23 UTC
+
+The earlier stopped-worker notes above are historical. Mert verified the new persistent SSH master at `$HOME/.ssh/emission-lens/control`, and notified the work streams that need it. One production application on `127.0.0.1:3138` now owns dashboard, authenticated ingestion and process-local previews using the existing authoritative 222 store and approved registry. Live GPU job **176075** runs on `alphagpu01`, with actual CUDA processing and unchanged pretrained n/640/requested 15 FPS. Its six-hour allocation started at 00:12:38 New York / 05:12:38 UTC and is scheduled to end at **06:12:38 New York / 11:12:38 UTC**. The shorter 5h54m worker interval reserves setup/shutdown time; neither interval certifies uninterrupted operation.
+
+Mert independently checked two successive reads: fresh live status, advancing heartbeat and processed-frame time, changing preview bytes, increasing crossings and supported estimated CO₂/NOₓ all pass. The actual browser heat map displays live supported-minute values; unavailable whole-window estimates remain null. A later read at 00:22:58 New York / 05:22:58 UTC reports live status and 99 crossings. These are dated pipeline observations, not count or physical accuracy. See [startup evidence and relay repair](./evaluation/222-live-restart-176075.md). The corrected local guard owns only this job's forward; an existing idle-awake process is tied to it and preserves the user's authenticated master. Terminal, laptop/network and the local application remain dependencies. Arrange a fresh bounded run or tested labeled replay before judging, because this allocation ends earlier.
+
+Carter's three new email handoffs were read: the actual combined 222/223 registry and 223 traversal configuration; a queued 220 video/metadata pair with its model reference kept separate; and practice diagnostic suggestions for 228. The [223 preparation](./backend/223-HANDOFF.md) validates the actual attachments and preserves 222's calibration/mapping, but a changed registry fingerprint requires retained-derivation refresh and exact UI scope support. No active registry was swapped. New saved 228 v3 calibration/movements do not approve counting or replace a blind reference; its unchanged count-1 gate can be reviewed by semantic identity. Carter retains labeling/training and physical-calibration ownership.
+
+| Current role | Concrete next result | Boundary |
+|---|---|---|
+| Full-Stack Engineer — 1 | Isolated combined-registry integration, refreshed retained 222 evidence and explicit activation/rollback handoff for 223 | Private cloned store/app only; no active 222 writer, registry or service replacement. |
+| Full-Stack Engineer — 2 | Reconcile the newly frozen 228 practice ledger; retain the reference-withheld 220 source handoff for the next released checkpoint | No duplicate blind viewing or broad full-file expansion. |
+| UI/UX Designer | Strict recognition/disclosure for actual combined 222/223 profile identities, retaining conservative unknown/mixed behavior | Existing design and live production process remain unchanged. |
+| GPU, Data, and Models Engineer | Preserve live 176075 and review the one isolated reliability replay launch and cleanup | Maximum two simultaneous slices; no training/model promotion or additional camera activation. |
+| Reliability Engineer | Controlled outage, retry/deduplication, durable restart and mode/status evidence in its own service/store, then one bounded replay if reviewed | No live app, store, worker or relay interference; publish actual limitations. |
+| Release & Submission Manager | Reviewable Devpost copy, evidence ledger, three-minute script and submission checklist | Drafts only; final fields, licence decision, rehearsal/media and submission confirmation remain open. Contributor settings stay on hold. |
+| Project Manager | Integrate evidence, review blinded count-1 practice work and resolve acceptance dependencies | Fresh 228 `[720,840)` stays unviewed; no accuracy or environmental benefit inferred. |
+
+An additional blind reviewer owns only 228 practice `[60,180)` and freezes a timestamped ledger before model/reference release, with `human_confirmed=false`. Root planning, role names and checkpoint records are coordinated here; each work stream publishes its own scoped results. Contract 1.1 / measurement 1.0, approvals, ordinary-idle handling and missing-data rules are unchanged.
