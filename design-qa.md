@@ -111,3 +111,24 @@ No shared review approval, reviewer/time, per-camera mapping version/evidence or
 6. Demonstrate phone menus, Escape dismissal and reduced-motion behavior without changing scientific configuration.
 
 **Checkpoint result:** frontend changes and bounded acceptance checks pass. Scientific readiness and final combined live/replay integration remain with their assigned streams and the coordinator.
+
+## Requested card removals and larger typography
+
+**Mert — 7 November 2026, 19:58 America/New_York / 8 November 2026, 00:58 UTC.** Scope: the annotated dashboard cards, shared typography/palette, and alignment.
+
+- Removed the complete nature/photo/editorial card, sidebar marketing note, and team footer. Help remains accessible from the sidebar. The overview context column starts with camera evidence, followed by actual class counts. Tablet context cards share a row; phone cards stack without empty slots.
+- Darkened the cream page to `#F1E7D8`, panel cream to `#FFF9F0`, and sidebar to `#E7DDCB`. Retained forest green and labeled metric colors. Checked contrast: secondary/page 5.04:1, secondary/sidebar 4.58:1, primary/page 10.10:1, light text/green button 4.71:1. This is a scoped palette check, not a full accessibility certification.
+- Enlarged interface text throughout all routes: 16 px base/750 weight, labels/headings/controls at 800, supporting text generally 14–16 px, and responsive main titles 30–36 px. Rebalanced the context column, menu panels and mobile navigation for the larger text. Removed the unused image component import and editorial font preload.
+- Added more inviting overview copy: “Torrance, in focus.”, “Find your intersection…” and “Take a closer look”. Scientific units, null/zero meanings, mode labels, readiness conditions and evidence remain precise. Existing short interaction feedback and reduced-motion behavior are preserved.
+
+### Current verification
+
+- `npm run build`: passed after the final mobile alignment adjustment. `node --import tsx --test frontend/test/readiness.test.ts`: all five passed. No new test that merely mirrors visual declarations was added.
+- Production browser verification used an owned loopback server on 3100. The original 3000 server, PID 46237, was preserved; only owned test resources were stopped.
+- Desktop menus: camera network, help, data status and reporting hour all open, close with Escape, dismiss outside and enforce one-open behavior. All four camera-menu destinations work.
+- Register: search/no-results/reset, all four status tabs and all three sort options work with larger text. Brief: all four intersection options submit, copy feedback appears, and the actual local text attachment downloads. This pass checks export delivery; exact content equality and independent clipboard limits are recorded in the earlier acceptance checkpoint.
+- Phone/tablet: 354/390 px phones and 820 px tablet inspected, with full 1618 px desktop and compact navigation. All phone menu panels fit inside the viewport. Overview context cards align and no non-table camera/review/brief element extends beyond the phone viewport. A horizontal overview gesture leaves `scrollX = 0`; evidence tables retain their own horizontal scroll areas. Four detail disclosures toggle both ways.
+- Live/replay/synthetic overview links work. Exact synthetic counts remain 24 crossings, queue 5 and 16 traversals with one recorded minute; missing grams remain unavailable. Local motion on/off and emulated system reduction work; overrides were cleared. Production console warnings/errors: none captured. Map tiles and locally emitted map worker render successfully.
+- Evidence: `/tmp/emission-lens-type-polish/dashboard-desktop.png`, `/tmp/emission-lens-type-polish/dashboard-phone.png`, and `/tmp/emission-lens-type-polish/checks.json`. Local screenshots are not committed footage. The temporary production tab was closed, viewport restored, and the user's synthetic localhost tab refreshed.
+
+**Completed:** requested removals, stronger type, darker cream, responsive alignment and bounded interaction acceptance. **Open:** scientific evidence/calibration and hosted persistence/deployment dependencies remain with their assigned work streams. No contract, calculation or scope change was proposed or applied.

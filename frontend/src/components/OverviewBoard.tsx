@@ -2,12 +2,10 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRight,
   ArrowUpRight,
   Car,
-  CheckCircle,
   Clock,
   Cloud,
   Info,
@@ -121,10 +119,10 @@ export function OverviewBoard({
       <header className="overview-heading">
         <div>
           <h1>
-            Torrance intersections<span>.</span>
+            Torrance, in focus<span>.</span>
           </h1>
           <p>
-            Traffic observations and the evidence behind estimated emissions.
+            Pick an intersection. Follow the traffic. Get to know the evidence.
           </p>
         </div>
         <details suppressHydrationWarning data-menu className="period-menu">
@@ -314,7 +312,7 @@ export function OverviewBoard({
                 <h2>
                   Intersection register <span>{cameras.length}</span>
                 </h2>
-                <p>Choose an intersection to explore its observations.</p>
+                <p>Four intersections. What will you look into first?</p>
               </div>
               <label className="search-field">
                 <MagnifyingGlass size={17} />
@@ -322,7 +320,7 @@ export function OverviewBoard({
                   aria-label="Search intersections"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Find an intersection…"
+                  placeholder="Find your intersection…"
                 />
               </label>
             </div>
@@ -462,34 +460,6 @@ export function OverviewBoard({
         </div>
 
         <aside className="overview-aside" aria-label="Selected camera context">
-          <section className="nature-card">
-            <div className="nature-image">
-              <Image
-                src="/images/greener-city.png"
-                alt="Illustrative tree-lined urban park with a sunlit path"
-                fill
-                sizes="(max-width: 900px) 90vw, 280px"
-                priority
-              />
-              <span>
-                <Leaf size={12} /> A greener perspective
-              </span>
-            </div>
-            <div className="nature-copy">
-              <h2>
-                Evidence for
-                <br />
-                <em>better streets.</em>
-              </h2>
-              <p>
-                Observe traffic. Understand the limits. Explore what could
-                change.
-              </p>
-              <span className="image-caption">
-                Illustrative image · not camera footage
-              </span>
-            </div>
-          </section>
           <section className="selection-card" key={`evidence-${selectedId}`}>
             <header>
               <span className="camera-focus-id">
@@ -537,7 +507,7 @@ export function OverviewBoard({
               className="button button-primary"
               href={hrefWith(`/cameras/${selectedId}`, { mode })}
             >
-              Explore intersection <ArrowRight size={16} />
+              Take a closer look <ArrowRight size={16} />
             </Link>
           </section>
           <section className="class-card" key={`classes-${selectedId}`}>
@@ -593,7 +563,7 @@ export function OverviewBoard({
         <div className="evidence-path-title">
           <Leaf size={23} />
           <div>
-            <h2>How an observation becomes an estimate</h2>
+            <h2>From a crossing to an estimate</h2>
             <p>Each step matters. Missing evidence stays visible.</p>
           </div>
         </div>

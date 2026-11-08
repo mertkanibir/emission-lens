@@ -1,15 +1,17 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 19:45 America/New_York / 8 November 2026, 00:45 UTC
+**Updated:** 7 November 2026, 19:58 America/New_York / 8 November 2026, 00:58 UTC
 
 The four-camera Torrance dashboard reads the shared backend contract. The server reads live/replay worker records from the configured local store. Without a worker, those modes remain empty. The synthetic sample is explicitly labeled and excluded from live totals.
 
-## Environmental workspace
+## Observation workspace
 
 **Design note (7 November 2026, 17:26 America/New_York / 22:26 UTC):** Mert applied the latest supplied palette across the entire interface: warm tan `#FAF3EA` and green `#058247`, sampled after converting the reference image to sRGB. Cream and sage surfaces, bold typography, a light street map, and editorial environmental imagery retain the selected logistics/travel composition. This supersedes the charcoal theme. No scientific calculation or shared-contract change was made.
 
 **Polish note (7 November 2026, 18:58 America/New_York / 23:58 UTC):** Mert retained the tan/green palette, bold typography, navigation, and overall composition. A joined metric readout, road-grouped station index, compact camera identifiers, coordinates, sharper panel geometry, and more specific headings make the existing workspace more distinctive. Station order is geographic within each road; it does not imply tracking between cameras. A green selection outline is independent of the marker's amber/neutral health face. Fit controls preserve room around every marker.
+
+**Typography and layout note (7 November 2026, 19:58 America/New_York / 8 November 2026, 00:58 UTC):** Mert removed the overview photo/editorial card, sidebar marketing note, and team footer at the requested locations. The page cream is now `#F1E7D8`, panels `#FFF9F0`, and sidebar `#E7DDCB`; green and category colors stay explicit. Larger, heavier text and clearer navigation alignment apply across all routes. Overview headings and actions invite exploration while scientific labels and unavailable states retain their exact meanings. This supersedes the displayed imagery and smaller typography in the earlier design notes.
 
 - **Overview:** selected-camera metrics, four-camera map, searchable/filterable/sortable intersection table, selected evidence, actual vehicle-class bars, and a plain-language explanation of the estimation steps.
 - **Camera detail:** four-camera switcher, section links, observations and diagnostics, class totals across recorded minutes, actual minute history, factor provenance, calibration readiness, and shorter-stop scenarios.
@@ -29,11 +31,9 @@ Estimated tailpipe CO₂ and NOₓ require calibrated completed traversals and d
 
 ## Assets and typography
 
-Manrope and italic Lora are self-hosted in `src/app/fonts/`, with their open font licenses. Interface text uses weight 700 throughout; major headings and metric figures use 800. Tabular monospace readouts distinguish timestamps and numeric data. Icons come from Phosphor. Map geography is OpenFreeMap/OpenStreetMap; camera locations are actual configured coordinates. If map tiles fail, the table remains usable.
+Manrope is self-hosted in `src/app/fonts/` with its open font license. The interface base is 16 px at weight 750; headings, labels, inputs and controls use 800. Small metadata is enlarged to 11–13 px, most supporting copy to 14–16 px, with responsive headings at 30–36 px. Tabular monospace readouts distinguish timestamps and numeric data. Icons come from Phosphor. Map geography is OpenFreeMap/OpenStreetMap; camera locations are configured coordinates. If map tiles fail, the table remains usable.
 
-Environmental image: `public/images/greener-city.png`, 1536 × 1024. It is generated illustrative imagery, clearly labeled as such, and is not a Torrance site observation or camera frame.
-
-Image prompt: “Premium editorial photograph of a sunlit coastal California urban park, lush trees framing a curved pale path, distant understated buildings, warm natural light, deep leafy greens and muted cream; no people, identifiable vehicles, text, logos, or CCTV appearance.” Generated with the built-in image-generation tool; no external image API credentials were used.
+The prior illustrative `public/images/greener-city.png` asset is no longer rendered. The removed card's editorial font is no longer preloaded. Camera evidence and the vehicle mix now begin at the top of the right column, share one row on tablet, and stack on phone.
 
 ## Verification
 
@@ -62,3 +62,7 @@ Reviewed road regions/gates, physical calibration, validated traffic metrics, co
 Verification: `node --import tsx --test frontend/test/readiness.test.ts` passes five semantic guards; `npm run build` passes. Isolated production browser checks on port 3100 cover desktop/phone menus, map selection/zoom/fit/layers, live/replay/synthetic states, evidence disclosures, review/brief navigation, and a real text export exactly matching `draft_brief`. Scenario checks at 0/20/100 retain null grams. Copy feedback passed; the browser clipboard adapter returned empty text, so clipboard readback was not independently verified. Viewport/reduced-motion overrides were restored, the temporary tab/server were removed, and the user's port-3000 process was preserved.
 
 Dependencies: shared read models do not expose geometry review confirmation, per-camera mapping version/evidence, or individual calibrated-traversal evidence. Public scenario grams remain unavailable. Engineering owns offline precedence and any traversal/scenario interface; the latest tested shared-tree build includes its pending offline fix. The coordinator owns final combined acceptance. See `../design-qa.md` for the demo path and exact limits.
+
+## Larger-type acceptance pass
+
+**7 November 2026, 19:58 America/New_York / 8 November 2026, 00:58 UTC — Mert.** Production build and all five frontend readiness guards pass. Browser checks cover all four workspace menus, Escape/outside/exclusive dismissal, all four camera destinations, register search/reset/filter/sort, overview mode switches, four detail disclosures, all four brief camera options, copy feedback and an actual text download. Desktop (1618 px), compact navigation, tablet (820 px), and phones (354/390 px) were checked. Phone menu panels fit; camera/review/brief content stays inside the viewport outside independent table scroll areas. A horizontal gesture left overview page pan at zero. Local motion on/off and system reduced-motion behavior pass. No browser warnings/errors or map-worker error was captured. Browser overrides and temporary production resources were restored; the user's localhost server remains running. See `../design-qa.md` for evidence and limits.

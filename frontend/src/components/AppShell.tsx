@@ -154,16 +154,6 @@ export function AppShell({
             <span>Planning brief</span>
           </Link>
         </nav>
-        <div className="sidebar-note">
-          <span className="sidebar-label">THE BIGGER PICTURE</span>
-          <Leaf size={25} />
-          <p>
-            Small observations.
-            <br />
-            <strong>Better-informed places.</strong>
-          </p>
-          <span>Traffic evidence for thoughtful environmental planning.</span>
-        </div>
         <div className="sidebar-bottom">
           <details suppressHydrationWarning data-menu className="help-menu">
             <summary aria-label="How it works" title="How it works">
@@ -189,13 +179,6 @@ export function AppShell({
               </a>
             </div>
           </details>
-          <div className="team-mark">
-            <span>M</span>
-            <div>
-              <strong>Mert &amp; Carter</strong>
-              <small>Environment workspace</small>
-            </div>
-          </div>
         </div>
       </aside>
       <div className="workspace">

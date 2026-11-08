@@ -8,13 +8,6 @@ const display = localFont({
   display: "swap",
   weight: "200 800",
 });
-const editorial = localFont({
-  src: "./fonts/lora-italic.ttf",
-  variable: "--font-editorial",
-  display: "swap",
-  weight: "400 700",
-  style: "italic",
-});
 
 export const metadata: Metadata = {
   title: "Emission Lens",
@@ -31,7 +24,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${display.variable} ${editorial.variable}`}
+      className={display.variable}
     >
       <body>{children}</body>
     </html>
