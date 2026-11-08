@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 01:12 America/New_York / 8 November 2026, 06:12 UTC
+
+- **Who:** Mert
+- **Done:** Added `evaluation/handoffs/README.md` as the public-safe index for three completed engineering handoffs. Verified published source/author identities, private handoff hashes and delivery to continuing frontend, execution and integration owners. Recorded actual archival after completion/idle checks, preserving history and the retained synthetic preview.
+- **Completed:** All three selected chats are archived; their coherent owned work is pushed and successors have the exact context. Documentation links, private handoff hash bindings and scoped whitespace checks pass. Read-only mail checks remain deduplicated; a new own-sent project message was excluded from inbound triage. Independent actual four-camera preview progression passes on the separate candidate; final offline source/settings/coverage QA passes without exposing full-recording 220 answers.
+- **Still open:** Continuing owners retain actual stopped-time cohort/scenario/reload acceptance, sustained operation, scientific limitations and final rehearsal/submission. Camera 220's aligned assisted review fails recall; 228 remains unapproved and its reserved interval protected. No runtime, service, job, registry, approval, contract or model changed in this publication.
+
 ### 8 November 2026, 01:05 America/New_York / 8 November 2026, 06:05 UTC
 
 - **Who:** Mert
