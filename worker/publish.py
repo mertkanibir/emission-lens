@@ -4,10 +4,12 @@ The outbox contains no credentials or frames. Each request keeps its batch ID
 across retries so an interrupted HTTP response cannot duplicate observations.
 """
 
+import http.client
 import json
 import os
 import tempfile
 import threading
+import time
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Optional
@@ -106,6 +108,83 @@ class HttpSender:
             raise PublishError(f"Worker batch rejected with HTTP {error.code}; queued batch retained.") from None
         except (URLError, TimeoutError, OSError):
             return False
+
+
+class PreviewHttpSender(HttpSender):
+    """One fixed, reusable connection for ephemeral previews only.
+
+    The publisher owns this sender on one background thread. Aggregate outboxes
+    continue using HttpSender and its existing delivery behavior.
+    """
+
+    MAX_RESPONSE_BYTES = 64 * 1024
+
+    def __init__(self, url: str, token: str, timeout_s: float = 1.0):
+        super().__init__(url, token, timeout_s)
+        parsed = urlsplit(url)
+        self._parsed = parsed
+        self._target = parsed.path or "/"
+        if parsed.query:
+            self._target += "?" + parsed.query
+        self._connection = None
+
+    def close(self):
+        connection, self._connection = self._connection, None
+        if connection is not None:
+            connection.close()
+
+    def __call__(self, body: bytes) -> bool:
+        deadline = time.monotonic() + self._timeout_s
+        response = None
+
+        def remaining():
+            seconds = deadline - time.monotonic()
+            if seconds <= 0:
+                raise TimeoutError("Preview receipt deadline exceeded.")
+            self._connection.timeout = seconds
+            if self._connection.sock is not None:
+                self._connection.sock.settimeout(seconds)
+
+        try:
+            if self._connection is None:
+                connection_type = http.client.HTTPSConnection if self._parsed.scheme == "https" else http.client.HTTPConnection
+                self._connection = connection_type(self._parsed.hostname, self._parsed.port, timeout=self._timeout_s)
+            remaining()
+            if self._connection.sock is None:
+                self._connection.connect()
+            remaining()
+            self._connection.request("POST", self._target, body=body, headers={
+                "Authorization": "Bearer " + self._token,
+                "Content-Type": "application/json",
+            })
+            remaining()
+            response = self._connection.getresponse()
+            status = response.status
+            # Drain a small receipt so the next request can reuse the connection.
+            # Oversized or unframed responses never create an unbounded read.
+            size = 0
+            while size <= self.MAX_RESPONSE_BYTES:
+                remaining()
+                chunk = response.read1(min(16 * 1024, self.MAX_RESPONSE_BYTES + 1 - size))
+                if not chunk:
+                    break
+                size += len(chunk)
+            response.close()
+            if size > self.MAX_RESPONSE_BYTES:
+                self.close()
+                return False
+            if 200 <= status < 300:
+                return True
+            if status in {408, 425, 429} or status >= 500:
+                return False
+            # No redirect is followed and credentials remain on the fixed host.
+            raise PublishError(f"Preview frame rejected with HTTP {status}.") from None
+        except (http.client.HTTPException, TimeoutError, OSError):
+            self.close()
+            return False
+        finally:
+            if response is not None:
+                response.close()
 
 
 class Outbox:

@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
-from worker.publish import HttpSender, Outbox, TraversalBridge, measurement_url, recover_measurement_outbox
+from worker.publish import HttpSender, PreviewHttpSender, Outbox, TraversalBridge, measurement_url, recover_measurement_outbox
 from worker.pacing import LiveMediaPacer
 from worker.delivery import BackgroundDelivery
 
@@ -219,6 +219,8 @@ class PreviewPublisher:
             self._pending.clear()
             self._ready.notify()
         self._thread.join(timeout=1.5)
+        if not self._thread.is_alive() and hasattr(self.sender, "close"):
+            self.sender.close()
 
     def diagnostic(self):
         with self._ready:
@@ -357,7 +359,7 @@ def run(args, stop_requested=None) -> dict:
         if not url:
             raise ValueError("Previews need the configured ingest endpoint and worker token.")
         endpoint = os.environ.get("EMISSION_LENS_PREVIEW_URL") or preview_url(url)
-        previews = PreviewPublisher(HttpSender(endpoint, token, timeout_s=1.0), args.preview_every)
+        previews = PreviewPublisher(PreviewHttpSender(endpoint, token, timeout_s=1.0), args.preview_every)
     pacer = LiveMediaPacer(4.0) if getattr(args, "pace_live", False) and mode == "live" else None
     started = utc_now()
     run_record = {

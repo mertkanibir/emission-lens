@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:48 America/New_York / 8 November 2026, 14:48 UTC
+
+- **Who:** Mert
+- **Done:** Added fixed-endpoint persistent preview-only HTTP delivery with bounded receipt size/deadline, reconnect and no redirects; documented tests.
+- **Completed:** Six actual-socket transport regressions, 24 local scoped checks and 62 allocated-runtime scoped checks pass. Durable aggregate delivery is unchanged.
+- **Still open:** Deploy the newly pinned worker and record actual steady processing/native-preview cadence; publish final combined acceptance.
+
 ### 8 November 2026, 09:43 America/New_York / 8 November 2026, 14:43 UTC
 
 - **Who:** Mert
