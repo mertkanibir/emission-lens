@@ -23,12 +23,25 @@ function supportedGrams(
     : null;
 }
 
+/** Fictional values are permitted only in the explicitly named in-memory demo. */
+export function isRichSyntheticWindow(window: Pick<MeasurementWindowView, "mode" | "camera_id" | "registry">): boolean {
+  return window.mode === "synthetic"
+    && ["220", "222", "223", "228"].includes(window.camera_id)
+    && window.registry.state === "configured"
+    && window.registry.revision === "synthetic-rich-demo-v1"
+    && window.registry.calibration_version === `synthetic-demo-${window.camera_id}`
+    && window.registry.physical_calibration_approved;
+}
+
+export function metricCameraEligible(cameraId: string, mode: MeasurementWindowView["mode"], labeledDemo = false): boolean {
+  return cameraId === "222" || cameraId === "223"
+    || (mode === "synthetic" && labeledDemo && (cameraId === "220" || cameraId === "228"));
+}
+
 /** A retained supported minute, never a sum or a replacement for the window total. */
 export function latestSupportedMapEstimate(window: MeasurementWindowView): MapEmissionEstimate | null {
   const { registry } = window;
-  const labeledDemo = window.mode === "synthetic"
-    && registry.revision === "synthetic-rich-demo-v1"
-    && registry.calibration_version === `synthetic-demo-${window.camera_id}`;
+  const labeledDemo = isRichSyntheticWindow(window);
   if ((window.mode !== "live" && window.mode !== "replay" && !labeledDemo)
     || registry.state !== "configured"
     || !registry.physical_calibration_approved

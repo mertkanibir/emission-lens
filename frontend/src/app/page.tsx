@@ -16,7 +16,7 @@ import { OverviewBoard } from "@/components/OverviewBoard";
 import { workspaceQuery } from "@/lib/workspace-query";
 import { CameraDetail } from "@/components/CameraDetail";
 import { registryCalibrationState } from "@/lib/measurement";
-import { latestSupportedMapEstimate } from "@/lib/map-emissions";
+import { isRichSyntheticWindow, latestSupportedMapEstimate } from "@/lib/map-emissions";
 import { latestSupportedMinuteCohort, measurementSupport } from "@/lib/observation-presentation";
 import { hrefWith, parseMode, parseView, parseReduction } from "@/lib/format";
 
@@ -43,6 +43,7 @@ export default async function OverviewPage({
       emissions: get_emissions_window({ cameraId: camera.id, mode, now }),
       calibration: registryCalibrationState(measurement.registry),
       mapEstimate,
+      syntheticDemoEligible: isRichSyntheticWindow(measurement),
       minuteCohort: latestSupportedMinuteCohort(measurement),
       measurementSupport: measurementSupport(measurement.registry, mapEstimate),
     };

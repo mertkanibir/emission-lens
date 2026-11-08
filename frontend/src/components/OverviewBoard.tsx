@@ -21,6 +21,7 @@ import type {
 import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
 import { SelectedEmissionMetric } from "@/components/SelectedEmissionMetric";
+import { metricCameraEligible } from "@/lib/map-emissions";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
 import { EMISSIONS_COLOR_SCALE } from "@/lib/map-heat";
 import { queueObservation, queueValueDescription, queueScopeDescription, type latestSupportedMinuteCohort, type measurementSupport } from "@/lib/observation-presentation";
@@ -44,6 +45,7 @@ type CameraCard = {
   calibration: "missing" | "invalid" | "valid";
   mapEstimate: MapEmissionEstimate | null;
   measurementSupport: ReturnType<typeof measurementSupport>;
+  syntheticDemoEligible?: boolean;
   minuteCohort: ReturnType<typeof latestSupportedMinuteCohort>;
 };
 const filters = [
@@ -69,7 +71,7 @@ export function OverviewBoard({
   const [sort, setSort] = useState("location");
   const selected =
     cameras.find((item) => item.camera.id === selectedId) ?? cameras[0];
-  const quantitative = (id: string) => id === "222" || id === "223";
+  const quantitative = (id: string) => metricCameraEligible(id, mode, mode === "synthetic" && cameras.find(item => item.camera.id === id)?.syntheticDemoEligible === true);
   const traffic = selected.traffic;
   const queue = queueObservation(traffic);
   const observedMinutes = new Set(traffic.rows.map((row) => new Date(row.minute).toISOString())).size;
@@ -212,7 +214,7 @@ export function OverviewBoard({
                   latitude: item.camera.latitude,
                   longitude: item.camera.longitude,
                   state: item.status.displayed_state,
-                  stateLabel: stateLabel(item.status.displayed_state),
+                  stateLabel: mode === "synthetic" && item.syntheticDemoEligible ? "Example" : stateLabel(item.status.displayed_state),
                   valueLabel:
                     !quantitative(item.camera.id) ? "Preview only · counts excluded" : view === "emissions"
                       ? item.mapEstimate === null
@@ -387,7 +389,7 @@ export function OverviewBoard({
                         </Link>
                       </td>
                       <td>
-                        <StateChip state={item.status.displayed_state} />
+                        {mode === "synthetic" && item.syntheticDemoEligible ? <span className="chip">Example</span> : <StateChip state={item.status.displayed_state} />}
                         <small className="camera-support" title={item.measurementSupport.detail}>{!quantitative(item.camera.id) ? "Metric camera excluded" : mode === "synthetic" ? "Labeled sample" : item.measurementSupport.label}</small>
                       </td>
                       <td className="num">
@@ -451,11 +453,11 @@ export function OverviewBoard({
         <div className="table-scroll"><table className="data-table">
           <thead><tr><th>Station</th><th>Processing</th><th>Declared count policy</th><th>Measurement registry</th><th>Supported estimate</th><th>Scope / limitation</th></tr></thead>
           <tbody>{cameras.map((item) => <tr key={item.camera.id}>
-            <th scope="row">{item.camera.id}</th><td><StateChip state={item.status.displayed_state} /><small className="camera-support">{item.status.heartbeat_at ? `Heartbeat ${formatAge(item.status.heartbeat_at, item.status.as_of)} old` : "No heartbeat"}</small></td>
-            <td>{item.camera.id === "222" || item.camera.id === "223" ? "Enabled image-count gate" : "Excluded · failed count screen"}</td>
+            <th scope="row">{item.camera.id}</th><td>{mode === "synthetic" && item.syntheticDemoEligible ? <span className="chip">Example</span> : <StateChip state={item.status.displayed_state} />}<small className="camera-support">{item.status.heartbeat_at ? `Heartbeat ${formatAge(item.status.heartbeat_at, item.status.as_of)} old` : "No heartbeat"}</small></td>
+            <td>{mode === "synthetic" && item.syntheticDemoEligible ? "Fictional demo counts only" : item.camera.id === "222" || item.camera.id === "223" ? "Enabled image-count gate" : "Excluded · failed count screen"}</td>
             <td>{item.calibration === "valid" ? "Camera/mode inputs approved" : item.calibration === "invalid" ? "Invalid · estimates withheld" : "No approved physical inputs"}</td>
             <td>{item.mapEstimate ? <><time dateTime={item.mapEstimate.minute}>{formatInstant(item.mapEstimate.minute, PACIFIC)}</time><small className="camera-support">Dated completed-movement minute</small></> : "No supported minute in this hour"}</td>
-            <td>{item.camera.id === "222" ? "Eastbound · fixed 20 m assumption" : item.camera.id === "223" ? "Southbound · fixed 15 m assumption" : "No new quantitative processing"}</td>
+            <td>{mode === "synthetic" && item.syntheticDemoEligible ? "Fictional distance and fleet · real counts remain excluded where unapproved" : item.camera.id === "222" ? "Eastbound · fixed 20 m assumption" : item.camera.id === "223" ? "Southbound · fixed 15 m assumption" : "No new quantitative processing"}</td>
           </tr>)}</tbody>
         </table></div>
         <p className="table-caption">Estimates cover completed movements under the listed distance assumptions. Camera previews do not change count exclusions. Declared eligibility and registry approval do not certify field accuracy. Live, replay and synthetic records remain separate.</p>

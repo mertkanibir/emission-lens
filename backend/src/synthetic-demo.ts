@@ -5,6 +5,8 @@ import { fingerprint, parseRegistry, type LoadedRegistry } from "./registry.ts";
 import type { WorkerSnapshot, WorkerStore } from "./persistence.ts";
 
 /** Fictional, deterministic inputs; never persisted or available to live/replay. */
+const DEMO_CAMERAS = ["222", "223", "220", "228"] as const;
+const DEMO_DISTANCE_M: Record<string, number> = { "222": 80, "223": 60, "220": 95, "228": 45 };
 let cached: { snapshot: WorkerSnapshot; registry: LoadedRegistry; store: WorkerStore } | undefined;
 export function richSyntheticEnabled(mode: Mode): boolean {
   return mode === "synthetic" && process.env.EMISSION_LENS_SYNTHETIC_DEMO === "rich";
@@ -16,19 +18,19 @@ export function richSyntheticDemo() {
   const approval = { status: "approved", reviewed_by: "Mert", reviewed_at: "2026-11-07T19:00:00Z", evidence_refs: ["fictional-synthetic-demo-only-no-field-approval"], modes: ["synthetic"] };
   const document = parseRegistry({
     registry_version: "1.0", revision: "synthetic-rich-demo-v1",
-    calibrations: ["222", "223"].map(camera_id => ({
+    calibrations: DEMO_CAMERAS.map(camera_id => ({
       camera_id, version: `synthetic-demo-${camera_id}`, approval,
       valid_from: "2026-11-07T19:00:00Z", valid_to: new Date(end + 60_000).toISOString(),
       calibration: { camera_id, version: `synthetic-demo-${camera_id}`, validation_status: "valid", gates: { entry: { synthetic: true }, exit: { synthetic: true } }, reference_measurements: { source: "fictional demo distances only" }, transform: [[1, 0, 0], [0, 1, 0], [0, 0, 1]] },
-      movements: [{ movement_id: "fictional-demo-movement", entry_gate_id: "entry", exit_gate_id: "exit", distance_m: camera_id === "222" ? 80 : 60, distance_units: "m", evidence_refs: ["fictional-demo-only"] }],
+      movements: [{ movement_id: "fictional-demo-movement", entry_gate_id: "entry", exit_gate_id: "exit", distance_m: DEMO_DISTANCE_M[camera_id], distance_units: "m", evidence_refs: ["fictional-demo-only"] }],
     })),
     mappings: [{ version: "synthetic-demo-fleet", approval, region: "Los Angeles (SC)", calendar_year: 2026,
       mapping: { version: "synthetic-demo-fleet", evidence: "Fictional demonstration fleet; no real vehicle fuel or fleet inference.", classes: { car: [{ emfac_class: "LDA", vmt_share: 1 }], truck: [{ emfac_class: "LHDT2", vmt_share: 1 }], bus: [{ emfac_class: "UBUS", vmt_share: 1 }], motorcycle: [{ emfac_class: "MCY", vmt_share: 1 }] } } }],
   });
   const registry: LoadedRegistry = { state: "configured", document, digest: fingerprint(document) };
-  const snapshot: WorkerSnapshot = { schema_version: 1, next_sequence: 120, batches: [], measurement_batches: [] };
+  const snapshot: WorkerSnapshot = { schema_version: 1, next_sequence: 240, batches: [], measurement_batches: [] };
   const classes = ["car", "truck", "bus", "motorcycle"] as const;
-  for (const [cameraIndex, camera_id] of ["222", "223"].entries()) {
+  for (const [cameraIndex, camera_id] of DEMO_CAMERAS.entries()) {
     for (let minuteIndex = 0; minuteIndex < 60; minuteIndex++) {
       const at = start + minuteIndex * 60_000, minute = new Date(at).toISOString();
       const phase = (Math.sin(minuteIndex / 7 + cameraIndex) + 1) / 2;

@@ -28,7 +28,7 @@ import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
 import { MeasurementScope } from "@/components/MeasurementScope";
 import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
-import { latestSupportedMapEstimate } from "@/lib/map-emissions";
+import { isRichSyntheticWindow, metricCameraEligible, latestSupportedMapEstimate } from "@/lib/map-emissions";
 import { latestSupportedMinuteCohort, measurementSupport, queueObservation, queueValueDescription, queueScopeDescription } from "@/lib/observation-presentation";
 import { measurementScope } from "@/lib/measurement-scope";
 import { ScenarioPollutants } from "@/components/ScenarioPollutants";
@@ -140,7 +140,8 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
   }
   const explicitScenarioWindow = scenarioMeasurement.scope === "explicit_window";
   const sampleCo2 = scenarioMeasurement.scenario.pollutants.co2.baseline_g;
-  const metricCamera = id === "222" || id === "223";
+  const labeledDemo = isRichSyntheticWindow(scenarioMeasurement);
+  const metricCamera = metricCameraEligible(id, mode, labeledDemo);
   const activeEstimate = !metricCamera ? null : mode === "synthetic" && sampleCo2 !== null ? {minute:scenarioMeasurement.from,co2_g:sampleCo2,nox_g:scenarioMeasurement.scenario.pollutants.nox.baseline_g} : latestSupportedMapEstimate(scenarioMeasurement);
   const syntheticCohort = scenarioMeasurement.scenario.completed_cohort;
   const activeCohort = mode === "synthetic" && syntheticCohort.count !== null && syntheticCohort.count > 0
@@ -248,7 +249,8 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
             </Link>
           ))}
         </nav>
-        {id === "220" || id === "228" ? <p className="camera-exclusion" role="note"><strong>Metric camera excluded.</strong> Camera {id} failed the current assisted count screen. Video availability does not approve counts, queues or physical estimates. Retained historical status is shown separately.</p> : null}
+        {labeledDemo && (id === "220" || id === "228") ? <p className="camera-exclusion" role="note"><strong>Fictional demonstration only.</strong> These sample counts, distances and estimates are invented. Real camera {id} remains excluded from quantitative processing pending validation.</p> : null}
+        {(id === "220" || id === "228") && !labeledDemo ? <p className="camera-exclusion" role="note"><strong>Metric camera excluded.</strong> Camera {id} failed the current assisted count screen. Video availability does not approve counts, queues or physical estimates. Retained historical status is shown separately.</p> : null}
         <nav className="section-nav" aria-label="Camera sections">
           <a href="#observation">Observation</a>
           <a href="#analytics">Analytics</a>

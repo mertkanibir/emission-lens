@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:37 America/New_York / 8 November 2026, 15:37 UTC
+
+- **Who:** Mert
+- **Done:** Replaced the stretched single-minute block with a compact capped-bar spotlight and rebuilt longer timelines with zero-based axes, grid, support bands and accessible exact-value details. Expanded the isolated rich synthetic demo to all four cameras and scoped220/228 example eligibility to the explicit demo registry only.
+- **Completed:** 142 backend/103 frontend checks, backend/frontend TypeScript and scoped whitespace pass; four-camera isolation, same-cohort scenarios, zero/missing and axis semantics are covered. No live/replay220/228 enablement or authoritative data writes.
+- **Still open:** Immutable production build and browser checks of the one-minute/longer-window chart and220/228 synthetic versus live boundaries.
+
 ### 8 November 2026, 10:31 America/New_York / 8 November 2026, 15:31 UTC
 
 - **Who:** Mert
