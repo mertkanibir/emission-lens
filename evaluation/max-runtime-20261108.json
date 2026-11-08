@@ -1,0 +1,77 @@
+{
+  "owner": "Mert",
+  "verified_at_utc": "2026-11-08T16:23:38.392216+00:00",
+  "job_id": "176999",
+  "replaced_job_id": "176920",
+  "failed_start_job_id": "176994",
+  "worker_source_commit": "aa64458705f33966142cd3a5cb09cb7044e1c593",
+  "app_source_commit": "92535e964c1916bf0c60c9d125939762f63965e5",
+  "startup_entry_sha256": {
+    "222": "9f97e4e862980579bd8870e29c70b0f30502355e2a314baf0484089cc9509b74",
+    "223": "9f97e4e862980579bd8870e29c70b0f30502355e2a314baf0484089cc9509b74"
+  },
+  "allocated_cpus": 96,
+  "allocated_mig_gpus": 2,
+  "gpu_name": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+  "separate_visible_gpu_per_camera": true,
+  "scheduler_hours": 6,
+  "allocation_end_utc": "2026-11-08T22:21:10+00:00",
+  "worker_started_at_utc": "2026-11-08T16:21:52.000906+00:00",
+  "worker_seconds": 20900,
+  "retained_core_entries_unchanged": 3965,
+  "retained_measurement_entries_unchanged": 619,
+  "camera_startup_checks": [
+    {
+      "camera_id": "222",
+      "status": "live",
+      "heartbeat_at": "2026-11-08T16:23:36.241130+00:00",
+      "processing_fps": 15.002732602222402,
+      "processed_frames": 1219,
+      "reader_drops": 284,
+      "previews_sent": 983,
+      "preview_failures": 0,
+      "current_run_measurement_minutes": 2,
+      "current_run_supported_minutes": 1
+    },
+    {
+      "camera_id": "223",
+      "status": "live",
+      "heartbeat_at": "2026-11-08T16:23:36.225609+00:00",
+      "processing_fps": 15.1112722838024,
+      "processed_frames": 1222,
+      "reader_drops": 158,
+      "previews_sent": 984,
+      "preview_failures": 0,
+      "current_run_measurement_minutes": 2,
+      "current_run_supported_minutes": 0
+    }
+  ],
+  "fresh_advancing_decoded_frames": {
+    "222": {
+      "dimensions": [
+        960,
+        540
+      ],
+      "advancing": true
+    },
+    "223": {
+      "dimensions": [
+        960,
+        540
+      ],
+      "advancing": true
+    }
+  },
+  "backend_tests": 143,
+  "allocated_runtime_measurement_tests": 42,
+  "allocated_runtime_skips": 1,
+  "bridge_capacity_checkpoint_overflow_test": "passed",
+  "production_build": "passed",
+  "limitations": [
+    "Two-camera bounded startup evidence; no sustained loss-free or field-accuracy acceptance.",
+    "220/228 live counting and emissions remain excluded.",
+    "Worker shutdown and source/network availability can shorten the scheduler allocation.",
+    "The first maximum-allocation startup failed before camera processing because its bridge shim targeted the wrong module; corrected startup imports are verified by actual CUDA processing."
+  ],
+  "native_stream_http_checks": "Both camera streams return HTTP200, multipart content and JPEG frame boundaries."
+}
