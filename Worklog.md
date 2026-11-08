@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:10 America/New_York (03:10 UTC)
+
+- **Who:** Carter
+- **Done:** Calibrated camera 222 to the ground plane from 17 camera/aerial point pairs on current Esri World Imagery; rejected pairs 13 and 16 because their camera points lie under the overlay text with no road feature to match. Added `count-3` to `222.measurement.json` (`222-image-v4`, still enabled and reviewed; road region, `count-1` and `count-2` unchanged) as a ground line 20 m west of `count-1`, and proposed movement `222-eastbound-through` (entry `count-3`, exit `count-1`, both negative, 20.0 m). Evidence: `evaluation/calibration/222-road-plane-correspondences.json` and `222-movement-eastbound.json`. The private traversal config is in the ignored `data/raw/traversals/222-traversals.json` and loads with `TraversalBridge.from_config`.
+- **Completed:** Fit RMS 0.82 m (10 pairs), validation RMS 1.41 m and max 2.34 m (5 pairs). Leave-one-out refits put the movement distance at 19.33-20.51 m. The eastbound direction matches count-1's dominant flow (37 of 47 crossings negative).
+- **Still open:** Mert's registry approval of the calibration and movement, `mapping_version` (null until the CARB class mapping is approved), an independent scale check against unchanged LARIAC 2013 features, and validation of traversal completions against manual observation.
+
 ### 7 November 2026, 22:14 America/New_York / 8 November 2026, 03:14 UTC
 
 - **Who:** Mert
@@ -26,6 +33,12 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Acquired Carter's 223/228 MPEG-TS clips and recording metadata once through connected Binghamton Drive, verified complete local/server file hashes, inventoried raw frame PTS/decoder clock/windows and froze matching original/semantic selected-gate provenance before baseline execution. Ran pretrained YOLO11n/640 at explicit 15 FPS on practice 1:00–3:00 and held-out 6:00–8:00 for both cameras using the existing count CLI; published only the reproducible execution script and safe scalar acquisition/GPU evidence.
 - **Completed:** GPU job 175884 completed 0:0 in 1m28s on one H100 MIG 1g.10gb slice under a five-minute cap; every inference backend was cuda:0, and all 30 focused tests plus 12 subtests passed. Four private result hashes, bounds and executed runner bytes verify. Raw PTS is advancing; decoder media seconds match original PTS minus its origin. The 223 recording has an approximately 16-second gap outside the reviewed windows; 228 has wider native frame intervals. Metadata reports zero sequence gaps but three/four retrieval errors. Both assisted held-out ledgers were reported frozen before releasing their respective result paths; no model event/totals or practice-result paths were committed. Allocation is released, new remote temporary media/metadata copies removed, and local review copies/SSH retained.
 - **Still open:** Review owners must compare count-1 against the uncertain, not-human-confirmed frozen ledgers using strict half-open bounds and declared matching policy; no count accuracy or 223/228 enablement is accepted here. Carter's separate human key/220 share remains unavailable to this stream. Existing 222 evidence is not rerun or disclosed to its blind reviewer. No detector/tracker/model selection, geometry, labels/training, physical calibration, public contract or other stream runtime files were changed.
+### 7 November 2026, 21:30 America/New_York (02:30 UTC)
+
+- **Who:** Carter
+- **Done:** Added `python -m worker.calibrate_points <camera>`, which pairs clicked camera points with points on a georeferenced aerial export, fits a camera-pixel to ground-metre homography with held-back validation pairs, overlays a 5 m ground grid on the camera view, and saves `evaluation/calibration/<camera>-road-plane-correspondences.json`. `--distance ENTRY EXIT` reports the ground distance and lane spread between two saved gates. Aerial exports for camera 222 (LARIAC 2013 and current Esri World Imagery) are kept in the ignored `data/raw/aerial/222/`.
+- **Completed:** 9 calibration tests pass, including projection of a saved matrix through `worker/calibration.py`. The 2013 LARIAC image shows older crosswalk paint than the current view, so paint correspondences use the current Esri image. Automatic feature matching between the two aerials failed (too few consistent matches), so the scale cross-check will use hand-picked unchanged curb corners.
+- **Still open:** Carter's correspondence session for 222, an exit gate for the through movement, the movement distance and its review, and Mert's traversal-bridge and mapping approval. 13 Windows-only failures in Mert's queue tests are unchanged.
 
 ### 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
 
@@ -481,3 +494,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Added optional explicit experiment-recipe SHA binding to private normalized model artifacts, their sidecars and comparisons in `evaluation/video_validation/review.py`. Versioned immutable comparison identity preserves earlier schema artifacts and distinguishes baseline/candidate recipes even with identical events. Updated package instructions/report and added the corresponding identity regression.
 - **Completed:** Nineteen focused video-validation tests, Python compilation and scoped whitespace checks pass. Existing baseline adaptation/comparison reruns remain idempotent; no original private ledger/reference/comparison was overwritten.
 - **Open:** The authorized practice-only228 association candidate/control job, actual resolved-settings provenance, same-vehicle restoration and extra-association review. The recipe hash requires actual run-setting verification; it is not that verification itself. Fresh `[720,840)` remains unviewed/reserved,223 final count-only acceptance and broad later coverage remain pending. No production tracker/model/camera/scientific contract change; other streams are excluded.
+
+
+## 7 November 2026, 22:19 America/New_York / 8 November 2026, 03:19 UTC — Mert
+
+- **Done:** Resolved a normal non-fast-forward push by merging Carter’s published37a6043/3fc1110 without rewriting either history. Retained both sets of worklog entries, calibration tooling/evidence and the independent recipe-provenance checkpoint. Corrected the trial status to staged, not submitted.
+- **Completed:** All19 video-validation tests pass with system Python/Pillow; all9 new calibration-tool tests pass with the existing Python3.12 test environment. Initial combined invocations lacked pytest or Pillow in their respective interpreters; the final appropriate-environment checks pass. Merge and scoped whitespace checks pass.
+- **Open:** Carter’s calibration/movement evidence remains a proposal requiring separate registry/physical validation and is not approved by this merge. Candidate practice execution/trajectory audit and fresh-window authorization remain pending. No force push or unrelated edits were applied.
