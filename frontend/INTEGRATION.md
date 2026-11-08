@@ -1,7 +1,7 @@
 # Measurement integration — frontend consumers
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 21:01 America/New_York / 8 November 2026, 02:01 UTC
+**Updated:** 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
 **State:** ready-to-connect binding and controlled consumer acceptance completed.
 
 This work preserves the completed tan/green design. Frontend owns thin adapters, server-page bindings, presentation guards and acceptance. Backend owns authentication, validation, approved registries, private persistence, composition, calculations and brief text. Core contract 1.1 is unchanged; the separately versioned measurement envelope is documented in [the backend interface](../backend/MEASUREMENT-INGESTION.md). No real camera configuration or scientific approval is enabled here.
@@ -71,3 +71,9 @@ Owned production servers, private token/store/registry directories and temporary
 ## Remaining inputs
 
 Frontend has no guessed-field or missing-export dependency. Independently accepted physical calibration/movement distances, production visual-to-CARB mixtures, valid linked field traversals and deployment persistence/topology remain outside this consumer checkpoint. Count acceptance does not approve those inputs. The architecture is currently single-host; this is not a Vercel/serverless deployment claim. Real registry, worker/model selection and camera configuration were not changed by frontend work.
+
+## Final generated-output and revised-asset check — 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
+
+Mert recorded one generated-output recurrence after the production build: an identical ignored `frontend/.next/types/routes.d 3.ts` copy reappeared (2,394 bytes, identical to the canonical declaration). Only that exact untracked copy was removed; root `npm run typecheck` then passed and the named copy was absent. No generated artifact or tracked declaration was staged. The origin of the duplicate was not established by this cleanup.
+
+Brand revision `d96ae5b` is separately approved and published: center leaf and thinner corner bars at the same asset paths. Actual localhost returned HTTP 200 and byte-for-byte equality for the revised `mark.svg`, `favicon.svg`, `favicon.ico` and `icon-180.png`. The isolated presentation fixture was already closed; Mert's revised preview approval and this served-byte check are recorded separately from the earlier menu/visual acceptance. No further product/source styling or asset generation was performed here.
