@@ -359,6 +359,9 @@ class RuntimeMeasurementTests(unittest.TestCase):
             args.traversal_config = [traversal]
             with self.assertRaises(ValueError):
                 load_traversal_configs(args, configs)
+            traversal.write_text(json.dumps({"bridge_version": "1.0", "enabled": 0}))
+            with self.assertRaises(ValueError):
+                load_traversal_configs(args, configs)
 
     def test_changing_camera_outbox_layout_cannot_hide_retained_checkpoint_or_retry(self):
         from worker.main import measurement_directories

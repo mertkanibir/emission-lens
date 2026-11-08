@@ -279,7 +279,8 @@ def load_traversal_configs(args, measurements):
     for path in _values(getattr(args, "traversal_config", None)):
         body = Path(path).read_bytes()
         raw = json.loads(body)
-        if raw == {"bridge_version": "1.0", "enabled": False}:
+        if (isinstance(raw, dict) and set(raw) == {"bridge_version", "enabled"}
+                and raw["bridge_version"] == "1.0" and raw["enabled"] is False):
             continue
         camera_id = raw.get("camera_id") if isinstance(raw, dict) else None
         if camera_id not in measurements or camera_id in configured:
