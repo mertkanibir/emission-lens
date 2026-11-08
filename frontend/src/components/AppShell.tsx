@@ -45,7 +45,7 @@ export function AppShell({ mode, section, modeHref, cameraId = "222", workspaceP
     : mode === "replay"
       ? hasTraffic ? "Recorded observations. Separate from live totals." : "No replay records in the reporting window."
       : fresh === 0 ? "No fresh processing heartbeat. Retained history remains dated." : "Live processing. Retained estimates and feed freshness are separate.";
-  const workspaceHref = (anchor: string) => section === "overview" ? `#${anchor}` : `${hrefWith("/", { ...workspaceParams, mode, camera: cameraId })}#${anchor}`;
+  const workspaceHref = (anchor: string) => `${hrefWith("/", { ...workspaceParams, mode, camera: cameraId })}#${anchor}`;
   return (
     <div className="app technical-workspace" data-mode={mode}>
       <LiveRefresh mode={mode} />

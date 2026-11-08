@@ -49,6 +49,7 @@ export default async function OverviewPage({
       mode={mode}
       section="overview"
       cameraId={selectedId}
+      workspaceParams={{ reduce: query.reduce, from: query.from, to: query.to, view: query.view }}
       modeHref={(option) =>
         hrefWith("/", {
           mode: option,

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:46 America/New_York / 8 November 2026, 08:46 UTC
+
+- **Who:** Mert
+- **Done:** Bound native workspace section links to a full canonical scoped URL after the embedded browser still concatenated fragment-only targets.
+- **Completed:** Root passes normalized camera/mode/view/reduction/UTC boundaries into every section target. TypeScript and seven navigation/scenario checks pass.
+- **Still open:** Final source build and actual repeated-section browser confirmation; existing processing remains protected.
+
 ### 8 November 2026, 03:44 America/New_York / 8 November 2026, 08:44 UTC
 
 - **Who:** Mert
