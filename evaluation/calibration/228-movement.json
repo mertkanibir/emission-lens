@@ -1,0 +1,45 @@
+{
+ "camera_id": "228",
+ "movement_id": [
+  "228-away-through",
+  "228-toward-through"
+ ],
+ "status": "approved in the private registry by Carter; camera counting not yet validated or enabled",
+ "view_version": "228-image-v3",
+ "calibration_version": "228-ground-esri-v1-a2654998e413",
+ "correspondences": "228-road-plane-correspondences.json",
+ "movement": {
+  "228-away-through": "count-3 negative -> count-1 negative",
+  "228-toward-through": "count-1 positive -> count-3 positive"
+ },
+ "path": "Both directions between count-1 (Mert's repositioned v2 gate) and count-3, 20.0 m apart on the ground plane.",
+ "distance_m": 20.0,
+ "distance_uncertainty_m": {
+  "leave_one_out_range": [
+   19.91,
+   20.14
+  ]
+ },
+ "fit": {
+  "fit": {
+   "pairs": 13,
+   "rms_m": 0.572,
+   "max_m": 1.325
+  },
+  "validation": {
+   "pairs": 5,
+   "rms_m": 0.799,
+   "max_m": 1.391
+  }
+ },
+ "rejected_pairs": [],
+ "limitations": [
+  "count-3 spans about 60% of count-1 (the left and centre lanes): it stops at the foreground signal pole and above the overlay text, so vehicles in the rightmost lanes do not complete either movement.",
+  "The camera angle offers few near-field road features; validation max is about 1.5 m.",
+  "Esri World Imagery positional accuracy is not published for this location.",
+  "count-1 counts must be validated before the camera is enabled.",
+  "The road is treated as a plane; lens distortion is not modelled.",
+  "Turning paths that cross both gates are longer than the straight distance."
+ ],
+ "recorded_at": "2026-11-08T05:15:18+00:00"
+}

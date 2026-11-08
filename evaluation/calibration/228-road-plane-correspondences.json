@@ -1,0 +1,407 @@
+{
+ "camera_id": "228",
+ "status": "candidate; not an accepted calibration",
+ "transform": "image pixels (1280x720) -> ground metres (east, north) about the aerial image centre",
+ "aerial_source": "esri_world",
+ "aerial_request": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-13175025.915193612,4010655.72758236,-13174833.224963943,4010848.4178120294&bboxSR=3857&imageSR=3857&size=1100,1100&format=png&f=image",
+ "aerial_center_latlon": [
+  33.865469,
+  -118.352406
+ ],
+ "mercator_scale_cos_lat": 0.8303482759590753,
+ "aerial_note": "Aerial imagery is not committed; re-request it from the URL above.",
+ "pairs": [
+  {
+   "image_px": [
+    1005.0,
+    291.0
+   ],
+   "aerial_px": [
+    534.0,
+    372.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -2.255,
+    25.818
+   ]
+  },
+  {
+   "image_px": [
+    635.0,
+    271.0
+   ],
+   "aerial_px": [
+    428.0,
+    393.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -17.673,
+    22.764
+   ]
+  },
+  {
+   "image_px": [
+    1036.0,
+    340.0
+   ],
+   "aerial_px": [
+    549.0,
+    409.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -0.073,
+    20.436
+   ]
+  },
+  {
+   "image_px": [
+    1017.0,
+    381.0
+   ],
+   "aerial_px": [
+    550.0,
+    436.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    0.073,
+    16.509
+   ]
+  },
+  {
+   "image_px": [
+    873.0,
+    296.0
+   ],
+   "aerial_px": [
+    503.0,
+    391.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -6.764,
+    23.055
+   ]
+  },
+  {
+   "image_px": [
+    302.0,
+    246.0
+   ],
+   "aerial_px": [
+    304.0,
+    405.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -35.709,
+    21.018
+   ]
+  },
+  {
+   "image_px": [
+    433.0,
+    261.0
+   ],
+   "aerial_px": [
+    352.0,
+    404.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -28.727,
+    21.164
+   ]
+  },
+  {
+   "image_px": [
+    918.0,
+    616.0
+   ],
+   "aerial_px": [
+    551.0,
+    531.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    0.218,
+    2.691
+   ]
+  },
+  {
+   "image_px": [
+    968.0,
+    494.0
+   ],
+   "aerial_px": [
+    551.0,
+    504.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    0.218,
+    6.618
+   ]
+  },
+  {
+   "image_px": [
+    1015.0,
+    326.0
+   ],
+   "aerial_px": [
+    543.0,
+    401.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    -0.945,
+    21.6
+   ]
+  },
+  {
+   "image_px": [
+    732.0,
+    692.0
+   ],
+   "aerial_px": [
+    531.0,
+    563.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -2.691,
+    -1.964
+   ]
+  },
+  {
+   "image_px": [
+    458.0,
+    698.0
+   ],
+   "aerial_px": [
+    496.0,
+    581.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -7.782,
+    -4.582
+   ]
+  },
+  {
+   "image_px": [
+    195.0,
+    275.0
+   ],
+   "aerial_px": [
+    288.0,
+    437.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -38.036,
+    16.364
+   ]
+  },
+  {
+   "image_px": [
+    7.0,
+    342.0
+   ],
+   "aerial_px": [
+    289.0,
+    506.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    -37.891,
+    6.327
+   ]
+  },
+  {
+   "image_px": [
+    552.0,
+    264.0
+   ],
+   "aerial_px": [
+    400.0,
+    393.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    -21.745,
+    22.764
+   ]
+  },
+  {
+   "image_px": [
+    250.0,
+    264.0
+   ],
+   "aerial_px": [
+    296.0,
+    424.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    -36.873,
+    18.255
+   ]
+  },
+  {
+   "image_px": [
+    988.0,
+    457.0
+   ],
+   "aerial_px": [
+    550.0,
+    488.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    0.073,
+    8.945
+   ]
+  },
+  {
+   "image_px": [
+    533.0,
+    695.0
+   ],
+   "aerial_px": [
+    507.0,
+    581.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    -6.182,
+    -4.582
+   ]
+  }
+ ],
+ "homography": [
+  [
+   0.24004521113579774,
+   0.11211216371804515,
+   -286.5248193469609
+  ],
+  [
+   0.0981170781802666,
+   -0.39931937940591544,
+   177.93496381661438
+  ],
+  [
+   0.0006026336188236581,
+   0.016079799017924935,
+   1.0
+  ]
+ ],
+ "residuals": [
+  {
+   "pair": 1,
+   "role": "fit",
+   "error_m": 0.39
+  },
+  {
+   "pair": 2,
+   "role": "fit",
+   "error_m": 0.46
+  },
+  {
+   "pair": 3,
+   "role": "fit",
+   "error_m": 0.192
+  },
+  {
+   "pair": 4,
+   "role": "fit",
+   "error_m": 0.285
+  },
+  {
+   "pair": 5,
+   "role": "fit",
+   "error_m": 0.215
+  },
+  {
+   "pair": 6,
+   "role": "fit",
+   "error_m": 0.639
+  },
+  {
+   "pair": 7,
+   "role": "fit",
+   "error_m": 0.647
+  },
+  {
+   "pair": 8,
+   "role": "fit",
+   "error_m": 0.769
+  },
+  {
+   "pair": 9,
+   "role": "fit",
+   "error_m": 1.325
+  },
+  {
+   "pair": 10,
+   "role": "validation",
+   "error_m": 0.104
+  },
+  {
+   "pair": 11,
+   "role": "fit",
+   "error_m": 0.158
+  },
+  {
+   "pair": 12,
+   "role": "fit",
+   "error_m": 0.142
+  },
+  {
+   "pair": 13,
+   "role": "fit",
+   "error_m": 0.694
+  },
+  {
+   "pair": 14,
+   "role": "fit",
+   "error_m": 0.14
+  },
+  {
+   "pair": 15,
+   "role": "validation",
+   "error_m": 0.564
+  },
+  {
+   "pair": 16,
+   "role": "validation",
+   "error_m": 0.464
+  },
+  {
+   "pair": 17,
+   "role": "validation",
+   "error_m": 1.391
+  },
+  {
+   "pair": 18,
+   "role": "validation",
+   "error_m": 0.843
+  }
+ ],
+ "summary": {
+  "fit": {
+   "pairs": 13,
+   "rms_m": 0.572,
+   "max_m": 1.325
+  },
+  "validation": {
+   "pairs": 5,
+   "rms_m": 0.799,
+   "max_m": 1.391
+  }
+ },
+ "rejected_pairs": []
+}

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:16 America/New_York (05:16 UTC)
+
+- **Who:** Carter
+- **Done:** Calibrated camera 228 to the ground from 18 clicked pairs, all kept (three near the bottom are on the yellow crosswalk edge visible through the overlay). Added `count-3` to `228.measurement.json` (`228-image-v3`, still disabled; Mert's repositioned `count-1` and `count-2` unchanged) 20 m nearer the camera than `count-1`, with movements `228-away-through` and `228-toward-through` (20.0 m). Evidence: `evaluation/calibration/228-road-plane-correspondences.json` and `228-movement.json`. The private registry now covers all four cameras.
+- **Completed:** Fit RMS 0.57 m (13 pairs), validation RMS 0.80 m (5 pairs), leave-one-out distance 19.9-20.1 m: the strongest calibration of the four. Registry passes `parseRegistry`; the 228 traversal config loads once the line file is enabled.
+- **Still open:** 228 count validation on Mert's repositioned `count-1`. `count-3` covers about 60% of `count-1`'s lanes.
+
 ### 8 November 2026, 00:10 America/New_York / 8 November 2026, 05:10 UTC
 
 - **Who:** Mert
