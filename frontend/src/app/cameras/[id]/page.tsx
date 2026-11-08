@@ -24,6 +24,7 @@ import { MeasurementScope } from "@/components/MeasurementScope";
 import { measurementScope } from "@/lib/measurement-scope";
 import { ScenarioPollutants } from "@/components/ScenarioPollutants";
 import { registryCalibrationState, scenarioPollutantRows, observationStoppedRows } from "@/lib/measurement";
+import { recordedMinuteHistory } from "@/lib/minute-history";
 import {
   Panel,
   Quantity,
@@ -175,21 +176,7 @@ export default async function CameraPage({
   );
   const maxCount = Math.max(0, ...rows.map((row) => row.count ?? 0));
   const windowLabel = formatWindow(traffic.from, traffic.to, PACIFIC);
-  const history = [...new Set(traffic.rows.map((row) => row.minute))]
-    .sort()
-    .map((minute) => {
-      const minuteRows = traffic.rows.filter((row) => row.minute === minute);
-      return {
-        minute,
-        count: sumStrict(minuteRows.map((row) => row.count)),
-        traversals: sumStrict(
-          minuteRows.map((row) => row.completed_traversals),
-        ),
-        stopped: sumStrict(
-          minuteRows.map((row) => row.stopped_vehicle_seconds),
-        ),
-      };
-    });
+  const history = recordedMinuteHistory(traffic.rows);
   const ranges = (["co2", "nox"] as const).map((pollutant) => {
     const matching = emissions.rows.filter(
       (row) => row.pollutant === pollutant,

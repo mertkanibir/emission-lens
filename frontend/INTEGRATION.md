@@ -1,8 +1,12 @@
 # Measurement integration — frontend consumers
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 22:50 America/New_York / 8 November 2026, 03:50 UTC
-**State:** ready-to-connect binding and controlled consumer acceptance completed.
+**Updated:** 7 November 2026, 23:13 America/New_York / 8 November 2026, 04:13 UTC
+**State:** controlled consumer acceptance and bounded actual-record camera-222 verification completed; field-validation and operational limits remain explicit.
+
+**Actual-record checkpoint (7 November 2026, 23:07 America/New_York / 8 November 2026, 04:07 UTC):** Mert verified the final stopped-writer snapshot from GPU job 175979 in an isolated production dashboard. Full-window replay/live counts are 30/17 with original completed cohorts 8/4, offline states and correctly unavailable window estimates due to incomplete other minutes. Separate explicitly labeled one-minute slices show the retained finite CO₂/NOₓ baselines while positive stopped-time scenarios remain unavailable. Scope/assumptions, numerical tooltips, mode isolation, source hashes and the two existing history/snapshot presentation limits are recorded in [the bounded consumer evidence](222-CONSUMER-ACCEPTANCE.md). Original localhost and shared build output remain unchanged. No product feature or contract change was made.
+
+**Display correction (7 November 2026, 23:13 America/New_York / 8 November 2026, 04:13 UTC):** The existing retained-snapshot disclosure now shows precise per-pollutant minute grams and explicit unavailable values without forming a partial window total. Existing traffic history canonicalizes equivalent UTC instants without mutating records or relaxing nullable sums. All 34 frontend tests, frontend TypeScript, an isolated production build and full real-snapshot visual/DOM checks pass. The verified full-snapshot app remains on port 3137 for Mert; slice instances are stopped. Scope, assumptions, whole-window/scenario nulls and the original port-3000 server are preserved. No map/overview, backend, contract or scientific-input change belongs to this patch.
 
 ## Bounded 222 profile disclosure — 7 November 2026, 22:50 America/New_York / 8 November 2026, 03:50 UTC
 

@@ -1,5 +1,6 @@
 import type { MeasurementWindowView } from "@emission-lens/backend";
 import { formatInstant, PACIFIC } from "@/lib/format";
+import { EmissionQuantity, Readout } from "@/components/ui";
 
 /** Only the documented public receipt summary is rendered; private evidence is not fetched. */
 export function MeasurementSnapshots({ window }: { window: MeasurementWindowView }) {
@@ -18,6 +19,17 @@ export function MeasurementSnapshots({ window }: { window: MeasurementWindowView
             </ul>
             <p className="fine">Timing basis: {minute.timing_basis}. This does not establish verified source capture UTC.</p>
             <p className="fine">Supplied assumptions for this minute: {minute.meteorology.temperature_f} °F; {minute.meteorology.relative_humidity_pct}% relative humidity. These are not observed weather conditions.</p>
+            <p className="fine">Per-minute estimates for completed movement vehicles. An unavailable minute stays unavailable; these values do not create a partial whole-window total.</p>
+            <dl className="readouts readouts-2">
+              {(["co2", "nox"] as const).map((pollutant) => {
+                const row = minute.emissions.find((value) => value.pollutant === pollutant);
+                return (
+                  <Readout key={pollutant} label={`Estimated ${pollutant === "co2" ? "CO₂" : "NOₓ"} · ${row?.quality_state.replaceAll("_", " ") ?? "unavailable"}`}>
+                    <EmissionQuantity value={row?.quality_state === "ok" ? row.estimate_g : null} />
+                  </Readout>
+                );
+              })}
+            </dl>
             <div className="evidence-list">
               <code>Calibration: {minute.calibration_version ?? "Unavailable"}</code>
               <code>Mapping: {minute.mapping_version ?? "Unavailable"}</code>
