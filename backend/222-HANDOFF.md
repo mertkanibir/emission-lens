@@ -1,8 +1,20 @@
 # Camera 222 registry and runtime handoff
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 23:03 America/New_York / 8 November 2026, 04:03 UTC
-**Status:** Carter's actual approvals validate; the separate application received bounded GPU replay/live candidates. Final disk/private-evidence and brief/export checks pass. Whole-window estimates remain null where a minute lacks completed evidence. Field validation remains open; the original application is unchanged.
+**Updated:** 8 November 2026, 00:09 America/New_York / 8 November 2026, 05:09 UTC
+**Status:** Consolidated production app restored on loopback port 3138 using the existing authoritative store, approvals and credential. Startup acceptance passes; genuine advancing live-worker/preview acceptance is with the GPU operator. Earlier bounded evidence remains retained without changing timestamps or unavailable values.
+
+## Production restoration — 8 November 2026, 00:09 America/New_York / 05:09 UTC
+
+Mert restored **one production Next application at `http://127.0.0.1:3138`** after the prior 3138/52623 services stopped. The overview, camera pages, authenticated `/api/worker`, `/api/measurements` and `/api/frames`, and public frame GET now belong to the same Node process. Preview memory is process-local; all worker endpoints must use the same forwarded application base. Sharing only the aggregate file between separate applications does not share preview frames.
+
+The successful production build pins source `7b5818f923dab43815ffd7f74fb2ec9c9ee6c5d3` in the durable ignored workspace `runs/production-3138/20261108T050617Z/workspace/`. Installed dependencies were copied locally and workspace package links resolve inside that frozen tree. Build execution had no service credential or private registry/store environment. Shared `frontend/.next` was not rebuilt. Runtime injects the existing private worker token, approved registry and authoritative `runs/222-approved-handoff/staged-runtime/store.json`; no replacement data or approval was generated.
+
+Private `runs/production-3138/ready.json` is the current ready handoff. It records the dashboard/worker/measurement/preview URLs, geometry/traversal configuration, source revision, runtime receipt, process ownership and secure existing `worker.env` path. The original token line is preserved; local worker URLs now point to 3138. `staged-runtime/connection.json` points to that ready handoff, and its old GPU handoff is explicitly superseded. The new SSH control path is `/Users/mertkanibir/.ssh/emission-lens/control`; its master check passed. Mert notified the GPU operator directly after readiness; backend restoration launches no GPU job.
+
+Startup checks return HTTP 200 for overview/live/replay pages and approved measurement reads. Worker/measurement/preview routes reject unauthenticated payloads with 401 and authenticated malformed payloads with 400 without changing the store. Retained private calculation evidence remains authenticated and current. The store and registry hashes remain unchanged, and the token is absent from public static assets and checked HTML. A single PID listens on 3138. Preview GET correctly returns unavailable until genuine frames arrive. Old observations have aged out of the rolling hour naturally; retained source timestamps are unchanged.
+
+The initial per-user launchd attempt exited `EX_CONFIG` before listening or opening logs; Mert removed that job. A detached private supervisor now owns the one production child and restarts it on exit. Its live ownership is recorded in the private launch/process receipts. The durable build folder must remain present. This is local process supervision, not a shared hosted deployment or an installed reboot/login service. Ports 3000 and 52623 had no listeners at restoration and no unrelated process was stopped. Advancing new GPU heartbeats, genuine same-process preview delivery and subsequent live ingestion remain operational acceptance checks; existing scientific limitations below still apply.
 
 ## Approval, input identity and scope
 

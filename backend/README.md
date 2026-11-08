@@ -1,11 +1,13 @@
 # Backend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 23:03 America/New_York / 8 November 2026, 04:03 UTC
+**Updated:** 8 November 2026, 00:09 America/New_York / 8 November 2026, 05:09 UTC
 
 Read path for camera status, traffic windows, estimated emissions, scenarios, investigation priorities, and draft briefs. The store reads validated live/replay worker batches when `EMISSION_LENS_STORE_PATH` is configured, with separate labeled synthetic fixtures. `db/` is a Postgres draft and has not been applied.
 
 Live and replay windows remain empty until their own worker records arrive. The synthetic minute is labeled and is excluded from live totals. Invalid or missing calibration suppresses speed and distance-based emissions.
+
+**Production restore (8 November 2026, 00:09 America/New_York / 05:09 UTC):** One production app on loopback port 3138 now owns ingestion, previews and dashboard together, using the unchanged authoritative camera-222 store, approved registry and existing server-side worker token. Its current-source build and startup/authentication/retained-evidence checks pass. Private `runs/production-3138/ready.json` records the durable build, runtime ownership, all endpoint/config paths and secure credential path; the GPU operator has that handoff and the new SSH socket. See [the restoration note](./222-HANDOFF.md). Genuine advancing live records/frames remain the worker's acceptance step; historical records are retained without altering their rolling-window age. No contract, scientific input or GPU job changed during restoration.
 
 **Camera-222 handoff (7 November 2026, 23:03 America/New_York / 8 November 2026, 04:03 UTC):** Carter's supplied private calibration/mapping approvals and replacement traversal config validate in a separate opt-in application; the original application is unchanged. GPU job 175979 delivered 30 replay crossings / 8 completed candidates and 17 live crossings / 4 candidates. A fresh-process final disk reload, authenticated contribution recalculation and exact brief attachment exports pass. Each mode has one ready minute and one without a completed cohort, so default whole-window estimates remain null; only explicitly scoped ready-minute estimates are supported. See [222-HANDOFF.md](./222-HANDOFF.md) for the exact evidence, full UI clone and separately labeled minute slices. The fixed 20 m, fleet/weather assumptions and curved-path/scale/manual-timing limitations remain disclosed. Controlled approved/pending probes, 105 backend tests and TypeScript/Python checks pass. Linked stops remain null, withholding positive shorter-stop scenarios. No contract or approval values changed.
 
