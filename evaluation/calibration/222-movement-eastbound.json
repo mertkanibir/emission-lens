@@ -1,0 +1,58 @@
+{
+ "camera_id": "222",
+ "movement_id": "222-eastbound-through",
+ "status": "proposed for Mert's registry review",
+ "view_version": "222-image-v4",
+ "view_sha256": "6f541639f5bfd24b061a8281f04cff7d033c77ee5909e316c76ea339523e222a",
+ "calibration_version": "222-ground-esri-v1-7f52d53d8fc8",
+ "correspondences": "222-road-plane-correspondences.json",
+ "movement": {
+  "entry_gate_id": "count-3",
+  "exit_gate_id": "count-1",
+  "entry_direction": "negative",
+  "exit_direction": "negative"
+ },
+ "path": "Eastbound Carson St through the intersection, from a ground line 20 m west of count-1 (the east crosswalk) to count-1.",
+ "distance_m": 20.0,
+ "distance_uncertainty_m": {
+  "leave_one_out_range": [
+   19.33,
+   20.51
+  ],
+  "method": "refit omitting each fit pair in turn; same camera gates remeasured"
+ },
+ "fit": {
+  "fit": {
+   "pairs": 10,
+   "rms_m": 0.821,
+   "max_m": 1.429
+  },
+  "validation": {
+   "pairs": 5,
+   "rms_m": 1.411,
+   "max_m": 2.343
+  }
+ },
+ "rejected_pairs": [
+  {
+   "pair": 13,
+   "reason": "camera point lies under the overlay text on plain asphalt; no identifiable road feature to match"
+  },
+  {
+   "pair": 16,
+   "reason": "camera point lies under the overlay text beside a vehicle; no identifiable road feature to match"
+  }
+ ],
+ "aerial_source": "Esri World Imagery (current) via ArcGIS export; LARIAC 2013 shows older crosswalk paint so was not used for paint points",
+ "scale": "Web Mercator metres multiplied by cos(latitude 33.83135) = 0.83068",
+ "limitations": [
+  "Covers the eastern 20 m of the intersection only; the west approach and its stop line are hidden by the camera overlay.",
+  "Esri World Imagery positional accuracy is not published for this location; validation RMS 1.41 m, max 2.34 m at the frame edge.",
+  "No independent scale check against LARIAC 2013 unchanged features yet (automatic matching failed).",
+  "Road surface treated as a plane; crown, grade, and lens distortion are not modelled.",
+  "Left turns from the north leg can cross both gates on a curved path longer than 20 m.",
+  "Traversal completions and stopped time for this movement are not yet validated against manual observation."
+ ],
+ "reviewed_by": "Carter (correspondences, gate review)",
+ "recorded_at": "2026-11-08T03:09:41+00:00"
+}

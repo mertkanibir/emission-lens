@@ -1,0 +1,396 @@
+{
+ "camera_id": "222",
+ "status": "candidate; not an accepted calibration",
+ "transform": "image pixels (1280x720) -> ground metres (east, north) about the aerial image centre",
+ "aerial_source": "esri_world",
+ "aerial_request": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-13175076.41577237,4006082.563070906,-13174883.802482823,4006275.176360452&bboxSR=3857&imageSR=3857&size=1100,1100&format=png&f=image",
+ "aerial_center_latlon": [
+  33.83135,
+  -118.35286
+ ],
+ "mercator_scale_cos_lat": 0.830679961787649,
+ "aerial_note": "Aerial imagery is not committed; re-request it from the URL above.",
+ "pairs": [
+  {
+   "image_px": [
+    1099.0,
+    251.0
+   ],
+   "aerial_px": [
+    861.0,
+    540.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    45.309,
+    1.382
+   ]
+  },
+  {
+   "image_px": [
+    501.0,
+    200.0
+   ],
+   "aerial_px": [
+    847.0,
+    348.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    43.273,
+    29.309
+   ]
+  },
+  {
+   "image_px": [
+    314.0,
+    235.0
+   ],
+   "aerial_px": [
+    796.0,
+    325.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    35.855,
+    32.655
+   ]
+  },
+  {
+   "image_px": [
+    1155.0,
+    611.0
+   ],
+   "aerial_px": [
+    693.0,
+    560.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    20.873,
+    -1.527
+   ]
+  },
+  {
+   "image_px": [
+    851.0,
+    223.0
+   ],
+   "aerial_px": [
+    864.0,
+    469.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    45.745,
+    11.709
+   ]
+  },
+  {
+   "image_px": [
+    675.0,
+    195.0
+   ],
+   "aerial_px": [
+    864.0,
+    406.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    45.745,
+    20.873
+   ]
+  },
+  {
+   "image_px": [
+    1263.0,
+    321.0
+   ],
+   "aerial_px": [
+    816.0,
+    583.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    38.764,
+    -4.873
+   ]
+  },
+  {
+   "image_px": [
+    658.0,
+    369.0
+   ],
+   "aerial_px": [
+    737.0,
+    461.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    27.273,
+    12.873
+   ]
+  },
+  {
+   "image_px": [
+    1224.0,
+    378.0
+   ],
+   "aerial_px": [
+    770.0,
+    569.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    32.073,
+    -2.836
+   ]
+  },
+  {
+   "image_px": [
+    1156.0,
+    689.0
+   ],
+   "aerial_px": [
+    675.0,
+    563.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    18.255,
+    -1.964
+   ]
+  },
+  {
+   "image_px": [
+    103.0,
+    311.0
+   ],
+   "aerial_px": [
+    705.0,
+    327.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    22.618,
+    32.364
+   ]
+  },
+  {
+   "image_px": [
+    764.0,
+    202.0
+   ],
+   "aerial_px": [
+    872.0,
+    433.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    46.909,
+    16.945
+   ]
+  },
+  {
+   "image_px": [
+    258.0,
+    711.0
+   ],
+   "aerial_px": [
+    569.0,
+    465.0
+   ],
+   "role": "rejected",
+   "ground_m": [
+    2.836,
+    12.291
+   ]
+  },
+  {
+   "image_px": [
+    24.0,
+    379.0
+   ],
+   "aerial_px": [
+    675.0,
+    351.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    18.255,
+    28.873
+   ]
+  },
+  {
+   "image_px": [
+    882.0,
+    700.0
+   ],
+   "aerial_px": [
+    657.0,
+    526.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    15.636,
+    3.418
+   ]
+  },
+  {
+   "image_px": [
+    656.0,
+    656.0
+   ],
+   "aerial_px": [
+    626.0,
+    526.0
+   ],
+   "role": "rejected",
+   "ground_m": [
+    11.127,
+    3.418
+   ]
+  },
+  {
+   "image_px": [
+    5.0,
+    423.0
+   ],
+   "aerial_px": [
+    650.0,
+    362.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    14.618,
+    27.273
+   ]
+  }
+ ],
+ "homography": [
+  [
+   0.07893687346600034,
+   -0.04218936103646502,
+   139.28683321552504
+  ],
+  [
+   -0.17763701708709478,
+   -0.027759183311830898,
+   208.15433130643703
+  ],
+  [
+   8.924850094695865e-05,
+   0.0146168759066791,
+   1.0
+  ]
+ ],
+ "residuals": [
+  {
+   "pair": 1,
+   "role": "fit",
+   "error_m": 0.172
+  },
+  {
+   "pair": 2,
+   "role": "fit",
+   "error_m": 0.755
+  },
+  {
+   "pair": 3,
+   "role": "fit",
+   "error_m": 1.313
+  },
+  {
+   "pair": 4,
+   "role": "fit",
+   "error_m": 0.493
+  },
+  {
+   "pair": 5,
+   "role": "fit",
+   "error_m": 0.294
+  },
+  {
+   "pair": 6,
+   "role": "fit",
+   "error_m": 1.429
+  },
+  {
+   "pair": 7,
+   "role": "fit",
+   "error_m": 0.552
+  },
+  {
+   "pair": 8,
+   "role": "fit",
+   "error_m": 0.319
+  },
+  {
+   "pair": 9,
+   "role": "validation",
+   "error_m": 1.091
+  },
+  {
+   "pair": 10,
+   "role": "validation",
+   "error_m": 0.551
+  },
+  {
+   "pair": 11,
+   "role": "validation",
+   "error_m": 1.579
+  },
+  {
+   "pair": 12,
+   "role": "validation",
+   "error_m": 0.692
+  },
+  {
+   "pair": 13,
+   "role": "rejected",
+   "error_m": 8.524
+  },
+  {
+   "pair": 14,
+   "role": "fit",
+   "error_m": 1.117
+  },
+  {
+   "pair": 15,
+   "role": "fit",
+   "error_m": 0.626
+  },
+  {
+   "pair": 16,
+   "role": "rejected",
+   "error_m": 5.467
+  },
+  {
+   "pair": 17,
+   "role": "validation",
+   "error_m": 2.343
+  }
+ ],
+ "summary": {
+  "fit": {
+   "pairs": 10,
+   "rms_m": 0.821,
+   "max_m": 1.429
+  },
+  "validation": {
+   "pairs": 5,
+   "rms_m": 1.411,
+   "max_m": 2.343
+  }
+ },
+ "rejected_pairs": [
+  {
+   "pair": 13,
+   "reason": "camera point lies under the overlay text on plain asphalt; no identifiable road feature to match"
+  },
+  {
+   "pair": 16,
+   "reason": "camera point lies under the overlay text beside a vehicle; no identifiable road feature to match"
+  }
+ ]
+}

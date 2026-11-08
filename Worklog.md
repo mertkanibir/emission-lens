@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:10 America/New_York (03:10 UTC)
+
+- **Who:** Carter
+- **Done:** Calibrated camera 222 to the ground plane from 17 camera/aerial point pairs on current Esri World Imagery; rejected pairs 13 and 16 because their camera points lie under the overlay text with no road feature to match. Added `count-3` to `222.measurement.json` (`222-image-v4`, still enabled and reviewed; road region, `count-1` and `count-2` unchanged) as a ground line 20 m west of `count-1`, and proposed movement `222-eastbound-through` (entry `count-3`, exit `count-1`, both negative, 20.0 m). Evidence: `evaluation/calibration/222-road-plane-correspondences.json` and `222-movement-eastbound.json`. The private traversal config is in the ignored `data/raw/traversals/222-traversals.json` and loads with `TraversalBridge.from_config`.
+- **Completed:** Fit RMS 0.82 m (10 pairs), validation RMS 1.41 m and max 2.34 m (5 pairs). Leave-one-out refits put the movement distance at 19.33-20.51 m. The eastbound direction matches count-1's dominant flow (37 of 47 crossings negative).
+- **Still open:** Mert's registry approval of the calibration and movement, `mapping_version` (null until the CARB class mapping is approved), an independent scale check against unchanged LARIAC 2013 features, and validation of traversal completions against manual observation.
+
 ### 7 November 2026, 22:14 America/New_York / 8 November 2026, 03:14 UTC
 
 - **Who:** Mert
