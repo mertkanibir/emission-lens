@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 19:38 America/New_York / 8 November 2026, 00:38 UTC
+**Updated:** 7 November 2026, 20:25 America/New_York / 8 November 2026, 01:25 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -59,3 +59,17 @@ Mert accepts the internal per-completed-traversal scenario input described in `e
 Keep original completion timestamps/cohort fixed for baseline/scenario comparison, compute speed and RUNEX factors per traversal before summing, retain signed changes, and withhold a positive-reduction scenario if linked stopped evidence is missing. Real outputs still require accepted calibration, class mapping and explicit meteorology. Hypothetical rows never enter observed live totals. Internal calculation inputs/evidence may be implemented and tested now. This approval does not change contract 1.1, authorize new public batch fields, or approve camera geometry/class mixtures; any persistence/transport extension needs a concrete schema and validation proposal first.
 
 Engineering owns the integration/consumer side; the scientific stream owns the documented producer evidence and calibration primitives. The current scene-wide stopped total is not a substitute for traversal-linked evidence. These decisions remove the internal calculation handoff blocker while preserving the scientific acceptance gate.
+
+## Ready-to-connect backend implementation — 7 November 2026, 20:25 America/New_York / 8 November 2026, 01:25 UTC
+
+Mert directed completion of the independently implementable backend while Mert and Carter compare model counts with manual counts. This expands the next software checkpoint from calculation-only helpers to the producer, authenticated ingestion, approved server registries, durable evidence/composed estimates, and scenario/read/brief binding. Scientific approval, count acceptance, model selection and labeling remain with their existing review process.
+
+- Engineering implements the registry/evidence/composition proposal in `evaluation/integration-readiness.md`: missing-by-default, server-controlled versioned calibration/mapping records; separately versioned additive measurement ingestion; explicit camera/run/mode/minute/revision and estimated-media timing; completed traversals with their own linked stopped time; atomic traffic/CO₂/NOₓ/private evidence publication and coherent retractions. Exact envelope/registry/read/handler structures must be published in `backend/MEASUREMENT-INGESTION.md` before implementation. Core worker contract 1.1 remains supported unchanged. Caller-supplied approval flags cannot authorize physical quantities.
+- The producer stream owns only the new isolated `worker/traversal.py` component, its tests and `worker/TRAVERSALS.md`. It prepares deterministic gate/session/gap/stopped-interval mechanics using explicit configuration and synthetic trajectories. It does not alter model/tracker code, camera drawings or the active count review. Engineering owns its runtime/publisher integration.
+- The dashboard stream owns thin frontend route adapters and the existing camera/scenario/brief consumers. It documents required fields first, consumes the published backend contract, and verifies per-pollutant baseline/scenario/signed differences, readiness and unchanged live/replay/synthetic separation. No design pass or invented measurements belongs to this checkpoint.
+
+### Acceptance
+
+Use controlled labeled fixtures to exercise authenticated ingest → durable reload → traffic/emissions reads → baseline/scenario → brief/export, plus denied/malformed/unapproved/missing evidence, duplicate/revision/retraction, reconnect/overlap and public-data privacy boundaries. Private traversal IDs and registry paths never enter public responses or exports. Atomically related records must share one authoritative commit; separate independent file renames are not presented as a database transaction.
+
+A passing software path means reviewed inputs can be installed without another architectural rewrite. Actual live counts still require accepted gate/model checks; physical emissions require independently supported calibration and explicit class/meteorology assumptions. Shared hosted storage and a real Supabase project remain separate deployment configuration/adapter work; unavailable credentials or scientific evidence do not block completion of the working single-host software path.
