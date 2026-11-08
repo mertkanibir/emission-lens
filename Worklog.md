@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:41 America/New_York / 8 November 2026, 03:41 UTC
+
+- **Who:** Mert
+- **Done:** Read Carter's subsequent 22:25 end-to-end handoff and privately retained extracted registry/replacement traversal settings. Assigned validation and isolated integration of those actual approved attachments to engineering; recorded how this supersedes the earlier null-mapping proposal without losing its scientific limitations.
+- **Completed:** Clean publication merge preserves both parallel histories and Carter's mapping basis. Independently ran `data/raw/labeling/app-venv/bin/python -m unittest tests.test_video_validation tests.test_practice_fuse_trial tests.test_practice_trace -q`: all 32 tests pass. System Python's image/YAML dependency import failures were resolved by using the existing application environment; no dependency was changed. Scoped whitespace checks pass.
+- **Still open:** Resolution-only 228 practice trial and physical review, reserved fresh validation, 223/228 human adjudication, actual camera-222 configured replay/live delivery, independent scale/curved-path and traversal verification, hosted persistence and final submission. No main server was restarted and no real physical result or production promotion is claimed.
+
 ### 7 November 2026, 22:38 America/New_York / 8 November 2026, 03:38 UTC
 
 - **Who:** Mert
