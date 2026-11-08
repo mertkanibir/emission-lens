@@ -750,8 +750,108 @@
     },
     {
       "camera_id": "220",
-      "status": "missing_media",
-      "windows": []
+      "status": "available",
+      "clip_sha256": "6caa25dfb47dc8d7e0305a90704a6726754018dbc8ae66ac696bbac4adc72bc6",
+      "duration_s": 1231.0109999999986,
+      "metadata_sha256": "1f1f00a4eb7ccd540852d2d505e1dd293667bde7c42d6374ae1fa3c8e778446c",
+      "geometry_raw_sha256": "5058158807ad085f79f6f660c945c3b36f1c263ffdb4a951c9987df3f4615e2b",
+      "geometry_canonical_sha256": "52b545515ab7643535b9168b873f9213ca233ae030120d243f4f6cbf52e9cbbe",
+      "gates": {
+        "count-1": "6c6bdcf9ab0cfdcd3f83b94a686d6e8d0681a63e89494fe4ecfd3d520d8a78ae",
+        "count-3": "560308465c5c112129035f7fd41bbe33462d902445b555c62a09c6650e9cb154"
+      },
+      "first_pts_s": 33609.495956,
+      "last_pts_s": 34840.439956,
+      "frame_count": 17670,
+      "gaps": [],
+      "windows": [
+        {
+          "window": [
+            0.0,
+            60.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            60.0,
+            180.0
+          ],
+          "status": "rendered_only_review_in_progress"
+        },
+        {
+          "window": [
+            180.0,
+            300.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            300.0,
+            360.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            360.0,
+            480.0
+          ],
+          "status": "rendered_only_review_in_progress"
+        },
+        {
+          "window": [
+            480.0,
+            600.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            600.0,
+            720.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            720.0,
+            840.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            840.0,
+            960.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            960.0,
+            1080.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1080.0,
+            1200.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1200.0,
+            1231.0109999999986
+          ],
+          "status": "pending_visual_review"
+        }
+      ],
+      "frozen_reviews": [],
+      "source_filename": "220_20261107T220646Z.ts"
     }
   ]
 }
