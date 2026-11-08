@@ -8,8 +8,15 @@ const json=(value:unknown,status=200,extra:Record<string,string>={})=>Response.j
 const sign=(value:string)=>createHmac("sha256",process.env.EMISSION_LENS_REVIEW_SESSION_SECRET??"").update(value).digest("hex");
 const equal=(a:string,b:string)=>a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
 function origin(request:Request) {
-  const url=new URL(request.url); const supplied=request.headers.get("origin");
-  return ["localhost","127.0.0.1","[::1]"].includes(url.hostname)&&supplied===url.origin&&request.headers.get("sec-fetch-site")==="same-origin";
+  const url=new URL(request.url),host=request.headers.get("host"),supplied=request.headers.get("origin");
+  if(!["http:","https:"].includes(url.protocol)||!["localhost","127.0.0.1","[::1]"].includes(url.hostname)||!host||! /^(?:localhost|127\.0\.0\.1|\[::1\])(?::[1-9]\d{0,4})?$/.test(host)||request.headers.get("sec-fetch-site")!=="same-origin")return false;
+  try {
+    // Next may normalize the internal URL to localhost while the browser uses
+    // 127.0.0.1. Match the explicit validated Host authority, retaining the
+    // actual listener port and protocol. Forwarded headers grant no authority.
+    const browserOrigin=new URL(`${url.protocol}//${host}`);
+    return browserOrigin.port===url.port&&supplied===browserOrigin.origin;
+  }catch{return false;}
 }
 export async function handleReviewSessionPost(request:Request,now=Date.now()) {
   if(!reviewWriteConfigured())return json({error:"Local review editing is disabled."},503);

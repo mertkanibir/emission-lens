@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:39 America/New_York / 8 November 2026, 08:39 UTC
+
+- **Who:** Mert
+- **Done:** Fixed actual review-session HTTP403 caused by framework normalization of 127.0.0.1 to localhost, using a strict validated Host authority and matching listener port.
+- **Completed:** Five focused tests and backend TypeScript pass, including realistic framework-normalized URL/session/write and rejection of wrong host/origin/port/protocol, forged forwarded host and missing Fetch Metadata. Existing signed cookie, CSRF and local-only opt-in controls remain. Full source 31eac1d CI passes: application and worker 367 tests plus 160 subtests (two skips); the local full worker attempt lacked detector/test dependencies and is not claimed passed.
+- **Still open:** Rebuilt actual browser review/save/state/reload/export verification; final deployment and continuation decisions remain.
+
 ### 8 November 2026, 03:35 America/New_York / 8 November 2026, 08:35 UTC
 
 - **Who:** Mert
