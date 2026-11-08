@@ -1,0 +1,226 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T03:56:03.392023+00:00",
+  "experiment": "228_native_resolution_practice_only",
+  "window": [
+    60,
+    180
+  ],
+  "detail_window": [
+    83,
+    110
+  ],
+  "weights": "pretrained yolo11n.pt",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "image_size": 1280,
+  "sample_fps": 15,
+  "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+  "raw_geometry_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+  "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+  "default_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+  "candidate_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+  "yaml_byte_identical_to_original": true,
+  "only_experimental_parameter_change": {
+    "imgsz": {
+      "control": 640,
+      "candidate": 1280
+    }
+  },
+  "frozen_job_recipe_sha256": "becdc31711410d82688b427412591381c46e3d8dbda1c0c83756eecff46971c6",
+  "pipeline_recipe_sha256": "7294476cc814470428bd8cff82a721dfaf659ae9e3226e93460db79dd30f8cd3",
+  "runner_sha256": "dafaa6e33d203adf79183775afe26419f3a9318b01a3e9a1e9c8cb890be43658",
+  "source_commit": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+  "source_sha256": {
+    "evaluation/check_counts.py": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+    "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1",
+    "worker/track.py": "65a5c46113543fcde3ec5e08ddef69f01f769ddba0dfa28da8d7cb07d8052b80",
+    "worker/metrics.py": "1cef779e94e0a7ce7bc971e4d563816b29aafaaf9efec173a6a75637a9196b2b",
+    "worker/stream.py": "164018b8a45c42837e4d637f959159f09548ad16a0b0eb32a8eed989eba86d23"
+  },
+  "actual_configuration": {
+    "first_media_s": 60.06,
+    "tracker_class": "BYTETracker",
+    "tracker_args": {
+      "tracker_type": "bytetrack",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 30,
+      "match_thresh": 0.8,
+      "fuse_score": true,
+      "device": "cuda:0"
+    },
+    "resolved_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+    "max_frames_lost": 30,
+    "raw_callback_precedes_tracking": true,
+    "actual_tracking_callback_persist": true,
+    "predictor_args": {
+      "imgsz": 1280,
+      "conf": 0.1,
+      "classes": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "tracker": "bytetrack.yaml",
+      "mode": "track",
+      "batch": 1
+    },
+    "actual_inference_device": "cuda:0",
+    "resolved_yaml_basename": "bytetrack.yaml",
+    "resolved_yaml_full_path_private": true
+  },
+  "scheduler": {
+    "job_id": "175965",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:00:45",
+    "wall_cap": "00:03:00",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "node": "alphagpu01",
+    "gpu_slice": "1g.10gb:1",
+    "cpu_request": 1,
+    "memory_request": "16G",
+    "allocation_released": true,
+    "tests_passed": 44,
+    "subtests_passed": 20
+  },
+  "reused_control": {
+    "job_id": "175957",
+    "pipeline_recipe_sha256": "23c83c660a0dc34bcc5a9ad6f723ff3504e93be2db07949b38b6b448ea3a3a5f",
+    "count_sha256": "7c8f04ff8946d2a328de20f8aefb5a526dfd65e96b2daeaffc0f0bd14607f2f6",
+    "sample_decisions_sha256": "d2b692f1cb247e786ed1f3c38ba35a63a865b757a01f8ce24c145f238ceece0f",
+    "effective_imgsz": 640,
+    "effective_fuse_score": true,
+    "actual_device": "cuda:0",
+    "immutable_files_and_source_verified": true,
+    "control_reference_matches_actual_execution_record": true,
+    "historical_observer_git_blob": "590bd73:evaluation/practice_fuse_trial.py",
+    "historical_observer_matches_execution_sha256": true,
+    "control_rerun": false
+  },
+  "candidate": {
+    "frames_processed": 1392,
+    "sample_decisions_sha256": "d2b692f1cb247e786ed1f3c38ba35a63a865b757a01f8ce24c145f238ceece0f",
+    "sample_sequence_equals_verified_control": true,
+    "max_processed_media_s": 179.981,
+    "count_sha256": "96b3e55c5d8fb8ee25e15bb30b432a08b4bf0f83d522ad83912f7678b0b6a222",
+    "detail_trace_sha256": "da08a1923fad0c7d859fe6e8d31360172daad406d357db4061bcced50889a1c2",
+    "wall_s": 28.859274795278907,
+    "inclusive_assisted_agreement": {
+      "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+      "legacy_closest_first_tp": 75,
+      "reference_total": 138,
+      "observed_total": 76,
+      "tp": 75,
+      "fp": 1,
+      "fn": 63,
+      "precision": 0.9868421052631579,
+      "recall": 0.5434782608695652,
+      "relative_total_error": -0.4492753623188406,
+      "direction_error": {
+        "positive": -32,
+        "negative": -30
+      }
+    },
+    "excluding_ambiguous_assisted_agreement": {
+      "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+      "legacy_closest_first_tp": 63,
+      "reference_total": 108,
+      "observed_total": 76,
+      "tp": 64,
+      "fp": 12,
+      "fn": 44,
+      "precision": 0.8421052631578947,
+      "recall": 0.5925925925925926,
+      "relative_total_error": -0.2962962962962963,
+      "direction_error": {
+        "positive": -2,
+        "negative": -30
+      }
+    },
+    "directional_assisted_agreement": {
+      "positive_inclusive": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 37,
+        "reference_total": 69,
+        "observed_total": 37,
+        "tp": 37,
+        "fp": 0,
+        "fn": 32,
+        "precision": 1.0,
+        "recall": 0.5362318840579711,
+        "relative_total_error": -0.463768115942029,
+        "direction_error": {
+          "positive": -32,
+          "negative": 0
+        }
+      },
+      "positive_excluding_ambiguous": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 25,
+        "reference_total": 39,
+        "observed_total": 37,
+        "tp": 26,
+        "fp": 11,
+        "fn": 13,
+        "precision": 0.7027027027027027,
+        "recall": 0.6666666666666666,
+        "relative_total_error": -0.05128205128205128,
+        "direction_error": {
+          "positive": -2,
+          "negative": 0
+        }
+      },
+      "negative_inclusive": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 38,
+        "reference_total": 69,
+        "observed_total": 39,
+        "tp": 38,
+        "fp": 1,
+        "fn": 31,
+        "precision": 0.9743589743589743,
+        "recall": 0.5507246376811594,
+        "relative_total_error": -0.43478260869565216,
+        "direction_error": {
+          "positive": 0,
+          "negative": -30
+        }
+      },
+      "negative_excluding_ambiguous": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 38,
+        "reference_total": 69,
+        "observed_total": 39,
+        "tp": 38,
+        "fp": 1,
+        "fn": 31,
+        "precision": 0.9743589743589743,
+        "recall": 0.5507246376811594,
+        "relative_total_error": -0.43478260869565216,
+        "direction_error": {
+          "positive": 0,
+          "negative": -30
+        }
+      }
+    }
+  },
+  "reference": {
+    "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
+    "human_confirmed": false,
+    "interpretation": "time/direction agreement with assisted review, not human identity accuracy"
+  },
+  "scope": {
+    "production_source_defaults_changed": false,
+    "geometry_thresholds_sampler_changed": false,
+    "fresh_720_840_processed": false,
+    "candidate_promoted": false,
+    "camera_enabled": false,
+    "raw_ids_or_imagery_committed": false,
+    "physical_anchor_and_changed_event_audit": "six anchors completed; supported duplicate remains; partial changed-event screening only; see video_validation/report.md",
+    "native_experiment_gpu_jobs": 1,
+    "separate_final_comparator": "228-s1280-practice.json"
+  }
+}

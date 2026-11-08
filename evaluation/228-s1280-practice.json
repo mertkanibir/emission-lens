@@ -1,0 +1,91 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T03:56:03.392023+00:00",
+  "experiment": "228_final_s1280_baseline_practice_comparator",
+  "mode": "replay",
+  "window": [
+    60,
+    180
+  ],
+  "initialization_media_s": 60,
+  "selected_gate": "count-1",
+  "image_size": 1280,
+  "sample_fps": 15,
+  "weights": "pretrained yolo11s.pt",
+  "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+  "recipe_sha256": "d5660485ce924b41398c7af751a441f7f4c1cad1a92ca3ecc03fdb0b886347b7",
+  "runner_sha256": "adc3c9c7edbaf67cf0f82217475665dfb07ed21e95274a59098d1f54f75dfbe8",
+  "count_sha256": "f0a47ab50c29c7bba39b62e232bcc8abcff034bde300dd765f4bd50671c720f0",
+  "partial_execution_sha256": "981dc6e115a21ce895bab8817e920ee57b7fe6ef32bba14d225bb37613dedbd7",
+  "failure_log_sha256": "065138d67bf84ab88a96c501c9452e93e838601dc71f7177ab4fe7d608b151f7",
+  "input_sha256": {
+    "evaluation/check_counts.py": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+    "worker/track.py": "65a5c46113543fcde3ec5e08ddef69f01f769ddba0dfa28da8d7cb07d8052b80",
+    "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1",
+    "worker/metrics.py": "1cef779e94e0a7ce7bc971e4d563816b29aafaaf9efec173a6a75637a9196b2b",
+    "worker/stream.py": "164018b8a45c42837e4d637f959159f09548ad16a0b0eb32a8eed989eba86d23",
+    "weights/yolo11s.pt": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+    "data/raw/clips/228/228_20261107T220646Z.ts": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+    "data/raw/clips/228/228_20261107T220646Z.json": "e1a7bd34beff69294b35fee2b0daf88c0a67b87e2456d88b930c2b2b5d664bec",
+    "config/cameras/228.measurement.json": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c"
+  },
+  "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+  "default_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+  "declared_tracker_arguments": {
+    "tracker_type": "bytetrack",
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true
+  },
+  "pre_result_audit_policy_sha256": "572993a068f6b095be9a115190a2e43ad59c85460ba9236efcdd08ccccedc8ab",
+  "scheduler": {
+    "job_id": "175973",
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "elapsed": "00:00:50",
+    "wall_cap": "00:03:00",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "node": "alphagpu01",
+    "allocation_released": true,
+    "tests_passed": 30,
+    "subtests_passed": 12
+  },
+  "count_output": {
+    "frames_processed": 1392,
+    "count_1_total": 77,
+    "positive": 38,
+    "negative": 39,
+    "inclusive_assisted_reference_total": 138,
+    "excluding_ambiguous_reference_total": 108,
+    "total_relative_error_inclusive": -0.4420289855072464,
+    "total_relative_error_excluding_ambiguous": -0.28703703703703703,
+    "provisional_count_screen": "fails even excluding ambiguous reference events",
+    "human_confirmed": false
+  },
+  "execution_evidence": {
+    "input_hash_preflight_passed": true,
+    "cuda_parameter_assertion_passed_before_metadata_failure": true,
+    "predictor_imgsz_conf_classes_assertion_passed_before_metadata_failure": true,
+    "assertion_observation_timing": "after CLI completion; inferred from pinned source and preserved failure line, not a saved runtime snapshot",
+    "actual_argument_namespace_saved": false,
+    "actual_sampler_decisions_saved": false,
+    "sampler_identity_verified_against_control": false,
+    "postflight_source_hash_assertions_reached": false,
+    "detailed_trace_available": false,
+    "physical_identity_audit": "unassessed; timestamp/direction-only output does not establish identities",
+    "failed_check": "whole runtime tracker-argument namespace equals YAML-declared argument dictionary",
+    "failure_detail": "Installed tracker may add runtime fields such as device; no raw namespace was saved, so its exact differing values are unavailable. Compare YAML-defined keys separately from runtime fields in any future authorized execution.",
+    "inference_rerun": false
+  },
+  "scope": {
+    "production_source_settings_changed": false,
+    "fresh_720_840_processed": false,
+    "candidate_promoted": false,
+    "camera_enabled": false,
+    "further_model_experiments_authorized": false,
+    "raw_ids_events_imagery_weights_capabilities_committed": false
+  }
+}

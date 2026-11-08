@@ -1,8 +1,9 @@
-"""Mert: private practice-only score-fusion trial, plus unchanged control.
+"""Mert: bounded private practice trials with pinned control provenance.
 
-Only the cloned tracker YAML's fuse_score flag may differ. Original worker,
-detector, tracker, metric and sampling source files remain unchanged. Raw track
-and association evidence stays private; [720,840) is never opened or processed.
+A pinned recipe permits either the original n/640 score-fusion flag experiment
+or n/1280 with byte-identical default tracker YAML. Original worker, detector,
+tracker, metric and sampling source files remain unchanged. Raw track and
+association evidence stays private; [720,840) is never opened or processed.
 """
 
 from collections import deque
@@ -51,7 +52,44 @@ def predictor_arguments(args):
     return {key: getattr(args, key) for key in ("imgsz", "conf", "classes", "tracker", "mode", "batch")}
 
 
-def main():
+def configurations_for_plan(plan, default_path, candidate_path):
+    import yaml
+    kind = plan.get("experiment_type", "score_fusion")
+    size = plan.get("image_size", 640)
+    if kind == "score_fusion" and size == 640:
+        original, candidate = validate_configs(default_path, candidate_path)
+        return kind, size, (("control", original, None), ("candidate", candidate, Path(candidate_path)))
+    if kind == "native_resolution" and size == 1280:
+        if Path(default_path).read_bytes() != Path(candidate_path).read_bytes():
+            raise ValueError("The native-resolution trial must retain the original YAML byte-for-byte.")
+        original = yaml.safe_load(Path(default_path).read_bytes())
+        if original.get("fuse_score") is not True:
+            raise ValueError("The native-resolution trial retains original score fusion.")
+        return kind, size, (("candidate", original, None),)
+    raise ValueError("Only the explicitly scoped n/640 fusion or n/1280 original-fusion practice experiment is supported.")
+
+
+def verified_control(reference_path, plan, original_cfg):
+    reference = json.loads(Path(reference_path).read_text())
+    for path_key, sha_key in (("execution_path", "execution_sha256"), ("count_path", "count_sha256"), ("pipeline_recipe_path", "pipeline_recipe_sha256")):
+        if sha(ROOT / reference[path_key]) != reference[sha_key]:
+            raise ValueError("The reused control's immutable provenance changed.")
+    if canonical(json.loads((ROOT / reference["sample_path"]).read_text())) != reference["sample_sha256"]:
+        raise ValueError("The reused control sampler record changed.")
+    if reference["source_sha256"] != plan["source_sha256"] or any(sha(ROOT / p) != h for p, h in reference["source_sha256"].items()):
+        raise ValueError("The reused control source differs from the candidate's source.")
+    if any(plan[k] != v for k, v in reference["fixed_recipe_inputs"].items()):
+        raise ValueError("The reused control input/settings differ beyond image size.")
+    actual = reference["actual_control"]["actual_configuration"]
+    if ({k: actual["tracker_args"][k] for k in original_cfg} != original_cfg
+            or actual["predictor_args"]["imgsz"] != 640 or actual["actual_inference_device"] != "cuda:0"
+            or actual["resolved_yaml_sha256"] != plan["default_yaml_sha256"]):
+        raise ValueError("The reused control lacks the required actual default-tracker/n640/CUDA evidence.")
+    return reference
+
+
+def main(recipe_path=None):
+    global OUT
     import os
     import torch
     import yaml
@@ -64,11 +102,18 @@ def main():
     assert torch.cuda.is_available() and isinstance(STrack.xyxy, property)
     torch.set_num_threads(1)
     torch.cuda.set_device(0)
-    plan_path = OUT / "recipe.json"
+    if recipe_path is not None:
+        plan_path = Path(recipe_path).resolve()
+        if not plan_path.is_relative_to(ROOT / "data/raw/count_check"):
+            raise ValueError("Practice recipes must stay in the private count-check directory.")
+        OUT = plan_path.parent
+    else:
+        plan_path = OUT / "recipe.json"
     plan = json.loads(plan_path.read_text())
+    assert sha(Path(__file__)) == plan["runner_sha256"], "Execute the exact recipe-pinned observer revision."
     assert not (OUT / "execution.private.json").exists(), "Preserve prior experiment outputs."
     default_path, candidate_path = OUT / "default.bytetrack.yaml", OUT / "candidate.bytetrack.yaml"
-    original_cfg, candidate_cfg = validate_configs(default_path, candidate_path)
+    kind, image_size, experiments = configurations_for_plan(plan, default_path, candidate_path)
     assert sha(default_path) == plan["default_yaml_sha256"]
     assert sha(candidate_path) == plan["candidate_yaml_sha256"]
     clip = ROOT / "data/raw/clips/228/228_20261107T220646Z.ts"
@@ -79,12 +124,15 @@ def main():
     originals = (checker.load_model, checker.CameraTracker, checker.CameraMetrics, checker.MediaTimeSampler)
     original_dists, original_assignment = BYTETracker.get_dists, matching.linear_assignment
     sources = {name: sha(ROOT / name) for name in ("evaluation/check_counts.py", "worker/detect.py", "worker/track.py", "worker/metrics.py", "worker/stream.py")}
+    assert sources == plan["source_sha256"]
+    reused = verified_control(OUT / "verified-control-reference.json", plan, experiments[0][1]) if kind == "native_resolution" else None
     report = {"owner": "Mert", "mode": "replay", "job_id": os.environ["SLURM_JOB_ID"],
               "node": os.environ.get("SLURMD_NODENAME"), "gpu": torch.cuda.get_device_name(0),
               "started_at_utc": datetime.now(timezone.utc).isoformat(), "recipe_sha256": sha(plan_path),
               "runner_sha256": sha(Path(__file__)), "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
               "source_sha256": sources, "runs": [], "reserved_window_processed": False,
-              "production_files_changed": False}
+              "production_files_changed": False, "experiment_type": kind, "image_size": image_size,
+              "verified_control_reference": reused}
 
     def write_line(handle, value):
         handle.write(json.dumps(plain(value), separators=(",", ":"), allow_nan=False) + "\n")
@@ -99,7 +147,7 @@ def main():
         return {category: [track_row(t) for tracker in getattr(model.predictor, "trackers", ()) for t in getattr(tracker, category, ())]
                 for category in ("tracked_stracks", "lost_stracks")}
 
-    for name, expected_cfg, override in (("control", original_cfg, None), ("candidate", candidate_cfg, candidate_path)):
+    for name, expected_cfg, override in experiments:
         pipeline_recipe = OUT / f"{name}-recipe.json"
         pipeline_recipe_sha = plan["pipeline_recipes"][name]
         assert sha(pipeline_recipe) == pipeline_recipe_sha
@@ -152,7 +200,7 @@ def main():
                 native_model_track = model.track
                 def scoped_track(*args, **kwargs):
                     assert kwargs["tracker"] == "bytetrack.yaml"
-                    assert kwargs["imgsz"] == 640 and kwargs["conf"] == .1 and kwargs["persist"] is True
+                    assert kwargs["imgsz"] == image_size and kwargs["conf"] == .1 and kwargs["persist"] is True
                     if override is not None:
                         kwargs = {**kwargs, "tracker": str(override)}
                     return native_model_track(*args, **kwargs)
@@ -199,6 +247,7 @@ def main():
                                              "predictor_args": predictor_arguments(predictor.args),
                                              "actual_inference_device": str(next(predictor.model.model.parameters()).device)}
                         assert context["actual"]["actual_inference_device"] == "cuda:0"
+                        assert context["actual"]["predictor_args"]["imgsz"] == image_size
                         write_line(trace, {"kind": "actual_config", **context["actual"]})
                     if detailed():
                         assert context["raw"] is not None
@@ -252,7 +301,7 @@ def main():
                 with (OUT / f"{name}-console.private.log").open("w") as console:
                     import contextlib
                     with contextlib.redirect_stdout(console), contextlib.redirect_stderr(console):
-                        result = checker.count("228", 60, 120, weights=weights, image_size=640, sample_fps=15, clip=clip)
+                        result = checker.count("228", 60, 120, weights=weights, image_size=image_size, sample_fps=15, clip=clip)
             finally:
                 BYTETracker.get_dists, matching.linear_assignment = original_dists, original_assignment
                 checker.load_model, checker.CameraTracker, checker.CameraMetrics, checker.MediaTimeSampler = originals
@@ -271,7 +320,10 @@ def main():
         print("PRACTICE_PASS_COMPLETE", name, "frames", result["frames_processed"], "device", context["actual"]["actual_inference_device"], flush=True)
         loaded.clear()
         torch.cuda.empty_cache()
-    assert report["runs"][0]["sample_decisions_sha256"] == report["runs"][1]["sample_decisions_sha256"]
+    if reused is None:
+        assert report["runs"][0]["sample_decisions_sha256"] == report["runs"][1]["sample_decisions_sha256"]
+    else:
+        assert report["runs"][0]["sample_decisions_sha256"] == reused["sample_sha256"]
     assert all(sha(ROOT / name) == value for name, value in sources.items())
     assert sha(geometry) == plan["raw_geometry_sha256"]
     assert sha(default_path) == plan["default_yaml_sha256"] and sha(candidate_path) == plan["candidate_yaml_sha256"]
@@ -284,4 +336,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--recipe", type=Path, help="Pinned private practice recipe; default is the original fusion experiment.")
+    main(parser.parse_args().recipe)

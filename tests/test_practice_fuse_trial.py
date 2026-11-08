@@ -8,10 +8,28 @@ import unittest
 
 import yaml
 
-from evaluation.practice_fuse_trial import predictor_arguments, validate_configs
+from evaluation.practice_fuse_trial import configurations_for_plan, predictor_arguments, validate_configs
 
 
 class PrivateTrackerConfigTests(unittest.TestCase):
+    def test_native_recipe_runs_only_1280_with_original_yaml(self):
+        with tempfile.TemporaryDirectory() as folder:
+            a, b = Path(folder)/"a.yaml", Path(folder)/"b.yaml"
+            a.write_text('fuse_score: true\ntrack_high_thresh: 0.25\n')
+            b.write_bytes(a.read_bytes())
+            kind, size, runs = configurations_for_plan({'experiment_type':'native_resolution','image_size':1280}, a, b)
+            self.assertEqual((kind,size),('native_resolution',1280))
+            self.assertEqual(len(runs),1)
+            self.assertIsNone(runs[0][2])
+            self.assertIs(runs[0][1]['fuse_score'],True)
+            for plan in ({'experiment_type':'native_resolution','image_size':640},
+                         {'experiment_type':'native_resolution','image_size':960}):
+                with self.subTest(plan=plan), self.assertRaises(ValueError):
+                    configurations_for_plan(plan,a,b)
+            b.write_text('fuse_score: false\ntrack_high_thresh: 0.25\n')
+            with self.assertRaises(ValueError):
+                configurations_for_plan({'experiment_type':'native_resolution','image_size':1280},a,b)
+
     def test_actual_predictor_metadata_has_no_persist_cfg_field(self):
         args = SimpleNamespace(imgsz=640, conf=.1, classes=[2,3,5,7], tracker="bytetrack.yaml", mode="track", batch=1)
         result = predictor_arguments(args)

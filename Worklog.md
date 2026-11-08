@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:56 America/New_York / 8 November 2026, 03:56 UTC
+
+- **Who:** Mert
+- **Done:** Published the original-fusion n/1280 practice helper extension, tests and safe scalar provenance in evaluation/228-native-practice.md/json; retained the verified n/640 control without rerunning it. Added evaluation/228-s1280-practice.md/json for the separately authorized final baseline-only comparator and preserved its unsuccessful metadata receipt without rewriting it as a successful execution.
+- **Completed:** Native job 175965 completed 0:0 in 45 seconds with 44 tests plus 20 subtests passing on compute; current tracked helper checks pass 37 tests plus 20 subtests locally. Its 1392 source samples exactly match the verified control, actual CUDA/default tracker/persistence/imgsz1280 evidence verifies, and its count is 76. The final s/1280 CLI retained 77 count-1 events (38 positive/39 negative) over 1392 frames; job 175973 failed 1:0 after 50 seconds in the post-inference whole-namespace metadata comparison, after 30 tests plus 12 subtests passed. Recipe/source/count/partial-receipt/log hashes and own JSON/relative-link/whitespace checks verify. Both allocations are released.
+- **Still open:** Both candidates fail the provisional assisted count screen and remain unpromoted. Native bounded review supports six retained/recovered anchors but also a duplicate; remaining changed-event sheets are explicitly unreviewed. Final s/1280 raw arguments and exact sample-decision receipt were not saved; only preceding CUDA/predictor assertions are supported by the pinned source/failure line. No physical-identity correctness is inferred from its timestamps, no corrected receipt or inference rerun is claimed, and model experiments end here. Fresh [720,840) stays untouched; human adjudication and broader acceptance remain pending. No production source/settings, camera enablement, training, public contract, raw media/IDs/events/weights or credentials are included. Other streams' integration work is preserved and excluded.
+
 ### 7 November 2026, 22:51 America/New_York / 8 November 2026, 03:51 UTC
 
 - **Who:** Mert
