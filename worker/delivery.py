@@ -59,16 +59,24 @@ class BackgroundDelivery:
 
     def _pass(self):
         sent = 0
+        # Freeze eligible measurement bytes BEFORE the core-empty check. A
+        # producer can commit new core + measurement evidence just after that
+        # check; the new measurement must wait for the next core drain.
+        watermarks = {}
+        for camera, box in self.measurements.items():
+            pending = box.pending()
+            watermarks[camera] = pending[-1].name if pending else None
         # A single request per turn bounds reaction to shutdown and avoids one
         # camera's eight-request batch monopolizing every other camera's turn.
         if not self._should_halt():
             sent += self.core.flush(limit=1)
         if self.core.pending():
             return sent
-        for box in self.measurements.values():
+        for camera, box in self.measurements.items():
             if self._should_halt():
                 break
-            sent += box.flush(limit=1)
+            if watermarks[camera] is not None:
+                sent += box.flush(limit=1, through=watermarks[camera])
         return sent
 
     def _run(self):

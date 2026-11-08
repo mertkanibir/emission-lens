@@ -16,6 +16,34 @@ def batch(revision=0, batch_id=None):
 
 
 class DeliveryTests(unittest.TestCase):
+    def test_new_measurement_after_core_empty_check_waits_for_next_core_drain(self):
+        # Force the scheduling boundary: pending() observed no core evidence,
+        # then the producer committed new core + dependent measurement bytes.
+        posted = []
+        with tempfile.TemporaryDirectory() as folder:
+            core = Outbox(Path(folder) / "core", lambda body: posted.append(("core", body)) or True)
+            measurement = Outbox(Path(folder) / "measurements", lambda body: posted.append(("measurement", body)) or True)
+            delivery = object.__new__(BackgroundDelivery)
+            delivery.core, delivery.measurements = core, {"222": measurement}
+            delivery._lock, delivery._halt, delivery._deadline = threading.Lock(), False, None
+            original_pending, original_flush = core.pending, core.flush
+            injected = []
+            def raced_empty_check():
+                observed = original_pending()
+                if not injected:
+                    injected.append(True)
+                    core.pending = original_pending
+                    core.enqueue(batch())
+                    measurement.enqueue(batch())
+                return observed
+            core.flush = lambda **_: 0
+            core.pending = raced_empty_check
+            self.assertEqual(delivery._pass(), 0)
+            self.assertEqual(posted, [])
+            core.flush = original_flush
+            self.assertEqual(delivery._pass(), 2)
+            self.assertEqual([kind for kind, _ in posted], ["core", "measurement"])
+
     def test_slow_core_http_does_not_block_producer_and_measurements_follow_observations(self):
         entered, release = threading.Event(), threading.Event()
         delivered = []

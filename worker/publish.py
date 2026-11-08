@@ -10,6 +10,7 @@ import tempfile
 import threading
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
+from typing import Optional
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
@@ -182,12 +183,12 @@ class Outbox:
             if os.path.exists(temporary):
                 os.unlink(temporary)
 
-    def flush(self, limit: int = 8) -> int:
+    def flush(self, limit: int = 8, *, through: Optional[str] = None) -> int:
         # Serialize senders, but never hold the producer mutex across HTTP.
         with self._flush_lock:
-            return self._flush(limit)
+            return self._flush(limit, through)
 
-    def _flush(self, limit: int) -> int:
+    def _flush(self, limit: int, through: Optional[str]) -> int:
         sent = 0
         with self._queue_lock:
             if not self._delivery_ready:
@@ -196,7 +197,9 @@ class Outbox:
                 # Failed cleanup blocks later HTTP revisions until it is resolved.
                 for acknowledged in sorted(self.directory.glob("*.acked")):
                     acknowledged.unlink()
-            paths = self.pending()[:limit]
+            # A caller can freeze a FIFO watermark before checking a dependency
+            # outbox. Later immutable revisions wait for its next delivery pass.
+            paths = [path for path in self.pending() if through is None or path.name <= through][:limit]
         for path in paths:
             with self._queue_lock:
                 if not self._delivery_ready:
