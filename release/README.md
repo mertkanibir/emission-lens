@@ -1,7 +1,7 @@
 # Release and submission readiness
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:20 America/New_York / 05:20 UTC
+**Updated:** 8 November 2026, 00:29 America/New_York / 05:29 UTC
 **Status:** Draft package prepared for review. Final rehearsal, submission artifacts, licence decision and submission confirmation remain open.
 
 This package owns release preparation only. [Plan.md](../Plan.md) remains authoritative. [DEVPOST.md](./DEVPOST.md) supplies reviewable copy; [DEMO.md](./DEMO.md) supplies the three-minute script and replay fallback. No public release, Devpost submission, external message or contributor/branch/settings change is authorized by these documents. Contributor settings remain on hold.
@@ -44,6 +44,8 @@ Never claim measured AQI, pollutant concentration, engine operation, health impr
 
 This is an attribution inventory and decision checklist, not a project-wide licence grant or complete transitive dependency audit. Mert and Carter remain the authors. Factual library/model credits are separate from development-assistance disclosure.
 
+**Decision note added 8 November, 00:29 America/New_York / 05:29 UTC:** [Concrete licence choices](./LICENSING-DECISION.md) compare the current-stack AGPL route, appropriate Enterprise rights and a separately authorized future replacement. Mert and Carter have not selected a path; no licence is applied by these release documents.
+
 | Component | Attribution and retained evidence | Release action |
 |---|---|---|
 | Project code | Public source and Mert/Carter development history; no root project licence declared at this checkpoint. | Mert/Carter must choose and document the intended licence/compliance path. Do not silently apply a permissive licence to the whole tree. |
@@ -68,7 +70,7 @@ Completed preparation is distinct from submission. Empty boxes below require an 
 - [x] Completed GPU execution, factor provenance, bounded real delivery and scoped count evidence are recorded.
 - [x] Brand icon/wordmarks exist in [the identity kit](../branding/README.md).
 - [ ] Mert/Carter confirm team registration, track selection, actual AI use and all live Devpost fields/upload specifications.
-- [ ] Choose/document project and detector dependency licence/compliance path; retain required source/data/asset notices.
+- [ ] Mert/Carter record a choice and covered scope in the [licence decision note](./LICENSING-DECISION.md), complete its corresponding-source/notices/distribution checks and retain required source/data/asset notices.
 - [ ] Rehearse the actual displayed revision, live heartbeat/preview, supported-minute values, unavailable windows, scenario limits and brief/export together.
 - [ ] Prepare a current, authorized, visibly labeled replay through the same pipeline. Verify its media provenance, expiry/retention, actual mode isolation and availability at judging time; do not relabel old receipts as current.
 - [ ] Capture reviewed screenshots and any required video. Retain map credits and review incidental identifiers. No raw media enters this public repository.

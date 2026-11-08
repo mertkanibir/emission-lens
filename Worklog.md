@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:29 America/New_York / 8 November 2026, 05:29 UTC
+
+- **Who:** Mert
+- **Done:** Added release/LICENSING-DECISION.md and linked it from the release checklist. Recorded the unlicensed project position, exact pinned detector/web/Python dependency metadata, primary terms and concrete current-stack AGPL versus appropriate Enterprise choices, with separately approved future replacement as a distinct option.
+- **Completed:** The exact Ultralytics8.4.206 upstream licence and official Enterprise/GitHub guidance were checked. Independent licence-boundary review confirms commercial charging is not itself prohibited by AGPL, process separation is not a proven exemption, corresponding-source obligations need actual scope review and private credentials/raw footage are not to be published as source. Six locked web version/licence assertions, relative links and staged whitespace/marker checks pass. The checklist now requests a concrete choice, scope and completion checks rather than an unspecified licence task.
+- **Still open:** Mert/Carter must select and implement the applicable path, confirm contributor authority/any private entitlement and review corresponding-source, weights and actual distributed binary/transitive notices. No licence, purchase, contact, runtime/model/training, submission or contributor/account setting is changed. Scientific/demo and other release blockers remain as recorded; this note is not a compliance certification.
+
 ### 8 November 2026, 00:24 America/New_York / 8 November 2026, 05:24 UTC
 
 - **Who:** Mert
