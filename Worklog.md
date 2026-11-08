@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 20:33 America/New_York / 8 November 2026, 01:33 UTC
+
+- **Who:** Mert
+- **Done:** Created the isolated Junction Lens identity kit in `branding/` and new `frontend/public/brand/` assets. The mark combines curved intersection corners with an observation diamond, using the existing forest/cream/ink palette and outlined bundled Manrope ExtraBold. Added primary, reversed and monochrome SVG lockups/marks, a compact favicon SVG, 16/32 px ICO, five PNG icon sizes, a rendered review sheet, exact tokens, usage notes and a reproducible asset builder.
+- **Completed:** Seven production SVGs parse and render with no live text, external resources or scripts; five RGBA icon dimensions, the two ICO sizes, tokens and the 1200 × 960 review sheet pass checks. Inspected the rendered primary/reversed/single-color lockups and 16/24/32/48/64 px badge checks. The optional authoring dependencies are isolated under `/tmp`; no application dependencies changed. Scoped whitespace checks pass.
+- **Still open:** Mert reviews the identity before deliberate dashboard/favicon integration. No existing frontend source/layout/CSS, scientific contract, camera, model, label, worker or backend was changed. The kit is not activated or externally published and asserts no scientific validation or trademark clearance. Concurrent implementation work remains untouched.
+
 ### 7 November 2026, 20:29 America/New_York / 8 November 2026, 01:29 UTC
 
 - **Who:** Mert
