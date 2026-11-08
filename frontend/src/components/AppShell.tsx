@@ -22,6 +22,7 @@ import { MotionControl } from "@/components/MotionControl";
 import { WorkspaceMenus } from "@/components/WorkspaceMenus";
 import { Clock } from "@/components/Clock";
 import { LiveRefresh } from "@/components/LiveRefresh";
+import { sourceLinks } from "@/lib/source-links";
 import {
   formatClock,
   hrefWith,
@@ -44,6 +45,7 @@ export function AppShell({
   modeHref: (mode: Mode) => string;
   children: React.ReactNode;
 }) {
+  const source = sourceLinks(process.env.EMISSION_LENS_WEB_SOURCE_REVISION);
   const cameras = listCameras();
   const statuses = cameras.map((camera) => get_camera_status(camera.id, mode));
   const fresh = statuses.filter(
@@ -183,6 +185,12 @@ export function AppShell({
               >
                 About CARB factors <ArrowUpRight size={14} />
               </a>
+              <p>
+                Project code: AGPL-3.0-only, without warranty. Upstream materials
+                retain their own terms.
+              </p>
+              <a href={source.notice}>Project notice <ArrowUpRight size={14} /></a>
+              <a href={source.availability}>Source availability <ArrowUpRight size={14} /></a>
             </div>
           </details>
         </div>
@@ -268,7 +276,14 @@ export function AppShell({
           <span>
             <Leaf size={13} /> Estimated emissions. Evidence before conclusions.
           </span>
-          <span>Caltrans cameras · CARB factors</span>
+          <div>
+            <span>Caltrans cameras · CARB factors</span>
+            <nav aria-label="Licence and source">
+              <a href={source.licence}>Licence · AGPL-3.0</a>
+              {" · "}
+              <a href={source.source}>{source.sourceLabel}</a>
+            </nav>
+          </div>
         </footer>
       </div>
     </div>

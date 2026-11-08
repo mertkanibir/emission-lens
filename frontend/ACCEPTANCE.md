@@ -1,7 +1,7 @@
 # Frontend acceptance and demo usability
 
 **Owner:** Mert  
-**Updated:** 8 November 2026, 00:38 America/New_York / 8 November 2026, 05:38 UTC
+**Updated:** 8 November 2026, 00:40 America/New_York / 8 November 2026, 05:40 UTC
 
 ## Focused checklist and ownership
 
@@ -35,3 +35,7 @@ Accepted screenshots, in order, are retained privately as `01-overview.png`, `02
 - Browser checks reproduce both old feedback persistence and the corrected updated-draft feedback after an actual scheduled server refresh. Copy success feedback passes; browser-adapter clipboard readback is not claimed.
 - The brief/ranking says calibration is invalid when the approved 222 profile has no measurement minutes in the rolling window. Exact query, build/store identity and screenshot/download evidence were handed to the backend wording owner; this frontend patch does not change that text or any availability semantics.
 - Full four-camera flows, newly delivered 223 replay/heat-map evidence, broad responsive/motion regression and final rehearsal remain open. No complete accessibility conformance, physical accuracy, measured air quality, positive scenario savings, shared hosting or production installation is established by these checks. No scope or contract change is proposed.
+
+## Licence/source checkpoint — 8 November 2026, 00:40 America/New_York / 8 November 2026, 05:40 UTC
+
+Mert agreed a narrow additional assignment for `AppShell.tsx` footer/help link markup. The footer now exposes the published AGPL-3.0 licence and clearly labeled source repository; help supplies the project-code/no-warranty/upstream-terms note and project/source guidance. The optional exact-web-source setting and its trust boundary are documented in [SOURCE.md](SOURCE.md). No running revision is inferred or configured in the acceptance build. All 47 frontend tests, TypeScript and the isolated build pass; desktop footer/focus and the 354 px phone help panel were visually checked, including Escape dismissal. Accepted private screenshots are `06-source-footer.png` and `07-phone-source-help.png`. The application owner retains the exact frozen-version launch/source obligation; production remains unchanged.
