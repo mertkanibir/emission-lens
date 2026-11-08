@@ -1,7 +1,7 @@
 # Camera 220 queued blind-review plan
 
-**Owner:** Mert. **Updated:** 8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC.
-**Status:** Both declared blind ledgers frozen before reference access; scoped baseline handoff/comparison pending. Source/gate/policy and original ledgers are preserved.
+**Owner:** Mert. **Updated:** 8 November 2026, 01:10 America/New_York / 8 November 2026, 06:10 UTC.
+**Status:** Both declared blind reviews and aligned comparisons completed; both recall screens fail. Original source/gate/ledgers remain preserved.
 
 Mert queued Carter's camera-220 recording/metadata handoff received on 7 November 2026 at 23:54 America/New_York (8 November 2026, 04:54 UTC). Carter's model count was withheld from this review. Media locators remain with Mert's coordinator; this plan contains no answer key or private download capability.
 
@@ -26,7 +26,7 @@ Mert owns this evaluation plan, ledger/comparison work and coordination. Carter 
 ## Completion and open dependencies
 
 - **Completed:** Source acquisition/native timing audit, fixed practice/held-out windows, practice-only gate/policy freeze, blind boundary and ownership.
-- **Open:** Completion/boundary reconciliation of actual practice and held-out ledgers; final immutable freezes; separately withheld baseline/reference handoff; Carter's independent distance calibration.
+- **Open:** Count-only acceptance remains unmet after aligned comparison. Any further human/spatial investigation or full-recording visual expansion is separately coordinated; Carter retains independent distance calibration.
 
 No completed camera-220 count, score or acceptance is asserted by this progress checkpoint. Rendered and actually inspected coverage remain separate.
 
@@ -35,3 +35,5 @@ No completed camera-220 count, score or acceptance is asserted by this progress 
 **Actual practice freeze (8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC):** Practice[60,180) is now frozen with111assisted candidates/93ambiguity-excluded, exact coverage/hash in [review status](./220-review-status.md). Held-out ordered viewing is complete and candidate/boundary checks are active. Model/manual references remain unopened.
 
 **Held-out completion (8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC):** The actual106-passage assisted held-out ledger is frozen, alongside practice111/93. See [review status](./220-review-status.md). Only the two declared window baselines may be released for comparison; full-recording visual review remains incomplete.
+
+**Comparison complete (8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC):** See [actual comparison](./220-review-status.md) and [successor handoff](./HANDOFF.md). No full-recording visual expansion, model/gate tuning or camera enablement follows.

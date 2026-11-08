@@ -1,6 +1,6 @@
 # Video validation status
 
-**Owner:** Mert. **Updated:** 8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC.
+**Owner:** Mert. **Updated:** 8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC.
 
 Mert completed the first independent assisted review of `[360,480)` for cameras 222, 223, 228, with immutable private ledgers frozen before human/model reference access. All selected chronological sequence frames were inspected, with native-cadence candidate revisits. These are assisted estimates with `human_confirmed=false`, not additional human ground truth. Camera 220 media is unavailable locally. Mert has deferred broad full-file counting until223/228 acceptance is resolved; the public [manifest](./manifest.json) preserves every pending interval.
 
@@ -160,3 +160,5 @@ The final comparator fails both count bounds. There are no track IDs/trajectorie
 **220 practice ledger frozen (8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC):** The [220practice freeze](./220-review-status.md) is complete at00:55:52NY/05:55:52UTC:111assisted candidates (48positive/63negative),93excluding18ambiguous crossings, with2timing flags. It is sampled/partial evidence rather than human truth or acceptance. The held-out ledger and all model/manual comparisons remain pending; no full-recording review claim is made.
 
 **220 held-out ledger frozen (8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC):** Both220declared blind ledgers are frozen ahead of the01:13NY checkpoint: practice111/93 and held-out106assisted passages. All selected ordered sheets and cited native candidates were inspected; coverage is sampled/partial, human-reference accuracy unavailable. [Exact freeze hashes and coverage](./220-review-status.md) precede scoped baseline/reference release. Remaining recording intervals and reserved228fresh footage remain unviewed.
+
+**220 comparison and ownership handoff (8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC):** The [220aligned comparison](./220-review-status.md) is complete after both blind freezes. Practice recall78.38%inclusive/82.80%excluding ambiguities; held-out69.81%, totalerrors−21.62%/−6.45%/−29.25%. Both windows fail the85%recall screen, with sampled assisted evidence/human accuracy unavailable. No camera approval or full-recording review is implied. Exact four-camera custody, untouched intervals/human references and successor routing are in the [handoff](./HANDOFF.md).

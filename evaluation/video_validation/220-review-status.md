@@ -1,7 +1,7 @@
 # Camera 220 blind review status
 
-**Owner:** Mert. **Updated:** 8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC.
-**Status:** Both declared blind ledgers frozen before any reference access; scoped reference handoff/comparison pending.
+**Owner:** Mert. **Updated:** 8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC.
+**Status:** Both declared windows compared after blind freeze; both provisional recall screens fail. No camera approval.
 
 ## Practice `[60,180)`
 
@@ -53,3 +53,27 @@ All220model/manual results remained unopened through both freezes. The operation
 This review covers only the two declared windows. Source timing inventory and separately executed full-recording inference do not establish full-recording visual completion. Production220 geometry/enablement and physical approval are unchanged; Carter owns distance calibration. Healthy222/app3138 and reserved228 `[720,840)` remain untouched. No contract/runtime/model change by this stream.
 
 **Held-out freeze (8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC):** The actual combined ledger is frozen before reference access with106assisted passages. Boundaries, native evidence, uncertainty/coverage and source/gate policy are preserved. Both declared windows are ready for a separately coordinated scoped comparison.
+
+## Aligned model comparison — 8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC
+
+Only the two authorized fresh-window reports from job176183 were opened after both ledger freezes. Tracking/sampler/metrics initialize at60s and360s respectively, with original pretrained n/640/requested15FPS, original ByteTrack/YAML, actualcuda:0 and persistence. Exact source/gate/policy and scoped runtime/configuration receipts align. Practice processed1714 of1749 retrieved frames (60.061–179.982); held-out1746 of1762 (360.031–479.952). These are processing-coverage facts, not crossing recall.
+
+The new producer records `requested_end_s`. The explicit derived adapter adds only `seconds=120` and the verified clip basename. All original fields/gates/events/timestamps/directions are byte-hash-bound and unchanged; raw reports remain preserved. Scoped recipes bind raw, adapter, actual configuration, sampler, source and frozen-ledger identities. Source hashes match the pinned execution commit. No other recording interval or human key was opened.
+
+| Frozen assisted reference | Model count | TP / FP / FN | Agreement recall | Precision | Relative total error | Positive / negative count difference |
+|---|---:|---:|---:|---:|---:|---:|
+|Practice111 inclusive|87|87 /0 /24|78.38%|100.00%|−21.62%|−16 /−8|
+|Practice93 excluding18crossing ambiguities|87|77 /10 /16|82.80%|88.51%|−6.45%|+2 /−8|
+|Held-out106, both ambiguity bounds|75|74 /1 /32|69.81%|98.67%|−29.25%|−29 /−2|
+
+Independent integer-millisecond dynamic programming reproduced maximum-cardinality/minimum-time-gap matches (summed gaps13.907s,15.204s,12.529s respectively) under the unchanged1.5s same-direction policy. Practice ambiguity-excluded count error passes15%, but recall remains below85%; inclusive practice and held-out also fail total error. Both windows therefore fail the provisional screen.220 remains unapproved. Human accuracy and physical identity/root cause remain unavailable; timestamp matching can pair neighboring vehicles and does not certify detector accuracy. All references remain explicitly assisted/partial, with no post-reference ledger rewrite.
+
+| Preserved artifact | SHA256 |
+|---|---|
+|Practice raw output|`3b2bad39443662cb41b2a4d85b12f5fe34313b7ac91823f213d65a33fb75b667`|
+|Held-out raw output|`90671f1cb1dc3a71ff7d5aa68282907890a8c2cf3cddbfaeb9e83c9d43dec0e9`|
+|Practice scoped recipe|`8f28db30b44c8a23159d61fb732976f5977ad8c551e8a817052e2ae9877eb78d`|
+|Held-out scoped recipe|`3e0d8e6109ec788696b8c4e09b04ef2eb2d526adac2c7db1026b9f7c6f031e49`|
+|Both actual configurations|`aa57252a4f3e17976e722dcec9beb56cb0181467a177bd8326914d0c32337702`|
+
+Remaining220full-recording visual work and model/manual answers outside the two windows stay unreviewed/withheld. Any further spatial diagnosis, review expansion or execution is separately coordinated; no gate/model/threshold tuning, production enablement or physical approval follows this result. Carter retains distance calibration. See the [video-evidence handoff](./HANDOFF.md) for successor ownership and preserved evidence.

@@ -1,6 +1,6 @@
 # Independent visual crossing review
 
-**Owner:** Mert. **Updated:** 8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC.
+**Owner:** Mert. **Updated:** 8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC.
 
 This package keeps assisted visual review separate from Carter's human reference and pretrained detector/tracker output. It does not run inference. An assisted ledger always records `review_method=assisted_visual_sequence_review` and `human_confirmed=false`. A frozen assisted ledger alone cannot enable a camera, physical speed, calibration or estimated emissions.
 
@@ -86,3 +86,5 @@ See [current status](./report.md) for completed review coverage and limitations.
 **220 practice ledger frozen (8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC):** Mert froze the actual220practice ledger before reference access:111assisted candidates,93excluding18endpoint/boundary ambiguities. All592selectedframes/50sheets plus21native-cadence candidateframes were inspected, with partial coverage/human_confirmed=false explicit. See [220review status](./220-review-status.md). Held-out reconciliation is active; all220model/manual answers remain withheld until its freeze.
 
 **220 held-out ledger frozen (8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC):** Mert froze the actual220held-out ledger at01:01:30NY/06:01:30UTC before any model/manual reference access:106assisted passages (63positive/43negative),594selectedframes/50sheets plus148nativecandidateframes, explicitpartialcoverage/human_confirmed=false. Practice111/93 is also preserved. See [220review status](./220-review-status.md). Only the two matching window outputs may now be handed off; no full-recording visual completion or acceptance follows.
+
+**220 comparison and ownership handoff (8 November 2026, 01:09 America/New_York / 8 November 2026, 06:09 UTC):** Mert completed the aligned220two-window comparison:87model versus111/93practice assisted candidates and75versus106held-out; all provisional recall screens fail. [Actual result](./220-review-status.md) preserves hashes/coverage/ambiguity and original blind freezes. [Ownership handoff](./HANDOFF.md) routes remaining video evidence to Full-Stack Software Engineer —1; no further work, viewing, tuning or enablement is launched.
