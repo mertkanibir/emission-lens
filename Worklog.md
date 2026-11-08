@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 01:16 America/New_York (06:16 UTC)
+
+- **Who:** Carter
+- **Done:** Updated `release/DEVPOST.md`: scope narrowed to cameras 222 and 223, with 220 and 228 excluded for failing held-out count screening (-29%, -42%); added ground calibration, movement construction, stopped-time thresholds and the 15 fps finding to How we built it; added a measured-results table with evidence links; updated challenges, next steps, built-with and the AI-use disclosure specifics.
+- **Completed:** Every number in the table links to a committed evidence file. Mert's structure and wording are otherwise unchanged.
+- **Still open:** Stopped-time verification on recorded video. Mert and Carter review the draft and confirm the disclosure before submission.
+
 ### 8 November 2026, 01:13 America/New_York / 8 November 2026, 06:13 UTC
 
 - **Who:** Mert
