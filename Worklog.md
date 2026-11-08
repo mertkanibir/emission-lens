@@ -36,9 +36,9 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 ### 7 November 2026, 19:30 America/New_York (00:30 UTC)
 
 - **Who:** Carter
-- **Done:** Added `evaluation/check_counts.py`, which exports a stretch of a recorded clip with gates and a clip clock for manual counting, and runs the live worker's detector, tracker, and gate metrics on the same stretch using an in-memory reviewed copy of the geometry. Added `worker/mio_tcd.py`, which adds MIO-TCD traffic-camera frames (CC BY-NC-SA 4.0, Luo et al. 2018) to the training split only, mapped to our classes.
+- **Done:** Added `evaluation/check_counts.py`, which exports a stretch of a recorded clip with gates and a clip clock for manual counting, and runs the live worker's detector, tracker, and gate metrics on the same stretch using an in-memory reviewed copy of the geometry.
 - **Completed:** All tests pass. Camera 222's review video (clip time 1:00 to 3:00) and model count are written to the ignored `data/raw/count_check/`; the model count is held back until Carter's manual count is done.
-- **Still open:** Carter's manual count for 222, then cameras 220, 223, and 228. Mert's MIO-TCD download, conversion, and retraining, scored on the unchanged 60 test frames.
+- **Still open:** Carter's manual count for 222, then cameras 220, 223, and 228. Retraining with more data is deferred until the product works on the pretrained model; the MIO-TCD converter was removed.
 
 ### 7 November 2026, 19:05 America/New_York (00:05 UTC)
 
