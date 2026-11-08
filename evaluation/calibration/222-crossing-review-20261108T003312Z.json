@@ -61,5 +61,26 @@
     "Sampling/occlusion, the bounding-box footpoint proxy and exact finite endpoints must be checked on full-rate playback.",
     "Runtime hysteresis confirmation can lag visual line intersection; match tolerances need a predeclared estimator and reviewer decision.",
     "No camera geometry is enabled by this record."
-  ]
+  ],
+  "runtime_alignment": {
+    "evidence": "222-runtime-check-175741.json",
+    "state": "tentative_temporal_alignment_not_accuracy",
+    "matching_rule": "same separate-proposal gate, positive direction, car; confirmation falls within candidate bracket; no human-confirmed object identity match",
+    "confirmations_media_s": [
+      98.457,
+      98.457,
+      100.856,
+      101.856
+    ],
+    "candidate_tokens": [
+      "candidate-1",
+      "candidate-2",
+      "candidate-3",
+      "candidate-4"
+    ],
+    "notes": [
+      "First two events share a confirmation timestamp; their individual left/right correspondence is not established by scalar timing.",
+      "This does not make the provisional candidate list exhaustive or human-confirmed and does not define a count-error score."
+    ]
+  }
 }

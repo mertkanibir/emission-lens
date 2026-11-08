@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 19:48 America/New_York / 8 November 2026, 00:48 UTC
+
+- **Who:** Mert
+- **Done:** Reconciled Carter's newly published four camera drawings and count-check helper without altering their saved geometry. Completed one bounded five-minute-capped GPU replay diagnostic on the fresh camera-222 clip, comparing Carter's drawing and the separate selected-lane proposal. Updated the readiness report, drawing inventory, provisional visual/runtime alignment and scalar execution evidence; preserved concurrent integration/dashboard work.
+- **Completed:** All four drawings parse and remain disabled/unvalidated. Empire AI job 175741 completed 0:0 in 34 seconds, processed 703 sampled YOLO11n/640/5 FPS frames on CUDA with ByteTrack, and released its slice. All 62 focused tests plus 47 subtests passed on compute. Four scalar confirmations fall within provisional visual candidate brackets; this is not human-confirmed accuracy. Carter drawing events remain separate by gate/direction, never summed as unique flow. Saved production files were not enabled; in-memory reviewed copies were used only for offline diagnostic execution. Script/clip/weight hashes and the exact check script are retained. Removed the remote temporary clip copy; the ignored local copy remains solely for pending human review/demo use.
+- **Still open:** Independent human selected-gate answer key and accepted count/tracking error; scaled current-view road control points, uncertainty, held-out reference distances and agreed tolerances; calibrated continuous traversals and linked stopped intervals. Public LA County imagery is georeferenced but dated 2013 and was not adopted as a current measurement. All physical calibration remains missing. No label/training/model promotion, physical quantity, regulatory mixture or external message was introduced. Existing contract 1.1 is unchanged; the accepted internal traversal-stopped-time handoff is documented separately from scene-wide minute stops.
+
 ### 7 November 2026, 19:43 America/New_York (8 November 2026, 00:43 UTC)
 
 - **Who:** Mert

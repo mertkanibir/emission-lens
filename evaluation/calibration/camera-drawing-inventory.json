@@ -1,0 +1,169 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T00:45:18.802961+00:00",
+  "source_commit": "392587a",
+  "change_since_initial_inventory": "Carter published all four real drawing files while this checkpoint was in progress. Files preserved unchanged.",
+  "cameras": [
+    {
+      "camera_id": "220",
+      "path": "config/cameras/220.measurement.json",
+      "sha256": "56176e9fee09b72c648b55c4f1709ee8ef82e578c0dbbcdf7c6573e8dd884cce",
+      "version": "220-image-v1",
+      "enabled": false,
+      "image_geometry_status": "unvalidated",
+      "road_vertices": 16,
+      "excluded_regions": 3,
+      "gates": [
+        {
+          "id": "count-1",
+          "start": [
+            0.2477,
+            0.6417
+          ],
+          "end": [
+            0.6188,
+            0.7
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        }
+      ],
+      "stopped_threshold_per_s": null,
+      "queue_region_present": false,
+      "physical_calibration_status": "missing",
+      "manual_crossing_evidence": null
+    },
+    {
+      "camera_id": "222",
+      "path": "config/cameras/222.measurement.json",
+      "sha256": "51738470c34e9bcc95c0b4723a1bd2f675b760d63e87f1cb433844f693f400da",
+      "version": "222-image-v1",
+      "enabled": false,
+      "image_geometry_status": "unvalidated",
+      "road_vertices": 29,
+      "excluded_regions": 2,
+      "gates": [
+        {
+          "id": "count-1",
+          "start": [
+            0.4,
+            0.2569
+          ],
+          "end": [
+            0.8187,
+            0.3028
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        },
+        {
+          "id": "count-2",
+          "start": [
+            0.8641,
+            0.3653
+          ],
+          "end": [
+            0.8234,
+            0.9319
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        }
+      ],
+      "stopped_threshold_per_s": null,
+      "queue_region_present": false,
+      "physical_calibration_status": "missing",
+      "manual_crossing_evidence": null
+    },
+    {
+      "camera_id": "223",
+      "path": "config/cameras/223.measurement.json",
+      "sha256": "5165b1a2342b70b97afa35499d2b63042a44b4e9301e6528480a35eb3ed9ae29",
+      "version": "223-image-v1",
+      "enabled": false,
+      "image_geometry_status": "unvalidated",
+      "road_vertices": 18,
+      "excluded_regions": 2,
+      "gates": [
+        {
+          "id": "count-1",
+          "start": [
+            0.0953,
+            0.2861
+          ],
+          "end": [
+            0.8828,
+            0.5194
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        },
+        {
+          "id": "count-2",
+          "start": [
+            0.8828,
+            0.5208
+          ],
+          "end": [
+            0.8266,
+            0.9292
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        }
+      ],
+      "stopped_threshold_per_s": null,
+      "queue_region_present": false,
+      "physical_calibration_status": "missing",
+      "manual_crossing_evidence": null
+    },
+    {
+      "camera_id": "228",
+      "path": "config/cameras/228.measurement.json",
+      "sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+      "version": "228-image-v1",
+      "enabled": false,
+      "image_geometry_status": "unvalidated",
+      "road_vertices": 27,
+      "excluded_regions": 2,
+      "gates": [
+        {
+          "id": "count-1",
+          "start": [
+            0.2789,
+            0.3333
+          ],
+          "end": [
+            0.7695,
+            0.3972
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        },
+        {
+          "id": "count-2",
+          "start": [
+            0.8109,
+            0.4597
+          ],
+          "end": [
+            0.7188,
+            0.8431
+          ],
+          "direction": "both",
+          "positive_direction_rule": "negative-to-positive signed side of ordered start/end; not a geographic direction"
+        }
+      ],
+      "stopped_threshold_per_s": null,
+      "queue_region_present": false,
+      "physical_calibration_status": "missing",
+      "manual_crossing_evidence": null
+    }
+  ],
+  "runtime_review_helper": "evaluation/check_counts.py (incoming Carter commit 02f5b24)",
+  "limitations": [
+    "Saved drawings and successful syntax validation do not establish reviewed crossing accuracy or physical calibration.",
+    "The independent selected-lane proposal and provisional event list are not the whole-flow answer key for Carter count-1/count-2.",
+    "The committed shared physical calibration registry remains missing for all four cameras."
+  ]
+}
