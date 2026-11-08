@@ -95,7 +95,7 @@ export async function handleMeasurementGet(
   request: Request,
 ): Promise<Response> {
   try {
-    const params = query(request, ["camera", "mode", "reduce"]);
+    const params = query(request, ["camera", "mode", "reduce", "from", "to"]);
     const cameraId = params.get("camera") ?? "222",
       mode = (params.get("mode") ?? "live") as Mode;
     const text = params.get("reduce");
@@ -106,6 +106,8 @@ export async function handleMeasurementGet(
         cameraId,
         mode,
         stoppedTimeReductionPct: text === null ? 20 : Number(text),
+        from: params.get("from") ?? undefined,
+        to: params.get("to") ?? undefined,
       }),
     );
   } catch (error) {

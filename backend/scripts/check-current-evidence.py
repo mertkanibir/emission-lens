@@ -42,9 +42,12 @@ def main():
     parser.add_argument("--superseded", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--model-fragment", required=True)
-    parser.add_argument("--source-root", type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument("--source-root", type=Path)
     args = parser.parse_args()
     ready = json.loads(args.ready.read_bytes())
+    # Reload the application's recorded build source, even if the active checkout
+    # has since gained additive read fields that are not deployed there yet.
+    args.source_root = args.source_root or Path(ready.get("build_workspace", Path(__file__).resolve().parents[2]))
     base = ready["base_url"].rstrip("/")
     url = urlsplit(base)
     if url.scheme != "http" or url.hostname not in ("127.0.0.1", "localhost", "::1") or url.username or url.password:

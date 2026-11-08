@@ -3,6 +3,7 @@ import {
   parseMeasurementBatch,
   type MeasurementBatch,
 } from "../../contracts/src/measurement.ts";
+import { validateUtcTimestamp } from "../../contracts/src/validate.ts";
 import {
   compare_completed_traversal_scenario,
   type CompletedTraversalScenario,
@@ -337,6 +338,8 @@ export function read_measurement_window(input: {
   mode: Mode;
   now?: Date;
   stoppedTimeReductionPct?: number;
+  from?: string;
+  to?: string;
 }): MeasurementWindowView {
   if (
     !cameraById(input.cameraId) ||
@@ -349,7 +352,25 @@ export function read_measurement_window(input: {
       "Stopped-time reduction must be between 0 and 100.",
       400,
     );
-  const { from, to } = reportingWindow(input.mode, input.now);
+  const reporting = reportingWindow(input.mode, input.now);
+  const explicit = input.from !== undefined || input.to !== undefined;
+  let { from, to } = reporting;
+  if (explicit) {
+    try {
+      validateUtcTimestamp(input.from, "from");
+      validateUtcTimestamp(input.to, "to");
+    } catch {
+      throw new IngestError("Explicit selection requires both from and to as UTC minute boundaries.", 400);
+    }
+    const start = Date.parse(input.from!), end = Date.parse(input.to!);
+    if ([input.from!, input.to!].some((value) => Date.parse(value) % 60_000 !== 0 || /\.(\d*[1-9]\d*)(?:Z|\+00:00)$/.test(value)) ||
+        start >= end || end - start > 60 * 60_000 || end > Date.parse(reporting.to) ||
+        start < Date.parse(reporting.to) - STORE_RETENTION_MS) {
+      throw new IngestError("Explicit selection must cover complete UTC minutes, span at most one hour, and stay within the past 24 hours through the current clock.", 400);
+    }
+    from = new Date(start).toISOString();
+    to = new Date(end).toISOString();
+  }
   const snapshot = localSnapshot(),
     registry = loadRegistry();
   const entries = (snapshot.measurement_batches ?? [])
@@ -392,6 +413,9 @@ export function read_measurement_window(input: {
           })
         : null,
   );
+  const missingMinutes = explicit
+    ? (Date.parse(to) - Date.parse(from)) / 60_000 - new Set(entries.map((e) => Date.parse(e.source.minute))).size
+    : 0;
   const pollutants = { co2: nullComparison(), nox: nullComparison() };
   for (const pollutant of ["co2", "nox"] as const) {
     const baseline = sumStrict(
@@ -417,6 +441,7 @@ export function read_measurement_window(input: {
           ? (change / baseline) * 100
           : null,
     };
+    if (missingMinutes > 0) pollutants[pollutant] = nullComparison();
   }
   const evidence_refs = entries.map((e) => e.derived.evidence_ref);
   const count = entries.length
@@ -454,27 +479,34 @@ export function read_measurement_window(input: {
     limitations.unshift(
       "No retained completed-traversal measurement snapshots in this window.",
     );
+  if (explicit) limitations.unshift(
+    "Explicit selected window; totals describe only this interval, not the reporting hour.",
+  );
+  if (missingMinutes > 0) limitations.unshift(
+    `No retained measurement snapshot covers ${missingMinutes} selected minute(s); whole selected-window quantities remain unavailable.`,
+  );
   const scenario: MeasurementScenarioView = {
     available:
       pollutants.co2.scenario_g !== null && pollutants.nox.scenario_g !== null,
     pollutants,
     completed_cohort: {
-      count,
+      count: missingMinutes > 0 ? null : count,
       baseline: {
-        distance_m: distance,
-        traversal_time_s: duration,
-        stopped_time_s: stopped,
+        distance_m: missingMinutes > 0 ? null : distance,
+        traversal_time_s: missingMinutes > 0 ? null : duration,
+        stopped_time_s: missingMinutes > 0 ? null : stopped,
       },
       scenario: {
-        distance_m: distance,
-        traversal_time_s: nextDuration,
+        distance_m: missingMinutes > 0 ? null : distance,
+        traversal_time_s: missingMinutes > 0 ? null : nextDuration,
         stopped_time_s:
-          stopped === null ? null : stopped * (1 - reduction / 100),
+          missingMinutes > 0 || stopped === null ? null : stopped * (1 - reduction / 100),
       },
     },
     evidence_refs,
     assumptions: [
       `Hypothetical stopped-time reduction: ${reduction}%.`,
+      ...(explicit ? [`Explicit selected window: ${from} to ${to}, end exclusive; not the reporting hour.`] : []),
       "Visual-to-regulatory class mixtures are modeling assumptions; image labels alone do not measure vehicle VMT, fuel or regulatory weight class.",
       ...entries.map(
         (entry) =>
@@ -491,6 +523,7 @@ export function read_measurement_window(input: {
     mode: input.mode,
     from,
     to,
+    scope: explicit ? "explicit_window" : "reporting_hour",
     registry: registryStatus(registry, input.cameraId, input.mode, input.now),
     minutes,
     scenario,

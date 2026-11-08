@@ -57,6 +57,7 @@ export interface MeasurementWindowView {
   mode: Mode;
   from: string;
   to: string;
+  scope?: "reporting_hour" | "explicit_window";
   registry: MeasurementRegistryStatus;
   minutes: MeasurementMinuteView[];
   scenario: MeasurementScenarioView;

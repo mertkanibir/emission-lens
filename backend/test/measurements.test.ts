@@ -601,6 +601,98 @@ test("missing linked stop evidence withholds nonzero scenarios, never subtracts 
       zero.scenario.pollutants.co2.scenario_g,
     );
   }));
+
+test("explicit complete-minute selection labels its cohort and preserves zero, unavailable minutes and default-hour nulls", () =>
+  isolated(async ({ path }) => {
+    const source = batch();
+    source.traversals[0].stopped_time_s = 0;
+    await ingest_measurement_batch(source, NOW);
+    const selection = { cameraId: "222", mode: "synthetic" as const, now: NOW,
+      from: "2026-11-07T20:04:00+00:00", to: "2026-11-07T20:05:00Z", stoppedTimeReductionPct: 20 };
+    const selected = read_measurement_window(selection);
+    assert.equal(selected.scope, "explicit_window");
+    assert.equal(selected.from, "2026-11-07T20:04:00.000Z");
+    assert.equal(selected.to, "2026-11-07T20:05:00.000Z");
+    assert.equal(selected.scenario.completed_cohort.count, 1);
+    assert.equal(selected.scenario.completed_cohort.baseline.stopped_time_s, 0);
+    assert.equal(selected.scenario.pollutants.co2.change_g, 0);
+    assert.ok(selected.scenario.pollutants.co2.baseline_g! > 0);
+    assert.ok(selected.limitations.some((text) => /not the reporting hour/.test(text)));
+    assert.ok(selected.scenario.assumptions.some((text) => /end exclusive/.test(text)));
+
+    const missingMinute = read_measurement_window({ ...selection, from: "2026-11-07T20:03:00Z" });
+    assert.equal(missingMinute.minutes.length, 1);
+    assert.equal(missingMinute.scenario.completed_cohort.count, null);
+    assert.equal(missingMinute.scenario.pollutants.co2.baseline_g, null);
+    assert.equal(missingMinute.scenario.pollutants.co2.scenario_g, null);
+    assert.ok(missingMinute.limitations.some((text) => /1 selected minute/.test(text)));
+    const empty = read_measurement_window({ ...selection, from: "2026-11-07T20:02:00Z", to: "2026-11-07T20:03:00Z" });
+    assert.equal(empty.scenario.pollutants.co2.baseline_g, null);
+    assert.equal(empty.scenario.completed_cohort.count, null);
+
+    const unknown = structuredClone(source);
+    unknown.batch_id = randomUUID();
+    unknown.minute = "2026-11-07T20:03:00Z";
+    unknown.timing.sessions[0].anchor_utc = "2026-11-07T19:57:30Z";
+    unknown.traversals[0].completed_at = "2026-11-07T20:03:30Z";
+    unknown.traversals[0].traversal_id = "separate-unmapped-candidate";
+    unknown.traversals[0].vehicle_class = "unknown";
+    await ingest_measurement_batch(unknown, NOW);
+    const full = read();
+    assert.equal(full.scope, "reporting_hour");
+    assert.equal(full.minutes.length, 2);
+    assert.equal(full.scenario.pollutants.co2.baseline_g, null);
+    assert.equal(full.scenario.pollutants.co2.scenario_g, null);
+    const includesUnknown = read_measurement_window({ ...selection, from: "2026-11-07T20:03:00Z" });
+    assert.equal(includesUnknown.minutes.length, 2);
+    assert.equal(includesUnknown.scenario.pollutants.co2.baseline_g, null);
+    assert.equal(includesUnknown.scenario.pollutants.co2.scenario_g, null);
+    assert.equal(read_measurement_window(selection).scenario.pollutants.co2.change_g, 0);
+    const query = new URLSearchParams({ camera: "222", mode: "synthetic", reduce: "20", from: selection.from, to: selection.to });
+    const before = readFileSync(path);
+    const response = await handleMeasurementGet(new Request("http://localhost/api/measurements?" + query));
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), read_measurement_window(selection));
+    assert.deepEqual(readFileSync(path), before);
+    const live = read_measurement_window({ ...selection, mode: "live" });
+    assert.equal(live.minutes.length, 0);
+    assert.equal(live.scenario.pollutants.co2.baseline_g, null);
+  }));
+
+test("explicit selection rejects partial, future, overlong, expired and malformed ranges without changing evidence", () =>
+  isolated(async ({ path, install }) => {
+    await ingest_measurement_batch(batch(), NOW);
+    const before = readFileSync(path);
+    const invalid: Array<{ from?: string; to?: string }> = [
+      { from: "2026-11-07T20:04:00Z" }, { to: "2026-11-07T20:05:00Z" },
+      { from: "", to: "2026-11-07T20:05:00Z" },
+      { from: "2026-11-07T20:04:01Z", to: "2026-11-07T20:05:00Z" },
+      { from: "2026-11-07T20:04:00.000001Z", to: "2026-11-07T20:05:00Z" },
+      { from: "2026-11-07T15:04:00-05:00", to: "2026-11-07T20:05:00Z" },
+      { from: "2026-11-07T20:05:00Z", to: "2026-11-07T20:05:00Z" },
+      { from: "2026-11-07T20:05:00Z", to: "2026-11-07T20:04:00Z" },
+      { from: "2026-11-07T20:04:00Z", to: "2026-11-07T20:06:00Z" },
+      { from: "2026-11-07T19:04:00Z", to: "2026-11-07T20:05:00Z" },
+      { from: "2026-11-06T20:04:00Z", to: "2026-11-06T20:05:00Z" },
+    ];
+    for (const range of invalid) {
+      assert.throws(() => read_measurement_window({ cameraId: "222", mode: "synthetic", now: NOW, ...range }), code(400));
+      const query = new URLSearchParams({ camera: "222", mode: "synthetic", ...range });
+      assert.equal((await handleMeasurementGet(new Request("http://localhost/api/measurements?" + query))).status, 400);
+    }
+    assert.equal((await handleMeasurementGet(new Request(
+      "http://localhost/api/measurements?camera=222&mode=synthetic&from=2026-11-07T20:04:00Z&from=2026-11-07T20:03:00Z&to=2026-11-07T20:05:00Z",
+    ))).status, 400);
+    const valid = { cameraId: "222", mode: "synthetic" as const, now: NOW, from: "2026-11-07T20:04:00Z", to: "2026-11-07T20:05:00Z" };
+    assert.equal(read_measurement_window({ ...valid, from: "2026-11-07T19:05:00Z" }).scope, "explicit_window");
+    assert.equal(read_measurement_window({ ...valid, from: "2026-11-06T20:05:00Z", to: "2026-11-06T20:06:00Z" }).minutes.length, 0);
+    const pending = registry();
+    pending.calibrations[0].approval.status = "pending";
+    install(pending);
+    assert.equal(read_measurement_window(valid).scenario.pollutants.co2.baseline_g, null);
+    assert.equal(read_measurement_window(valid).scenario.pollutants.co2.scenario_g, null);
+    assert.deepEqual(readFileSync(path), before);
+  }));
 test("unknown classes, movements and empty cohorts never become partial or zero grams", () =>
   isolated(async () => {
     const source = batch();
