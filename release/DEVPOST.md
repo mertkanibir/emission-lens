@@ -1,7 +1,7 @@
 # Emission Lens Devpost draft
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:20 America/New_York / 05:20 UTC
+**Updated:** 8 November 2026, 00:36 America/New_York / 05:36 UTC
 **Status:** Reviewable draft; not submitted. Mert and Carter confirm the final form, disclosure and attachments before submission.
 
 The copy below describes the demonstrated camera-222 path. It does not extend that acceptance to all four cameras. Use the [readiness and claims record](./README.md) and [three-minute demonstration](./DEMO.md) when assembling the submission.
@@ -82,4 +82,4 @@ Before pasting, Mert and Carter should confirm this describes their actual assis
 - Capture the actual demonstrated revision: overview with timestamp/mode/status, camera-222 assumptions and precise pollutant values, unavailable whole-window/scenario state, and brief/export. Review incidental identifiers and retain map attribution. Screenshots and a completed demo recording are still pending.
 - Link [camera-222 delivery evidence](../evaluation/222-integration-175979.md), [count audit](../evaluation/calibration/222-count-audit.md), [current assisted-review status](../evaluation/video_validation/report.md), [factor provenance](../emissions/data/la-2026/receipt.json) and [heat-map semantics](../frontend/HEATMAP.md).
 - State only the runtime status observed at rehearsal. A running job is not a completed benchmark, and historical output is not a currently live scene.
-- Resolve the project/dependency licensing path in the [release checklist](./README.md) before marking attribution complete. No licence grant is made by this draft.
+- First-party covered code now uses [AGPL-3.0-only](../LICENSE), with Mert's approved decision recorded [here](./LICENSING-DECISION.md). Verify remaining exact-source, model/binary and third-party notice checks in the [release checklist](./README.md) before marking compliance complete. No public submission or deployment is performed by this draft update.

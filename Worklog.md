@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:39 America/New_York / 8 November 2026, 05:39 UTC
+
+- **Who:** Mert
+- **Done:** Implemented Mert's explicitly approved AGPL-3.0 route for first-party covered code with root LICENSE/NOTICE, release/SOURCE-AVAILABILITY.md, THIRD-PARTY-NOTICES.md and seven verbatim direct dependency notices plus a hash manifest. Marked the project decision accepted in the release decision/checklist/copy. Coordinated visible exact-running-source links and manifest metadata with their frontend/build owners; no app source or runtime was changed.
+- **Completed:** The 34,523-byte full AGPL text matches the pinned upstream v8.4.206 LICENSE by SHA2560d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0. Independent review verifies all seven notice bytes/versions/hashes, source links, rights scope and private-data exclusion. Scoped staged whitespace checks pass outside the byte-preserved TypeScript upstream notice's one original trailing-whitespace line. New read-only mail triage found one final-registry attachment, retained it and deduplication metadata only under ignored private runs/coordination/email-triage/, and routed source-based handoffs to Mert's coordination/backend owners without model-reference counts. Earlier handoffs remain deduplicated; no mail read/archive/delete/send state was changed and no duplicate schedule was created.
+- **Still open:** Verify each deployed version's visible source/licence link and corresponding source, complete actual model-weight/transitive/binary distribution obligations and required source/data/font/map notices; project licensing is not blanket compliance. The new supplied registry still requires backend validation and does not authorize active installation or counting. Live176075, production3138, scientific approvals, blinded review, contributor settings and other streams' edits remain untouched. No Enterprise agreement/purchase, external contact, submission or deployment was made.
+
 ### 8 November 2026, 00:29 America/New_York / 8 November 2026, 05:29 UTC
 
 - **Who:** Mert

@@ -1,8 +1,8 @@
 # Release and submission readiness
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:29 America/New_York / 05:29 UTC
-**Status:** Draft package prepared for review. Final rehearsal, submission artifacts, licence decision and submission confirmation remain open.
+**Updated:** 8 November 2026, 00:36 America/New_York / 05:36 UTC
+**Status:** Draft package prepared for review; the approved AGPL project-code licence is implemented. Final rehearsal, submission artifacts, remaining licence/source obligations and submission confirmation remain open.
 
 This package owns release preparation only. [Plan.md](../Plan.md) remains authoritative. [DEVPOST.md](./DEVPOST.md) supplies reviewable copy; [DEMO.md](./DEMO.md) supplies the three-minute script and replay fallback. No public release, Devpost submission, external message or contributor/branch/settings change is authorized by these documents. Contributor settings remain on hold.
 
@@ -42,14 +42,14 @@ Never claim measured AQI, pollutant concentration, engine operation, health impr
 
 ## Source and licence inventory
 
-This is an attribution inventory and decision checklist, not a project-wide licence grant or complete transitive dependency audit. Mert and Carter remain the authors. Factual library/model credits are separate from development-assistance disclosure.
+This inventory complements the project-code grant in [LICENSE](../LICENSE) and [NOTICE](../NOTICE); it is not a complete transitive dependency audit. Mert and Carter remain the authors. Factual library/model credits are separate from development-assistance disclosure.
 
-**Decision note added 8 November, 00:29 America/New_York / 05:29 UTC:** [Concrete licence choices](./LICENSING-DECISION.md) compare the current-stack AGPL route, appropriate Enterprise rights and a separately authorized future replacement. Mert and Carter have not selected a path; no licence is applied by these release documents.
+**Decision accepted 8 November, 00:36 America/New_York / 05:36 UTC:** Mert approved the [AGPL-3.0 route](./LICENSING-DECISION.md) for first-party covered code. Full AGPL text, project NOTICE, [source instructions](./SOURCE-AVAILABILITY.md) and [selected upstream notices](./THIRD-PARTY-NOTICES.md) are now present. Exact deployed-source/UI links and model/transitive/binary obligations remain separate checks, not implied completion.
 
 | Component | Attribution and retained evidence | Release action |
 |---|---|---|
-| Project code | Public source and Mert/Carter development history; no root project licence declared at this checkpoint. | Mert/Carter must choose and document the intended licence/compliance path. Do not silently apply a permissive licence to the whole tree. |
-| Ultralytics detector and ByteTrack implementation | Pinned worker package and pretrained YOLO11 weights; [official AGPL-3.0 / Enterprise terms](https://www.ultralytics.com/license). | Resolve applicable obligations for the code/model/distribution. Public visibility and a credit alone do not settle compliance. No purchase or licence acceptance is authorized here. |
+| Project code | Mert/Carter first-party covered source now licensed AGPL-3.0-only; root LICENSE and NOTICE retained. | Project decision implemented; complete exact-version source offers and remaining artifact checks in the [source checklist](./SOURCE-AVAILABILITY.md). |
+| Ultralytics detector and ByteTrack implementation | Pinned worker package and pretrained YOLO11 weights; [official AGPL-3.0 / Enterprise terms](https://www.ultralytics.com/license). | Resolve applicable obligations for the code/model/distribution. Public visibility and a credit alone do not settle compliance. No Enterprise purchase or agreement is authorized here. |
 | Next.js, React/React DOM, Phosphor | Direct lockfile entries identify MIT licensing. | Preserve applicable copyright/licence notices in distributed components; inspect transitive dependencies before calling the inventory complete. |
 | MapLibre GL JS | Direct lockfile entry identifies BSD-3-Clause. | Preserve its required notices. |
 | TypeScript and Python/runtime dependencies | TypeScript lock entry identifies Apache-2.0; Python packages pinned in [worker requirements](../worker/requirements.txt). | Retain bundled upstream notices and audit the actual exported dependency set, including PyTorch, OpenCV and FFmpeg distribution choices. |
@@ -70,7 +70,8 @@ Completed preparation is distinct from submission. Empty boxes below require an 
 - [x] Completed GPU execution, factor provenance, bounded real delivery and scoped count evidence are recorded.
 - [x] Brand icon/wordmarks exist in [the identity kit](../branding/README.md).
 - [ ] Mert/Carter confirm team registration, track selection, actual AI use and all live Devpost fields/upload specifications.
-- [ ] Mert/Carter record a choice and covered scope in the [licence decision note](./LICENSING-DECISION.md), complete its corresponding-source/notices/distribution checks and retain required source/data/asset notices.
+- [x] Record the approved AGPL-3.0-only covered-code decision and publish full project licence, NOTICE, source instructions and selected direct-package notices.
+- [ ] Complete the [remaining source/model/distribution checks](./SOURCE-AVAILABILITY.md#release-completion-checks), verify application source links and preserve all required source/data/asset notices for the actual artifact.
 - [ ] Rehearse the actual displayed revision, live heartbeat/preview, supported-minute values, unavailable windows, scenario limits and brief/export together.
 - [ ] Prepare a current, authorized, visibly labeled replay through the same pipeline. Verify its media provenance, expiry/retention, actual mode isolation and availability at judging time; do not relabel old receipts as current.
 - [ ] Capture reviewed screenshots and any required video. Retain map credits and review incidental identifiers. No raw media enters this public repository.
@@ -82,7 +83,7 @@ Completed preparation is distinct from submission. Empty boxes below require an 
 
 ## Remaining blockers and update discipline
 
-For submission readiness: exact form/registration status, licence/compliance decision, reviewed media, fresh replay availability, combined timed rehearsal and actual submission confirmation remain open. A video requirement is unknown, rather than assumed mandatory. Contributor-sidebar cosmetics remain on their separate hold and do not justify branch/settings changes during preparation.
+For submission readiness: exact form/registration status, remaining licence/source/model/binary checks, reviewed media, fresh replay availability, combined timed rehearsal and actual submission confirmation remain open. The project-code licence decision is implemented. A video requirement is unknown, rather than assumed mandatory. Contributor-sidebar cosmetics remain on their separate hold and do not justify branch/settings changes during preparation.
 
 For scientific/operational acceptance: independent scale/path/traversal checks, broader human count review, camera-223 configured delivery, camera-228 new-gate reference/acceptance, camera-220 review, linked stopped evidence, longer forced-outage/restart tests and shared hosting remain separate. They need not all be solved to submit an honestly scoped prototype, but unfinished items must not be described as completed features or validated outcomes.
 

@@ -1,0 +1,17 @@
+Emission Lens
+Copyright (C) 2026 Mert and Carter
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+The first-party covered source code in Emission Lens is licensed under the
+GNU Affero General Public License, version 3 only. See LICENSE for the full
+licence text.
+
+Third-party software, model weights, fonts, map data, camera materials and
+emissions-factor data retain their upstream copyright notices and applicable
+terms. This notice does not relicense those materials. See
+release/THIRD-PARTY-NOTICES.md for the source and licence inventory and remaining
+review items.
+
+This notice does not certify that every dependency, model, binary-distribution
+or network-use obligation has been fulfilled.

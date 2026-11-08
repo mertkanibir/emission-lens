@@ -1,0 +1,62 @@
+{
+  "updated_at": "2026-11-08T05:36:00Z",
+  "scope": "Selected locked direct web/build dependency notices only; not a complete transitive or binary clearance",
+  "notices": [
+    {
+      "package": "next",
+      "version": "16.4.5",
+      "license_id": "MIT",
+      "notice_file": "next-16.4.5.txt",
+      "upstream_package_file": "LICENSE.md",
+      "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224"
+    },
+    {
+      "package": "react",
+      "version": "19.3.1",
+      "license_id": "MIT",
+      "notice_file": "react-19.3.1.txt",
+      "upstream_package_file": "LICENSE",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "package": "react-dom",
+      "version": "19.3.1",
+      "license_id": "MIT",
+      "notice_file": "react-dom-19.3.1.txt",
+      "upstream_package_file": "LICENSE",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "package": "@phosphor-icons/react",
+      "version": "2.1.10",
+      "license_id": "MIT",
+      "notice_file": "phosphor-icons-react-2.1.10.txt",
+      "upstream_package_file": "LICENSE",
+      "sha256": "6918b72504641180600cbbd4a86b0dfa9dfccf788775694325b71b9a029f6eb4"
+    },
+    {
+      "package": "maplibre-gl",
+      "version": "6.17.0",
+      "license_id": "BSD-3-Clause",
+      "notice_file": "maplibre-gl-6.17.0.txt",
+      "upstream_package_file": "LICENSE.txt",
+      "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"
+    },
+    {
+      "package": "typescript",
+      "version": "5.9.3",
+      "license_id": "Apache-2.0",
+      "notice_file": "typescript-5.9.3.txt",
+      "upstream_package_file": "LICENSE.txt",
+      "sha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47"
+    },
+    {
+      "package": "tsx",
+      "version": "4.23.15",
+      "license_id": "MIT",
+      "notice_file": "tsx-4.23.15.txt",
+      "upstream_package_file": "LICENSE",
+      "sha256": "8dded67841a9261a622c739fb61c81785e93765de852828ceeb9403d20a74581"
+    }
+  ]
+}
