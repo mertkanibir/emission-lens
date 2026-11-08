@@ -1,7 +1,7 @@
 # Frontend acceptance and demo usability
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:53 America/New_York / 8 November 2026, 05:53 UTC
+**Updated:** 8 November 2026, 01:13 America/New_York / 8 November 2026, 06:13 UTC
 
 ## Focused checklist and ownership
 
@@ -58,3 +58,7 @@ The owned 3142 listener is stopped, the acceptance tab is closed and viewport ov
 ## Actual 223 checkpoint — 8 November 2026, 00:53 America/New_York / 8 November 2026, 05:53 UTC
 
 The later [actual 223 replay frontend acceptance](223-REPLAY-ACCEPTANCE.md) completes the bounded replay/preview/heat-map/brief consumer check on unchanged frozen application 3139 during job 176174. Advancing real replay frames, the supported 05:49 UTC pollutant minute, unavailable 05:48 minute and whole-window/scenario estimates, exact 2,474-character export, mode separation and post-run offline/preview expiry pass. This supersedes the earlier fresh-223-delivery blocker for this bounded replay only; execution coverage, scientific acceptance, sustained reliability, live activation and final rehearsal remain separate. No optional UI/source changes or rebuild were performed.
+
+## Four live feeds — 8 November 2026, 01:13 America/New_York / 8 November 2026, 06:13 UTC
+
+Mert's request to connect the live cameras is complete on the separate application **3150**, job **176255**. [Live-camera acceptance](LIVE-CAMERAS.md) records three advancing previews per camera, actual browser checks for all four LIVE scenes, Fresh 4, exact live brief export and safe unavailable metrics. Only 222 has the candidate measurement configuration; the other three provide video/status without unsupported numbers. The two-hour worker remains active and the verified user-facing tab is retained. Existing services were preserved; this is startup acceptance, not a new accuracy or sustained-performance claim.
