@@ -1,0 +1,552 @@
+{
+  "owner": "Mert",
+  "check": "223_228_frozen_gate_baseline",
+  "mode": "replay",
+  "acquisition_source": "Connected Binghamton Google Drive; original complete stored files",
+  "cameras": [
+    {
+      "acquisition": {
+        "camera_id": "223",
+        "video_path": "data/raw/clips/223/223_20261107T220646Z.ts",
+        "metadata_path": "data/raw/clips/223/223_20261107T220646Z.json",
+        "video_sha256": "808476414ca24d93f3190bb4a315a8fcbefe807c18c5e4f527d115a1ba89d2a0",
+        "metadata_sha256": "05a34e29dfab8c51eff7604040fd77f11e225aba88ed6e73785ec638307a129a",
+        "video_bytes": 93544288,
+        "format": "mpegts",
+        "raw_pts_time_base": "1/90000",
+        "first_raw_pts": 3026699456,
+        "last_raw_pts": 3136711316,
+        "first_raw_pts_s": 33629.993956,
+        "last_raw_pts_s": 34852.347956,
+        "decoded_frame_pts_span_s": 1222.3539999999994,
+        "decoded_frames": 17986,
+        "nonadvancing_pts": 0,
+        "nominal_source_fps": 15,
+        "min_delta_s": 0.06599999999889405,
+        "median_delta_s": 0.0669999999954598,
+        "max_delta_s": 15.997999999999593,
+        "pts_intervals_over_1_5_nominal_period": 56,
+        "ffprobe_error_lines": 0,
+        "metadata_recording_started_at": "2026-11-07T22:06:46+00:00",
+        "metadata_mode": "replay",
+        "metadata_segment_count": 121,
+        "metadata_first_sequence": 9222,
+        "metadata_last_sequence": 9342,
+        "metadata_sequence_gaps": 0,
+        "computed_sequence_gap_count": 0,
+        "metadata_retrieval_errors": 3,
+        "metadata_recorded_wall_seconds": 1222.4,
+        "summed_segment_durations_s": 1222.42,
+        "capture_utc_verified": false,
+        "ffprobe_stream_clock": {
+          "time_base": "1/90000",
+          "start_pts": 3026699456,
+          "start_time": "33629.993956",
+          "duration_ts": 110017860,
+          "duration": "1222.420667"
+        },
+        "ffprobe_container_clock": {
+          "start_time": "33629.993956",
+          "duration": "1222.420667"
+        }
+      },
+      "decoder_clock": {
+        "camera_id": "223",
+        "opencv_frames": 17986,
+        "opencv_first_media_s": 0.0,
+        "opencv_last_media_s": 1222.354,
+        "opencv_nonadvancing": 0,
+        "first_raw_minus_opencv_s": 33629.993956,
+        "max_abs_raw_offset_residual_s": 5.229594535194337e-12,
+        "practice_existing_cli_endpoint": "[60,180] (existing frames_between breaks only when t > end)",
+        "practice_review_endpoint": "[60,180)",
+        "practice_samples_existing_cli": 1798,
+        "practice_first_sample_media_s": 60.061,
+        "practice_last_sample_media_s": 179.984,
+        "sample_at_end_180_s": 0,
+        "strict_half_open_samples": 1798,
+        "requested_sampler_fps": 15,
+        "capture_utc_verified": false
+      },
+      "windows": [
+        {
+          "start_s": 60,
+          "end_s": 180,
+          "endpoint": "[start,end)",
+          "decoded_frames": 1800,
+          "first_media_s": 60.061,
+          "last_media_s": 179.984,
+          "max_adjacent_pts_gap_s": 0.06700000000000728,
+          "adjacent_intervals_over_0_1_s": 0,
+          "has_frame_at_end": false,
+          "gaps_above_1_s": []
+        },
+        {
+          "start_s": 360,
+          "end_s": 480,
+          "endpoint": "[start,end)",
+          "decoded_frames": 1800,
+          "first_media_s": 360.034,
+          "last_media_s": 479.956,
+          "max_adjacent_pts_gap_s": 0.06700000000000728,
+          "adjacent_intervals_over_0_1_s": 0,
+          "has_frame_at_end": false,
+          "gaps_above_1_s": []
+        }
+      ],
+      "frozen_geometry": {
+        "camera_id": "223",
+        "geometry_path": "config/cameras/223.measurement.json",
+        "raw_geometry_sha256": "5165b1a2342b70b97afa35499d2b63042a44b4e9301e6528480a35eb3ed9ae29",
+        "canonical_full_json_sha256": "02491df2a5d9de12530ed8c4bccf6f3fc37a02ab0b884cbe945a14c77d4086c7",
+        "selected_geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+        "selected_gate_id": "count-1",
+        "selected_gate": {
+          "id": "count-1",
+          "start": [
+            0.0953,
+            0.2861
+          ],
+          "end": [
+            0.8828,
+            0.5194
+          ],
+          "direction": "both"
+        },
+        "metrics_policy": {
+          "min_track_hits": 3,
+          "hysteresis": 0.01,
+          "max_gap_s": 1.0,
+          "stopped_threshold_per_s": null,
+          "stopped_min_duration_s": 3.0,
+          "queue_region": null
+        },
+        "saved_enabled": false,
+        "saved_image_geometry_status": "unvalidated",
+        "physical_calibration_approved": false
+      }
+    },
+    {
+      "acquisition": {
+        "camera_id": "228",
+        "video_path": "data/raw/clips/228/228_20261107T220646Z.ts",
+        "metadata_path": "data/raw/clips/228/228_20261107T220646Z.json",
+        "video_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+        "metadata_sha256": "e1a7bd34beff69294b35fee2b0daf88c0a67b87e2456d88b930c2b2b5d664bec",
+        "video_bytes": 50154076,
+        "format": "mpegts",
+        "raw_pts_time_base": "1/90000",
+        "first_raw_pts": 3025948946,
+        "last_raw_pts": 3135575696,
+        "first_raw_pts_s": 33621.654956,
+        "last_raw_pts_s": 34839.729956,
+        "decoded_frame_pts_span_s": 1218.0750000000044,
+        "decoded_frames": 15438,
+        "nonadvancing_pts": 0,
+        "nominal_source_fps": 15,
+        "min_delta_s": 0.06599999999889405,
+        "median_delta_s": 0.06700000000273576,
+        "max_delta_s": 0.13400000000547152,
+        "pts_intervals_over_1_5_nominal_period": 2836,
+        "ffprobe_error_lines": 0,
+        "metadata_recording_started_at": "2026-11-07T22:06:46+00:00",
+        "metadata_mode": "replay",
+        "metadata_segment_count": 122,
+        "metadata_first_sequence": 25557,
+        "metadata_last_sequence": 25678,
+        "metadata_sequence_gaps": 0,
+        "computed_sequence_gap_count": 0,
+        "metadata_retrieval_errors": 4,
+        "metadata_recorded_wall_seconds": 1218.1,
+        "summed_segment_durations_s": 1218.141,
+        "capture_utc_verified": false,
+        "ffprobe_stream_clock": {
+          "time_base": "1/90000",
+          "start_pts": 3025948946,
+          "start_time": "33621.654956",
+          "duration_ts": 109632750,
+          "duration": "1218.141667"
+        },
+        "ffprobe_container_clock": {
+          "start_time": "33621.654956",
+          "duration": "1218.141667"
+        }
+      },
+      "decoder_clock": {
+        "camera_id": "228",
+        "opencv_frames": 15438,
+        "opencv_first_media_s": 0.0,
+        "opencv_last_media_s": 1218.075,
+        "opencv_nonadvancing": 0,
+        "first_raw_minus_opencv_s": 33621.654956,
+        "max_abs_raw_offset_residual_s": 5.115907697472721e-12,
+        "practice_existing_cli_endpoint": "[60,180] (existing frames_between breaks only when t > end)",
+        "practice_review_endpoint": "[60,180)",
+        "practice_samples_existing_cli": 1392,
+        "practice_first_sample_media_s": 60.06,
+        "practice_last_sample_media_s": 179.981,
+        "sample_at_end_180_s": 0,
+        "strict_half_open_samples": 1392,
+        "requested_sampler_fps": 15,
+        "capture_utc_verified": false
+      },
+      "windows": [
+        {
+          "start_s": 60,
+          "end_s": 180,
+          "endpoint": "[start,end)",
+          "decoded_frames": 1477,
+          "first_media_s": 60.06,
+          "last_media_s": 179.981,
+          "max_adjacent_pts_gap_s": 0.13400000000001455,
+          "adjacent_intervals_over_0_1_s": 323,
+          "has_frame_at_end": false,
+          "gaps_above_1_s": []
+        },
+        {
+          "start_s": 360,
+          "end_s": 480,
+          "endpoint": "[start,end)",
+          "decoded_frames": 1360,
+          "first_media_s": 360.029,
+          "last_media_s": 479.884,
+          "max_adjacent_pts_gap_s": 0.13400000000001455,
+          "adjacent_intervals_over_0_1_s": 440,
+          "has_frame_at_end": false,
+          "gaps_above_1_s": []
+        }
+      ],
+      "frozen_geometry": {
+        "camera_id": "228",
+        "geometry_path": "config/cameras/228.measurement.json",
+        "raw_geometry_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+        "canonical_full_json_sha256": "59b6ae927e0e0177cae0a3bb446b40325019cd84e9951c34f6759e7811c54396",
+        "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+        "selected_gate_id": "count-1",
+        "selected_gate": {
+          "id": "count-1",
+          "start": [
+            0.2789,
+            0.3333
+          ],
+          "end": [
+            0.7695,
+            0.3972
+          ],
+          "direction": "both"
+        },
+        "metrics_policy": {
+          "min_track_hits": 3,
+          "hysteresis": 0.01,
+          "max_gap_s": 1.0,
+          "stopped_threshold_per_s": null,
+          "stopped_min_duration_s": 3.0,
+          "queue_region": null
+        },
+        "saved_enabled": false,
+        "saved_image_geometry_status": "unvalidated",
+        "physical_calibration_approved": false
+      }
+    }
+  ],
+  "baseline": {
+    "weights": "yolo11n.pt",
+    "image_size": 640,
+    "sample_fps": 15,
+    "practice_window": [
+      60,
+      180
+    ],
+    "heldout_window": [
+      360,
+      480
+    ],
+    "review_endpoint": "[start,end)",
+    "cli_endpoint": "[start,end]; unchanged existing CLI",
+    "model_event_time_basis": "confirmation frame media time",
+    "comparison_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+    "counting_rule": "bottom-center ground contact proxy changes stable side across finite gate segment; once per physical passage per direction; positive=(end-start)x(point-start)>0; finite endpoints included only with actual side change; tangencies excluded"
+  },
+  "execution": {
+    "owner": "Mert",
+    "check": "frozen_223_228_baseline_15fps",
+    "mode": "replay",
+    "started_at_utc": "2026-11-08T02:36:34.539900+00:00",
+    "job_id": "175884",
+    "node": "alphagpu01",
+    "git_commit": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "python": "3.12.3",
+    "packages": {
+      "torch": "2.7.1+cu128",
+      "ultralytics": "8.4.206",
+      "opencv-python": "5.0.0.93",
+      "lap": "0.5.14"
+    },
+    "weights": "yolo11n.pt",
+    "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "count_script_sha256": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+    "runner_sha256": "3b4ae9e0e32982cf1a058cf0e2d39bdff59236592970501e32bb25e5036a2efd",
+    "run_plan_sha256": "59826662bfe045b4b9411236cc670cf1b64605aea2e082f18b3c29c217f2a114",
+    "counting_rule": "bottom-center ground contact proxy changes stable side across finite gate segment; once per physical passage per direction; positive=(end-start)x(point-start)>0; finite endpoints included only with actual side change; tangencies excluded",
+    "comparison_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+    "cli_endpoint": "[start,end] (existing implementation retained)",
+    "review_endpoint": "[start,end)",
+    "model_event_time_basis": "hysteresis-confirmation frame OpenCV source-media time; not interpolated crossing time",
+    "manual_comparison_performed": false,
+    "limitations": [
+      "No camera enablement, geometry edit, detector/tracker change or training.",
+      "No manual count, event matching or accuracy acceptance is part of this execution.",
+      "Model outputs remain private until independent ledger freeze.",
+      "Decoder-relative time equals raw PTS minus its observed origin; no synthetic re-timing.",
+      "Source PTS gaps and requested sampler FPS do not establish complete footage coverage.",
+      "Existing inclusive-end CLI behavior is preserved; strict-window filtering is a separate comparison step."
+    ],
+    "finished_at_utc": "2026-11-08T02:37:44.255489+00:00",
+    "runs": [
+      {
+        "camera_id": "223",
+        "window_role": "practice",
+        "start_s": 60,
+        "end_s": 180,
+        "selected_gate_id": "count-1",
+        "selected_gate": {
+          "id": "count-1",
+          "start": [
+            0.0953,
+            0.2861
+          ],
+          "end": [
+            0.8828,
+            0.5194
+          ],
+          "direction": "both"
+        },
+        "raw_geometry_sha256": "5165b1a2342b70b97afa35499d2b63042a44b4e9301e6528480a35eb3ed9ae29",
+        "canonical_full_json_sha256": "02491df2a5d9de12530ed8c4bccf6f3fc37a02ab0b884cbe945a14c77d4086c7",
+        "selected_geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+        "metrics_policy": {
+          "min_track_hits": 3,
+          "hysteresis": 0.01,
+          "max_gap_s": 1.0,
+          "stopped_threshold_per_s": null,
+          "stopped_min_duration_s": 3.0,
+          "queue_region": null
+        },
+        "clip_sha256": "808476414ca24d93f3190bb4a315a8fcbefe807c18c5e4f527d115a1ba89d2a0",
+        "recording_metadata_sha256": "05a34e29dfab8c51eff7604040fd77f11e225aba88ed6e73785ec638307a129a",
+        "frames_processed": 1798,
+        "sample_fps": 15,
+        "image_size": 640,
+        "first_sample_media_s": 60.061,
+        "last_sample_media_s": 179.984,
+        "sample_at_end_boundary": 0,
+        "strict_half_open_sample_count": 1798,
+        "raw_pts_origin": 3026699456,
+        "raw_pts_time_base": "1/90000",
+        "first_sample_raw_pts_from_verified_decoder_offset": 3032104946,
+        "last_sample_raw_pts_from_verified_decoder_offset": 3042898016,
+        "selected_media_times_sha256": "7914714a6b88b2ac940ba7afa2cda62b4db2b48c7a16d3a74ebddde6a7261919",
+        "output_sha256": "5236867a3e8e22018844369803bd3134cfc7d9c3fbe67153c8e6b35a3f386aba",
+        "inference_backend_device": "cuda:0",
+        "wall_s": 24.665587639436126,
+        "peak_torch_allocated_mib": 56.1201171875
+      },
+      {
+        "camera_id": "223",
+        "window_role": "heldout",
+        "start_s": 360,
+        "end_s": 480,
+        "selected_gate_id": "count-1",
+        "selected_gate": {
+          "id": "count-1",
+          "start": [
+            0.0953,
+            0.2861
+          ],
+          "end": [
+            0.8828,
+            0.5194
+          ],
+          "direction": "both"
+        },
+        "raw_geometry_sha256": "5165b1a2342b70b97afa35499d2b63042a44b4e9301e6528480a35eb3ed9ae29",
+        "canonical_full_json_sha256": "02491df2a5d9de12530ed8c4bccf6f3fc37a02ab0b884cbe945a14c77d4086c7",
+        "selected_geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+        "metrics_policy": {
+          "min_track_hits": 3,
+          "hysteresis": 0.01,
+          "max_gap_s": 1.0,
+          "stopped_threshold_per_s": null,
+          "stopped_min_duration_s": 3.0,
+          "queue_region": null
+        },
+        "clip_sha256": "808476414ca24d93f3190bb4a315a8fcbefe807c18c5e4f527d115a1ba89d2a0",
+        "recording_metadata_sha256": "05a34e29dfab8c51eff7604040fd77f11e225aba88ed6e73785ec638307a129a",
+        "frames_processed": 1787,
+        "sample_fps": 15,
+        "image_size": 640,
+        "first_sample_media_s": 360.034,
+        "last_sample_media_s": 479.956,
+        "sample_at_end_boundary": 0,
+        "strict_half_open_sample_count": 1787,
+        "raw_pts_origin": 3026699456,
+        "raw_pts_time_base": "1/90000",
+        "first_sample_raw_pts_from_verified_decoder_offset": 3059102516,
+        "last_sample_raw_pts_from_verified_decoder_offset": 3069895496,
+        "selected_media_times_sha256": "22cd86d8361e0c977e661ea6c1c641118452bf515bc64f33585be16014f082ab",
+        "output_sha256": "c13e9032e39d306e8e2cdce36ae371b9d25a949e7d4d71af6c366fe147aac885",
+        "inference_backend_device": "cuda:0",
+        "wall_s": 19.516846884042025,
+        "peak_torch_allocated_mib": 56.1328125
+      },
+      {
+        "camera_id": "228",
+        "window_role": "practice",
+        "start_s": 60,
+        "end_s": 180,
+        "selected_gate_id": "count-1",
+        "selected_gate": {
+          "id": "count-1",
+          "start": [
+            0.2789,
+            0.3333
+          ],
+          "end": [
+            0.7695,
+            0.3972
+          ],
+          "direction": "both"
+        },
+        "raw_geometry_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+        "canonical_full_json_sha256": "59b6ae927e0e0177cae0a3bb446b40325019cd84e9951c34f6759e7811c54396",
+        "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+        "metrics_policy": {
+          "min_track_hits": 3,
+          "hysteresis": 0.01,
+          "max_gap_s": 1.0,
+          "stopped_threshold_per_s": null,
+          "stopped_min_duration_s": 3.0,
+          "queue_region": null
+        },
+        "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+        "recording_metadata_sha256": "e1a7bd34beff69294b35fee2b0daf88c0a67b87e2456d88b930c2b2b5d664bec",
+        "frames_processed": 1392,
+        "sample_fps": 15,
+        "image_size": 640,
+        "first_sample_media_s": 60.06,
+        "last_sample_media_s": 179.981,
+        "sample_at_end_boundary": 0,
+        "strict_half_open_sample_count": 1392,
+        "raw_pts_origin": 3025948946,
+        "raw_pts_time_base": "1/90000",
+        "first_sample_raw_pts_from_verified_decoder_offset": 3031354346,
+        "last_sample_raw_pts_from_verified_decoder_offset": 3042147236,
+        "selected_media_times_sha256": "05f368d36453b89944834479f6d370af1fde34eaca9812662dd6bc7b87219f29",
+        "output_sha256": "fa297e6b22e48fbbdc9818a77ff4b72f852dc6fa8cf36b1a0a75f4826af73689",
+        "inference_backend_device": "cuda:0",
+        "wall_s": 11.377437504008412,
+        "peak_torch_allocated_mib": 66.00732421875
+      },
+      {
+        "camera_id": "228",
+        "window_role": "heldout",
+        "start_s": 360,
+        "end_s": 480,
+        "selected_gate_id": "count-1",
+        "selected_gate": {
+          "id": "count-1",
+          "start": [
+            0.2789,
+            0.3333
+          ],
+          "end": [
+            0.7695,
+            0.3972
+          ],
+          "direction": "both"
+        },
+        "raw_geometry_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+        "canonical_full_json_sha256": "59b6ae927e0e0177cae0a3bb446b40325019cd84e9951c34f6759e7811c54396",
+        "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+        "metrics_policy": {
+          "min_track_hits": 3,
+          "hysteresis": 0.01,
+          "max_gap_s": 1.0,
+          "stopped_threshold_per_s": null,
+          "stopped_min_duration_s": 3.0,
+          "queue_region": null
+        },
+        "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+        "recording_metadata_sha256": "e1a7bd34beff69294b35fee2b0daf88c0a67b87e2456d88b930c2b2b5d664bec",
+        "frames_processed": 1284,
+        "sample_fps": 15,
+        "image_size": 640,
+        "first_sample_media_s": 360.029,
+        "last_sample_media_s": 479.884,
+        "sample_at_end_boundary": 0,
+        "strict_half_open_sample_count": 1284,
+        "raw_pts_origin": 3025948946,
+        "raw_pts_time_base": "1/90000",
+        "first_sample_raw_pts_from_verified_decoder_offset": 3058351556,
+        "last_sample_raw_pts_from_verified_decoder_offset": 3069138506,
+        "selected_media_times_sha256": "88a5f4ca6f460d20c57b6b84e868ab5184a1645c3d3616c5e32e94455c1d00b6",
+        "output_sha256": "08270b5febb53a01ae48a212566fbf886bb74e4b28e5ee410c4ade697fc1b8d6",
+        "inference_backend_device": "cuda:0",
+        "wall_s": 13.271540503948927,
+        "peak_torch_allocated_mib": 75.8818359375
+      }
+    ],
+    "scheduler": {
+      "job_id": "175884",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:01:28",
+      "node": "alphagpu01",
+      "allocation_released": true,
+      "time_limit": "00:05:00",
+      "account": "rpicourse",
+      "qos": "normal",
+      "reservation": "binghamton_hackathon",
+      "gpu_request": "1g.10gb:1",
+      "cpu_request": 1,
+      "memory_request": "16G"
+    },
+    "focused_tests": {
+      "command": "python -m pytest tests/test_check_counts.py tests/test_metrics.py -q",
+      "passed": 30,
+      "subtests_passed": 12
+    },
+    "batch_script_sha256": "5c68d0b6d9754265841efb59786beb91df3a7f1732d92f319ee9531f84202038",
+    "remote_temporary_clip_and_metadata_copies_removed": true,
+    "local_private_review_clips_retained": true
+  },
+  "blind_review": {
+    "geometry_frozen_before_heldout": true,
+    "model_totals_published": false,
+    "model_events_published": false,
+    "independent_ledger_frozen": true,
+    "accuracy_accepted": false,
+    "camera_enablement_changed": false,
+    "ledgers_reported_by_independent_reviewer": {
+      "223": {
+        "sha256": "406a7f828f7f053da0bbe213413bf2e83b370d1e02285bd33a6694729094e7ca",
+        "human_confirmed": false,
+        "coverage_status": "uncertain; endpoint ambiguity recorded"
+      },
+      "228": {
+        "sha256": "6a25b8549579906ec64bbb70ad99f7da754df9b0b951df352fd86895d207cfb5",
+        "human_confirmed": false,
+        "coverage_status": "uncertain; endpoint ambiguity recorded"
+      }
+    },
+    "heldout_result_paths_released_after_freeze": true,
+    "practice_result_paths_released": false
+  },
+  "camera_220": {
+    "acquired": false,
+    "reason": "No accessible 220_ recording/share found in targeted connected Drive name search or matching email metadata; Carter owns its review."
+  },
+  "physical_calibration_approved": false,
+  "recorded_at_utc": "2026-11-08T02:43:37.313499+00:00"
+}

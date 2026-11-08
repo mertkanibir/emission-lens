@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 21:43 America/New_York / 8 November 2026, 02:43 UTC
+
+- **Who:** Mert
+- **Done:** Acquired Carter's 223/228 MPEG-TS clips and recording metadata once through connected Binghamton Drive, verified complete local/server file hashes, inventoried raw frame PTS/decoder clock/windows and froze matching original/semantic selected-gate provenance before baseline execution. Ran pretrained YOLO11n/640 at explicit 15 FPS on practice 1:00–3:00 and held-out 6:00–8:00 for both cameras using the existing count CLI; published only the reproducible execution script and safe scalar acquisition/GPU evidence.
+- **Completed:** GPU job 175884 completed 0:0 in 1m28s on one H100 MIG 1g.10gb slice under a five-minute cap; every inference backend was cuda:0, and all 30 focused tests plus 12 subtests passed. Four private result hashes, bounds and executed runner bytes verify. Raw PTS is advancing; decoder media seconds match original PTS minus its origin. The 223 recording has an approximately 16-second gap outside the reviewed windows; 228 has wider native frame intervals. Metadata reports zero sequence gaps but three/four retrieval errors. Both assisted held-out ledgers were reported frozen before releasing their respective result paths; no model event/totals or practice-result paths were committed. Allocation is released, new remote temporary media/metadata copies removed, and local review copies/SSH retained.
+- **Still open:** Review owners must compare count-1 against the uncertain, not-human-confirmed frozen ledgers using strict half-open bounds and declared matching policy; no count accuracy or 223/228 enablement is accepted here. Carter's separate human key/220 share remains unavailable to this stream. Existing 222 evidence is not rerun or disclosed to its blind reviewer. No detector/tracker/model selection, geometry, labels/training, physical calibration, public contract or other stream runtime files were changed.
+
 ### 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
 
 - **Who:** Mert
