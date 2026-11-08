@@ -1,6 +1,6 @@
 # Independent visual crossing review
 
-**Owner:** Mert. **Updated:** 8 November 2026, 00:48 America/New_York / 8 November 2026, 05:48 UTC.
+**Owner:** Mert. **Updated:** 8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC.
 
 This package keeps assisted visual review separate from Carter's human reference and pretrained detector/tracker output. It does not run inference. An assisted ledger always records `review_method=assisted_visual_sequence_review` and `human_confirmed=false`. A frozen assisted ledger alone cannot enable a camera, physical speed, calibration or estimated emissions.
 
@@ -82,3 +82,5 @@ See [current status](./report.md) for completed review coverage and limitations.
 **Relocated practice reconciliation (8 November 2026, 00:33 America/New_York / 8 November 2026, 05:33 UTC):** Mert reconciled the new blind relocated228 count-1 practice ledger with completed job176055 through the existing harness. Both ambiguity bounds fail; v2 execution/v3 review raw hashes remain separate and selected semantics match. See the [scoped result](./228-relocated-practice.md). Three unmatched cases are selected privately for a future spatial proposal only; no viewing, compute or tuning followed.220 remains queued for Mert’s next handoff.
 
 **220 source/gate readiness (8 November 2026, 00:48 America/New_York / 8 November 2026, 05:48 UTC):** Mert acquired the220source/metadata once and fixed the existing practice-selected count-1 gate before held-out viewing. Two disjoint practice halves are actively counted. [Source/gate readiness](./220-source-readiness.md) records exact file/native-PTS provenance; rendered frames are not completed review. The two-window release supersedes the prior queue, while model/manual results remain withheld until ledger freeze.
+
+**220 practice ledger frozen (8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC):** Mert froze the actual220practice ledger before reference access:111assisted candidates,93excluding18endpoint/boundary ambiguities. All592selectedframes/50sheets plus21native-cadence candidateframes were inspected, with partial coverage/human_confirmed=false explicit. See [220review status](./220-review-status.md). Held-out reconciliation is active; all220model/manual answers remain withheld until its freeze.

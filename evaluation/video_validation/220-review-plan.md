@@ -1,7 +1,7 @@
 # Camera 220 queued blind-review plan
 
-**Owner:** Mert. **Updated:** 8 November 2026, 00:48 America/New_York / 8 November 2026, 05:48 UTC.
-**Status:** Released for the two declared windows; source acquisition and practice gate selection completed, blind practice counting in progress. Model/manual references remain withheld.
+**Owner:** Mert. **Updated:** 8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC.
+**Status:** Practice ledger frozen; held-out candidate/boundary reconciliation in progress. Source and practice-selected gate/policy are fixed; model/manual references remain withheld.
 
 Mert queued Carter's camera-220 recording/metadata handoff received on 7 November 2026 at 23:54 America/New_York (8 November 2026, 04:54 UTC). Carter's model count was withheld from this review. Media locators remain with Mert's coordinator; this plan contains no answer key or private download capability.
 
@@ -31,3 +31,5 @@ Mert owns this evaluation plan, ledger/comparison work and coordination. Carter 
 No completed camera-220 count, score or acceptance is asserted by this progress checkpoint. Rendered and actually inspected coverage remain separate.
 
 **Source/gate milestone (8 November 2026, 00:48 America/New_York / 8 November 2026, 05:48 UTC):** Mert acquired the exact Drive video/metadata once and verified H.264/native timing. Original220-image-v2 count-1 is retained unchanged with a private gate/policy freeze before any held-out viewing. Two disjoint practice halves are actively reviewed; the [source readiness checkpoint](./220-source-readiness.md) records hashes and honest current coverage.
+
+**Actual practice freeze (8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC):** Practice[60,180) is now frozen with111assisted candidates/93ambiguity-excluded, exact coverage/hash in [review status](./220-review-status.md). Held-out ordered viewing is complete and candidate/boundary checks are active. Model/manual references remain unopened.

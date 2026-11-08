@@ -777,7 +777,24 @@
             60.0,
             180.0
           ],
-          "status": "rendered_only_review_in_progress"
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "6222226506903680762c1e4c42eb8d20b672162de5f739860c239676a9acb5f8",
+              "window": [
+                60,
+                180
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "6c6bdcf9ab0cfdcd3f83b94a686d6e8d0681a63e89494fe4ecfd3d520d8a78ae",
+              "ledger_sha256": "1cf5964cbea731919d416f8403e2de804cd8f2b890801933ef18a0b4ccf578d4",
+              "coverage_status": "partial",
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
+            }
+          ]
         },
         {
           "window": [
@@ -850,7 +867,23 @@
           "status": "pending_visual_review"
         }
       ],
-      "frozen_reviews": [],
+      "frozen_reviews": [
+        {
+          "key": "6222226506903680762c1e4c42eb8d20b672162de5f739860c239676a9acb5f8",
+          "window": [
+            60,
+            180
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "6c6bdcf9ab0cfdcd3f83b94a686d6e8d0681a63e89494fe4ecfd3d520d8a78ae",
+          "ledger_sha256": "1cf5964cbea731919d416f8403e2de804cd8f2b890801933ef18a0b4ccf578d4",
+          "coverage_status": "partial",
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
+        }
+      ],
       "source_filename": "220_20261107T220646Z.ts"
     }
   ]

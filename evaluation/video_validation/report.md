@@ -1,6 +1,6 @@
 # Video validation status
 
-**Owner:** Mert. **Updated:** 8 November 2026, 00:48 America/New_York / 8 November 2026, 05:48 UTC.
+**Owner:** Mert. **Updated:** 8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC.
 
 Mert completed the first independent assisted review of `[360,480)` for cameras 222, 223, 228, with immutable private ledgers frozen before human/model reference access. All selected chronological sequence frames were inspected, with native-cadence candidate revisits. These are assisted estimates with `human_confirmed=false`, not additional human ground truth. Camera 220 media is unavailable locally. Mert has deferred broad full-file counting until223/228 acceptance is resolved; the public [manifest](./manifest.json) preserves every pending interval.
 
@@ -156,3 +156,5 @@ The final comparator fails both count bounds. There are no track IDs/trajectorie
 **Relocated practice reconciliation (8 November 2026, 00:33 America/New_York / 8 November 2026, 05:33 UTC):** The [relocated count-1 practice reconciliation](./228-relocated-practice.md) uses a new pre-access frozen ledger and the exact completed176055 output. Model80 versus assisted137–138 gives57.25%/56.93% agreement recall and−42.03%/−41.61% total error; both bounds fail. Preserve original v1 results and separate v2/v3 full-config hashes. A few unmatched cases are selected for an unexecuted spatial proposal. Human accuracy/physical cause remain unavailable; no camera enablement, fresh-window access or220 acquisition follows.
 
 **220 source/gate readiness (8 November 2026, 00:48 America/New_York / 8 November 2026, 05:48 UTC):** The [220source/gate milestone](./220-source-readiness.md) is complete: actual video/metadata acquisition, native timing audit and unchanged practice-selected count-1 policy freeze.592practice frames/50sheets are rendered and split for actual blind counting; completion/boundary reconciliation is still pending. Model/manual counts remain unopened. This releases only the two declared visual-review windows; no production/model/physical approval or228reserved access follows.
+
+**220 practice ledger frozen (8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC):** The [220practice freeze](./220-review-status.md) is complete at00:55:52NY/05:55:52UTC:111assisted candidates (48positive/63negative),93excluding18ambiguous crossings, with2timing flags. It is sampled/partial evidence rather than human truth or acceptance. The held-out ledger and all model/manual comparisons remain pending; no full-recording review claim is made.
