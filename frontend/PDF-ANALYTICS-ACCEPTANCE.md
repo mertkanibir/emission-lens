@@ -20,7 +20,7 @@ The real browser Download PDF brief action saved a three-page camera223/live13:2
 
 Actual desktop and phone analytics/export reflow pass (phone382px viewport/document369px); a minute link changed the comparison to13:25-13:26UTC and its supported1-vehicle cohort. Live installed source, independent model values and fresh synchronized processed snapshots were verified on3152. No document overflow was found in the inspected views. This is scoped interaction/reflow acceptance, not full accessibility certification.
 
-A57.612629-second operational sample processed222687frames (11.9245FPS) and223912frames (15.8299FPS), with zero new reader drops; prior lifetime drops532/409 remain. One pre-change parallel endpoint sample saw producer~10ms and consumer~6.64s. One post-install pair returned the identical preview sequence at25.4ms/28.3ms. These bounded samples identify consumer contention and successful delivery; they do not establish sustained latency, loss-free operation or an inference speedup. Caltrans HLS arrives in bursts and the unchanged producer targets3-second preview publication.
+A 57.612629-second operational sample processed 687 frames for camera 222 (11.9245 FPS) and 912 frames for camera 223 (15.8299 FPS), with zero new reader drops; prior lifetime drops 532/409 remain. One pre-change parallel endpoint sample saw producer~10ms and consumer~6.64s. One post-install pair returned the identical preview sequence at25.4ms/28.3ms. These bounded samples identify consumer contention and successful delivery; they do not establish sustained latency, loss-free operation or an inference speedup. Caltrans HLS arrives in bursts and the unchanged producer targets3-second preview publication.
 
 ## Preserved boundaries
 

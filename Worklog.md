@@ -9,6 +9,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 ### 8 November 2026, 09:06 America/New_York / 8 November 2026, 14:06 UTC
 
 - **Who:** Mert
+- **Done:** Clarified camera identifiers, processed-frame counts and throughput units in the acceptance record and original work entry.
+- **Completed:** Only documentation wording changed; underlying57.61-second receipt remains687/912frames for222/223. All final source/build/browser/PDF checks remain unchanged.
+- **Still open:** The sample is bounded operational evidence; sustained acceptance and actual detector optimization remain open.
+
+### 8 November 2026, 09:06 America/New_York / 8 November 2026, 14:06 UTC
+
+- **Who:** Mert
 - **Done:** Verified and installed exact scoped PDF exports, interval analytics, independent CAMS context and validated faster preview pickup; retained Carter submission changes and same private persistence.
 - **Completed:** All86 frontend checks, TypeScript and immutable build pass. Actual browser PDF download matches visible source byte-for-byte; three pages rendered/inspected. Scoped minute navigation, desktop/phone layout, real contextual values and fresh installed snapshots pass. Camera222/223 remain live.
 - **Still open:** Source HLS bursts and unchanged3-second producer previews still limit visible cadence; no detector speedup or sustained latency claim. Prior pending envelopes, independent scientific validation and hosted persistence remain open.99% account allowance consumed, no reset.
@@ -1403,5 +1410,5 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 - **Who:** Mert
 - **Done:** Implemented polished exact-draft PDF downloads, interval analytics, separate timestamped CAMS model context and validated/deduplicated750ms preview pickup. Reduced full-page refresh to30seconds with transition gating after measuring consumer contention. Retained the PDFKit licence.
-- **Completed:** 86 frontend checks and TypeScript pass; actual scoped PDF rendered across three pages. Four regional-source boundary/unit/mode tests pass.57.61-second GPU sample:22211.92FPS,22315.83FPS, no new reader drops; lifetime drops persist. Producer preview responses~10ms versus consumer~6.64s in one parallel sample, motivating lower SSR frequency.
+- **Completed:** 86 frontend checks and TypeScript pass; actual scoped PDF rendered across three pages. Four regional-source boundary/unit/mode tests pass.57.61-second GPU sample: camera 222 at 11.92 FPS, camera 223 at 15.83 FPS, no new reader drops; lifetime drops persist. Producer preview responses~10ms versus consumer~6.64s in one parallel sample, motivating lower SSR frequency.
 - **Still open:** Final immutable build, actual PDF HTTP download/source comparison, analytics/context/preview browser checks and consumer cutover. No worker, detector, source sampling, calibration, estimate formula, camera eligibility or core contract changed; no measured detector speedup claimed.
