@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 01:13 America/New_York / 8 November 2026, 06:13 UTC
+
+- **Who:** Mert
+- **Done:** Published evaluation/four-camera-live-176255.md/json as a bounded live-candidate startup checkpoint. Reused the already published independent176183 offline audit instead of duplicating it. Bound frozen source/recipe/READY and stronger HTTP/telemetry/independent preview proofs; preserved all jobs, apps, relays, guards and SSH sessions.
+- **Completed:** Actual cuda:0 and live statuses/advancing processing are verified for all four cameras; longer independent checks confirm correct identity, three changing preview sequences/JPEGs and advancing timestamps. Both outboxes are empty. Current authenticated camera222 evidence contains seven new traversals with linked nonnull stops, one positive; other cameras supply status/previews only with new counts/emissions unavailable. Explicit early buffer drops remain220:325/222:354/223:227/228:194. Source/recipe/observer hashes, JSON, links and scoped whitespace verify. Both jobs/protected resources were confirmed alive at06:12:19 UTC; nothing was stopped or restarted by publication.
+- **Still open:** Startup is not sustained/complete coverage, count/stopped-time accuracy or independent scenario arithmetic acceptance. The new stopped policy applies only to new222 cohorts; older null evidence is unchanged. Conditional20m/fleet/70F/60%RH assumptions and physical scale/curved-path/manual validation remain. Candidate176255 has7200s worker duration/7560s scheduler cap ending03:14:15 America/New_York /08:14:15 UTC; actual completion and final cleanup remain pending. Original176075 and protected apps remain preserved. No all-camera emissions, raw IDs/event times/images/evidence payloads/credentials or new feature/GPU/app changes are published. Current work stops after this coherent checkpoint and matching Mert push; other streams' WIP remains excluded.
+
 ### 8 November 2026, 01:12 America/New_York / 8 November 2026, 06:12 UTC
 
 - **Who:** Mert

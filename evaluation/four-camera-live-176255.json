@@ -1,0 +1,117 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T06:12:49.700489+00:00",
+  "status": "running_candidate_verified_at_startup_only",
+  "job_id": "176255",
+  "mode": "live",
+  "http_verification_started_at_utc": "2026-11-08T06:10:15.340432+00:00",
+  "http_verification_finished_at_utc": "2026-11-08T06:10:28.083808+00:00",
+  "actual_run_started_at_utc": "2026-11-08T06:08:22.920512+00:00",
+  "actual_inference_device": "cuda:0",
+  "all_four_camera_statuses_live_at_http_snapshot": true,
+  "camera_ids": [
+    "222",
+    "223",
+    "220",
+    "228"
+  ],
+  "independent_followup_all_four_previews_pass": true,
+  "preview_followup_checks": [
+    "correct camera identity",
+    "three distinct sequences",
+    "three distinct JPEG contents",
+    "advancing processed and receipt timestamps",
+    "same live run"
+  ],
+  "initial_short_repeat": "Short initial sampling repeated some223/228 previews; longer independent followup resolved this bounded qualification. It is not sustained acceptance.",
+  "resources": {
+    "gpu_slices": 1,
+    "gpu_slice": "1g.10gb",
+    "cpus": 4,
+    "memory_gib": 16,
+    "worker_seconds": 7200,
+    "scheduler_cap_s": 7560,
+    "scheduled_allocation_end_at_utc": "2026-11-08T08:14:15Z",
+    "scheduled_allocation_end_at_local": "2026-11-08T03:14:15-05:00",
+    "completed": false
+  },
+  "configuration": {
+    "one_worker_process": true,
+    "independent_model_tracker_state_per_camera": true,
+    "weights": "pretrained YOLO11n",
+    "image_size": 640,
+    "sample_fps": 15,
+    "preview_every_s": 3,
+    "measurement_scope": "222 only;223/220/228 status and genuine previews only, no new counts/emissions",
+    "calibration_version": "222-ground-esri-v1-7f52d53d8fc8",
+    "mapping_version": "pretrained-visual-to-emfac2007-v1",
+    "context_version": "222-context-v1-7f52d53d+stop-v1",
+    "stop_method_version": "222-image-stop-v1-0.0225",
+    "new_cohorts_only": true,
+    "prior_null_stops_retroactively_replaced": false
+  },
+  "source": {
+    "archive_commit": "b1081f19883e1950ab3c6cf28af22be41e7ec30e",
+    "archive_sha256": "86ef74f6ce6649729bf65e556be5666200e6d604cc25124e9ebe63ef759a7be5",
+    "worker_main_sha256": "20ec7e4eaabf7972260ac5be2b5b0ec4953963138f27bdfaf795a729e9e71713",
+    "ready_handoff_sha256": "8a9f2ea36495115717e46bdbc9104b70803fff270a7f8744824ab571bf7c174e",
+    "recipe_sha256": "fbc23e647418df82f021210378bc5fd15721fd4b1c31283ef81b455846884154",
+    "profile_inputs_sha256": {
+      "geometry.json": "ab1b684086ce1d2543bba2c9df41748aad8e2c8af4ce164c9e2dbbd95188e674",
+      "traversals.json": "6ffbac2983c8f2d465b2495a3d2238aaa7fd7c679776277b69f71ac607234b36"
+    }
+  },
+  "evidence": {
+    "new_current_authenticated_222_evidence_present": true,
+    "new_linked_nonnull_stopped_evidence_present": true,
+    "raw_evidence_or_ids_public": false,
+    "independent_scenario_arithmetic_acceptance": "pending separate review",
+    "stop_accuracy_count_accuracy_and_savings_accepted": false
+  },
+  "limitations": [
+    "startup only; full two-hour run and final cleanup pending",
+    "source bursts/frame drops prevent loss-free or sustained-throughput claims",
+    "source clocks are estimated media UTC, not verified capture UTC",
+    "fixed20m through movement, fleet70F/60%RH assumptions remain conditional",
+    "independent scale/curved-path/count/stopped-time validation remains open",
+    "no all-camera emissions or accuracy claim"
+  ],
+  "preservation": {
+    "existing_222_live_job176075_preserved": true,
+    "protected_applications_and_ssh_untouched_by_publication": true,
+    "candidate_left_running": true,
+    "runtime_sources_or_settings_changed_by_publication": false
+  },
+  "private_artifact_sha256": {
+    "recipe": "fbc23e647418df82f021210378bc5fd15721fd4b1c31283ef81b455846884154",
+    "start_receipt": "8dd95deb61c513d6ebdb66f7274b381970be1f9160b6121aac9a5c52c3d04017",
+    "http_startup_proof": "4e76b47fa773e9c16978460e7323ac00d9006a0425d5828b01bd11c8dc69e2f7",
+    "independent_four_preview_followup": "27e28c43cd487d6c832258452b7058de9df993ac29dcd4a5d938bd33dc129c83",
+    "telemetry_cpu_test": "43257161656cac0271b6665108a6de2a50bf0cc04f0f9a11d96c9bb593b4a77e",
+    "retained_telemetry_snapshot": "a0ebfa6d32a435b80b83a5d1b96424b72b9ae443e645a11f9d6bf2a3d3b94dfc",
+    "startup-summary.private.json": "8fbc206be5f67511ecddaaada8d33891d56fa6f3b61066ba668ad9ab23cd50fa",
+    "http-startup-proof-extended.private.json": "c3058786536c9940fb5a320f5d5d1d9e0a03d3dadcfcb9c5632141fffdb0527d",
+    "telemetry-final.private.json": "a0ebfa6d32a435b80b83a5d1b96424b72b9ae443e645a11f9d6bf2a3d3b94dfc"
+  },
+  "final_startup_qualification": {
+    "all_four_three_changing_preview_checks_pass": true,
+    "processed_counters_advance": true,
+    "camera_states_live": true,
+    "legacy_pending_batches": 0,
+    "measurement_pending_batches": 0,
+    "reader_buffer_drops": {
+      "220": 325,
+      "222": 354,
+      "223": 227,
+      "228": 194
+    },
+    "drops_unchanged_between_two_early_snapshots": true,
+    "current_authenticated_222_traversals": 7,
+    "nonnull_linked_stopped_traversals": 7,
+    "positive_stopped_traversals": 1,
+    "223_220_228_new_traffic_rows_empty": true,
+    "223_220_228_new_counts": null,
+    "resource_confirmation_at_utc": "2026-11-08T06:12:19Z",
+    "independent_scenario_arithmetic_pending": true
+  }
+}
