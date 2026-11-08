@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:43 America/New_York / 8 November 2026, 14:43 UTC
+
+- **Who:** Mert
+- **Done:** Aligned map count labels with the explicit known-class subtotal and made preview startup state truthful. Added dated frontend note.
+- **Completed:** Six focused frontend guards, nonincremental TypeScript and whitespace checks pass.
+- **Still open:** Final immutable build, actual PDF/browser acceptance and final dual-GPU preview cadence check.
+
 ### 8 November 2026, 09:34 America/New_York / 8 November 2026, 14:34 UTC
 
 - **Who:** Mert

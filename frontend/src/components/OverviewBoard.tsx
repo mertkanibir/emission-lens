@@ -1,6 +1,6 @@
 "use client";
 
-import { crossingSummary } from "@/lib/crossing-summary";
+import { crossingSummary, crossingMapLabel } from "@/lib/crossing-summary";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -217,9 +217,7 @@ export function OverviewBoard({
                       ? item.mapEstimate === null
                         ? "CO₂ unavailable"
                         : `${scenarioValue(item.mapEstimate.co2_g, "g", false, item.mapEstimate.co2_g >= 1 ? 1 : 6)} CO₂ · snapshot`
-                      : item.traffic.totals.count === null
-                        ? "Counts unavailable"
-                        : `${item.traffic.totals.count} crossings`,
+                      : crossingMapLabel(item.traffic.rows),
                   href: cameraHref(item.camera.id),
                   emissions: quantitative(item.camera.id) ? item.mapEstimate : null,
                   secondaryValueLabel: quantitative(item.camera.id) && view === "emissions" && item.mapEstimate

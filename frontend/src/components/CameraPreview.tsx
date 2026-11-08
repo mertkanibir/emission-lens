@@ -83,21 +83,21 @@ export function CameraPreview({ cameraId, mode, inferenceFps }: { cameraId: stri
             alt={`Camera ${cameraId}, ${mode} processed playback with matching vehicle overlays. Capture time unavailable.`} />
         ) : null}
         <span className="burn-in burn-in-tl">Camera {cameraId} · {mode.toUpperCase()}</span>
-        <span className="burn-in burn-in-tr">{retained ? current ? streamActive ? "Buffered processed video" : "Processed snapshot" : "Delayed playback" : "Frame unavailable"}</span>
+        <span className="burn-in burn-in-tr">{retained ? current ? streamActive ? "Buffered processed video" : "Processed snapshot" : "Delayed playback" : "Waiting for frame"}</span>
         {retained ? (
           <span className="preview-timestamp">Latest receipt {new Date(frame.received_at).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour12: false })} Pacific · capture UTC unavailable</span>
         ) : (
           <div className="viewport-msg">
             <span className="section-kicker">Evidence first</span>
-            <strong>No synchronized video frame yet</strong>
-            <span>{mode === "synthetic" ? "Synthetic records have no camera footage." : "Temporary processed snapshots include matching detection overlays and expire after 60 seconds."}</span>
+            <strong>Waiting for camera frames</strong>
+            <span>{mode === "synthetic" ? "Synthetic records have no camera footage." : "Processed video appears when source frames arrive. Old frames expire automatically."}</span>
           </div>
         )}
       </div>
       {mode !== "synthetic" ? <div className="preview-runtime" aria-label="Processing and preview cadence">
-        <span><strong>Latest inference rate</strong>{validFps ? `${inferenceFps.toFixed(1)} frames/s` : "Unavailable"}</span>
-        <span><strong>Playback</strong>{streamActive ? "Buffered processed video" : "Snapshot fallback"}</span>
-        <span><strong>Frame received</strong>{retained ? `${Math.floor(age)} s ago` : "Unavailable"}</span>
+        <span><strong>Latest inference rate</strong>{validFps && retained ? `${inferenceFps.toFixed(1)} frames/s` : "Awaiting frame"}</span>
+        <span><strong>Playback</strong>{retained ? streamActive ? "Buffered processed video" : "Snapshot fallback" : "Waiting for source"}</span>
+        <span><strong>Frame received</strong>{retained ? `${Math.floor(age)} s ago` : "No recent frame"}</span>
         <p>Original processed frames and matching overlays are played together. A short media buffer smooths source delivery bursts; source capture UTC is unavailable.</p>
       </div> : null}
     </>
