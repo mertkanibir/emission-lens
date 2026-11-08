@@ -1200,3 +1200,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Replaced frontend sidebar with compact workspace navigation, technical identity/status controls and responsive top-level shell.
 - **Completed:** All 65 frontend tests and nonincremental TypeScript pass; mode/freshness/source controls retain their boundaries.
 - **Open:** Shared camera-detail composition, context/review/brief panels and isolated final browser acceptance remain in progress. No service, data store, calibration or worker was changed.
+
+
+## 8 November 2026, 03:26 America/New_York / 8 November 2026, 08:26 UTC — Mert
+
+- **Done:** Made worker outbox enqueue/publication thread-safe, serialized concurrent flushes without holding the producer mutex during HTTP, and blocked measurement delivery until pending-plan/checkpoint publication completes. Failed publication remains blocked for recovery; exact bytes, FIFO and POSIX/Windows flush rules remain. Updated worker/QUEUE-PORTABILITY.md.
+- **Completed:** Nineteen publisher/portability tests and 42 measurement/runtime tests pass locally, including slow sender versus durable enqueue, concurrent FIFO flushes, unchanged in-flight retry and failed-publication gating. Scoped diff checks pass. Existing runtime remains synchronous and active frozen jobs/apps/outboxes are untouched.
+- **Open:** Bounded asynchronous runtime delivery, controlled before/after performance evidence, native Windows concurrency and configured GPU acceptance; no field accuracy or sustained-operation claim.

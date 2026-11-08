@@ -129,6 +129,77 @@ class PublishTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             HttpSender("https://password@example.com/api/worker", "private-test-value")
 
+    def test_slow_sender_does_not_block_durable_enqueue_or_duplicate_inflight_body(self):
+        entered, release, queued = threading.Event(), threading.Event(), threading.Event()
+        bodies, errors = [], []
+        with tempfile.TemporaryDirectory() as folder:
+            def sender(body):
+                bodies.append(body)
+                entered.set()
+                release.wait(2)
+                return True
+            box = Outbox(Path(folder), sender)
+            first, second = batch(), batch()
+            box.enqueue(first)
+            original = box.pending()[0].read_bytes()
+            delivery = threading.Thread(target=box.flush)
+            delivery.start()
+            self.assertTrue(entered.wait(1))
+            def produce():
+                try:
+                    box.enqueue(first)  # Exact in-flight retry remains one file.
+                    box.enqueue(second)
+                    queued.set()
+                except Exception as error:
+                    errors.append(error)
+            producer = threading.Thread(target=produce)
+            producer.start()
+            try:
+                self.assertTrue(queued.wait(1), "HTTP held the enqueue mutex")
+                self.assertEqual(len(box.pending()), 2)
+                self.assertEqual(box.pending()[0].read_bytes(), original)
+            finally:
+                release.set()
+                producer.join(2)
+                delivery.join(2)
+            self.assertEqual(errors, [])
+            box.flush()
+            self.assertEqual([json.loads(body) for body in bodies], [first, second])
+
+    def test_concurrent_flushes_serialize_the_same_fifo_without_duplicate_posts(self):
+        with tempfile.TemporaryDirectory() as folder:
+            posted = []
+            box = Outbox(Path(folder), lambda body: posted.append(json.loads(body)) or True)
+            payloads = [batch() for _ in range(12)]
+            for payload in payloads:
+                box.enqueue(payload)
+            threads = [threading.Thread(target=box.flush) for _ in range(3)]
+            for thread in threads:
+                thread.start()
+            for thread in threads:
+                thread.join(2)
+                self.assertFalse(thread.is_alive())
+            self.assertEqual(posted, payloads)
+            self.assertEqual(box.delivered, len(payloads))
+
+    def test_failed_publication_blocks_partial_plan_until_successful_recovery(self):
+        with tempfile.TemporaryDirectory() as folder:
+            posted = []
+            box = Outbox(Path(folder), lambda body: posted.append(json.loads(body)) or True)
+            payload = batch()
+            with self.assertRaises(OSError):
+                with box.publication():
+                    box.enqueue(payload)
+                    raise OSError("checkpoint commit failed")
+            original = box.pending()[0].read_bytes()
+            self.assertEqual(box.flush(), 0)
+            self.assertEqual(posted, [])
+            self.assertEqual(box.pending()[0].read_bytes(), original)
+            with box.publication():
+                box.enqueue(payload)
+            self.assertEqual(box.flush(), 1)
+            self.assertEqual(posted, [payload])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,6 +4,8 @@
 **Updated:** 7 November 2026, 21:40 America/New_York / 8 November 2026, 02:40 UTC
 **Status:** Native Windows Server 2025 and Linux CI pass; local macOS regression checks pass.
 
+**Concurrent publication checkpoint (8 November 2026, 03:26 America/New_York / 08:26 UTC):** Mert serialized each outbox's senders while releasing its producer mutex during HTTP. Durable enqueue, exact in-flight retry bytes, FIFO order, acknowledgement retirement and existing platform flush rules are preserved. A measurement publication now withholds new HTTP requests until its pending plan and committed checkpoint are safely written; failure leaves delivery blocked until successful recovery. The runtime still calls delivery synchronously at this checkpoint. Nineteen publisher/portability and 42 measurement/runtime tests pass locally; the new concurrency changes have not yet run on native Windows or a GPU. No active process, source profile, contract or scientific approval changes.
+
 ## Report and diagnosis
 
 Carter reported 13 Windows `PermissionError` failures across `test_publish.py`, `test_measurement.py` and `test_measurement_runtime.py`, also on baseline `7b50d77`. Mert inspected new remote commit `b1a5edf`; its camera-222 count review does not change the queue/checkpoint writer. No model, tracker, camera acceptance, geometry bytes or media is changed by this fix.

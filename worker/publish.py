@@ -7,6 +7,8 @@ across retries so an interrupted HTTP response cannot duplicate observations.
 import json
 import os
 import tempfile
+import threading
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
@@ -116,11 +118,32 @@ class Outbox:
         self.max_bytes = max_bytes
         self.delivered = 0
         self.attempts = 0
+        self._queue_lock = threading.RLock()
+        self._flush_lock = threading.Lock()
+        self._delivery_ready = True
 
     def pending(self) -> list[Path]:
-        return sorted(self.directory.glob("*.json"))
+        with self._queue_lock:
+            return sorted(self.directory.glob("*.json"))
+
+    @contextmanager
+    def publication(self):
+        """Withhold new HTTP leases until a complete checkpoint is committed.
+
+        A failed publication stays blocked in this process. Recovery must finish
+        the retained plan/checkpoint before delivery can resume. An older request
+        already in flight owns only its previously committed immutable body.
+        """
+        with self._queue_lock:
+            self._delivery_ready = False
+            yield
+            self._delivery_ready = True
 
     def enqueue(self, envelope: dict) -> None:
+        with self._queue_lock:
+            self._enqueue(envelope)
+
+    def _enqueue(self, envelope: dict) -> None:
         # JSON encoding also rejects NaN/Infinity before anything reaches disk.
         body = (json.dumps(envelope, allow_nan=False, separators=(",", ":")) + "\n").encode()
         batch_id = envelope["batch_id"]
@@ -160,18 +183,32 @@ class Outbox:
                 os.unlink(temporary)
 
     def flush(self, limit: int = 8) -> int:
+        # Serialize senders, but never hold the producer mutex across HTTP.
+        with self._flush_lock:
+            return self._flush(limit)
+
+    def _flush(self, limit: int) -> int:
         sent = 0
-        if _WINDOWS:
-            # Failed cleanup blocks later HTTP revisions until it is resolved.
-            for acknowledged in sorted(self.directory.glob("*.acked")):
-                acknowledged.unlink()
-        for path in self.pending()[:limit]:
-            self.attempts += 1
-            if not self.sender(path.read_bytes()):
+        with self._queue_lock:
+            if not self._delivery_ready:
+                return 0
+            if _WINDOWS:
+                # Failed cleanup blocks later HTTP revisions until it is resolved.
+                for acknowledged in sorted(self.directory.glob("*.acked")):
+                    acknowledged.unlink()
+            paths = self.pending()[:limit]
+        for path in paths:
+            with self._queue_lock:
+                if not self._delivery_ready:
+                    break
+                body = path.read_bytes()
+                self.attempts += 1
+            if not self.sender(body):
                 break
-            _remove_acknowledged(path)
-            sent += 1
-            self.delivered += 1
+            with self._queue_lock:
+                _remove_acknowledged(path)
+                sent += 1
+                self.delivered += 1
         return sent
 
 
@@ -575,6 +612,12 @@ def _write_measurement_checkpoint(path, checkpoint):
 
 
 def _queue_measurement_plan(bridge, outbox, state_path):
+    # A background sender may deliver only complete, durably committed plans.
+    with outbox.publication() if outbox is not None else nullcontext():
+        _publish_measurement_plan(bridge, outbox, state_path)
+
+
+def _publish_measurement_plan(bridge, outbox, state_path):
     plan = bridge.pending()
     if plan is None:
         # A previous post-commit disk error must be repaired before any flush.
