@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 08:23 America/New_York / 8 November 2026, 13:23 UTC
+
+- **Who:** Mert
+- **Done:** Verified all prior GPU jobs are terminal and local web services remain responsive; documented Mert's newly requested fresh222/223 live restart.
+- **Completed:** Restoration scope is one two-hour worker/single MIG, unchanged scientific inputs and tested delivery source, new overlap baseline/outboxes and bounded credential/relay cleanup. Old pending data remains preserved.
+- **Still open:** Fresh allocation launch and actual CUDA/preview/measurement acceptance;220/228 stay excluded and account allowance must remain above5%.
+
 ### 8 November 2026, 04:23 America/New_York / 8 November 2026, 09:23 UTC
 
 - **Who:** Mert
