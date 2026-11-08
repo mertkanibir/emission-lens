@@ -455,11 +455,12 @@
       "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
       "duration_s": 1218.142000000007,
       "metadata_sha256": "e1a7bd34beff69294b35fee2b0daf88c0a67b87e2456d88b930c2b2b5d664bec",
-      "geometry_raw_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
-      "geometry_canonical_sha256": "59b6ae927e0e0177cae0a3bb446b40325019cd84e9951c34f6759e7811c54396",
+      "geometry_raw_sha256": "9aa6372157f873088dbf9bd94098d7be071a31d44a987ad37bc8aad4de6a1ffa",
+      "geometry_canonical_sha256": "dc9b19f774a8cbd9352b03068969106c760e29a39b7b6c9b215862ac69bc36a9",
       "gates": {
-        "count-1": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
-        "count-2": "a818e1d058cb9629e2e0025b521919d6f762489e254878ae84230936770df2a2"
+        "count-1": "6c815e5b45d0ca2b0b2d7e42143c94a61d5f07ccbf8ab2db1161212f1e50b8ce",
+        "count-2": "3cafd4e7c7c467563f1b94119dcd73e2ec1d0f0ccc825f489bdc129f91779c9c",
+        "count-3": "ed3db30da4990df02f3aa39562c52953a806e922391e257cfd158415b7c40e2e"
       },
       "first_pts_s": 33621.654956,
       "last_pts_s": 34839.729956,
@@ -507,6 +508,21 @@
               "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
               "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
               "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
+            },
+            {
+              "key": "2abb3270a81426e2347e7d92b2f282a92c2fbac8c4b8b6d988fa0c5a59b5752f",
+              "window": [
+                60.0,
+                180.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "6c815e5b45d0ca2b0b2d7e42143c94a61d5f07ccbf8ab2db1161212f1e50b8ce",
+              "ledger_sha256": "7f2b5b404a8fff33921d4111d90f35752adf5fe03dbc8a0191f97ee430892ba0",
+              "coverage_status": "partial",
               "human_confirmed": false,
               "reference_independent": true,
               "supersession": null,
@@ -708,6 +724,21 @@
           "gate": "count-1",
           "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
           "ledger_sha256": "549bf443721738bc202ca145462ecf407ca8757f4e9aee58d43b474e78a47a6f",
+          "coverage_status": "partial",
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
+        },
+        {
+          "key": "2abb3270a81426e2347e7d92b2f282a92c2fbac8c4b8b6d988fa0c5a59b5752f",
+          "window": [
+            60.0,
+            180.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "6c815e5b45d0ca2b0b2d7e42143c94a61d5f07ccbf8ab2db1161212f1e50b8ce",
+          "ledger_sha256": "7f2b5b404a8fff33921d4111d90f35752adf5fe03dbc8a0191f97ee430892ba0",
           "coverage_status": "partial",
           "human_confirmed": false,
           "reference_independent": true,

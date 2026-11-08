@@ -1,6 +1,6 @@
 # Video validation status
 
-**Owner:** Mert. **Updated:** 8 November 2026, 00:12 America/New_York / 8 November 2026, 05:12 UTC.
+**Owner:** Mert. **Updated:** 8 November 2026, 00:33 America/New_York / 8 November 2026, 05:33 UTC.
 
 Mert completed the first independent assisted review of `[360,480)` for cameras 222, 223, 228, with immutable private ledgers frozen before human/model reference access. All selected chronological sequence frames were inspected, with native-cadence candidate revisits. These are assisted estimates with `human_confirmed=false`, not additional human ground truth. Camera 220 media is unavailable locally. Mert has deferred broad full-file counting until223/228 acceptance is resolved; the public [manifest](./manifest.json) preserves every pending interval.
 
@@ -152,3 +152,5 @@ The final comparator fails both count bounds. There are no track IDs/trajectorie
 **Final count-only audit frozen (7 November 2026, 22:56 America/New_York / 8 November 2026, 03:56 UTC):** Mert independently reproduced the retained s/1280 matching totals and both30-event negative-direction deficits under the frozen policy. Private audit payload SHA`28ba245eb7e65227e3f83ea6f08ea9a3cf7826a40114c758ea14e253f46e0b1e`, file SHA`eb32be00bda548b1f643627f9fd8cc4ebecc27b1392b12fc828303b4bf48c835`. The post-run argument failure and unassessed physical identities remain explicit. No further model comparison or fresh-window access follows.
 
 **Queued 220 handoff (8 November 2026, 00:12 America/New_York / 8 November 2026, 05:12 UTC):** Mert queued Carter’s camera-220 recording/metadata request with the fixed blind protocol in the [220 review plan](./220-review-plan.md). This is queue preparation only: no large download, source review, new GPU job, gate choice or count was performed. Mert will coordinate release after the camera-222 live restart and camera-228 new-gate alignment. Carter’s model count remains withheld. The old228 ledgers remain tied to their original geometry; changed228-image-v2 gates require separately aligned references. The reserved228 `[720,840)` remains outside this scope.
+
+**Relocated practice reconciliation (8 November 2026, 00:33 America/New_York / 8 November 2026, 05:33 UTC):** The [relocated count-1 practice reconciliation](./228-relocated-practice.md) uses a new pre-access frozen ledger and the exact completed176055 output. Model80 versus assisted137–138 gives57.25%/56.93% agreement recall and−42.03%/−41.61% total error; both bounds fail. Preserve original v1 results and separate v2/v3 full-config hashes. A few unmatched cases are selected for an unexecuted spatial proposal. Human accuracy/physical cause remain unavailable; no camera enablement, fresh-window access or220 acquisition follows.
