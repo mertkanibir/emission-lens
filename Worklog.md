@@ -300,3 +300,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Removed the complete overview nature/photo card, sidebar marketing note and team footer. Enlarged and strengthened shared typography, darkened the cream palette, refreshed overview prompts/actions and aligned responsive navigation/context cards. Removed the unused editorial font preload. Updated `frontend/README.md` and `design-qa.md`.
 - **Completed:** Production build, five frontend readiness guards, desktop/compact/tablet/phone visual checks, all workspace menus with dismissal/exclusivity, all four camera destinations, register search/filter/sort, brief selections/copy feedback/local download, overview modes and motion/reduced-motion checks. No new production browser warnings/errors were captured. Original localhost PID 46237 remains running; owned port-3100 test servers were stopped intentionally.
 - **Open:** Scientific calibration/evidence and hosting/persistence dependencies remain assigned to their existing streams. This UI patch changes no contract, worker, emissions calculation or deployment.
+
+
+## 7 November 2026, 20:27 America/New_York / 8 November 2026, 01:27 UTC — Mert
+
+- **Done:** Inventoried frontend measurement consumers in `frontend/INTEGRATION.md` and prepared per-pollutant scenario presentation, signed/null/zero guards and exact local brief-export tests, preserving the finished design.
+- **Completed:** Fourteen focused frontend semantic/render/export tests and frontend TypeScript checks pass. This is a consumer-preparation checkpoint, not end-to-end measurement acceptance.
+- **Open:** Await the documented backend ingestion/registry/read interface before binding route adapters and camera/scenario/brief views. Combined build, isolated accepted-fixture route/read/render/export checks and missing-evidence live checks remain in progress. No transport fields or scientific approval were invented.
