@@ -1,6 +1,6 @@
 # Independent visual crossing review
 
-**Owner:** Mert. **Updated:** 7 November 2026, 22:18 America/New_York / 8 November 2026, 03:18 UTC.
+**Owner:** Mert. **Updated:** 7 November 2026, 22:55 America/New_York / 8 November 2026, 03:55 UTC.
 
 This package keeps assisted visual review separate from Carter's human reference and pretrained detector/tracker output. It does not run inference. An assisted ledger always records `review_method=assisted_visual_sequence_review` and `human_confirmed=false`. A frozen assisted ledger alone cannot enable a camera, physical speed, calibration or estimated emissions.
 
@@ -74,3 +74,5 @@ See [current status](./report.md) for completed review coverage and limitations.
 **Practice candidate checkpoint (7 November 2026, 22:34 America/New_York / 8 November 2026, 03:34 UTC):** Mert verified the private `fuse_score=false` control/candidate inputs, actual effective arguments and identical source samples. Temporal agreement improves, but source-sequence review confirms duplicate physical passages and one targeted sedan remains missed; the candidate is improved but unapproved. Preserve both ambiguity bounds and original scores. One separate practice-only n/1280 trial with original score fusion/default thresholds is authorized; no new job or rendering may access reserved `[720,840)` before Mert releases it. See the report for hashes, identity evidence and limitations.
 
 **Resolution-only checkpoint (7 November 2026, 22:46 America/New_York / 8 November 2026, 03:46 UTC):** Mert verified n/1280 against the original tracker and unchanged practice inputs. It retains or recovers the six predeclared positive anchors but fails both assisted count bounds overall (76 model versus108–138 assisted). Keep it unapproved, retain partial candidate-screening status and preserve the unopened fresh interval. One final pretrained s/1280 baseline-only comparator is separately authorized; see the report for provenance and limits.
+
+**Final comparator/handoff note (7 November 2026, 22:55 America/New_York / 8 November 2026, 03:55 UTC):** Mert completed the frozen s/1280 baseline-only comparison:77 passages fails both assisted practice count bounds. The CLI wrote its report before a wrapper post-run argument assertion failed; exact resolved-argument/persistence/sample-equality proof is incomplete and explicitly retained, not inferred. No physical-identity assessment is possible from its timestamp-only output. Stop model experiments, keep228 unapproved and preserve the untouched fresh interval. Human adjudication or a separately scoped negative-direction tracking proposal is the next dependency. Nineteen focused harness tests remain passing; see the report for full provenance and bounded coverage.
