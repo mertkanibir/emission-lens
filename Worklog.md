@@ -1214,3 +1214,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Made worker outbox enqueue/publication thread-safe, serialized concurrent flushes without holding the producer mutex during HTTP, and blocked measurement delivery until pending-plan/checkpoint publication completes. Failed publication remains blocked for recovery; exact bytes, FIFO and POSIX/Windows flush rules remain. Updated worker/QUEUE-PORTABILITY.md.
 - **Completed:** Nineteen publisher/portability tests and 42 measurement/runtime tests pass locally, including slow sender versus durable enqueue, concurrent FIFO flushes, unchanged in-flight retry and failed-publication gating. Scoped diff checks pass. Existing runtime remains synchronous and active frozen jobs/apps/outboxes are untouched.
 - **Open:** Bounded asynchronous runtime delivery, controlled before/after performance evidence, native Windows concurrency and configured GPU acceptance; no field accuracy or sustained-operation claim.
+
+
+## 8 November 2026, 03:27 America/New_York / 8 November 2026, 08:27 UTC — Mert
+
+- **Done:** Added worker/delivery.py with one bounded background sender, coalesced notifications, core-before-measurement dependency order, retained exact-byte retries, private fatal-error propagation and bounded shutdown. Added tests/test_delivery.py and dated runtime documentation. Existing runtime integration is unchanged at this helper checkpoint.
+- **Completed:** Five helper tests plus nineteen publisher/portability tests pass; slow delivery does not block enqueue, transient/fatal failures preserve bodies and incomplete measurement plans remain withheld. Scoped diff checks pass. An initial test incorrectly expected a blocked plan to drain before its grace deadline; it now checks the intended bounded stop and retained plan, then recovery, and passes.
+- **Open:** Actual main-loop integration, controlled performance evidence, native Windows/new GPU acceptance; existing healthy processes, settings and private outboxes remain untouched.

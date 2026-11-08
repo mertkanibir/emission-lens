@@ -4,6 +4,8 @@
 **Updated:** 8 November 2026, 02:23 America/New_York / 07:23 UTC
 **Status:** Independent per-camera runtime/config/publisher wiring and conservative image-queue availability are tested on controlled inputs. Existing 222/223 scientific approvals and bounded execution evidence remain separately scoped; this implementation does not activate a new configuration.
 
+**Background sender checkpoint (8 November 2026, 03:29 America/New_York / 08:29 UTC):** Mert added a separately tested background-delivery helper. One thread drains existing bounded disk outboxes; notifications coalesce without retaining payloads in memory. Core observations drain before dependent measurements, each request leases only committed immutable bytes, transient failures retry, fatal failures retain queues and expose only an error type, and shutdown has an explicit grace bound. Five controlled helper tests and nineteen publisher/portability tests pass. Runtime integration and measured before/after performance remain pending; no active worker, configuration or scientific contract changes at this checkpoint.
+
 The runtime connects `worker.traversal.TraversalProducer` through the [versioned bridge](./MEASUREMENTS.md) to [measurement ingestion v1.0](../backend/MEASUREMENT-INGESTION.md). It does not change detector/tracker selection, legacy worker contract 1.1, or the reviewed camera files. The default is disabled.
 
 ## Private configuration
