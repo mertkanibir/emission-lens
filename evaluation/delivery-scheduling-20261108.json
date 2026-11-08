@@ -1,0 +1,130 @@
+{
+  "recorded_at_utc": "2026-11-08T08:32:46.585858+00:00",
+  "owner": "Mert",
+  "scope": "Controlled local loopback HTTP scheduling with synthetic work; no camera, inference, field accuracy or capture latency claim",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-27.3-arm64-arm-64bit"
+  },
+  "settings": {
+    "iterations": 80,
+    "publish_every": 8,
+    "work_s": 0.002,
+    "delay_s": 0.04,
+    "repeats": 3,
+    "durable_fsync": true,
+    "http_response_status": 204
+  },
+  "trials": [
+    {
+      "repeat": 0,
+      "scheduling": "synchronous_baseline_algorithm",
+      "processing_loop_wall_s": 1.255674167,
+      "end_to_end_wall_s": 1.2556755419999999,
+      "synthetic_work_iterations_per_s": 63.710795445551284,
+      "producer_publish_max_s": 0.179764125,
+      "producer_publish_median_s": 0.07551454199999996,
+      "delivered_batches": 10,
+      "attempts": 10,
+      "pending_batches": 0,
+      "identical_ordered_bytes": true,
+      "ordered_payloads_sha256": "c087526baa21e27f5dceffdc24c5d5787e0b50574cac7a3ac7d39ce8fe4c375c"
+    },
+    {
+      "repeat": 0,
+      "scheduling": "background",
+      "processing_loop_wall_s": 0.2566419580000001,
+      "end_to_end_wall_s": 0.8185310830000001,
+      "synthetic_work_iterations_per_s": 311.7183200418069,
+      "producer_publish_max_s": 0.008116583000000066,
+      "producer_publish_median_s": 0.0008639164999999505,
+      "delivered_batches": 10,
+      "attempts": 10,
+      "pending_batches": 0,
+      "identical_ordered_bytes": true,
+      "ordered_payloads_sha256": "c087526baa21e27f5dceffdc24c5d5787e0b50574cac7a3ac7d39ce8fe4c375c"
+    },
+    {
+      "repeat": 1,
+      "scheduling": "background",
+      "processing_loop_wall_s": 0.24083304199999978,
+      "end_to_end_wall_s": 0.8353393749999998,
+      "synthetic_work_iterations_per_s": 332.1803326306034,
+      "producer_publish_max_s": 0.0014080839999999206,
+      "producer_publish_median_s": 0.0006846250000001053,
+      "delivered_batches": 10,
+      "attempts": 10,
+      "pending_batches": 0,
+      "identical_ordered_bytes": true,
+      "ordered_payloads_sha256": "c087526baa21e27f5dceffdc24c5d5787e0b50574cac7a3ac7d39ce8fe4c375c"
+    },
+    {
+      "repeat": 1,
+      "scheduling": "synchronous_baseline_algorithm",
+      "processing_loop_wall_s": 0.7449749579999994,
+      "end_to_end_wall_s": 0.7449763749999994,
+      "synthetic_work_iterations_per_s": 107.38615995196992,
+      "producer_publish_max_s": 0.05408683300000039,
+      "producer_publish_median_s": 0.05110745799999972,
+      "delivered_batches": 10,
+      "attempts": 10,
+      "pending_batches": 0,
+      "identical_ordered_bytes": true,
+      "ordered_payloads_sha256": "c087526baa21e27f5dceffdc24c5d5787e0b50574cac7a3ac7d39ce8fe4c375c"
+    },
+    {
+      "repeat": 2,
+      "scheduling": "synchronous_baseline_algorithm",
+      "processing_loop_wall_s": 1.0646712919999999,
+      "end_to_end_wall_s": 1.064672625,
+      "synthetic_work_iterations_per_s": 75.14056272684772,
+      "producer_publish_max_s": 0.13248237500000037,
+      "producer_publish_median_s": 0.06710631249999999,
+      "delivered_batches": 10,
+      "attempts": 10,
+      "pending_batches": 0,
+      "identical_ordered_bytes": true,
+      "ordered_payloads_sha256": "c087526baa21e27f5dceffdc24c5d5787e0b50574cac7a3ac7d39ce8fe4c375c"
+    },
+    {
+      "repeat": 2,
+      "scheduling": "background",
+      "processing_loop_wall_s": 0.2489941670000002,
+      "end_to_end_wall_s": 0.7850788750000008,
+      "synthetic_work_iterations_per_s": 321.2926670687829,
+      "producer_publish_max_s": 0.0010393750000003976,
+      "producer_publish_median_s": 0.0007723329999995698,
+      "delivered_batches": 10,
+      "attempts": 10,
+      "pending_batches": 0,
+      "identical_ordered_bytes": true,
+      "ordered_payloads_sha256": "c087526baa21e27f5dceffdc24c5d5787e0b50574cac7a3ac7d39ce8fe4c375c"
+    }
+  ],
+  "medians": {
+    "synchronous_baseline_algorithm": {
+      "processing_loop_wall_s": 1.0646712919999999,
+      "end_to_end_wall_s": 1.064672625,
+      "producer_publish_max_s": 0.13248237500000037
+    },
+    "background": {
+      "processing_loop_wall_s": 0.2489941670000002,
+      "end_to_end_wall_s": 0.8185310830000001,
+      "producer_publish_max_s": 0.0014080839999999206
+    }
+  },
+  "processing_loop_wall_reduction_fraction": 0.7661304771989661,
+  "limitations": [
+    "Synthetic sleeps are not GPU inference or actual frame-processing performance.",
+    "This isolates synchronous versus background HTTP scheduling using the same durable outbox implementation.",
+    "Durable disk writes still block producers; one sender does not improve network capacity.",
+    "Shutdown drain time remains part of end-to-end completion; sustained field behavior is untested."
+  ],
+  "source_revision": "3a26b934e32797361dc0cdcc29e57416322f57e4",
+  "source_sha256": {
+    "worker/publish.py": "41e5dbfb5d8604c027e34ad05d436ca72cd75e4bee46a668964d9b3509fd966a",
+    "worker/delivery.py": "f59db918dc481e7fb11046c0c488e450aee36d54662ed1a637b37f4041cc304c",
+    "worker/main.py": "23478816d36cc87c72388cf8f9a1088646f79c45221f3ba295cd6609a6e5dc47",
+    "evaluation/delivery_benchmark.py": "1164e11ea30dc06707c57bdec036220916f2800907d47312845cc56c5698021f"
+  }
+}

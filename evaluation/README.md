@@ -5,6 +5,8 @@
 
 ## Current evidence index
 
+**Delivery scheduling checkpoint (8 November 2026, 03:33 America/New_York / 08:33 UTC):** Mert verified [controlled local background-delivery scheduling](./delivery-scheduling.md): three paired synthetic-work/loopback HTTP trials retained exact ordered bytes and drained queues, with a 76.6% lower median processing-loop wall time. This is I/O scheduling evidence, not measured GPU frame rate or field accuracy; runtime replacement remains separately reviewed.
+
 **Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Current count/readiness evidence is listed first. Original dated run records below retain their original model, sampler, software and acceptance scope.
 
 - [Camera-222 GPU checks and 15 FPS four-camera benchmark](./count-check-175806.md): four requested count JSONs delivered to Carter; job 175806 completed. Four-camera YOLO11s/1280 processing reached 59.94 aggregate FPS with 780 reader-buffer drops over 120 seconds, not loss-free sustained operation.

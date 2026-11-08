@@ -619,6 +619,12 @@ test("explicit complete-minute selection labels its cohort and preserves zero, u
     assert.ok(selected.scenario.pollutants.co2.baseline_g! > 0);
     assert.ok(selected.limitations.some((text) => /not the reporting hour/.test(text)));
     assert.ok(selected.scenario.assumptions.some((text) => /end exclusive/.test(text)));
+    const selectedBrief = draft_brief({ ...selection, stoppedTimeReductionPct: 20 });
+    assert.match(selectedBrief.text, /Explicit selected interval; not the reporting hour/);
+    assert.match(selectedBrief.text, /Linked completed-cohort stopped time: 0 vehicle-seconds/);
+    assert.ok(selectedBrief.text.includes(`baseline ${selected.scenario.pollutants.co2.baseline_g} g`));
+    assert.deepEqual(selectedBrief.evidence_references.slice(2), selected.evidence_refs);
+    assert.throws(() => draft_brief({cameraId:"222",mode:"synthetic",now:NOW,from:selection.from}));
 
     const missingMinute = read_measurement_window({ ...selection, from: "2026-11-07T20:03:00Z" });
     assert.equal(missingMinute.minutes.length, 1);
@@ -647,6 +653,7 @@ test("explicit complete-minute selection labels its cohort and preserves zero, u
     assert.equal(includesUnknown.minutes.length, 2);
     assert.equal(includesUnknown.scenario.pollutants.co2.baseline_g, null);
     assert.equal(includesUnknown.scenario.pollutants.co2.scenario_g, null);
+    assert.match(draft_brief({ ...selection, from: "2026-11-07T20:03:00Z" }).text, /baseline unavailable g/);
     assert.equal(read_measurement_window(selection).scenario.pollutants.co2.change_g, 0);
     const query = new URLSearchParams({ camera: "222", mode: "synthetic", reduce: "20", from: selection.from, to: selection.to });
     const before = readFileSync(path);

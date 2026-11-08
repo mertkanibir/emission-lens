@@ -15,7 +15,7 @@ export interface ReviewItem extends ReviewEvent { created_at: string; updated_at
 function path(): string | null {
   const value = process.env.EMISSION_LENS_REVIEW_PATH;
   if (!value) return null;
-  if (!isAbsolute(value)) throw new IngestError("Review storage must use an absolute private path.", 503);
+  if (!isAbsolute(value) || [process.env.EMISSION_LENS_STORE_PATH,process.env.EMISSION_LENS_REGISTRY_PATH,process.env.EMISSION_LENS_CONTEXT_CACHE_PATH].includes(value)) throw new IngestError("Review storage must use an absolute private path.", 503);
   return value;
 }
 function validateEvent(e: ReviewEvent) {
@@ -25,8 +25,8 @@ function events(): ReviewEvent[] {
   const p = path();
   if (!p || !existsSync(p)) return [];
   try {
-    if (statSync(p).size > 4 * 1024 * 1024) throw new Error();
-    const value = JSON.parse(readFileSync(p, "utf8"));
+    if (statSync(/* turbopackIgnore: true */ p).size > 4 * 1024 * 1024) throw new Error();
+    const value = JSON.parse(readFileSync(/* turbopackIgnore: true */ p, "utf8"));
     if (value.review_version !== "1.0" || !Array.isArray(value.events) || value.events.length > 3000) throw new Error();
     const seen = new Set<string>(), reviews = new Set<string>();
     for (const e of value.events) { validateEvent(e); if (seen.has(e.event_id) || (e.action === "create" ? reviews.has(e.review_id) : !reviews.has(e.review_id))) throw new Error(); seen.add(e.event_id); reviews.add(e.review_id); }
@@ -79,7 +79,7 @@ export function append_review(value: unknown, now = new Date()): ReviewEvent {
     } else throw new IngestError("Unsupported review action.",400);
     validateEvent(event); const content=JSON.stringify({review_version:"1.0",events:[...prior,event]});
     if(Buffer.byteLength(content)>4*1024*1024) throw new IngestError("Review capacity reached.",507);
-    temp=`${p}.${randomUUID()}.tmp`; const out=openSync(temp,"wx",0o600); try{writeFileSync(out,content);fsyncSync(out);}finally{closeSync(out);} renameSync(temp,p);temp=undefined;
+    temp=`${p}.${randomUUID()}.tmp`; const out=openSync(temp,"wx",0o600); try{writeFileSync(out,content);fsyncSync(out);}finally{closeSync(out);} renameSync(/* turbopackIgnore: true */ temp,/* turbopackIgnore: true */ p);temp=undefined;
     const dir=openSync(dirname(p),"r");try{fsyncSync(dir);}finally{closeSync(dir);}return event;
   } finally { if(temp&&existsSync(temp))unlinkSync(temp);closeSync(fd);unlinkSync(lock); }
 }

@@ -1,4 +1,4 @@
-import { cameraById, type Mode } from "@emission-lens/contracts";
+import { cameraById, sumStrict, type Mode } from "@emission-lens/contracts";
 import {
   get_camera_status,
   get_context,
@@ -8,6 +8,12 @@ import {
 } from "./queries.ts";
 import { compare_scenario } from "./scenario.ts";
 import { loadRegistry, registryStatus } from "./registry.ts";
+import { read_measurement_window } from "./measurements.ts";
+import { trafficFor } from "./store.ts";
+import { latestQueueObservation } from "./queries.ts";
+import { get_external_context } from "./context.ts";
+import { read_reviews } from "./reviews.ts";
+import { get_factor_catalog_status } from "../../emissions/src/index.ts";
 
 export interface Brief {
   camera_id: string | null;
@@ -136,7 +142,10 @@ export function draft_brief(input: {
   mode: Mode;
   stoppedTimeReductionPct?: number;
   now?: Date;
+  from?: string;
+  to?: string;
 }): Brief {
+  if(input.from!==undefined||input.to!==undefined)return scopedBrief(input);
   const now = input.now ?? new Date();
   const camera = cameraById(input.cameraId);
   const status = get_camera_status(input.cameraId, input.mode, now);
@@ -210,4 +219,24 @@ export function draft_brief(input: {
     model: null,
     review_status: "draft",
   };
+}
+
+function scopedBrief(input:{cameraId:string;mode:Mode;stoppedTimeReductionPct?:number;now?:Date;from?:string;to?:string}):Brief {
+  const view=read_measurement_window({...input,stoppedTimeReductionPct:input.stoppedTimeReductionPct??20});
+  const rows=trafficFor(input.mode).filter(r=>r.camera_id===input.cameraId&&Date.parse(r.minute)>=Date.parse(view.from)&&Date.parse(r.minute)<Date.parse(view.to));
+  const queue=latestQueueObservation(rows);
+  const lines=["Investigation brief",`Camera: ${cameraById(input.cameraId)?.name} (${input.cameraId}).`,`Mode: ${input.mode}. Replay and synthetic observations are separate from live totals.`,`Window: ${view.from} to ${view.to} (UTC, end exclusive). Explicit selected interval; not the reporting hour.`,`Crossings in selected interval: ${sumStrict(rows.map(r=>r.count))??"unavailable"}.`,`Completed-cohort count: ${view.scenario.completed_cohort.count??"unavailable"}.`,`Linked completed-cohort stopped time: ${view.scenario.completed_cohort.baseline.stopped_time_s??"unavailable"} vehicle-seconds.`,queue.queue_count===null?`Latest selected-minute queue: unavailable. ${queue.queue_observation.reason}`:`Latest selected-minute queue: ${queue.queue_count>0?"At least ":"Observed "}${queue.queue_count} visible stopped vehicles at ${queue.queue_observation.minute}; provisional image observation, not physical queue length or engine state.`];
+  for(const pollutant of ["co2","nox"] as const){const p=view.scenario.pollutants[pollutant];lines.push(`Estimated ${pollutant==="co2"?"CO2":"NOx"}: baseline ${p.baseline_g??"unavailable"} g; hypothetical ${input.stoppedTimeReductionPct??20}% shorter-stop scenario ${p.scenario_g??"unavailable"} g; signed change ${p.change_g??"unavailable"} g (${p.change_pct??"unavailable"}%).`);}
+  lines.push(...view.scenario.assumptions,...view.limitations,"Suggested next step: inspect flagged observations and the fixed movement/fleet assumptions before considering a traffic study. No measured air quality, engine-running identification or demonstrated savings follows.","This draft can be reviewed and exported. It is not sent anywhere.");
+  return{camera_id:input.cameraId,mode:input.mode,evidence_references:[`camera:${input.cameraId}`,`selected:${view.from}/${view.to}`,...view.evidence_refs],text:lines.join("\n"),model:null,review_status:"draft"};
+}
+
+/** Enrichment is read-only and never changes the calculation's retained inputs. */
+export async function draft_planning_brief(input:{cameraId:string;mode:Mode;stoppedTimeReductionPct?:number;now?:Date;from?:string;to?:string}):Promise<Brief>{
+  const brief=draft_brief(input),window=read_measurement_window(input),context=await get_external_context(input),reviews=read_reviews(input),catalog=get_factor_catalog_status(),registry=loadRegistry();
+  const versions=[...new Set(window.minutes.map(m=>m.mapping_version).filter((v):v is string=>v!==null))];
+  const mix=versions.map(v=>registry.document?.mappings.find(m=>m.version===v)).filter(m=>m!==undefined).map(m=>`Fleet mapping ${m.version}: ${Object.entries(m.mapping.classes).map(([c,weights])=>`${c} = ${weights?.map(w=>`${w.vmt_share} ${w.emfac_class}`).join(" + ")}`).join("; ")}. Explicit VMT assumptions, not measured fuel or regulatory weight classes.`);
+  const weather=context.weather;
+  const annotations=reviews.items.length?reviews.items.slice(0,20).map(r=>`Review ${r.review_id}: ${r.state}; ${r.issue}; ${r.target.minute}; ${r.author} at ${r.updated_at}: ${r.note.slice(0,500)}${r.note.length>500?" [excerpt; full note in review history]":""}`):["No review annotations are recorded for this interval. This is not evidence approval."];
+  return{...brief,text:[brief.text,`Factor provenance: CARB ${catalog.model_version}; ${catalog.factor_version}; ${catalog.region}, ${catalog.calendar_year}, ${catalog.season}; ${catalog.process}, ${catalog.units}; retrieved ${catalog.retrieved_at}. ${catalog.source_url}`,"Scientific scope: observed fixed movement only; RUNEX includes ordinary stops; no separate idle process, extra EV discount, uncertainty interval, concentration or health-risk claim.",...mix,`Calibration versions in selected records: ${[...new Set(window.minutes.map(m=>m.calibration_version??"unavailable"))].join(", ")||"unavailable"}. Owner approval does not independently establish surveyed scale or traversal accuracy.`,`External context: ${weather.state}; ${weather.source}; retrieved ${weather.retrieved_at??"unavailable"}; applicable hour ${weather.applicable_at??"unavailable"}. ${weather.reason}`,...(weather.values?[`Weather model values: temperature ${weather.values.temperature_c??"unavailable"} °C; humidity ${weather.values.relative_humidity_pct??"unavailable"}%; wind ${weather.values.wind_speed_m_s??"unavailable"} m/s from ${weather.values.wind_direction_deg??"unavailable"}°. ${weather.source_url}`]:[]),...context.limitations,"Review annotations preserve the original observations and do not approve calibration or change computed numbers.",...(reviews.items.length>20?[`Review summary includes the latest 20 of ${reviews.items.length} items; full immutable history remains in Evidence review.`]:[]),...annotations].join("\n"),evidence_references:[...brief.evidence_references,...reviews.items.slice(0,20).map(r=>`review:${r.review_id}`)]};
 }
