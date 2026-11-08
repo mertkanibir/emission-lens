@@ -1,0 +1,66 @@
+{
+  "updated_at_utc": "2026-11-08T15:30:03.251612+00:00",
+  "owner": "Mert",
+  "web_source": "884a037d08afa10c1d3fbbc3d1664928ddb1d70e",
+  "worker_source": "aa64458705f33966142cd3a5cb09cb7044e1c593",
+  "job": "176920",
+  "cpus": 48,
+  "h100_mig_slices": 2,
+  "requested_memory_gb": 128,
+  "quantity_floor_utc": "2026-11-08T15:23:00Z",
+  "nominal_stop_utc": "2026-11-08T18:23:30Z",
+  "allocation_end_utc": "2026-11-08T18:36:06Z",
+  "sample_wall_s": 40,
+  "processing_fps": {
+    "222": 15.047,
+    "223": 15.002
+  },
+  "native_distinct_video_fps": {
+    "222": 9.66,
+    "223": 9.61
+  },
+  "reader_drop_delta": {
+    "222": 28,
+    "223": 0
+  },
+  "preview_post_fps": {
+    "222": 12.05,
+    "223": 12.3
+  },
+  "preview_failure_delta": 0,
+  "frame_gets": 660,
+  "frame_get_errors": 0,
+  "baseline_core_preserved": 3651,
+  "baseline_measurements_preserved": 515,
+  "prior_pending_files_preserved": 519,
+  "current_pending": {
+    "core": 0,
+    "measurements": 0
+  },
+  "quantity_floor_violations": 0,
+  "synthetic_demo": {
+    "complete_minutes_per_camera": 60,
+    "cameras": [
+      "222",
+      "223"
+    ],
+    "measurement_snapshots": 120,
+    "class_rows": 480,
+    "pollutant_rows": 240,
+    "persisted_live_writes": 0,
+    "approvals_apply_only_to_synthetic": true
+  },
+  "tests": {
+    "backend": 142,
+    "frontend": 99,
+    "types": "pass",
+    "immutable_build": "pass"
+  },
+  "limits": [
+    "Synthetic observations are fictional and cannot support a real traffic decision.",
+    "Same-vehicle scenarios are conditional estimates, not demonstrated signal benefits.",
+    "Processing rate and actual delivered video differ.",
+    "28 new reader drops occurred for222 in the bounded40-second run.",
+    "220/228 remain excluded; independent physical/scientific validation and hosted persistence remain open."
+  ]
+}

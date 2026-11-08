@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:31 America/New_York / 8 November 2026, 15:31 UTC
+
+- **Who:** Mert
+- **Done:** Installed source884a037 on3152 with the isolated rich synthetic demo, refined technical map/rounded layout and plain-language planning/PDF recommendations; promoted job176920 to48CPUs/two GPU slices for three hours. Preserved other workstreams' documentation edits, staging only this turn's master-plan status line.
+- **Completed:**142 backend/99 frontend checks, types/build, actual browser scenario/video/PDF checks and four rendered report pages pass. Both live feeds advance at~15FPS processing/~9.6FPS native video. All3651 core/515 measurement baseline entries and519 pending bodies are preserved; current queues are empty.
+- **Still open:** Bounded reader drops/transport pauses, independent physical/scientific validation and hosted persistence remain.220/228 stay excluded; synthetic data remain fictional. Concurrent documentation edits remain with their owning workstream.
+
 ### 8 November 2026, 10:27 America/New_York / 8 November 2026, 15:27 UTC
 
 - **Who:** Mert
