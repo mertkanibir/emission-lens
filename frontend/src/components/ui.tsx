@@ -82,8 +82,8 @@ export function EmissionQuantity({ value }: { value: number | null }) {
   const kilograms = Math.abs(value) >= 1000;
   const unit = kilograms ? "kg" : "g";
   const shown = kilograms ? value / 1000 : value;
-  const text = scenarioValue(shown, unit, false, Math.abs(shown) >= 1 ? 1 : 6);
-  return <span className="q" title={`${value} g`}>{text.slice(0, -(unit.length + 1))}<span className="q-unit">{unit}</span></span>;
+  const text = kilograms ? new Intl.NumberFormat("en-US", {maximumFractionDigits:1}).format(shown) : scenarioValue(shown, "g", false, Math.abs(shown) >= 1 ? 1 : 6).slice(0, -2);
+  return <span className="q" title={`${value} g`}>{text}<span className="q-unit">{unit}</span></span>;
 }
 
 export function Readout({

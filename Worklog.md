@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:27 America/New_York / 8 November 2026, 15:27 UTC
+
+- **Who:** Mert
+- **Done:** Corrected the clipped kilogram decimal identified by the completed readout regression and corrected the preceding premature passing-check record; the faulty source was never deployed.
+- **Completed:** All99 frontend checks, nonincremental frontend TypeScript and whitespace pass after the correction.
+- **Still open:** Final immutable build and installed browser acceptance.
+
 ### 8 November 2026, 10:26 America/New_York / 8 November 2026, 15:26 UTC
 
 - **Who:** Mert
