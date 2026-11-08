@@ -1,0 +1,609 @@
+{
+  "state": "PASS_bounded_current_live_evidence",
+  "checked_at": "2026-11-08T07:21:26.133765+00:00",
+  "actual_step": "176075.4",
+  "application_source": "685dc72e2dab3c8be437f467ae96d2957daa99ba",
+  "producer_source": "685dc72e2dab3c8be437f467ae96d2957daa99ba",
+  "producer_metrics_content_revision": "59d2ac7",
+  "producer_recipe_sha256": "48cbd734aa930ad68b382b62c450cc04742b526621d70d868ece45ed0aae1f98",
+  "expected_multi_provenance": "|multi:634ef5084b432ad6400be338b890e1a7|t:hls-min-anchor-v1",
+  "registry_sha256": "5d0f07f9995c42c97116961958b3f34d077bbfa52756ec715726f8ec8142b638",
+  "baseline_preserved": {
+    "worker": 735,
+    "measurement": 60
+  },
+  "source_heartbeats_advance": true,
+  "both_have_supported_completed_cohort": true,
+  "generation_races_reacquired": 0,
+  "authenticated_private_public_traffic_and_fresh_process_equal": true,
+  "original_CARB_baseline_same_cohort_20pct_oracle": true,
+  "public_linked_minute_aggregates_match_validated_source": true,
+  "samples": [
+    {
+      "snapshot_sha256": "7dbb1c990e9e249a5f06e52f32bd0a0906711726c463601e2b104f923de76d88",
+      "current_authenticated_reads": 10,
+      "cameras": {
+        "222": {
+          "completed_candidates": 7,
+          "positive_stops": 2,
+          "zero_stops": 5,
+          "unknown_stops": 0,
+          "ready_nonempty_minutes": 2,
+          "queue_minute_states": {
+            "zero": 0,
+            "positive": 0,
+            "unavailable": 5,
+            "ambiguous": 0
+          },
+          "minutes": [
+            {
+              "minute": "2026-11-08T07:19:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:17:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:18:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 3,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 14.59296249937412,
+                  "scenario_g": 14.59296249937412,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.002570643243100297,
+                  "scenario_g": 0.002570643243100297,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:20:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 4,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 16.641254991931735,
+                  "scenario_g": 16.641254991931735,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.003073284017503824,
+                  "scenario_g": 0.003073284017503824,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:21:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            }
+          ],
+          "latest_queue": {
+            "queue_count": null,
+            "queue_length_m": null,
+            "queue_observation": {
+              "state": "unavailable",
+              "minute": "2026-11-08T07:21:00.000Z",
+              "reason": "The latest traffic minute has no queue observation; older observations are not substituted."
+            }
+          },
+          "heartbeat": "2026-11-08T07:21:12.493766+00:00",
+          "producer_state": "live"
+        },
+        "223": {
+          "completed_candidates": 17,
+          "positive_stops": 0,
+          "zero_stops": 17,
+          "unknown_stops": 0,
+          "ready_nonempty_minutes": 3,
+          "queue_minute_states": {
+            "zero": 0,
+            "positive": 1,
+            "unavailable": 4,
+            "ambiguous": 0
+          },
+          "minutes": [
+            {
+              "minute": "2026-11-08T07:17:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 1,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 2.6624843250791215,
+                  "scenario_g": 2.6624843250791215,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.0006098449347684886,
+                  "scenario_g": 0.0006098449347684886,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:18:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 9,
+              "queue_observation": {
+                "state": "positive",
+                "value": 2
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 25.242668468541915,
+                  "scenario_g": 25.242668468541915,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.005455668855428518,
+                  "scenario_g": 0.005455668855428518,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:19:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 7,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 18.92882654792617,
+                  "scenario_g": 18.92882654792617,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.0037395370899818443,
+                  "scenario_g": 0.0037395370899818443,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:20:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:21:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            }
+          ],
+          "latest_queue": {
+            "queue_count": null,
+            "queue_length_m": null,
+            "queue_observation": {
+              "state": "unavailable",
+              "minute": "2026-11-08T07:21:00.000Z",
+              "reason": "The latest traffic minute has no queue observation; older observations are not substituted."
+            }
+          },
+          "heartbeat": "2026-11-08T07:21:11.101044+00:00",
+          "producer_state": "live"
+        }
+      }
+    },
+    {
+      "snapshot_sha256": "3a1d91cddad2793cd6ffde0623f1a990005f08031a72d5691918cfd1b04aa03f",
+      "current_authenticated_reads": 10,
+      "cameras": {
+        "222": {
+          "completed_candidates": 7,
+          "positive_stops": 2,
+          "zero_stops": 5,
+          "unknown_stops": 0,
+          "ready_nonempty_minutes": 2,
+          "queue_minute_states": {
+            "zero": 0,
+            "positive": 0,
+            "unavailable": 5,
+            "ambiguous": 0
+          },
+          "minutes": [
+            {
+              "minute": "2026-11-08T07:19:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:17:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:18:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 3,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 14.59296249937412,
+                  "scenario_g": 14.59296249937412,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.002570643243100297,
+                  "scenario_g": 0.002570643243100297,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:20:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 4,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 16.641254991931735,
+                  "scenario_g": 16.641254991931735,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.003073284017503824,
+                  "scenario_g": 0.003073284017503824,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:21:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            }
+          ],
+          "latest_queue": {
+            "queue_count": null,
+            "queue_length_m": null,
+            "queue_observation": {
+              "state": "unavailable",
+              "minute": "2026-11-08T07:21:00.000Z",
+              "reason": "The latest traffic minute has no queue observation; older observations are not substituted."
+            }
+          },
+          "heartbeat": "2026-11-08T07:21:23.452832+00:00",
+          "producer_state": "live"
+        },
+        "223": {
+          "completed_candidates": 17,
+          "positive_stops": 0,
+          "zero_stops": 17,
+          "unknown_stops": 0,
+          "ready_nonempty_minutes": 3,
+          "queue_minute_states": {
+            "zero": 0,
+            "positive": 1,
+            "unavailable": 4,
+            "ambiguous": 0
+          },
+          "minutes": [
+            {
+              "minute": "2026-11-08T07:17:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 1,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 2.6624843250791215,
+                  "scenario_g": 2.6624843250791215,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.0006098449347684886,
+                  "scenario_g": 0.0006098449347684886,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:18:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 9,
+              "queue_observation": {
+                "state": "positive",
+                "value": 2
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 25.242668468541915,
+                  "scenario_g": 25.242668468541915,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.005455668855428518,
+                  "scenario_g": 0.005455668855428518,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:19:00.000Z",
+              "ready": true,
+              "linked_observation_current": true,
+              "completed_candidates": 7,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": 18.92882654792617,
+                  "scenario_g": 18.92882654792617,
+                  "change_g": 0.0
+                },
+                "nox": {
+                  "baseline_g": 0.0037395370899818443,
+                  "scenario_g": 0.0037395370899818443,
+                  "change_g": 0.0
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:20:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            },
+            {
+              "minute": "2026-11-08T07:21:00.000Z",
+              "ready": false,
+              "linked_observation_current": true,
+              "completed_candidates": 0,
+              "queue_observation": {
+                "state": "unavailable",
+                "value": null
+              },
+              "pollutants": {
+                "co2": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                },
+                "nox": {
+                  "baseline_g": null,
+                  "scenario_g": null,
+                  "change_g": null
+                }
+              }
+            }
+          ],
+          "latest_queue": {
+            "queue_count": null,
+            "queue_length_m": null,
+            "queue_observation": {
+              "state": "unavailable",
+              "minute": "2026-11-08T07:21:00.000Z",
+              "reason": "The latest traffic minute has no queue observation; older observations are not substituted."
+            }
+          },
+          "heartbeat": "2026-11-08T07:21:22.863163+00:00",
+          "producer_state": "live"
+        }
+      }
+    }
+  ],
+  "operator_pending_diagnostics": {
+    "pending_worker": 0,
+    "pending_measurements": {
+      "222": 0,
+      "223": 0
+    },
+    "exit_record_exists": false
+  },
+  "delivery_diagnostics_scope": "Latest separate operator pull, not atomic with these ingestion snapshots; ongoing worker not required to end or drain.",
+  "ongoing_worker": true,
+  "bounds": {
+    "worker_seconds": 7200,
+    "step_wall_seconds": 7380,
+    "parent_allocation_end_utc": "2026-11-08T11:12:38Z"
+  },
+  "scientific_limits": [
+    "Two bounded advancing samples, not sustained/field/stopped/count accuracy or full delivery acceptance.",
+    "220/228 remain outside this two-camera producer; stale views are not new live observations.",
+    "No numeric queue/zero/benefit is forced; no ordinary-idle/EV adjustment or savings claim.",
+    "Image stopped time does not establish engine state; estimates retain owner-approved distance/fleet/weather assumptions.",
+    "Historical223queue2 is a visible lower bound; latest07:21queue remains null for both cameras.",
+    "The prior conservative replay735/60baseline and all published partial/success history remain unchanged."
+  ],
+  "runtime_source_changed_by_audit": false,
+  "launcher_record_started_at_utc": "2026-11-08T07:17:32.874525+00:00",
+  "observed_run_started_at_utc": "2026-11-08T07:17:39.458804+00:00",
+  "last_snapshot_entry_counts": {
+    "worker": 785,
+    "measurement": 70
+  }
+}
