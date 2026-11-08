@@ -1370,3 +1370,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Replaced unresponsive client map-tab transitions with native canonical network links, and removed the redundant narrow-map overlay covering a badge. Compacted marker labels without losing values or dates.
 - **Completed:** Frontend TypeScript and diff checks pass; prior production build, two visible heat markers, selected-interval scenario arithmetic and no document overflow were observed.
 - **Still open:** Final rebuild and repeat tab/mobile acceptance before publication. No API, formula, worker, contract or private persistence changes.
+
+### 8 November 2026, 08:42 America/New_York / 8 November 2026, 13:42 UTC
+
+- **Who:** Mert
+- **Done:** Fixed phone marker shrink-to-fit sizing, removed the redundant small-map location pill and moved the compact fit control above imagery attribution.
+- **Completed:** Actual native emissions navigation, two supported points and344px document reflow pass; prior final-source production build passed.
+- **Still open:** Rebuild this CSS-only correction, inspect final map and publish/cut over3152. Source records, contract and producer remain unchanged.
