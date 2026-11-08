@@ -3182,3 +3182,48 @@ body {
     min-height: 42px;
   }
 }
+
+/* Technical workspace — Mert, 8 November 2026. */
+.technical-workspace { max-width: 100%; overflow: clip; }
+.technical-workspace .skip-link { left: 20px; }
+.instrument-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 36px; max-width: 1680px; margin: 0 auto; }
+.instrument-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.instrument-brand > span { display: grid; gap: 2px; }
+.instrument-brand strong { font-size: 23px; font-weight: 800; letter-spacing: -.055em; }
+.instrument-brand small { font-size: 11px; font-family: var(--font-data); color: var(--paint-faint); letter-spacing: .025em; }
+.instrument-controls { display: flex; align-items: center; gap: 18px; }
+.workspace-navigation { position: sticky; top: 0; z-index: 12; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 10px 36px; background: #f1e7d8f5; border-block: 1px solid var(--seam-strong); backdrop-filter: blur(16px); }
+.workspace-navigation > nav:first-child { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 22px; }
+.workspace-navigation > nav:first-child > a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 0; font-size: 12px; font-weight: 800; text-decoration: none; }
+.workspace-navigation > nav:first-child > a > span { font: 650 10px var(--font-data); color: var(--paint-faint); }
+.technical-workspace .mode-strip { max-width: 1680px; margin: 0 auto; padding: 12px 36px 0; font-size: 11px; }
+.technical-workspace .mode-switch { border-radius: 4px; padding: 2px; background: transparent; flex-shrink: 0; }
+.technical-workspace .mode-switch a { border-radius: 2px; padding: 6px 10px; font-size: 11px; }
+.technical-workspace .status-menu > summary { border-radius: 4px; font-size: 11px; }
+.technical-workspace .status-popover { border-radius: 5px; }
+.technical-workspace .workspace-footer { max-width: 1680px; width: 100%; margin: 30px auto 0; padding: 24px 36px; font-size: 11px; align-items: start; }
+.technical-workspace .workspace-footer > div { display: grid; gap: 4px; }
+.technical-workspace .workspace-footer > p { max-width: 50ch; }
+.technical-workspace .workspace-footer > nav { display: flex; flex-wrap: wrap; gap: 14px; }
+.technical-workspace .workspace-footer > nav > a { display: inline-flex; align-items: center; gap: 4px; }
+.technical-workspace .page, .technical-workspace .overview-page { max-width: 1680px; padding: 28px 36px; }
+.technical-workspace section[id] { scroll-margin-top: 88px; }
+@media (max-width: 1100px) {
+  .workspace-navigation { align-items: start; flex-wrap: wrap; gap: 8px; }
+  .workspace-navigation > nav:first-child { gap: 4px 18px; }
+}
+@media (max-width: 600px) {
+  .instrument-header { padding: 18px 16px; gap: 14px; align-items: start; flex-wrap: wrap; }
+  .instrument-brand strong { font-size: 22px; }
+  .instrument-controls { margin-left: auto; gap: 8px; }
+  .instrument-controls .clock { display: none; }
+  .technical-workspace .status-menu > summary > span { display: inline; }
+  .workspace-navigation { position: relative; padding: 8px 16px; }
+  .workspace-navigation > nav:first-child { gap: 0 18px; }
+  .workspace-navigation > nav:first-child > a { font-size: 11px; padding: 7px 0; }
+  .technical-workspace .mode-switch { width: 100%; }
+  .technical-workspace .mode-strip { padding: 12px 16px 0; }
+  .technical-workspace .mode-message { min-width: 200px; }
+  .technical-workspace .page, .technical-workspace .overview-page { padding: 24px 16px; }
+  .technical-workspace .workspace-footer { padding: 22px 16px; }
+}

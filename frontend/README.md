@@ -128,3 +128,7 @@ Verification: all **65 frontend tests**, root `npm run typecheck` and owned-file
 ## Final combined consumer acceptance
 
 **8 November 2026, 02:26 America/New_York / 07:26 UTC — Mert.** [Final acceptance](FINAL-ACCEPTANCE.md) records the frozen `685dc72` build, exact store/token/registry preservation, 65 frontend tests, 18 production desktop/phone/browser checks, exact brief export and actual new two-camera LIVE previews/cards/heat/scenarios. Positive queue bounds and unknowns are visibly distinct; linked stopped zero and the earlier supported 0.133 vehicle-s retain their completed-cohort scope. Cameras 220/228 remain honestly stale/unavailable on 3151. The stable app and bounded live worker remain running; source links continue to name the immutable running build. Scientific, capture-time, sustained-operation and hosting limits are explicit in that record.
+
+## Technical workspace navigation
+
+**8 November 2026, 03:25 America/New_York / 08:25 UTC — Mert.** Replaced sidebar navigation with a compact technical header and five workspace anchors, retaining independent mode selection, data-clock/freshness status, motion controls and immutable source links. Existing deep routes remain available. All 65 frontend tests and nonincremental frontend TypeScript pass. Single-page camera/context/review/planning composition and actual responsive browser acceptance remain in progress; no running application or scientific inputs changed.

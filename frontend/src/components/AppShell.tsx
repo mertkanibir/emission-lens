@@ -6,286 +6,91 @@ import {
 } from "@emission-lens/backend";
 import { type Mode } from "@emission-lens/contracts";
 import Link from "next/link";
-import {
-  Leaf,
-  SquaresFour,
-  VideoCamera,
-  FileText,
-  ShieldCheck,
-  Question,
-  CaretDown,
-  MapPin,
-  Info,
-  ArrowUpRight,
-} from "@phosphor-icons/react/dist/ssr";
+import { CaretDown, Info, ArrowUpRight, Gauge } from "@phosphor-icons/react/dist/ssr";
 import { MotionControl } from "@/components/MotionControl";
 import { WorkspaceMenus } from "@/components/WorkspaceMenus";
 import { Clock } from "@/components/Clock";
 import { LiveRefresh } from "@/components/LiveRefresh";
 import { sourceLinks } from "@/lib/source-links";
-import {
-  formatClock,
-  hrefWith,
-  modeLabel,
-  PACIFIC,
-  zoneAbbreviation,
-} from "@/lib/format";
+import { formatClock, hrefWith, modeLabel, PACIFIC, zoneAbbreviation } from "@/lib/format";
 
 export type Section = "overview" | "camera" | "review" | "brief";
 const MODES: Mode[] = ["live", "replay", "synthetic"];
+const SECTIONS = [
+  { anchor: "network", label: "Network" },
+  { anchor: "selected-camera", label: "Camera evidence" },
+  { anchor: "context", label: "External inputs" },
+  { anchor: "review", label: "Evidence review" },
+  { anchor: "planning", label: "Planning brief" },
+];
 
-export function AppShell({
-  mode,
-  section,
-  modeHref,
-  children,
-}: {
+/** One technical workspace. Dedicated routes remain available as deep links. */
+export function AppShell({ mode, section, modeHref, cameraId = "222", children }: {
   mode: Mode;
   section: Section;
   modeHref: (mode: Mode) => string;
+  cameraId?: string;
   children: React.ReactNode;
 }) {
   const source = sourceLinks(process.env.EMISSION_LENS_WEB_SOURCE_REVISION);
   const cameras = listCameras();
   const statuses = cameras.map((camera) => get_camera_status(camera.id, mode));
-  const fresh = statuses.filter(
-    (status) => status.displayed_state === "live",
-  ).length;
-  const calibrated = cameras.filter(
-    (camera) => get_measurement_registry_status(camera.id, mode).physical_calibration_approved,
-  ).length;
+  const fresh = statuses.filter((status) => status.displayed_state === "live").length;
+  const calibrated = cameras.filter((camera) => get_measurement_registry_status(camera.id, mode).physical_calibration_approved).length;
   const asOf = statuses[0].as_of;
-  const hasTraffic = cameras.some(
-    (camera) =>
-      get_traffic_window({ cameraId: camera.id, mode }).rows.length > 0,
-  );
-  const note =
-    mode === "synthetic"
-      ? "Illustrative test data. Not field measurements; excluded from live totals."
-      : mode === "replay"
-        ? hasTraffic
-          ? "Recorded observations. Kept separate from live totals."
-          : "No replay loaded. Recorded observations will appear here when available."
-        : statuses.every((status) => status.heartbeat_at === null)
-          ? "Waiting for a live worker. Missing observations are unavailable, never zero."
-          : fresh === 0
-            ? "Live mode selected. No fresh processing heartbeat is reported."
-            : "Live observations only. Replay and synthetic samples are excluded.";
-  const names = {
-    overview: "Overview",
-    camera: "Camera detail",
-    review: "Evidence review",
-    brief: "Investigation brief",
-  };
-
+  const hasTraffic = cameras.some((camera) => get_traffic_window({ cameraId: camera.id, mode }).rows.length > 0);
+  const note = mode === "synthetic"
+    ? "Labeled test records. Excluded from live totals."
+    : mode === "replay"
+      ? hasTraffic ? "Recorded observations. Separate from live totals." : "No replay records in the reporting window."
+      : fresh === 0 ? "No fresh processing heartbeat. Retained history remains dated." : "Live processing. Retained estimates and feed freshness are separate.";
+  const workspaceHref = (anchor: string) => `${hrefWith("/", { mode, camera: cameraId })}#${anchor}`;
   return (
-    <div className="app" data-mode={mode}>
+    <div className="app technical-workspace" data-mode={mode}>
       <LiveRefresh mode={mode} />
       <WorkspaceMenus />
-      <a href="#main-content" className="skip-link">
-        Skip to content
-      </a>
-      <aside className="sidebar">
-        <Link
-          className="brand"
-          href={hrefWith("/", { mode })}
-          aria-label="Emission Lens home"
-        >
-          <img
-            className="brand-symbol"
-            src="/brand/mark.svg"
-            width={37}
-            height={40}
-            alt=""
-            style={{ background: "transparent", objectFit: "contain" }}
-          />
-          <span className="brand-lockup">
-            <strong>Emission Lens</strong>
-            <small>A clearer perspective.</small>
-          </span>
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <header className="instrument-header">
+        <Link className="instrument-brand" href={workspaceHref("network")} aria-label="Emission Lens workspace">
+          <img src="/brand/mark.svg" width={34} height={34} alt="" />
+          <span><strong>Emission Lens</strong><small>Traffic observation · emissions modeling</small></span>
         </Link>
-        <span className="sidebar-label">WORKSPACE</span>
-        <nav className="primary-nav" aria-label="Main navigation">
-          <Link
-            aria-label="Overview"
-            title="Overview"
-            href={hrefWith("/", { mode })}
-            aria-current={section === "overview" ? "page" : undefined}
-          >
-            <SquaresFour size={20} />
-            <span>Overview</span>
-          </Link>
-          <details
-            suppressHydrationWarning
-            data-menu
-            className="sidebar-cameras"
-            data-active={section === "camera"}
-          >
-            <summary aria-label="Camera network" title="Camera network">
-              <VideoCamera size={20} />
-              <span>Camera network</span>
-              <CaretDown size={12} />
-            </summary>
-            <div>
-              {cameras.map((camera) => (
-                <Link
-                  key={camera.id}
-                  aria-label={`Camera ${camera.id}, ${camera.name}`}
-                  href={hrefWith(`/cameras/${camera.id}`, { mode })}
-                >
-                  <span>{camera.id}</span>
-                  <span>
-                    {camera.name
-                      .replace("SR-107 at ", "")
-                      .replace("SR-1 at ", "")}
-                  </span>
-                </Link>
-              ))}
+        <div className="instrument-controls">
+          <Clock />
+          <MotionControl />
+          <details suppressHydrationWarning data-menu className="status-menu">
+            <summary aria-label="Data status"><Gauge size={16} /><span>{fresh}/{cameras.length} fresh</span><CaretDown size={12} /></summary>
+            <div className="status-popover">
+              <strong>Processing status</strong>
+              <p>Evaluated at the selected mode's data clock.</p>
+              <dl>
+                <div><dt>Fresh heartbeats</dt><dd>{fresh} / {cameras.length}</dd></div>
+                <div><dt>Registry-approved calibrations</dt><dd>{calibrated} / {cameras.length}</dd></div>
+                <div><dt>RUNEX factor catalog</dt><dd>Available</dd></div>
+              </dl>
+              <p>Approval and fresh imagery do not establish field accuracy. Counts, completed traversals and estimates have separate support.</p>
             </div>
           </details>
-          <Link
-            aria-label="Evidence review"
-            title="Evidence review"
-            href={hrefWith("/review", { mode })}
-            aria-current={section === "review" ? "page" : undefined}
-          >
-            <ShieldCheck size={20} />
-            <span>Evidence review</span>
-          </Link>
-          <Link
-            aria-label="Planning brief"
-            title="Planning brief"
-            href={hrefWith("/brief", { mode })}
-            aria-current={section === "brief" ? "page" : undefined}
-          >
-            <FileText size={20} />
-            <span>Planning brief</span>
-          </Link>
+        </div>
+      </header>
+      <div className="workspace-navigation">
+        <nav aria-label="Workspace sections">
+          {SECTIONS.map((item, index) => <Link key={item.anchor} href={workspaceHref(item.anchor)} aria-current={section === "overview" && index === 0 ? "page" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</Link>)}
         </nav>
-        <div className="sidebar-bottom">
-          <details suppressHydrationWarning data-menu className="help-menu">
-            <summary aria-label="How it works" title="How it works">
-              <Question size={20} />
-              <span>How it works</span>
-            </summary>
-            <div className="help-content">
-              <strong>Observations, then estimates.</strong>
-              <p>
-                Camera line crossings describe traffic. Calibrated traversals
-                and regional factors support estimated tailpipe CO₂ and NOₓ.
-              </p>
-              <p>
-                These are not measured air quality or health-risk scores. A
-                missing value means unavailable.
-              </p>
-              <a
-                href="https://ww2.arb.ca.gov/our-work/programs/msei/on-road-emfac"
-                target="_blank"
-                rel="noreferrer"
-              >
-                About CARB factors <ArrowUpRight size={14} />
-              </a>
-              <p>
-                Project code: AGPL-3.0-only, without warranty. Upstream materials
-                retain their own terms.
-              </p>
-              <a href={source.notice}>Project notice <ArrowUpRight size={14} /></a>
-              <a href={source.availability}>Source availability <ArrowUpRight size={14} /></a>
-            </div>
-          </details>
-        </div>
-      </aside>
-      <div className="workspace">
-        <header className="topbar">
-          <div className="workspace-crumb">
-            <span>Workspace</span>
-            <span>/</span>
-            <strong>{names[section]}</strong>
-          </div>
-          <div className="topbar-actions">
-            <Clock />
-            <MotionControl />
-            <details suppressHydrationWarning data-menu className="status-menu">
-              <summary aria-label="Data status">
-                <span className="status-dot" />
-                <span>Data status</span>
-                <CaretDown size={12} />
-              </summary>
-              <div className="status-popover">
-                <strong>What is connected?</strong>
-                <p>
-                  Health is evaluated at the data clock for the selected mode.
-                </p>
-                <dl>
-                  <div>
-                    <dt>Fresh heartbeats</dt>
-                    <dd>
-                      {fresh} / {cameras.length}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Registry-approved calibrations</dt>
-                    <dd>
-                      {calibrated} / {cameras.length}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Regional factors</dt>
-                    <dd>Available</dd>
-                  </div>
-                </dl>
-                <p>
-                  Emissions also require completed traversals and documented
-                  vehicle-class mappings.
-                </p>
-              </div>
-            </details>
-          </div>
-        </header>
-        <div className="workspace-toolbar">
-          <span className="location-label">
-            <MapPin size={16} /> Torrance, California
-          </span>
-          <nav className="mode-switch" aria-label="Data mode">
-            {MODES.map((option) => (
-              <Link
-                key={option}
-                href={modeHref(option)}
-                aria-current={option === mode ? "page" : undefined}
-              >
-                <span className={`swatch swatch-${option}`} />
-                {modeLabel(option)}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <div className="mode-strip" role="note" aria-label="Data provenance">
-          <Info size={16} />
-          <span className="mode-tag">{modeLabel(mode)}</span>
-          <span className="mode-message">{note}</span>
-          <span className="data-clock">
-            Data as of {formatClock(asOf, PACIFIC)}{" "}
-            {zoneAbbreviation(asOf, PACIFIC)}{" "}
-            <span>/ {formatClock(asOf, "UTC")} UTC</span>
-          </span>
-        </div>
-        <main id="main-content" className="app-body">
-          {children}
-        </main>
-        <footer className="workspace-footer">
-          <span>
-            <Leaf size={13} /> Estimated emissions. Evidence before conclusions.
-          </span>
-          <div>
-            <span>Caltrans cameras · CARB factors</span>
-            <nav aria-label="Licence and source">
-              <a href={source.licence}>Licence · AGPL-3.0</a>
-              {" · "}
-              <a href={source.source}>{source.sourceLabel}</a>
-            </nav>
-          </div>
-        </footer>
+        <nav className="mode-switch" aria-label="Data mode">
+          {MODES.map((option) => <Link key={option} href={modeHref(option)} aria-current={option === mode ? "page" : undefined}><span className={`swatch swatch-${option}`} />{modeLabel(option)}</Link>)}
+        </nav>
       </div>
+      <div className="mode-strip" role="note" aria-label="Data provenance">
+        <Info size={14} /><span className="mode-tag">{modeLabel(mode)}</span><span className="mode-message">{note}</span>
+        <span className="data-clock">Data as of {formatClock(asOf, PACIFIC)} {zoneAbbreviation(asOf, PACIFIC)} / {formatClock(asOf, "UTC")} UTC</span>
+      </div>
+      <main id="main-content" className="app-body">{children}</main>
+      <footer className="workspace-footer">
+        <div><strong>Emission Lens</strong><span>Torrance, California · Mert and Carter</span></div>
+        <p>Estimated tailpipe emissions. No measured air quality, exposure or engine-running inference.</p>
+        <nav aria-label="Licence and source"><a href={source.licence}>AGPL-3.0</a><a href={source.source}>{source.sourceLabel} <ArrowUpRight size={12} /></a><a href={source.notice}>Notices</a></nav>
+      </footer>
     </div>
   );
 }

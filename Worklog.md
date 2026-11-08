@@ -1187,3 +1187,9 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Published `backend/CONTEXT-REVIEW.md` before implementation, defining additive context/review 1.0 and strict selected-window brief interfaces, durable annotation-only audit, local operator session/CSRF boundaries and timestamped weather provenance.
 - **Completed:** Current plan/coordination and official Open-Meteo API documentation reviewed; interface/privacy/null and original-evidence rules documented. Patch whitespace passes.
 - **Still open:** Implement and verify durable reviews, external context, scoped drafts and their reusable panels. No runtime, worker, scientific approval or original measurement changed.
+
+## 8 November 2026, 03:25 America/New_York / 08:25 UTC — Mert
+
+- **Done:** Replaced frontend sidebar with compact workspace navigation, technical identity/status controls and responsive top-level shell.
+- **Completed:** All 65 frontend tests and nonincremental TypeScript pass; mode/freshness/source controls retain their boundaries.
+- **Open:** Shared camera-detail composition, context/review/brief panels and isolated final browser acceptance remain in progress. No service, data store, calibration or worker was changed.
