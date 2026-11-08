@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 8 November 2026, 00:23 America/New_York / 05:23 UTC
+**Updated:** 8 November 2026, 00:35 America/New_York / 05:35 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -196,7 +196,7 @@ Mert independently checked two successive reads: fresh live status, advancing he
 
 Carter's three new email handoffs were read: the actual combined 222/223 registry and 223 traversal configuration; a queued 220 video/metadata pair with its model reference kept separate; and practice diagnostic suggestions for 228. The [223 preparation](./backend/223-HANDOFF.md) validates the actual attachments and preserves 222's calibration/mapping, but a changed registry fingerprint requires retained-derivation refresh and exact UI scope support. No active registry was swapped. New saved 228 v3 calibration/movements do not approve counting or replace a blind reference; its unchanged count-1 gate can be reviewed by semantic identity. Carter retains labeling/training and physical-calibration ownership.
 
-| Current role | Concrete next result | Boundary |
+| Role at the 00:23 checkpoint | Concrete next result | Boundary |
 |---|---|---|
 | Full-Stack Engineer — 1 | Isolated combined-registry integration, refreshed retained 222 evidence and explicit activation/rollback handoff for 223 | Private cloned store/app only; no active 222 writer, registry or service replacement. |
 | Full-Stack Engineer — 2 | Reconcile the newly frozen 228 practice ledger; retain the reference-withheld 220 source handoff for the next released checkpoint | No duplicate blind viewing or broad full-file expansion. |
@@ -207,3 +207,26 @@ Carter's three new email handoffs were read: the actual combined 222/223 registr
 | Project Manager | Integrate evidence, review blinded count-1 practice work and resolve acceptance dependencies | Fresh 228 `[720,840)` stays unviewed; no accuracy or environmental benefit inferred. |
 
 An additional blind reviewer owns only 228 practice `[60,180)` and freezes a timestamped ledger before model/reference release, with `human_confirmed=false`. Root planning, role names and checkpoint records are coordinated here; each work stream publishes its own scoped results. Contract 1.1 / measurement 1.0, approvals, ordinary-idle handling and missing-data rules are unchanged.
+
+## Role reset and publishing cadence — 8 November 2026, 00:35 America/New_York / 05:35 UTC
+
+Mert requested an immediate role reset using the current lineup and a second frontend engineer. Every work stream received a priority handoff to finish its current atomic action safely, acknowledge its ownership and continue in the following scope. This steers the work without stopping the healthy 222 worker, its production app or another stream's publication.
+
+| Current role | Responsibility and immediate checkpoint | Write boundaries |
+|---|---|---|
+| Assistant | Read new Carter/project emails, deduplicate and route source-based handoffs; maintain release/Devpost/demo material and implement the selected AGPL-3.0 route | `release/`, agreed root licence/notices files, private mail state; coordinate manifest or UI source-link changes with their owner. |
+| Full-Stack Software Engineer — 1 | Wire authenticated APIs, registry refresh/rollback and an independent one-process 223 replay app/store/preview handoff | Existing backend integration paths and private runtime; agree core-file overlap with Back-End — 1. |
+| Full-Stack Software Engineer — 2 | Validate video/count evidence, reconcile blind ledgers and retain geometry/source provenance | `evaluation/video_validation/` and scoped private review artifacts; no model/gate tuning or new compute. |
+| Back-End Software Engineer — 1 | Verify ingestion durability, retry/deduplication, persistence/restart and reliability acceptance | `evaluation/reliability/`, focused new reliability checks and private probes; propose core policy changes before editing. |
+| Back-End Software Engineer — 2 | Own actual worker/GPU execution, SSH/relays and bounded delivery recipes | Existing runtime/worker execution evidence; Carter retains labeling/training/model decisions. |
+| Front-End Software Engineer — 1 | Own primary dashboard and exact measurement-profile/scope disclosures; hand off the reviewed combined 222/223 build | Reserved scope resolver/component/tests and `frontend/INTEGRATION.md`; preserve production 3138 and shared generated output. |
+| Front-End Software Engineer — 2 | Verify/fix concrete responsive, keyboard/accessibility, preview/replay/menu and brief/export usability issues | Agreed preview/action/menu components and dedicated acceptance docs/tests, separate copied build/store/browser tab; no shared style edits without agreement. |
+| Project Manager | Resolve priorities, approve concrete integration releases, independently inspect evidence and maintain central planning | Root planning/coordination records; preserve scientific acceptance and privacy boundaries. |
+
+**Email cadence:** A recurring five-minute check is active in the Assistant conversation, with an immediate manual check also assigned. It uses the connected Binghamton mailbox and a private processed-message-ID watermark under `runs/coordination/email-triage/`. Report only new actionable handoffs, preserve sender/time/source provenance and blind-reference separation, and validate email proposals before any implementation. Do not send external mail, change read state, archive/delete messages, expose credentials or launch jobs from email. The local app/computer and connected account must remain available for scheduled checks; busy work can delay a scheduled turn. This is an email check, not an automation monitoring the live job.
+
+**Release decision:** Mert approved the AGPL-3.0 open-source route for the covered project code. The Assistant implements licence/source-availability/notices and records remaining third-party obligations; no Enterprise purchase or claim of blanket compliance follows. Devpost submission, public publishing/contact and contributor/account settings remain separate, unperformed steps.
+
+**Push cadence:** Publish each small coherent verified milestone immediately, aiming for 5–10 minute shareable checkpoints during active coding when ready. Include the required dated notes and own Worklog entry for each published slice. Hold broken/unsafe/secret-bearing changes, preserve concurrent edits, never manufacture empty commits or skip checks, and never force-push. Use `mkdir /tmp/emission-lens-publish.lock` for a short exclusive index/Worklog publication operation and release it on exit; do not hold it during builds/tests or commit another stream's files.
+
+The completed [isolated reliability replay](./evaluation/reliability/README.md) recovered delivery without mixing modes. The [relocated 228 practice comparison](./evaluation/video_validation/228-relocated-practice.md) still fails both assisted ambiguity bounds; sampled coverage is not human truth. Neither changes production scientific approval. Camera 223 remains a separate staged integration checkpoint, 220 stays queued and 228 `[720,840)` remains unviewed. All current data contracts and ordinary-idle/null rules are unchanged.

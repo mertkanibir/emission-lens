@@ -6,7 +6,7 @@ Guidance for coding agents and teammates working in this repository.
 
 **Coordination:** Mert coordinates project decisions, data/product/dashboard work, and implementation agents. Carter’s proposed ownership is vision and emissions unless the team changes that.
 
-**Last updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC. Pushes must use the mertkanibir or CarterWhite8232 GitHub account.
+**Last updated:** 8 November 2026, 00:35 America/New_York / 05:35 UTC. Pushes must use the mertkanibir or CarterWhite8232 GitHub account.
 
 ---
 
@@ -48,6 +48,8 @@ Do not add a `Co-authored-by` or `Made-with` trailer for a tool or model. That t
 ### 3. Push when nothing looks broken
 
 If the turn changed tracked files, commit and push to the current remote branch before ending the turn.
+
+**Publishing cadence (8 November 2026, 00:35 America/New_York / 05:35 UTC):** Mert requested more frequent GitHub pushes. Publish each small, coherent, verified milestone as soon as it is ready rather than waiting for the whole assignment. During active coding, aim for a shareable checkpoint every 5–10 minutes when available. This does not waive checks, timestamped records, author/account rules or the requirement to preserve other work streams' edits; do not create empty commits merely to meet a clock. Coordinate shared index and Worklog operations with the short publication lock described in Coordination.md.
 
 Push when the change is coherent and nothing you ran looks broken. Hold the push when a check you ran failed, the app or worker no longer starts, the change would commit a secret, or the tree is left in a state you know is unsafe to share. Say that clearly in `Worklog.md`.
 
