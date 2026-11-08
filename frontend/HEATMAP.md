@@ -1,0 +1,33 @@
+# Supported-minute emissions heat map
+
+**Owner:** Mert
+
+**Updated:** 7 November 2026, 23:31 America/New_York / 8 November 2026, 04:31 UTC
+
+**Status:** Mounted and browser-verified against actual camera-222 records; the bounded GPU worker has stopped.
+
+The overview's **Emissions heat map** uses the latest supported measurement minute for each camera. The server reads `read_measurement_window`, selects an approved camera/mode/calibration/mapping snapshot, and sends only its timestamp and pollutant values to the map. `CameraMap` supplies a GeoJSON source and a MapLibre heat layer. Existing page refreshes re-read the source every ten seconds in live/replay mode.
+
+This is a **camera-point visualization of estimated CO₂**, not a pollution concentration, plume, exposure surface or whole-intersection total. Display weighting is monotonic and capped at 100 g for legibility; glow radius is in screen pixels. It carries no physical coverage meaning. The selected pin and legend retain the supported minute's timestamp and current processing status. Cameras can therefore show an older supported snapshot while clearly marked Offline. The warmer color is not a health-risk category.
+
+## Evidence and unavailable data
+
+- Live and replay use their own approved records. Synthetic inputs cannot contribute heat points.
+- A newer insufficient-evidence minute does not erase the separately labeled last supported snapshot or become zero. The full reporting-window estimate remains unchanged and may be null.
+- Unsupported, unapproved, mismatched, out-of-window, nonfinite or ambiguous duplicate records contribute no point. Supported zero remains a labeled zero with zero heat weight.
+- No public contract, calculation, calibration approval, frame/model setting, private evidence or worker state is changed by the display.
+
+The initial visual check used a byte-identical full snapshot clone. The mounted read-only consumer was then connected to the **actual authoritative local store and private registry used by the isolated ingestion service**. Both modes' public measurement records and approvals match that service exactly, and the source snapshot hash remains unchanged by consumer reads. The consumer has no worker token. This is one-host file persistence, not shared hosted storage or a Supabase deployment. Future accepted writes to that store are visible through the existing refresh/read-cache invalidation path; no continuous worker is claimed.
+
+Camera 222's supported live minute renders **17.3 g CO₂** at **7 November, 20:00 PST**; replay renders **35.7 g** at **19:58 PST**. Each full window also has an insufficient-evidence minute and retains a null whole-window total. These values retain the owner-approved fixed 20 m, fleet and meteorology assumptions; independent scale/path/traversal accuracy remains open. Other cameras have no supported records in this mounted store, including the separately owner-enabled camera 223.
+
+## Verification
+
+- All **41 frontend tests**, TypeScript and the isolated production build pass. Seven selector tests cover approval/version/mode/row matching, half-open bounds, duplicate rejection, source immutability, small NOₓ and null/zero behavior.
+- An independent lifecycle review caught and fixed waiting on MapLibre's one-time `load` event after later source/tile loads. Initial load now establishes readiness; subsequent data/view changes update immediately.
+- Browser verification confirms the rendered layer is ready with one live heat point, the timestamped 17.3 g pin and Offline state, Traffic hides the glow, Replay switches to its own 35.7 g snapshot, Synthetic clears all points, and returning to Live restores only its record. No browser errors were reported.
+- Scope/assumption disclosure, unavailable window totals and the existing per-minute evidence remain visible. Original localhost is unchanged.
+
+The review page is **http://127.0.0.1:3138/?camera=222&view=emissions**. Its private process/source pointer is retained outside Git at `/tmp/emission-lens-heatmap-path.json`; records age out of the rolling reporting hour normally. The screenshot is retained outside the public repository. No source timestamps are rewritten to keep a demonstration visible.
+
+Map behavior follows the [MapLibre heatmap example](https://maplibre.org/maplibre-gl-js/docs/examples/create-a-heatmap-layer/) and [style specification](https://maplibre.org/maplibre-style-spec/layers/).

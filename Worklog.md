@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 23:34 America/New_York / 8 November 2026, 04:34 UTC
+
+- **Who:** Mert
+- **Done:** Mounted the overview emissions heat layer using each camera's latest approved supported-minute snapshot, explicit timestamp/status and a camera-point CO₂ legend. Added strict selector coverage, live source updates, null/zero/duplicate guards and the initial-load lifecycle fix. Connected the read-only production consumer to the authoritative camera-222 ingestion store/registry without a worker token. Reconciled Plan.md, README.md and Coordination.md with the completed real delivery/dashboard checks and Carter's newly enabled assisted-review camera 223; documented heat-map behavior in frontend/HEATMAP.md.
+- **Completed:** All 41 frontend tests, frontend TypeScript, isolated production build, documentation links and whitespace checks pass. Independent review confirms lifecycle, source/mode/approval and scientific labeling. Browser checks show one 17.3 g live snapshot point and its timestamp/Offline state; Traffic hides the glow, Replay uses its own 35.7 g snapshot, Synthetic clears points and Live restores its own reading, with no browser errors. Consumer/source API records match in both modes and source snapshot bytes remain unchanged. A private screenshot and the running loopback review page are retained. Earlier independent backend verification passed all 105 tests; real replay/live persistence, reload/private arithmetic and exact brief/export checks are recorded separately.
+- **Still open:** The bounded 222 GPU worker is stopped; a heat point is a retained supported snapshot, never current processing, whole-window coverage, concentration or exposure. Incomplete whole-window totals and positive stopped-time scenarios remain null. Camera 223's configured delivery/private handoff and human-reference evidence, camera 228's unresolved deficit, independent scale/path/traversal validation, longer outage/reliability checks, hosted persistence and final rehearsal/submission remain open. No new training, production model promotion, GPU job, source timestamp rewrite, private evidence or credential was added.
+
 ### 7 November 2026, 23:04 America/New_York (04:04 UTC)
 
 - **Who:** Carter

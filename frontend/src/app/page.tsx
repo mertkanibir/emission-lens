@@ -10,6 +10,7 @@ import { AppShell } from "@/components/AppShell";
 import { OverviewBoard } from "@/components/OverviewBoard";
 import { registryCalibrationState } from "@/lib/measurement";
 import { measurementScope } from "@/lib/measurement-scope";
+import { latestSupportedMapEstimate } from "@/lib/map-emissions";
 import { hrefWith, parseMode, parseView } from "@/lib/format";
 
 export default async function OverviewPage({
@@ -27,6 +28,7 @@ export default async function OverviewPage({
     traffic: get_traffic_window({ cameraId: camera.id, mode, now }),
     emissions: get_emissions_window({ cameraId: camera.id, mode, now }),
     calibration: registryCalibrationState(get_measurement_registry_status(camera.id, mode)),
+    mapEstimate: latestSupportedMapEstimate(read_measurement_window({ cameraId: camera.id, mode, now })),
   }));
   const selectedId = cameras.some((item) => item.camera.id === query.camera)
     ? query.camera!

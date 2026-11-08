@@ -6,6 +6,9 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowsOut } from "@phosphor-icons/react";
+import type { MapEmissionEstimate } from "@/lib/map-emissions";
+import { cameraHeatData, EMISSIONS_LAYER, EMISSIONS_SOURCE, emissionsHeatLayer } from "@/lib/map-heat";
+import { formatInstant, PACIFIC, type MapView } from "@/lib/format";
 
 export interface MapCamera {
   id: string;
@@ -16,6 +19,7 @@ export interface MapCamera {
   stateLabel: string;
   valueLabel: string;
   href: string;
+  emissions: MapEmissionEstimate | null;
 }
 const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 function softenStyle(style: StyleSpecification): StyleSpecification {
@@ -55,9 +59,11 @@ function motionAllowed() {
 export function CameraMap({
   cameras,
   selectedId,
+  view,
 }: {
   cameras: MapCamera[];
   selectedId: string | null;
+  view: MapView;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -66,6 +72,7 @@ export function CameraMap({
   const previous = useRef(selectedId);
   const [ready, setReady] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
+  const [heatReady, setHeatReady] = useState(false);
   const router = useRouter();
   camerasRef.current = cameras;
   const markerKey = JSON.stringify(cameras);
@@ -129,7 +136,9 @@ export function CameraMap({
         });
         observer.observe(element);
         mapRef.current = map;
-        setReady(true);
+        map.once("load", () => {
+          if (!cancelled) setReady(true);
+        });
       })
       .catch((error) => {
         if (!cancelled && error.name !== "AbortError")
@@ -151,6 +160,40 @@ export function CameraMap({
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !ready) return;
+    let cancelled = false;
+    const update = () => {
+      try {
+        if (!map.getSource(EMISSIONS_SOURCE))
+          map.addSource(EMISSIONS_SOURCE, { type: "geojson", data: cameraHeatData(camerasRef.current) });
+        if (!map.getLayer(EMISSIONS_LAYER)) map.addLayer(emissionsHeatLayer);
+        map.setLayoutProperty(EMISSIONS_LAYER, "visibility", view === "emissions" ? "visible" : "none");
+        const source = map.getSource(EMISSIONS_SOURCE) as maplibregl.GeoJSONSource;
+        void source.setData(cameraHeatData(camerasRef.current)).then(() => {
+          if (!cancelled) setHeatReady(true);
+        }).catch(() => {
+          if (!cancelled) {
+            setHeatReady(false);
+            setProblem("The emissions heat layer could not load. Camera records remain available below.");
+          }
+        });
+      } catch {
+        if (!cancelled) {
+          setHeatReady(false);
+          setProblem("The emissions heat layer could not load. Camera records remain available below.");
+        }
+      }
+    };
+    // ready records the initial style load. Later tile/source loading must not
+    // defer a mode change onto the map's one-time load event.
+    update();
+    return () => {
+      cancelled = true;
+    };
+  }, [ready, markerKey, view]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
     markersRef.current.forEach((marker) => marker.remove());
     markersRef.current = camerasRef.current.map((camera) => {
       const anchor = document.createElement("a");
@@ -160,8 +203,9 @@ export function CameraMap({
       anchor.dataset.selected = String(camera.id === selectedId);
       anchor.setAttribute(
         "aria-label",
-        `Camera ${camera.id}, ${camera.name}, ${camera.stateLabel}, ${camera.valueLabel}`,
+        `Camera ${camera.id}, ${camera.name}, ${camera.stateLabel}, ${camera.valueLabel}${view === "emissions" && camera.emissions ? `, latest supported minute ${formatInstant(camera.emissions.minute, PACIFIC)}` : ""}`,
       );
+      anchor.title = anchor.getAttribute("aria-label")!;
       if (camera.id === selectedId) anchor.setAttribute("aria-current", "true");
       const number = document.createElement("span");
       number.className = "mm-number";
@@ -196,7 +240,7 @@ export function CameraMap({
       anchor.removeAttribute("role");
       return marker;
     });
-  }, [ready, markerKey, selectedId, router]);
+  }, [ready, markerKey, selectedId, router, view]);
 
   useEffect(() => {
     if (!ready || previous.current === selectedId) return;
@@ -227,7 +271,9 @@ export function CameraMap({
         className="map-canvas"
         ref={container}
         role="region"
-        aria-label="Map of camera locations"
+        aria-label={view === "emissions" ? "Heat map of latest supported camera emissions" : "Map of camera locations"}
+        data-heat-layer-ready={heatReady}
+        data-heat-points={cameraHeatData(cameras).features.length}
       />
       <button
         className="map-reset"

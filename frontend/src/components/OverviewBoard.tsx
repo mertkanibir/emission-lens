@@ -24,10 +24,12 @@ import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
 import { MeasurementScope } from "@/components/MeasurementScope";
 import type { measurementScope } from "@/lib/measurement-scope";
+import type { MapEmissionEstimate } from "@/lib/map-emissions";
 import { scenarioValue } from "@/lib/scenario-presentation";
 import { Quantity, StateChip, EmissionQuantity } from "@/components/ui";
 import {
   formatAge,
+  formatInstant,
   formatWindow,
   hrefWith,
   PACIFIC,
@@ -41,6 +43,7 @@ type CameraCard = {
   traffic: ReturnType<typeof get_traffic_window>;
   emissions: ReturnType<typeof get_emissions_window>;
   calibration: "missing" | "invalid" | "valid";
+  mapEstimate: MapEmissionEstimate | null;
 };
 const filters = [
   { key: "all", label: "All cameras" },
@@ -68,7 +71,7 @@ export function OverviewBoard({
   const selected =
     cameras.find((item) => item.camera.id === selectedId) ?? cameras[0];
   const traffic = selected.traffic;
-  const observedMinutes = new Set(traffic.rows.map((row) => row.minute)).size;
+  const observedMinutes = new Set(traffic.rows.map((row) => new Date(row.minute).toISOString())).size;
   const expectedMinutes = Math.round(
     (Date.parse(traffic.to) - Date.parse(traffic.from)) / 60000,
   );
@@ -234,13 +237,14 @@ export function OverviewBoard({
                   href={cameraHref(selectedId, "emissions")}
                   aria-current={view === "emissions" ? "page" : undefined}
                 >
-                  Estimated emissions
+                  Emissions heat map
                 </Link>
               </nav>
             </header>
             <div className="map-pane">
               <CameraMap
                 selectedId={selectedId}
+                view={view}
                 cameras={cameras.map((item) => ({
                   id: item.camera.id,
                   name: item.camera.name,
@@ -250,19 +254,29 @@ export function OverviewBoard({
                   stateLabel: stateLabel(item.status.displayed_state),
                   valueLabel:
                     view === "emissions"
-                      ? item.emissions.estimate_g_by_pollutant.co2 === null
+                      ? item.mapEstimate === null
                         ? "CO₂ unavailable"
-                        : `${scenarioValue(item.emissions.estimate_g_by_pollutant.co2, "g")} CO₂`
+                        : `${scenarioValue(item.mapEstimate.co2_g, "g", false, item.mapEstimate.co2_g >= 1 ? 1 : 6)} CO₂ · snapshot`
                       : item.traffic.totals.count === null
                         ? "Counts unavailable"
                         : `${item.traffic.totals.count} crossings`,
                   href: cameraHref(item.camera.id),
+                  emissions: item.mapEstimate,
                 }))}
               />
               <span className="map-location-pill">
                 <MapPin size={14} /> South Bay, Los Angeles County
               </span>
             </div>
+            {view === "emissions" ? (
+              <div className="map-heat-legend" aria-label="Emissions heat map legend">
+                <div><span className="map-heat-ramp" aria-hidden="true" /><strong>Lower → higher estimated CO₂ · snapshot grams</strong></div>
+                <p>Latest supported minute snapshot per camera; coverage varies. Glow marks camera estimates; it does not describe pollution spread or exposure.</p>
+                <p>{selected.mapEstimate
+                  ? `Camera ${selectedId}: ${formatInstant(selected.mapEstimate.minute, PACIFIC)} · ${stateLabel(selected.status.displayed_state)}. Other minutes may be unavailable.`
+                  : `Camera ${selectedId}: no supported emissions snapshot in this window.`} {cameras.filter((item) => item.mapEstimate !== null).length} of {cameras.length} cameras have supported estimates.</p>
+              </div>
+            ) : null}
             <nav
               className="station-index"
               aria-label="Select an observation station"
