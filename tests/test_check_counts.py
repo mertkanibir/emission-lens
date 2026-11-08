@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 
 from evaluation.check_counts import clock, load_config, reviewed_copy, summarize
@@ -32,7 +31,6 @@ def test_reviewed_copy_leaves_the_file_unvalidated():
     copy = reviewed_copy(load_config("222"))
     assert copy.enabled and copy.image_geometry_status == "reviewed"
     assert path.read_text(encoding="utf-8") == before
-    assert json.loads(before)["enabled"] is False
 
 
 def test_read_manual_parses_times_directions_and_comments(tmp_path):

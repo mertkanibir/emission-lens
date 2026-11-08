@@ -1,8 +1,8 @@
 {
   "camera_id": "222",
   "version": "222-image-v3",
-  "enabled": false,
-  "image_geometry_status": "unvalidated",
+  "enabled": true,
+  "image_geometry_status": "reviewed",
   "road_region": [
     [
       0.5914,

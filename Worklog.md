@@ -33,6 +33,12 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Published the exact worker.measurement bridge API before implementation in worker/MEASUREMENTS.md, aligned with the separate authorized measurement v1 envelope. Scoped work to the new module, focused tests and its document.
 - **Completed:** Proposed complete minute snapshots, no worker-supplied distance/approval/grams, stable UUID/revisions, ordered clock-rebin retractions, nullable linked stops, explicit observation references, bounded fail-closed retention and prepare/commit checkpoint ordering for the unchanged dedicated Outbox/HttpSender. Reviewed current ingestion/parser and runtime delivery APIs.
 - **Still open:** Implement and test the bridge, including actual TypeScript parser conformance and retry/restart behavior. Engineering retains runtime call sites and server work; model/count/calibration acceptance and camera enablement remain separate. No public schema or runtime file changed.
+### 7 November 2026, 21:15 America/New_York (02:15 UTC)
+
+- **Who:** Carter
+- **Done:** Accepted camera 222's `count-1` gate on a held-out window and enabled `config/cameras/222.measurement.json` (`222-image-v3`, reviewed). Evidence is in `evaluation/calibration/222-count-acceptance.json` with Carter's crossing-by-crossing answer key.
+- **Completed:** On clip 6:00-8:00 (66 hand-recorded crossings, geometry frozen before scoring, sha256 `2f53d91c...`), Mert's GPU runs at 15 fps matched one to one within 1.5 s: yolo11s/1280 recall 95.5%, precision 91.3%, count +4.5%; yolo11n/640 recall 92.4%, precision 91.0%, count +1.5%. Both pass the proposed bar (recall >= 85%, count within 15%).
+- **Still open:** Mert to confirm the acceptance bar. The live worker must run 222 with `--count-gate-id count-1` and `--fps 15`. count-2 is not accepted. Cameras 220, 223, and 228 stay disabled. No physical calibration yet, so no emissions.
 
 ### 7 November 2026, 20:39 America/New_York / 8 November 2026, 01:39 UTC
 

@@ -1,0 +1,110 @@
+{
+ "camera_id": "222",
+ "geometry_version": "222-image-v3",
+ "geometry_sha256_before_enabling": "2f53d91c44cbf4b85c5901493942fa30acb81c219e73dc36313c424b92d38e6a",
+ "designated_gate": "count-1",
+ "directions": "both",
+ "clip": "222_20261107T220646Z.ts (Caltrans CCTV-222 public HLS, recorded 2026-11-07 22:06:46Z; not committed)",
+ "observation_point": "bottom centre of the tracked box",
+ "metrics_settings": {
+  "min_track_hits": 3,
+  "hysteresis": 0.01,
+  "max_gap_s": 1.0
+ },
+ "proposed_acceptance": {
+  "min_recall": 0.85,
+  "max_abs_count_error": 0.15,
+  "status": "proposed by Carter to Mert; confirm before relying on it"
+ },
+ "practice_window": {
+  "clip_time": "1:00-3:00",
+  "note": "Used while redrawing gates v1-v3, so not held out.",
+  "manual_totals": {
+   "count-1": 47,
+   "count-2": 90
+  },
+  "model_totals_15fps": {
+   "yolo11s_1280": {
+    "count-1": 47,
+    "count-2": 79
+   },
+   "yolo11n_640": {
+    "count-1": 45,
+    "count-2": 77
+   }
+  },
+  "model_totals_5fps_yolo11s_1280": {
+   "count-1": 37,
+   "count-2": 37
+  }
+ },
+ "held_out_window": {
+  "clip_time": "6:00-8:00",
+  "answer_key": "222-count-1-manual-clip-6m00-8m00.txt, recorded by Carter crossing by crossing before viewing model output",
+  "answer_key_sha256": "be5bb8b442c9b80305ae161400acd3858352371e1fb7e57ed723eac56d7439b6",
+  "matching": "one to one, same direction, within 1.5 s of clip time, closest pairs first",
+  "gpu_job": "run by Mert on the Empire AI H100 MIG 1g.10gb slice",
+  "results": {
+   "yolo11s_1280": {
+    "manual": 66,
+    "model": 69,
+    "matched": 63,
+    "recall": 0.9545454545454546,
+    "precision": 0.9130434782608695,
+    "count_error": 0.045454545454545456,
+    "median_time_gap_s": 0.2699999999999818,
+    "missed": [
+     "6:22.4 +",
+     "6:33.6 +",
+     "8:00.0 +"
+    ],
+    "extra": [
+     "6:08.9 +",
+     "6:16.3 -",
+     "6:21.2 -",
+     "6:30.8 +",
+     "7:40.4 +",
+     "7:57.2 +"
+    ],
+    "weights": "yolo11s.pt",
+    "image_size": 1280,
+    "sample_fps": 15.0
+   },
+   "yolo11n_640": {
+    "manual": 66,
+    "model": 67,
+    "matched": 61,
+    "recall": 0.9242424242424242,
+    "precision": 0.9104477611940298,
+    "count_error": 0.015151515151515152,
+    "median_time_gap_s": 0.29000000000002046,
+    "missed": [
+     "6:22.4 +",
+     "6:33.6 +",
+     "6:58.6 -",
+     "7:45.4 -",
+     "8:00.0 +"
+    ],
+    "extra": [
+     "6:00.8 +",
+     "6:09.4 +",
+     "6:21.2 -",
+     "6:30.8 +",
+     "7:41.1 +",
+     "7:57.2 +"
+    ],
+    "weights": "yolo11n.pt",
+    "image_size": 640,
+    "sample_fps": 15.0
+   }
+  }
+ },
+ "finding": "Sampling rate drives accuracy: 5 fps undercounts dense platoons; at 15 fps both yolo11s/1280 and yolo11n/640 pass on the held-out window.",
+ "limitations": [
+  "One camera, one 2-minute held-out window, daytime, one designated gate.",
+  "Image-space crossings only; no physical calibration, speed or emissions.",
+  "One annotator; no second-annotator agreement measured.",
+  "count-2 is not accepted: it counted one direction only and undercounted 90 vs 77-79 at 15 fps."
+ ],
+ "reviewed_by": "Carter (answer key, review); Mert (GPU runs)"
+}
