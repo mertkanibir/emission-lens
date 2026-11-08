@@ -26,6 +26,12 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Created the isolated Junction Lens identity kit in `branding/` and new `frontend/public/brand/` assets. The mark combines curved intersection corners with an observation diamond, using the existing forest/cream/ink palette and outlined bundled Manrope ExtraBold. Added primary, reversed and monochrome SVG lockups/marks, a compact favicon SVG, 16/32 px ICO, five PNG icon sizes, a rendered review sheet, exact tokens, usage notes and a reproducible asset builder.
 - **Completed:** Seven production SVGs parse and render with no live text, external resources or scripts; five RGBA icon dimensions, the two ICO sizes, tokens and the 1200 × 960 review sheet pass checks. Inspected the rendered primary/reversed/single-color lockups and 16/24/32/48/64 px badge checks. The optional authoring dependencies are isolated under `/tmp`; no application dependencies changed. Scoped whitespace checks pass.
 - **Still open:** Mert reviews the identity before deliberate dashboard/favicon integration. No existing frontend source/layout/CSS, scientific contract, camera, model, label, worker or backend was changed. The kit is not activated or externally published and asserts no scientific validation or trademark clearance. Concurrent implementation work remains untouched.
+### 7 November 2026, 20:37 America/New_York (01:37 UTC)
+
+- **Who:** Carter
+- **Done:** Redrew camera 222's gates (`222-image-v3`, frozen for acceptance). Extended `evaluation/check_counts.py` with weights, image size, and frame-rate options, per-event crossing output, and a `match` command that pairs hand-recorded crossings with model crossings one to one by direction within a time tolerance.
+- **Completed:** On clip 1:00-3:00 (used while redrawing, so not held out) Carter counted 47 crossings on count-1 and 90 on count-2. At 5 fps, yolo11s at 1280 found 37 and 37. In the dense 2:10-3:00 stretch, count-2 rose from 28 at 5 fps to 68 at 15 fps, so sampling rate is the main cause of the undercount. yolo11n at 640 undercounted further (count-1 28 of 46 on v1 lines).
+- **Still open:** Full 15 fps runs on the GPU, a held-out hand-recorded answer key for one designated gate on clip 6:00-8:00, an agreed acceptance threshold, and a GPU benchmark of four cameras at yolo11s, 1280 px, 15 fps.
 
 ### 7 November 2026, 20:29 America/New_York / 8 November 2026, 01:29 UTC
 
