@@ -1,99 +1,45 @@
-# Emission Lens demo and replay runbook
+# Technical workspace demonstration
 
 **Owner:** Mert; presentation by Mert and Carter
-**Updated:** 8 November 2026, 02:17 America/New_York / 07:17 UTC
-**Status:** Reviewable three-minute script and operator checklist. Final rehearsal, public demo recording and submission are still open.
+**Updated:** 8 November 2026, 03:54 America/New_York / 8 November 2026, 08:54 UTC
+**Status:** Verified local application; human timed rehearsal, reviewed public media and submission confirmation remain open.
 
-This demonstration shows camera observations, conditional **estimated emissions**, explicit missing evidence and a locally exported investigation brief. It does not establish measured air quality, pollutant concentration, health effects or environmental savings. [Plan.md](../Plan.md) remains the authority; the current operational handoff is [backend/222-HANDOFF.md](../backend/222-HANDOFF.md).
+[Open Emission Lens](http://127.0.0.1:3152/?camera=222&view=emissions). Exact web source is4051e98; [application acceptance](../frontend/TECHNICAL-ACCEPTANCE.md) and [responsibility ledger](./RESPONSIBILITY.md) are the claim boundaries. The new consumer reads protected3151 ingestion/storage/previews. It has a one-page network→camera→inputs→review→planning flow and retains direct routes.
 
-## Final application rehearsal checkpoint — 8 November 2026, 02:17 America/New_York / 07:17 UTC
+## Before presenting
 
-The final combined application at **http://127.0.0.1:3151** is built from exact public source `685dc72`. Its [matching CI](https://github.com/mertkanibir/emission-lens/actions/runs/42457790794), eighteen production desktop/phone interaction checks, current authenticated evidence, independent fresh-process equality and exact retained-store preservation pass. It includes explicitly scoped supported-minute CO₂/NOₓ, completed-cohort count/linked stopped time, visible queue lower bounds and complete-minute scenario selection. Original apps 3138/3139/3150 remain protected. The final 222/223 LIVE candidate is now verified with advancing actual frames, new supported pollutant/stopped records and observed queue lower bounds on both cameras; the user browser is on 3151.
-
-Both new stopped-policy replays **176075.2** are completed and accepted: 222 has 45 crossings / 24 completed; 223 has 128 / 55. Every linked stopped value is a supported zero in these selected practice clips; original-factor 20% scenarios therefore show supported zero change. Empty minutes remain unavailable. [Canonical actual replay evidence](../backend/STOPPED-REPLAY-222-223-176075-2.md) replaces old pending stopped-policy wording. Queue availability is a separate producer observation: positive values mean **at least N currently visible qualified stopped vehicles** under provisional image-area/motion assumptions; uncertain zero stays unavailable. No real saving, engine-running state or complete physical queue is inferred.
-
-## Evidence checkpoint
-
-- Camera 222's completed [job-175979 replay/live check](../evaluation/222-integration-175979.md) is the numerical reference: paced replay produced 30 crossing outputs and 8 completed candidates; bounded live produced 17 and 4. These are pipeline outputs from separate runs, not new manual accuracy scores.
-- Its supported replay minute estimates **35.741459 g CO₂ / 0.006533736 g NOₓ**; supported live minute estimates **17.345262 g CO₂ / 0.003161844 g NOₓ**. Each broader window includes a minute with insufficient evidence, so complete-window totals remain null. Do not use these historical values as the expected result of a different run.
-- The approved camera-222 profile uses a fixed **20 m** movement, documented fleet mapping, **70 °F / 60% relative humidity**, pretrained YOLO11n at 640 pixels and 15 requested FPS. These inputs support conditional calculations. Independent scale, movement-path and manual traversal validation remain open; weather inputs are assumptions, not current observations.
-- The [production handoff](../backend/222-HANDOFF.md) records one application at **http://127.0.0.1:3138**, sharing worker ingestion, measurement ingestion, preview memory and dashboard reads. Mert's public read of `/api/cameras?mode=live` at **05:18:30 UTC** returned camera 222 reported/displayed **live**, with recent processing heartbeat **05:18:26.557043 UTC** and null source-capture timestamp. This is a bounded status observation, not scheduler completion, capture latency or a sustained preview test. Coordination reports job **176075** running; obtain its scalar receipt and genuine matching-frame acceptance before claiming either.
-- Camera 223/count-1 is owner-enabled on an explicitly assisted reference; its configured delivery and independent human-reference result remain pending at this checkpoint. Camera 228's revised gates/recount need a fresh reference and remain unapproved. Carter owns camera 220's pending review. Do not present four calibrated/accepted cameras.
-- The [heat-map check](../frontend/HEATMAP.md) documents supported-minute camera points, separate live/replay values and offline labels. Heat color/radius is a display treatment, not a plume, exposure area or health-risk category. Previous completed workers are stopped; current live state must be checked afresh.
-
-## Prepare the presentation
-
-Mert checks this list with Carter before the 09:00 America/New_York feature-freeze target, rehearses before the 10:00 materials-ready target and completes submission before **11:00 America/New_York / 16:00 UTC on 8 November**. These are targets from [Plan.md §18–20](../Plan.md), not completed steps.
-
-**Morning scheduling decision — 8 November, 00:24 America/New_York / 05:24 UTC:** Job **176075** is capped at **06:12:38 America/New_York / 11:12:38 UTC**, before the 09:00 preparation checkpoint and 11:30 judging start. Its final usable minute will age out of the rolling hour by roughly **07:12 New York / 12:12 UTC**, potentially earlier if processing ends sooner or the estimated media clock lags. Retained disk evidence does not keep an old minute visible in the current reporting hour. The present job therefore does **not** cover judging. See the [recorded allocation schedule](../Coordination.md) and [startup evidence](../evaluation/222-live-restart-176075.md).
-
-- [ ] Before morning preparation, explicitly choose and rehearse either a **later authorized bounded live/replay run** covering the intended demonstration, or a reviewed artifact labeled **Recorded demonstration**. Record the chosen run/mode/window or artifact and its source date. A later run needs its own authorization and fresh delivery/preview/estimate checks; this runbook starts no job. A recorded artifact must not be presented as current live processing or as a currently running replay pipeline.
-- [ ] Confirm the reviewed final application on port 3151 is the intended reviewed build and reads the authoritative store. Use the existing private ready handoff; do not rebuild, restart or reconfigure an active service during the pitch.
-- [ ] Have Mert confirm the current job/run, model/settings, run mode, active relay, recent advancing processing heartbeats, genuine matching frame/overlay previews and persisted rows. A visible old frame or selected Live mode alone is insufficient. If no fresh worker exists, start the presentation in the clearly labeled fallback below.
-- [ ] Confirm a supported camera-222 minute is inside the rolling reporting hour, and note its actual timestamp, CO₂, NOₓ and disclosed assumptions. Observe a later refresh and confirm mode separation. Keep actual values on screen rather than reciting a historical sample.
-- [ ] Open the tabs below and confirm each renders. Camera/site timestamps use **America/Los_Angeles**; the event schedule uses **America/New_York**, and stored timestamps are UTC. Say which time basis is visible.
-- [ ] Confirm both speakers can explain crossing outputs versus completed traversals, approved assumptions versus independent validation, and a snapshot versus a complete reporting-window total.
-- [ ] Confirm the brief preview and an actual downloaded text attachment match for the selected mode/camera. Preserve unavailable values and limitations. Save locally; no external message is sent.
-- [ ] Prepare a reviewed screenshot or recording, a replay evidence tab and the local backup clip. Remove incidental identifying detail from public media; keep raw footage, credentials, private registries and per-vehicle IDs out of the public repository and presentation.
-- [ ] Close private terminals, account menus, notification banners and credential/evidence files before screen recording. Show only public aggregate pages and selected reviewed diagnostic evidence.
-- [ ] Rehearse the timed sequence once with the fallback, verify local downloads and record the final build/commit and artifact paths in the submission checklist. These actions are still pending until actually performed.
-
-### Open tabs
-
-Use the existing local application; these are ordinary GET pages, not commands to launch workers.
-
-| Tab | URL or file | Purpose |
-|---|---|---|
-| Live overview | `http://127.0.0.1:3151/?camera=222&view=emissions` | Supported-minute map snapshot, status, timestamp and assumptions |
-| Live camera | `http://127.0.0.1:3151/cameras/222?mode=live&reduce=20` | Observation, recorded minute history, evidence and unavailable scenario |
-| Replay overview | `http://127.0.0.1:3151/?camera=222&mode=replay&view=emissions` | Visibly distinct replay mode; never relabel it live |
-| Replay camera | `http://127.0.0.1:3151/cameras/222?mode=replay&reduce=20` | Same pipeline/read path in replay mode |
-| Brief | `http://127.0.0.1:3151/brief?camera=222&mode=live&reduce=20` | Reviewable investigation brief and local attachment export; use `mode=replay` during fallback |
-| Historical evidence | [222 integration record](../evaluation/222-integration-175979.md), [scalar receipt](../evaluation/222-integration-175979.json) | Dated completed GPU evidence and limitations if current data is unavailable |
-
-The camera page exposes `#observation`, `#traffic`, `#emissions`, `#scenario` and `#evidence`. Use the camera page’s latest complete supported-minute scenario link. Paired canonical UTC `from`/`to` boundaries select the explicitly labeled measurement/scenario cohort (at most 60 minutes within retained 24 hours); general traffic observations and the brief remain scoped to their reporting hour. Missing/expired records remain unavailable and timestamps are never rewritten.
+1. Check actual advancing processing heartbeats and matching previews. A Live selection or retained image alone is insufficient. The old176075.4 command is bounded around04:17 New York; the separately prepared [continuation](../worker/DELIVERY-CONTINUATION.md) is not active merely because its recipe exists. Original allocation176075 ends06:12:38 New York, before judging. A later authorized live run, labeled same-pipeline replay or dated demonstration remains necessary for judging.
+2. Select camera222 or223. Camera220/228 count screens failed; show their exclusions rather than inventing quantities. The deployed baseline is pretrained n/640, requested15FPS. The unsuccessful fine-tune was not promoted.
+3. If current evidence is incomplete, select a dated retained supported minute explicitly from the24-hour evidence selector. That is historical evidence from Live mode, not a currently running replay or current traffic total. Do not rewrite timestamps or fill a missing hour with a supported minute.
+4. Use the same camera, mode and paired UTC interval across scenario, review and brief. Camera/site display uses America/Los_Angeles; event planning uses America/New_York; storage is UTC.
+5. Inspect context source/retrieval/applicability time and retained factor weather separately. Weather is regional model context; it does not silently replace70°F/60%RH in the retained calculations. No nearby-site, exposure or dispersion claim follows.
+6. Verify local draft download matches the displayed draft. Notes marked workflow validation are software checks, not reported field defects. Keep private terminals, credentials, raw camera media and per-vehicle identities off screen. Retain map attribution in any public screenshots/video.
 
 ## Three-minute script
 
-The segments total **180 seconds**. Mert drives the browser; Carter explains the vision/modeling boundary. Select either live or replay at the beginning and preserve that mode through camera, scenario and brief views.
+The seven segments total180seconds. Mert drives; Carter explains observations and model limits.
 
-| Time | Speaker and action | Spoken script |
+| Time | Speaker / action | Talking point |
 |---|---|---|
-| 0:00–0:20 · 20 s | **Mert:** overview, camera 222 selected | “Existing intersection cameras show traffic. Emission Lens connects those observations to traceable estimates of tailpipe CO₂ and NOₓ. We are showing one camera path under approved assumptions, with the evidence and limits visible.” |
-| 0:20–0:50 · 30 s | **Carter:** camera `#observation`; show processing state and a matching frame if fresh | **Live:** “This camera is being processed on an Empire AI GPU. The fresh processing timestamp and matching frame show current delivery.” **Replay:** “This is recorded camera footage replayed through the same processing pipeline. The application labels it Replay and keeps it separate from live totals.” Then: “Temporary tracking is local to this camera session; crossing a selected gate creates a count.” |
-| 0:50–1:20 · 30 s | **Carter:** `#traffic`, recorded-minute history, then `#evidence` | “Crossing outputs and completed traversals are different. A completed traversal needs an entry, an exit and continuity within one camera session. For this demonstration we use an owner-approved 20-metre movement, fleet mapping and weather assumptions. Independent physical and traversal validation remain open.” |
-| 1:20–1:50 · 30 s | **Mert:** overview emissions pin or `#evidence` supported-minute snapshot | “This timestamped minute has enough completed evidence for conditional estimated emissions. We can inspect its CO₂ and NOₓ separately. The warmer point is a visualization of estimated CO₂, not measured air quality. A different minute may lack evidence, so a whole-window total can remain unavailable even with this snapshot.” |
-| 1:50–2:15 · 25 s | **Carter:** `#scenario`, select latest complete supported minute and show 20% assumption | “This comparison holds the completed vehicle cohort and distance fixed while reducing its linked stopped time hypothetically. These practice cohorts have supported zero stopped time, so the estimate correctly shows zero change. Different factor bins can produce signed increases. Ordinary stops are already included in running-exhaust factors; we add no separate ordinary-idle term.” |
-| 2:15–2:40 · 25 s | **Mert:** brief in the same mode; save the local attachment | “The brief brings the reporting period, available evidence and limitations together for a planner to review. It can be exported locally. It does not contact anyone or claim that a proposed intervention has already worked.” |
-| 2:40–3:00 · 20 s | **Carter:** finish on evidence/overview | “We have demonstrated the GPU-to-dashboard path and reproducible conditional estimates. Next we need independent scale and traversal checks, stronger held-out tracking evidence and longer outage/recovery tests before broader use. The value is a transparent starting point for investigation.” |
+|0:00–0:20 ·20s|Mert · Network|Existing cameras become traceable traffic observations and conditional estimated tailpipe emissions. The map is not measured air quality.|
+|0:20–0:50 ·30s|Carter · Camera evidence|Show the actual mode, heartbeat and matching processed frame. Explain independent camera tracking and crossings versus completed traversals; no cross-camera identity.|
+|0:50–1:25 ·35s|Carter · External inputs|Open the scientific input register: CARB RUNEX factors, fixed15/20m movement, fleet weights and retained meteorology. Contrast timestamped model weather with the calculation assumptions. RUNEX already includes ordinary stops.|
+|1:25–1:55 ·30s|Mert · Evidence interval / Counterfactual|Choose one explicit complete minute. Show CO₂/NOₓ, completed cohort and linked stopped time. Supported zero change is a valid result; an incomplete hour stays unavailable.|
+|1:55–2:25 ·30s|Carter · Evidence review / gates|Show a saved annotation, original reference and state history. Reviews preserve observations rather than granting scientific approval. Explain why220/228 are excluded and why the fine-tune was not promoted.|
+|2:25–2:50 ·25s|Mert · Planning brief|Show the selected interval, source/fleet/weather assumptions and review context. Download the exact displayed draft locally. No automatic messages are sent.|
+|2:50–3:00 ·10s|Carter · Close|The product is a transparent starting point for investigation. Independent physical/traversal/stopped accuracy and sustained reliability remain open.|
 
-If a real supported minute is absent at 1:20, Mert says: “The current reporting hour has insufficient evidence. This dated completed-run record shows what the pipeline previously delivered, under the same disclosed assumptions.” Show the historical record with its timestamp; do not describe it as current data. If the brief is empty, export its honest insufficient-evidence text.
+## Honest fallback
 
-## Replay and interruption fallback
+- If live processing stops, retain the actual offline/degraded state. A dated retained minute can demonstrate evidence inspection, scenarios, annotations and exports without pretending the worker is still running.
+- A running Replay requires a fresh reviewed clip through the same processing/ingestion pipeline, distinct mode/outboxes, actual preview delivery and verified source timing. Selecting Replay alone does not start a worker.
+- If no fresh replay is running, use clearly labeled dated evidence or a reviewed artifact titled **Recorded demonstration**. Historical receipts and screenshots are not a live pipeline. Synthetic mode is a labeled software sample, never the camera-footage fallback.
+- Do not promise current morning/judging availability from an allocation that ends06:12:38. Arrange/rehearse the actual demonstration source before the09:00 freeze/10:00 materials targets. Devpost deadline is11:00 New York /16:00 UTC; final form/registration/confirmation remains a human submission task.
 
-1. If the live heartbeat stops, no matching preview appears or the feed stalls, say: **“Live processing is unavailable; we are switching to labeled replay.”** Keep the actual offline/degraded state visible. Do not call a stale image live.
-2. Select Replay using the mode control or the prepared replay URL; keep the same camera, then follow the timed sequence. A replay selection is not itself proof that a replay worker is running.
-3. A fresh replay must be arranged by Mert using the existing reviewed operator handoff, approvals and same ingestion/measurement/preview pipeline. This runbook grants no new allocation, training or job-start permission. Use separate replay outboxes; verify no live contamination and retain replay's actual playback clock.
-4. The completed job-175979 reference clip is `222_20261108T003312Z.ts`, SHA-256 `e6db50f024cd61dc13140f24d60dbaa2070d962fda1bde6f2da52f10475401d3`. Its scalar provenance is [recorded here](../evaluation/calibration/222-recording-20261108T003312Z.json). Confirm the existing private local file with Mert; no clip is supplied in this public repository. The different earlier count-review clip does not inherit this run's provenance, or vice versa.
-5. Old real/replay rows naturally leave the rolling reporting hour. Do not rewrite recording timestamps, alter the clock, copy historical rows into live mode or install a fabricated approval to keep a heat point visible. If no fresh replay is scheduled, show the dated historical evidence and previously reviewed recording/screenshot, visibly labeled **Recorded demonstration**. This is evidence playback, not a running replay pipeline.
-6. Synthetic mode may demonstrate controlled software behavior only when explicitly announced as **Synthetic sample**. It is not the camera-footage fallback and must never be described as observed traffic or used to fill live totals.
-7. If tiles or network access fail, use the camera/table/evidence pages or the reviewed local recording. If GPU access fails, show the completed dated GPU receipt. Do not imply continuous execution, capture latency or loss-free coverage from a historical bounded check.
+## Verified reference and remaining work
 
-## Final evidence and artifact checklist
+Actual acceptance used camera223/live/08:18–08:19UTC: five completed movement vehicles, supported zero linked stopped time, baseline13.241302851176012gCO₂ /0.0026412900636621113gNOₓ and a supported zero20% hypothetical change. Its ≥2 visible queue is a dated image lower bound, not the current queue. Do not recite these as values from a different interval.
 
-| Item | State at preparation | Required final confirmation |
-|---|---|---|
-| Three-minute narrative and mode-specific URLs | Draft above | Rehearse with Mert and Carter; record elapsed time and any shortened steps |
-| Morning demonstration source | Job 176075 ends by 06:12:38 New York; its final usable minute ages out by roughly 07:12 | Choose a later authorized bounded live/replay run or a reviewed Recorded demonstration artifact before preparation; the current allocation does not cover judging |
-| Current live process and job 176075 | Mert verified camera-222 Live status and a recent heartbeat at 05:18:30 UTC; scheduler job supplied by coordination | Capture reviewed scalar job/receipt, advancing processing/preview and accepted write evidence; distinguish running from completed |
-| Current supported minute | Historical job-175979 example verified | Record the actual rehearsal minute/mode and values; retain missing-window limitations |
-| Same-pipeline replay | Historical bounded check verified | Confirm retained private media and fresh scheduled replay, or explicitly use dated recorded-demo evidence |
-| Screenshot/demo video | Not created by this document | Select final images/video, source/mode/date labels, privacy review and final file/URL |
-| Actual local brief attachment | Earlier exact-export checks recorded | Download from final selected mode, compare with visible brief and retain local artifact |
-| Model/data/map/fonts/branding notices | Release attribution review separate | Resolve the release attribution/licence checklist before external distribution |
-| Team and track | Mert and Carter; Environment planned | Confirm both Devpost team entries and actual track selection |
-| Publication | No submission or public release performed | Mert completes and verifies Devpost confirmation before the deadline |
+The controlled background-delivery experiment reduced synthetic processing-loop wall time76.6% while preserving identical ordered requests and drained queues. See [benchmark](../evaluation/delivery-scheduling.md). This is not a measured GPU FPS, field accuracy, latency or environmental-benefit claim.
 
-Remaining scientific and operational limits: [measurement integration](../evaluation/integration-readiness.md), [current assisted review](../evaluation/video_validation/report.md), [222 count audit](../evaluation/calibration/222-count-audit.md), [timing basis](../evaluation/timing-alignment.md). Contributor/account/settings changes remain on hold and are outside this rehearsal.
-
-**Accepted runtime limit (8 November 2026, 02:26 America/New_York / 07:26 UTC):** Step 176075.4's nominal command wall end is 04:17:33 New York / 09:17:33 UTC, step scheduler limit 04:20:25 New York / 09:20:25 UTC, with possible earlier source/guard/host failure. This run does not cover judging; arrange/rehearse a later authorized run or use a visibly dated recorded demonstration. [Current operating handoff](../worker/LIVE-3151-176075-4.md), [actual combined backend acceptance](../backend/LIVE-3151-176075-4.md). No extra job is created by this runbook.
+Human rehearsal, judging-time live/replay availability, reviewed public screenshots/video, exact Devpost fields/team/track confirmation, remaining model/binary/source obligations and actual submission confirmation remain in [the release checklist](./README.md). No submission, external message or new public deployment is performed by this runbook.

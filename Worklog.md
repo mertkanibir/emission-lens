@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:54 America/New_York / 8 November 2026, 08:54 UTC
+
+- **Who:** Mert
+- **Done:** Replaced the outdated multi-page demo runbook with the current one-page technical workflow and explicit live/retained/replay fallback.
+- **Completed:** Seven script segments total180 seconds; current app/source, input/weather distinction, saved review, exact scoped draft, excluded cameras and controlled benchmark claims link to committed acceptance. No historical value is presented as current.
+- **Still open:** Human timed rehearsal, judging-time availability, reviewed public media, remaining source/model obligations and actual Devpost submission/confirmation.
+
 ### 8 November 2026, 03:53 America/New_York / 8 November 2026, 08:53 UTC
 
 - **Who:** Mert
