@@ -1,0 +1,530 @@
+{
+  "check": "camera_222_carter_requested_gpu_count_comparison",
+  "author": "Mert",
+  "recorded_at_utc": "2026-11-08T02:04:45.797208+00:00",
+  "mode": "replay",
+  "execution": {
+    "check": "carter_camera_222_two_windows_two_models_15fps",
+    "started_at": "2026-11-08T01:57:12.002860+00:00",
+    "job_id": "175806",
+    "node": "alphagpu01",
+    "mode": "replay",
+    "git_commit": "aabbbcead2af7fce0ae6d06d8d08c718120b9b2f",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "python": "3.12.3",
+    "packages": {
+      "torch": "2.7.1+cu128",
+      "ultralytics": "8.4.206",
+      "opencv-python": "5.0.0.93",
+      "lap": "0.5.14"
+    },
+    "clip_sha256": "8ef5814c9dd724de1df3785c641651589ab03a61d3b9decd4071dd04402f79e3",
+    "clip_bytes": 94042864,
+    "clip_metadata_sha256": "3ac62d5622c4721b3d7286382ae0ae5a039314ab81bad9cd126a51ce525f2b2a",
+    "count_script_sha256": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+    "geometry_sha256": "916a6537ff8b216df2d0193aefa9ea2640b7832719630d8e8839a795949a418c",
+    "runner_sha256": "5e92cbebfc5ae1c439aba4902a7b8bd1c3b4b3a5574b47b967760c51ab7d9a2f",
+    "runs": [
+      {
+        "output": "222_60s_120s_yolo11s_1280_15fps_counts.json",
+        "sha256": "e6d77aed0a0b252d6026e5d7b0684ad47654f7f9b4ba23ef56ae2dfd960a8ebe",
+        "frames_processed": 1712,
+        "weights": "yolo11s.pt",
+        "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+        "image_size": 1280,
+        "start_s": 60,
+        "seconds": 120,
+        "sample_fps": 15,
+        "inference_backend_device": "cuda:0",
+        "wall_s": 38.71739809401333,
+        "peak_torch_allocated_mib": 166.162109375
+      },
+      {
+        "output": "222_360s_120s_yolo11s_1280_15fps_counts.json",
+        "sha256": "9fb44c5eb90355fadac89ff835b81fdf35db8e3303d04838d940af2e5ef3d004",
+        "frames_processed": 1738,
+        "weights": "yolo11s.pt",
+        "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+        "image_size": 1280,
+        "start_s": 360,
+        "seconds": 120,
+        "sample_fps": 15,
+        "inference_backend_device": "cuda:0",
+        "wall_s": 35.43865788169205,
+        "peak_torch_allocated_mib": 202.2783203125
+      },
+      {
+        "output": "222_60s_120s_yolo11n_640_15fps_counts.json",
+        "sha256": "62967fed6cddc5712ec3f74541f73c2de367b70f08c4326fe5a22d093717106d",
+        "frames_processed": 1712,
+        "weights": "yolo11n.pt",
+        "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "image_size": 640,
+        "start_s": 60,
+        "seconds": 120,
+        "sample_fps": 15,
+        "inference_backend_device": "cuda:0",
+        "wall_s": 14.534341111779213,
+        "peak_torch_allocated_mib": 128.1142578125
+      },
+      {
+        "output": "222_360s_120s_yolo11n_640_15fps_counts.json",
+        "sha256": "b9f498ad201f85c443bca980d9651f86ee3c8fb83cb0d99d70c652f8ec0cea40",
+        "frames_processed": 1738,
+        "weights": "yolo11n.pt",
+        "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "image_size": 640,
+        "start_s": 360,
+        "seconds": 120,
+        "sample_fps": 15,
+        "inference_backend_device": "cuda:0",
+        "wall_s": 19.70187585055828,
+        "peak_torch_allocated_mib": 135.7744140625
+      }
+    ],
+    "limitations": [
+      "Offline diagnostic reviewed copies only; no saved camera enablement.",
+      "Gate/direction events are separate observations, not summed unique traffic.",
+      "No accepted manual comparison or model promotion is implied by counts.",
+      "Source metadata reports 0 sequence gaps and 3 retrieval errors; no capture UTC or complete coverage claim.",
+      "No frames or tracker identities are in the exported count JSON."
+    ],
+    "benchmark_returncode": 0,
+    "finished_at": "2026-11-08T02:01:29.461209+00:00"
+  },
+  "count_summaries": [
+    {
+      "output": "222_60s_120s_yolo11s_1280_15fps_counts.json",
+      "sha256": "e6d77aed0a0b252d6026e5d7b0684ad47654f7f9b4ba23ef56ae2dfd960a8ebe",
+      "frames_processed": 1712,
+      "weights": "yolo11s.pt",
+      "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+      "image_size": 1280,
+      "start_s": 60,
+      "seconds": 120,
+      "sample_fps": 15,
+      "inference_backend_device": "cuda:0",
+      "wall_s": 38.71739809401333,
+      "peak_torch_allocated_mib": 166.162109375,
+      "geometry_version": "222-image-v3",
+      "gate_counts": {
+        "count-1": {
+          "total": 47,
+          "by_direction": {
+            "negative": 37,
+            "positive": 10
+          },
+          "by_class": {
+            "car": 46,
+            "truck": 1
+          }
+        },
+        "count-2": {
+          "total": 79,
+          "by_direction": {
+            "positive": 79
+          },
+          "by_class": {
+            "car": 66,
+            "truck": 13
+          }
+        }
+      }
+    },
+    {
+      "output": "222_360s_120s_yolo11s_1280_15fps_counts.json",
+      "sha256": "9fb44c5eb90355fadac89ff835b81fdf35db8e3303d04838d940af2e5ef3d004",
+      "frames_processed": 1738,
+      "weights": "yolo11s.pt",
+      "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+      "image_size": 1280,
+      "start_s": 360,
+      "seconds": 120,
+      "sample_fps": 15,
+      "inference_backend_device": "cuda:0",
+      "wall_s": 35.43865788169205,
+      "peak_torch_allocated_mib": 202.2783203125,
+      "geometry_version": "222-image-v3",
+      "gate_counts": {
+        "count-1": {
+          "total": 69,
+          "by_direction": {
+            "positive": 21,
+            "negative": 48
+          },
+          "by_class": {
+            "car": 65,
+            "truck": 4
+          }
+        },
+        "count-2": {
+          "total": 69,
+          "by_direction": {
+            "positive": 69
+          },
+          "by_class": {
+            "car": 60,
+            "truck": 9
+          }
+        }
+      }
+    },
+    {
+      "output": "222_60s_120s_yolo11n_640_15fps_counts.json",
+      "sha256": "62967fed6cddc5712ec3f74541f73c2de367b70f08c4326fe5a22d093717106d",
+      "frames_processed": 1712,
+      "weights": "yolo11n.pt",
+      "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "image_size": 640,
+      "start_s": 60,
+      "seconds": 120,
+      "sample_fps": 15,
+      "inference_backend_device": "cuda:0",
+      "wall_s": 14.534341111779213,
+      "peak_torch_allocated_mib": 128.1142578125,
+      "geometry_version": "222-image-v3",
+      "gate_counts": {
+        "count-1": {
+          "total": 45,
+          "by_direction": {
+            "negative": 36,
+            "positive": 9
+          },
+          "by_class": {
+            "car": 45
+          }
+        },
+        "count-2": {
+          "total": 77,
+          "by_direction": {
+            "positive": 77
+          },
+          "by_class": {
+            "car": 77
+          }
+        }
+      }
+    },
+    {
+      "output": "222_360s_120s_yolo11n_640_15fps_counts.json",
+      "sha256": "b9f498ad201f85c443bca980d9651f86ee3c8fb83cb0d99d70c652f8ec0cea40",
+      "frames_processed": 1738,
+      "weights": "yolo11n.pt",
+      "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "image_size": 640,
+      "start_s": 360,
+      "seconds": 120,
+      "sample_fps": 15,
+      "inference_backend_device": "cuda:0",
+      "wall_s": 19.70187585055828,
+      "peak_torch_allocated_mib": 135.7744140625,
+      "geometry_version": "222-image-v3",
+      "gate_counts": {
+        "count-1": {
+          "total": 67,
+          "by_direction": {
+            "positive": 22,
+            "negative": 45
+          },
+          "by_class": {
+            "car": 66,
+            "bus": 1
+          }
+        },
+        "count-2": {
+          "total": 68,
+          "by_direction": {
+            "positive": 68
+          },
+          "by_class": {
+            "car": 68
+          }
+        }
+      }
+    }
+  ],
+  "scheduler": {
+    "completed_job": {
+      "job_id": "175806",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:04:33",
+      "node": "alphagpu01",
+      "allocation_released": true
+    },
+    "initial_attempt": {
+      "job_id": "175804",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed": "00:00:18",
+      "reason": "Launch wrapper lacked repository import path; fixed before successful rerun. No counts executed in that attempt."
+    }
+  },
+  "preflight": {
+    "tests_passed": 38,
+    "subtests_passed": 17,
+    "command": "python -m pytest tests/test_check_counts.py tests/test_metrics.py tests/test_benchmark.py -q"
+  },
+  "clip_metadata": {
+    "segments": 123,
+    "reported_seconds": 1229.8,
+    "reported_sequence_gaps": 0,
+    "reported_retrieval_errors": 3
+  },
+  "sampling": {
+    "requested_fps": 15,
+    "windows": [
+      {
+        "start_s": 60,
+        "seconds": 120,
+        "decoded_frames": 1723,
+        "processed_frames": 1712,
+        "first_processed_media_s": 60.061,
+        "last_processed_media_s": 179.982
+      },
+      {
+        "start_s": 360,
+        "seconds": 120,
+        "decoded_frames": 1768,
+        "processed_frames": 1738,
+        "first_processed_media_s": 360.032,
+        "last_processed_media_s": 479.953
+      }
+    ]
+  },
+  "benchmark": {
+    "check": "multi_camera_cuda_tracking_benchmark",
+    "success": true,
+    "failure": null,
+    "mode": "live",
+    "started_at": "2026-11-08T01:59:07.559560+00:00",
+    "finished_at": "2026-11-08T02:01:28.575905+00:00",
+    "measurement_wall_s": 120.0061065480113,
+    "requested_measurement_s": 120.0,
+    "warmup_frames_excluded_per_camera": {
+      "220": 1,
+      "222": 1,
+      "223": 1,
+      "228": 1
+    },
+    "host": "alphagpu01",
+    "slurm_job_id": "175806",
+    "git_commit": "aabbbcead2af7fce0ae6d06d8d08c718120b9b2f",
+    "benchmark_script_sha256": "833a8ce38f713a4d0fb3e8bbd1e52f3192b938f2ca6ac43a6f610451c99c0ebb",
+    "weights": "weights/yolo11s.pt",
+    "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+    "python": "3.12.3",
+    "packages": {
+      "torch": "2.7.1+cu128",
+      "torchvision": "0.22.1+cu128",
+      "ultralytics": "8.4.206",
+      "opencv-python": "5.0.0.93",
+      "lap": "0.5.14"
+    },
+    "cuda_runtime": "12.8",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "peak_torch_allocated_mib": 424.86279296875,
+    "settings": {
+      "imgsz": 1280,
+      "tracking_confidence": 0.1,
+      "tracker": "bytetrack.yaml",
+      "device": "cuda:0",
+      "target_sampling_fps_per_camera": 15.0,
+      "torch_threads": 1,
+      "independent_models_and_trackers": true
+    },
+    "cameras": {
+      "220": {
+        "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-220.stream/playlist.m3u8",
+        "frames_processed": 1808,
+        "processed_wall_fps": 15.06589999465291,
+        "processed_media_span_s": 132.12,
+        "media_span_per_wall_second": 1.100943975272977,
+        "median_tracking_wall_ms": 15.273775905370712,
+        "p95_tracking_wall_ms": 24.949427880346775,
+        "max_tracking_wall_ms": 50.70090852677822,
+        "median_receipt_to_processing_ms": 4855.860948562622,
+        "p95_receipt_to_processing_ms": 10843.053328990934,
+        "nonadvancing_frames": 0,
+        "sessions": [
+          {
+            "session": 1,
+            "frames": 1808,
+            "first_media_s": 13.872,
+            "last_media_s": 145.99200000000002,
+            "first_received_at": "2026-11-08T01:59:09.707591+00:00",
+            "last_received_at": "2026-11-08T02:01:08.610848+00:00",
+            "maximum_media_gap_s": 1.9339999999999975
+          }
+        ],
+        "tracked_box_observations_by_class": {
+          "car": 32623,
+          "truck": 2814,
+          "bus": 90,
+          "motorcycle": 21
+        },
+        "reader_final_state": "live",
+        "reader_session": 1,
+        "reader_reconnections_during_measurement": 0,
+        "reader_frames_kept_during_measurement": 1798,
+        "reader_frames_dropped_during_measurement": 174,
+        "reader_frames_kept_total": 2229,
+        "reader_frames_dropped_total": 379,
+        "reader_thread_stopped": true,
+        "inference_backend_device": "cuda:0"
+      },
+      "222": {
+        "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-222.stream/playlist.m3u8",
+        "frames_processed": 1876,
+        "processed_wall_fps": 15.632537826310209,
+        "processed_media_span_s": 131.58700000000002,
+        "media_span_per_wall_second": 1.0965025346218986,
+        "median_tracking_wall_ms": 14.776273630559444,
+        "p95_tracking_wall_ms": 23.324021603912115,
+        "max_tracking_wall_ms": 50.99846050143242,
+        "median_receipt_to_processing_ms": 6633.020043373108,
+        "p95_receipt_to_processing_ms": 13041.713535785675,
+        "nonadvancing_frames": 0,
+        "sessions": [
+          {
+            "session": 1,
+            "frames": 1876,
+            "first_media_s": 13.932,
+            "last_media_s": 145.519,
+            "first_received_at": "2026-11-08T01:59:12.033654+00:00",
+            "last_received_at": "2026-11-08T02:01:08.257014+00:00",
+            "maximum_media_gap_s": 1.8670000000000044
+          }
+        ],
+        "tracked_box_observations_by_class": {
+          "car": 25067,
+          "truck": 1005,
+          "bus": 104
+        },
+        "reader_final_state": "live",
+        "reader_session": 1,
+        "reader_reconnections_during_measurement": 0,
+        "reader_frames_kept_during_measurement": 1798,
+        "reader_frames_dropped_during_measurement": 99,
+        "reader_frames_kept_total": 2228,
+        "reader_frames_dropped_total": 304,
+        "reader_thread_stopped": true,
+        "inference_backend_device": "cuda:0"
+      },
+      "223": {
+        "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-223.stream/playlist.m3u8",
+        "frames_processed": 1751,
+        "processed_wall_fps": 14.590924165175467,
+        "processed_media_span_s": 149.729,
+        "media_span_per_wall_second": 1.2476781749443504,
+        "median_tracking_wall_ms": 14.601491391658783,
+        "p95_tracking_wall_ms": 22.006358951330185,
+        "max_tracking_wall_ms": 37.612903863191605,
+        "median_receipt_to_processing_ms": 5840.404987335205,
+        "p95_receipt_to_processing_ms": 11883.776903152466,
+        "nonadvancing_frames": 0,
+        "sessions": [
+          {
+            "session": 1,
+            "frames": 1751,
+            "first_media_s": 0.067,
+            "last_media_s": 149.79600000000002,
+            "first_received_at": "2026-11-08T01:59:14.735836+00:00",
+            "last_received_at": "2026-11-08T02:01:16.235331+00:00",
+            "maximum_media_gap_s": 10.071
+          }
+        ],
+        "tracked_box_observations_by_class": {
+          "car": 23049,
+          "truck": 746,
+          "bus": 17
+        },
+        "reader_final_state": "live",
+        "reader_session": 1,
+        "reader_reconnections_during_measurement": 0,
+        "reader_frames_kept_during_measurement": 2108,
+        "reader_frames_dropped_during_measurement": 370,
+        "reader_frames_kept_total": 2292,
+        "reader_frames_dropped_total": 370,
+        "reader_thread_stopped": true,
+        "inference_backend_device": "cuda:0"
+      },
+      "228": {
+        "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-228.stream/playlist.m3u8",
+        "frames_processed": 1758,
+        "processed_wall_fps": 14.649254530199013,
+        "processed_media_span_s": 136.186,
+        "media_span_per_wall_second": 1.134825584442368,
+        "median_tracking_wall_ms": 14.639578759670258,
+        "p95_tracking_wall_ms": 24.200261384248726,
+        "max_tracking_wall_ms": 37.84548677504063,
+        "median_receipt_to_processing_ms": 5100.96800327301,
+        "p95_receipt_to_processing_ms": 11116.400933265679,
+        "nonadvancing_frames": 0,
+        "sessions": [
+          {
+            "session": 1,
+            "frames": 1758,
+            "first_media_s": 5.266,
+            "last_media_s": 141.452,
+            "first_received_at": "2026-11-08T01:59:13.186179+00:00",
+            "last_received_at": "2026-11-08T02:01:10.454632+00:00",
+            "maximum_media_gap_s": 3.3329999999999984
+          }
+        ],
+        "tracked_box_observations_by_class": {
+          "car": 23273,
+          "truck": 708,
+          "bus": 15
+        },
+        "reader_final_state": "live",
+        "reader_session": 1,
+        "reader_reconnections_during_measurement": 0,
+        "reader_frames_kept_during_measurement": 1676,
+        "reader_frames_dropped_during_measurement": 137,
+        "reader_frames_kept_total": 1968,
+        "reader_frames_dropped_total": 204,
+        "reader_thread_stopped": true,
+        "inference_backend_device": "cuda:0"
+      }
+    },
+    "limitations": [
+      "Tracked-box observations include the same vehicle in multiple frames; these are not line crossings or unique vehicle counts.",
+      "This bounded run does not establish held-out detection, tracking, classification, stopped-time or calibration accuracy.",
+      "Tracking wall times include preprocessing, inference, postprocessing and association, but exclude stream waits and per-camera warmup.",
+      "Receipt-to-processing age measures local buffer age. Capture UTC is unavailable; no capture-to-dashboard latency is measured.",
+      "Media span includes gaps between processed samples and is not footage coverage. Sessions are separate and never added as overlapping source-time estimates.",
+      "Memory is peak Torch allocated memory across these models, not total GPU memory use.",
+      "Live delivery, calibrated traffic aggregation and emissions calculations are outside this benchmark.",
+      "No raw frames or temporary vehicle identities are persisted."
+    ]
+  },
+  "benchmark_summary": {
+    "total_frames_processed": 7193,
+    "aggregate_processed_wall_fps": 59.938616516337596,
+    "min_camera_processed_wall_fps": 14.590924165175467,
+    "max_camera_processed_wall_fps": 15.632537826310209,
+    "reader_buffer_drops_during_measurement": 780,
+    "interpretation": "Near the requested aggregate throughput in this bounded run; not loss-free operation or sustained acceptance."
+  },
+  "delivery": {
+    "recipient": "Carter",
+    "channel": "Binghamton email",
+    "verified_sent": true,
+    "verified_json_attachments": 4
+  },
+  "manual_validation": {
+    "existing_totals_available": false,
+    "held_out_answer_key_available": false,
+    "accepted_score": null,
+    "model_promoted": false
+  },
+  "limitations": [
+    "Counts remain separate by gate and direction; do not sum gates into unique traffic.",
+    "Requested sampler FPS is not exact footage coverage: both models processed identical sampled windows.",
+    "Carter shared the recording and metadata; no manual totals or crossing answer key were found in the connected sources.",
+    "No model setting, label, saved camera geometry, calibration status or production enablement changed.",
+    "Benchmark receipt-buffer drops and processed wall FPS do not establish capture latency or complete coverage.",
+    "Raw footage, model weights, account credentials and private download capabilities are excluded from this record."
+  ]
+}

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
+
+- **Who:** Mert
+- **Done:** Retrieved Carter's camera-222 recording/metadata through Binghamton Drive, verified transfer hashes, fast-forwarded the Empire AI checkout and completed the four requested 15 FPS count runs: YOLO11s/1280 and YOLO11n/640 on 1:00–3:00 and held-out 6:00–8:00. Ran the optional two-minute four-camera YOLO11s/1280/15 FPS benchmark. Published scalar evidence and the count/benchmark report in evaluation/count-check-175806.json and evaluation/count-check-175806.md. Sent Carter the four original count JSONs and verified the sent attachment names/sizes.
+- **Completed:** Job 175806 completed 0:0 on alphagpu01 in 4m33s and released its H100 MIG 1g.10gb allocation. All four inference backends were verified CUDA; both models processed identical 1712/1738-frame windows. All 38 focused tests plus 17 subtests passed on compute. Benchmark processed 7193 frames in 120.006s, 59.94 aggregate FPS, 14.59–15.63 FPS/camera, with 780 reader-buffer drops; every reader stopped. File/weight/source/geometry hashes and gate/event bounds validate. Initial wrapper job 175804 failed after 18 seconds on an import path, was corrected and is separately recorded; no count ran in that attempt. The compute-only Python environment difference is documented. Other streams' changes were preserved.
+- **Still open:** Carter's manual totals and held-out crossing answer key were not among the two shared files or connected source results; accepted error scores remain unavailable pending that comparison. Near-target bounded throughput with drops is not loss-free sustained operation or verified coverage/latency. No model promotion, camera/geometry enablement, detector/tracker/configuration change, labels/training, physical calibration, emissions estimate or public-contract change was introduced. Private clips/weights remain ignored for the pending manual evaluation; no raw footage or credentials were committed.
+
 ### 7 November 2026, 21:03 America/New_York / 8 November 2026, 02:03 UTC
 
 - **Who:** Mert
