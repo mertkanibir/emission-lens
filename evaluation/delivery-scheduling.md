@@ -1,7 +1,7 @@
 # Controlled delivery scheduling
 
-**Owner:** Mert  
-**Updated:** 8 November 2026, 03:33 America/New_York / 08:33 UTC  
+**Owner:** Mert
+**Updated:** 8 November 2026, 03:33 America/New_York / 08:33 UTC
 **Status:** Controlled local I/O scheduling comparison passed. Live GPU runtime replacement remains separately reviewed.
 
 The worker previously performed HTTP on its frame-processing thread. The new sender keeps durable disk publication and measurement checkpoints on that thread, then delivers immutable FIFO bodies on one background thread. A per-pass measurement watermark prevents a concurrently published dependent body from overtaking its core observations. Disk capacity, revisions, retries and fail-closed checkpoint recovery remain in the existing outboxes.
@@ -28,3 +28,5 @@ python -m evaluation.delivery_benchmark --output /tmp/delivery-scheduling.json
 ```
 
 No GPU frame rate, capture-to-dashboard latency, traffic/count accuracy, field emissions accuracy or environmental benefit follows from these synthetic iterations. Durable fsync still blocks producers. The existing pretrained detector, 640 image size, requested 15 FPS, camera policies, calibration, factors and approval scopes are unchanged. No protected worker was restarted for this experiment.
+
+**Publication reconciliation (8 November 2026, 03:35 America/New_York / 8 November 2026, 08:35 UTC):** Mert preserved the benchmark files included in combined publication 3b15e3a, corrected two Markdown whitespace failures and independently reran all seven delivery/benchmark checks successfully. The shared index is now published only by the integration owner after an empty-index check under the publication lock. No benchmark values, runtime or source history were rewritten.

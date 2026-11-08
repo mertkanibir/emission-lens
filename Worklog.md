@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:35 America/New_York / 8 November 2026, 08:35 UTC
+
+- **Who:** Mert
+- **Done:** Preserved the accidentally combined context/benchmark publication and corrected its two Markdown whitespace errors; centralized remaining index and Worklog publication.
+- **Completed:** Independent delivery/benchmark suite passes all seven tests; scoped whitespace now passes. The benchmark data and prior histories are retained unchanged. The earlier stream released its lock after a whitespace failure with staged paths; another stream included them without checking the index. No reset or history rewrite occurred.
+- **Still open:** Combined application/browser acceptance and separately reviewed live continuation; remaining streams must hand verified paths to integration without staging.
+
 ### 8 November 2026, 03:34 America/New_York / 8 November 2026, 08:34 UTC
 
 - **Who:** Mert
