@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 8 November 2026, 00:40 America/New_York / 05:40 UTC
+**Updated:** 8 November 2026, 01:20 America/New_York / 8 November 2026, 06:20 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -311,3 +311,6 @@ Full-Stack 1's final completed/idle turn, owned-clean state, delivered handoff a
 The already-active five-minute read-only mail schedule was retargeted and verified by the main conversation; only held proposals go there, with no engineer dispatch or archived-chat wake. No dangling archived schedule target remains. Runtime ownership/renewal decisions and all unresolved acceptance work now rest with Mert's main conversation and these handoffs.
 
 Healthy resources remain running to existing bounds: 3150 application PID29506/supervisor29505 and job176255, exact allocation end **03:14:15 New York / 08:14:15 UTC**; protected3138 PID3943/job176075, exact allocation end **06:12:38 New York / 11:12:38 UTC**; accepted3139 PID14481 and retained synthetic3000 remain preserved. Candidate worker run-start+7200 seconds is nominal03:08:22.920512 New York, not a persisted exact loop deadline. Existing source/host/transport/capacity limits and real reader drops can end service earlier. Candidate guard31378/idle-awake31379, original guard4940/idle-awake5107 and authenticated SSH master remain untouched. No3160 app exists.
+
+
+**Final archival confirmation — 8 November 2026, 01:20 America/New_York / 8 November 2026, 06:20 UTC:** Mert verified the final operations handoff was published and the conversation completed/idle, then archived it. All eight supporting project conversations are now archived with history and successor context preserved; the main project conversation is the only unarchived project chat. The existing five-minute read-only email monitor targets the main conversation for held proposals only. No implementation or archived-chat wake is authorized by that monitor. Healthy applications, GPU workers, SSH master, relays and bounded cleanup/idle-awake guards remain unchanged at the resource limits recorded above. The current stopped-time acceptance stays PARTIAL; no failed check was relabeled as passed.
