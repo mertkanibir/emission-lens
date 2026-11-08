@@ -6,6 +6,8 @@
 
 **Scope note (8 November 2026, 01:10 America/New_York / 06:10 UTC, Carter):** Cameras 222 and 223 are accepted for counting and calibrated for emissions. Cameras 220 and 228 are excluded: both failed the held-out count screen (−29% and −42%). Ground calibration, movement distances and fitted stopped-time thresholds are added below, each linked to its evidence.
 
+**Evidence refresh (8 November 2026, 01:53 America/New_York / 06:53 UTC, Mert):** Original configured223replay 176174 and current-generation 222 stopped-policy audit 176255 now pass their scoped integration checks. New complete-minute scenario and queue software is in isolated acceptance; no new live deployment or field accuracy is implied. Preserve signed hypothetical changes, including supported 0 g, rather than claiming demonstrated savings.
+
 The copy below describes the demonstrated camera-222 path and the accepted camera-223 configuration. It does not extend acceptance to 220 or 228. Use the [readiness and claims record](./README.md) and [three-minute demonstration](./DEMO.md) when assembling the submission.
 
 ## Submission identity
@@ -52,7 +54,7 @@ Sampling rate mattered more than model size. HLS delivers about 10 seconds of vi
 
 Detecting a vehicle in several frames is different from counting one crossing. A crossing is also different from a complete traversal of a supported physical movement. We kept these observations separate and withheld estimates when their dependencies were missing.
 
-Two of four cameras failed validation. Camera 220's gate sits along a stop bar where queued vehicles jitter, and camera 228's gate is far from the camera where vehicles are small; repositioning 228's gate and trying a larger model and higher resolution did not close the gap. Some camera views also offer few matchable road features near the camera, which limits calibration coverage.
+Two of four cameras failed their count screens. Camera220's aligned held-out comparison has 74 matched passages and 32 misses against its partial assisted reference. Camera228's revised-gate practice run remains about 42% below its assisted reference; further detector/resolution comparisons did not establish acceptance. The exact historical miss causes remain unproven. Some camera views also offer few matchable road features, which limits calibration coverage.
 
 HLS backlog, dropped frames, occlusion and camera geometry complicate timing and coverage. Our media clock is an estimate; capture UTC and capture-to-dashboard latency remain unavailable. Fleet weights, weather and fixed movement distance remain explicit assumptions requiring further validation.
 
@@ -62,7 +64,7 @@ We demonstrated real GPU processing and authenticated delivery to the local dash
 
 We also evaluated a fine-tuned detector candidate and retained the pretrained model when the candidate underperformed: on 60 human-reviewed held-out frames, any-vehicle F1 was 90% pretrained versus 83% fine-tuned. Camera-222 count evaluation, assisted reviews of other cameras and bounded processing benchmarks are documented separately, with their own settings and limits.
 
-Measured results, all on held-out data:
+Scoped evaluation results; reference type and validation scope differ by row:
 
 | Check | Result | Reference | Evidence |
 |---|---|---|---|

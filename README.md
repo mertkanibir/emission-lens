@@ -18,13 +18,17 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
+**Current implementation checkpoint — 8 November 2026, 01:51 America/New_York / 06:51 UTC.** The combined application source `692d739` builds successfully and has passing application/worker CI. A separate frozen acceptance app at `http://127.0.0.1:3151` includes supported-minute CO₂/NOₓ cards, conservative latest-minute queue semantics and explicitly selected complete-minute shorter-stop scenarios. It has passed four-camera registry refresh, original-source preservation, current authenticated evidence and independent fresh-process reload checks; protected apps 3138/3139/3150 remain unchanged. The 3151 copy is not a new live deployment merely because it contains retained live history. Actual new 222/223 stopped-policy replay and final visual acceptance are in progress.
+
+Camera 223's original-file GPU replay **176174** already passed configured delivery, original-factor arithmetic, private evidence, durable reload, heat-map and export checks; see [its scoped report](./backend/223-REPLAY-176174.md). Camera 222's actual live stopped-policy **176255** now passes generation-aware authenticated evidence and factor/scenario/reload acceptance; see [the superseding audit](./backend/STOPPED-LIVE-176255.md). Camera 220 and 228 count screens fail and remain disabled, despite live previews or supplied physical registries. The all-four allowed-recording baseline batch **176183** is completed; visual/accuracy acceptance is distinct. See [the recording matrix](./evaluation/four-recording-status.md). Earlier dated checkpoints below retain their historical scope.
+
 **Current live recovery: 8 November 2026, 00:23 America/New_York / 05:23 UTC.** Camera 222 is live again on GPU job **176075**. One production application at `http://127.0.0.1:3138` receives real counts, traversal evidence and previews; its heat map shows supported-minute estimated CO₂/NOₓ. Independent checks verify advancing heartbeats, frames and counts rather than a retained image alone. The allocation is capped at **06:12:38 America/New_York / 11:12:38 UTC**; the authenticated Terminal, laptop and network remain required. This is startup evidence, not a completed six-hour test. Incomplete whole-window totals and shorter-stop scenarios remain unavailable. See [the startup checkpoint](./evaluation/222-live-restart-176075.md), [current assignments](./Coordination.md) and [release checklist](./release/README.md). Earlier dated results below retain their historical scope.
 
 **Real delivery checkpoint: 7 November 2026, 23:02 America/New_York / 8 November 2026, 04:02 UTC.** Camera 222 completed a bounded GPU replay/live test using Carter's approved eastern 20 m movement and documented fleet/weather assumptions. The 90-second replay retained **30 crossings and 8 completed traversals**; the 60-second live test retained **17 crossings and 4 completed traversals**. Each mode has a supported minute with persisted estimated CO₂/NOₓ and another minute without completed traversals. The broader window therefore remains unavailable rather than silently summing partial coverage or substituting zero. Stopped time and positive shorter-stop scenarios remain unavailable. Fresh-process reload, private arithmetic, actual-record brief/export and dashboard checks pass. Live recorded 265 buffer drops and the worker has ended. Independent scale/path/traversal validation, shared hosting and continuous-performance evidence remain open. See [the delivery evidence](./evaluation/222-integration-175979.md) and [coordination](./Coordination.md). Earlier dated checkpoints below retain their historical scope.
 
 **Heat map update: 7 November 2026, 23:31 America/New_York / 8 November 2026, 04:31 UTC.** The overview now includes a camera-point emissions heat layer using each camera's latest approved supported-minute snapshot. It retains timestamp/offline labels and unavailable whole-window totals; other cameras receive no invented zero or glow. Live/replay/synthetic isolation and the Traffic toggle pass browser checks. The single-host consumer reads the actual camera-222 ingestion store and refreshes normally; the stopped worker is correctly offline. See [heat-map behavior and verification](./frontend/HEATMAP.md).
 
-Carter enabled camera 223/count-1 in `4c5a5ea` using explicitly assisted review and recorded its 15 m southbound calibration; configured physical delivery and human-reference metrics remain pending. Camera 228 stays unapproved: score-fusion changes introduced duplicates, while native-resolution and larger-pretrained comparisons still fail both assisted count bounds. No new model is promoted. Carter's labels/training remain unchanged; the [review report](./evaluation/video_validation/report.md) preserves reference uncertainties and the untouched fresh window.
+Carter enabled camera 223/count-1 in `4c5a5ea` using explicitly assisted review and recorded its 15 m southbound calibration; its original configured replay delivery subsequently passed on job 176174. Human-reference metrics remain unavailable. Camera 228 stays unapproved: score-fusion changes introduced duplicates, while native-resolution and larger-pretrained comparisons still fail both assisted count bounds. No new model is promoted. Carter's labels/training remain unchanged; the [review report](./evaluation/video_validation/report.md) preserves reference uncertainties and the untouched fresh window.
 
 **Count/evaluation update: 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC.** Carter enabled only camera 222's designated `count-1` image-space crossing path in `b1a5edf`; `count-2` is unaccepted, and the 220/223/228 image configurations stay disabled/unvalidated. The [222 audit](./evaluation/calibration/222-count-audit.md) reproduces the original human-reference result and preserves endpoint/directional limitations. Independent assisted practice/held-out review now covers selected windows for 222/223/228; these frozen ledgers have `human_confirmed=false`, and human adjudication of 223/228 is prioritized. The [current review report](./evaluation/video_validation/report.md) records 223's provisional aggregate agreement and 228's substantial deficit; it also tracks any superseded practice ledger. No additional camera is approved. Broader full-recording work is deferred, and 220 media remains unavailable in the local review inventory.
 
@@ -44,15 +48,15 @@ The file store supports one persistent host. Hosted shared persistence and deplo
 
 See [GPU evidence](./evaluation/README.md), [worker setup](./worker/README.md), [ingestion](./backend/INGESTION.md), [Plan.md](./Plan.md), [Agents.md](./Agents.md) and [Worklog.md](./Worklog.md).
 
-## Proposed stack
+## Current demonstration stack
 
 | Layer | Default |
 |---|---|
 | Vision worker | Python, FFmpeg/OpenCV, Ultralytics YOLO, ByteTrack |
 | GPU | Empire AI (PyTorch/CUDA) |
-| Persistence | Supabase / PostgreSQL |
+| Persistence | One atomic durable local snapshot on a persistent application host |
 | Web app | Next.js + TypeScript, MapLibre |
-| Hosting | Vercel (frontend / short API requests) |
+| Hosting | Single persistent Next.js process; private loopback SSH delivery from the GPU worker |
 
 ## Repository layout
 
@@ -88,7 +92,7 @@ No plate recognition, facial identification, or person tracking. Prefer aggregat
 
 ## Licence and attribution
 
-Camera feeds and metadata are from Caltrans / CWWP public traveler-information sources. Emissions methodology targets CARB EMFAC factors with full provenance. Factor sources, model attribution, and licences will be recorded as they are integrated.
+Camera feeds and metadata are from Caltrans / CWWP public traveler-information sources. Emissions methodology targets CARB EMFAC factors with full provenance. Factor provenance, the approved AGPL-3.0-only project licence and selected dependency notices are retained in [the release package](./release/README.md). Remaining model/transitive/binary obligations are explicitly tracked.
 
 ## Disclaimer
 

@@ -1,8 +1,10 @@
 # Four-recording execution and acceptance
 
 **Owner:** Mert  
-**Updated:** 8 November 2026, 01:19 America/New_York / 06:19 UTC
+**Updated:** 8 November 2026, 01:53 America/New_York / 06:53 UTC
 **Checkpoint:** 8 November 2026, 01:13 America/New_York / 06:13 UTC
+
+**Resumed completion checkpoint (8 November 2026, 01:51 America/New_York / 06:51 UTC):** Mert explicitly superseded the executive no-new-work boundary below. Three internal streams complete backend/read semantics, the frozen 3151 app and one bounded 222/223 original-practice stopped-policy replay while protecting both healthy live jobs and apps 3138/3139/3150. The [current-generation 176255 audit](../backend/STOPPED-LIVE-176255.md) supersedes the earlier PARTIAL: authenticated current references, complete sealed-generation fresh-process equality and original-CARB signed 20% arithmetic now pass. Original partial evidence remains retained; older reference 404 is preserved rather than weakened. Four-camera registry refresh on 3151 preserves all 617 captured worker sources and54 measurement sources exactly; numeric rederivation differs only within disclosed floating tolerance, verified independently against original CSV. This is not new count approval or a new live deployment. Actual two-camera stop-v1 replay and visual acceptance remain pending.
 
 This matrix distinguishes source availability, model execution, visual review and scientific acceptance. A completed offline count batch does not establish accuracy or activate a camera. Raw video, detailed event ledgers, credentials and private source capabilities remain outside Git.
 
@@ -32,7 +34,7 @@ The isolated 3150 candidate is CPU/static-ready with exact supplied 222 stop-v1 
 
 Actual live reader drops are nonzero; startup/preview success is not loss-free or sustained acceptance. The 7,200-second worker is expected to stop roughly 03:08 New York after actual start; scheduler cap ends 03:14:15 New York / 08:14:15 UTC, with earlier source/host/capacity failures possible. [Video handoff](./video_validation/HANDOFF.md) retains the explicit review boundaries.
 
-## Final wrap boundary
+## Historical executive wrap boundary
 
 All three selected engineer retirements are complete; [handoffs](./handoffs/README.md) preserve successor ownership. [GPU startup](./four-camera-live-176255.md) and [frontend acceptance](../frontend/LIVE-CAMERAS.md) are published. Keep the live worker/app/guards running to their existing bounds; no new jobs/experiments or optional checks are part of wrap-up. Worker run-start plus duration is nominal 03:08:22.920512 New York, with an unpersisted post-initialization monotonic deadline origin; exact scheduler cap is 03:14:15 New York / 08:14:15 UTC.
 
