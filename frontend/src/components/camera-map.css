@@ -1,0 +1,49 @@
+/* Satellite imagery stays behind camera records and screen-space estimate glyphs. */
+.map-pane { background: #263d32; }
+.map-pane .maplibregl-ctrl-attrib { max-width: calc(100% - 12px); font-size: 9px; }
+.map-pane .maplibregl-ctrl-scale { color: #fff9e8; border-color: #fff9e8; background: #19352ac9; }
+.map-marker .mm-number { box-shadow: 0 2px 9px #081d3270; border-width: 2px; }
+.map-marker[data-view="emissions"][data-supported="true"] .mm-number { background: #103e2f; color: #fffce9; border-color: #eeffd4; }
+.map-marker[data-view="emissions"] .mm-detail { display: none; }
+.map-marker[data-view="emissions"][data-supported="false"] { opacity: .8; }
+.mm-emission-reading {
+  display: grid;
+  gap: 3px;
+  margin-left: 5px;
+  padding: 8px 11px;
+  border: 1px solid #dbedcbbd;
+  border-radius: 8px;
+  color: #fffbe7;
+  background: #123e30ed;
+  box-shadow: 0 3px 14px #0e241d66;
+}
+.mm-emission-reading strong { color: #e9f9bd; font-size: 14px; font-variant-numeric: tabular-nums; }
+.mm-emission-reading small { font-size: 10px; color: #e1e9d7; }
+.map-heat-status {
+  position: absolute;
+  left: 14px;
+  bottom: 34px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 8px;
+  max-width: calc(100% - 180px);
+  padding: 10px 12px;
+  border: 1px solid #d9e5c6a3;
+  border-radius: 8px;
+  background: #123e30ed;
+  color: #fffbe7;
+  pointer-events: none;
+}
+.map-heat-status strong { font-size: 11px; }
+.map-heat-status small { grid-column: 2; font-size: 10px; color: #d8e5d3; }
+.map-heat-status-dot { height: 7px; width: 7px; border-radius: 50%; background: #ddeb81; box-shadow: 0 0 10px #bddb6c; }
+@media (max-width: 600px) {
+  .map-heat-status { left: 10px; bottom: 68px; max-width: calc(100% - 20px); }
+  .mm-emission-reading { padding: 6px 8px; }
+  .mm-emission-reading strong { font-size: 12px; }
+  .mm-emission-reading small { max-width: 145px; white-space: normal; font-size: 9px; }
+}
+
+.map-heat-ramp { background: linear-gradient(90deg, #40d6a4, #ddeb81, #ffbd61, #f37042); }

@@ -1349,3 +1349,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Connected primary Open-Meteo hourly model context with timestamp/source/grid metadata, server cache and honest stale/failure/synthetic/replay states. Implemented strict selected-window planning drafts with same-cohort estimates, retained scientific assumptions and review annotations; added functional reusable context/review/planning panels and dedicated page wrappers. Original measurements and approvals remain untouched.
 - **Completed:** All 129 backend tests pass; backend/frontend type checks and whitespace checks pass. Focused checks cover context time matching/staleness, durable audit and session/CSRF denial, selected brief scope/nulls and annotation/factor provenance. Real Open-Meteo HTTPS returned dated model data at 08:31:31 UTC. The React component checklist was applied to labels, busy states and server/client boundaries.
 - **Still open:** Combined isolated browser/phone acceptance and exact downloaded-draft verification follow with Mert. No school/exposure layer, public-user authentication, physical accuracy or environmental benefit is claimed. Context caching and review persistence use separate private paths from worker history.
+
+### 8 November 2026, 08:35 America/New_York / 8 November 2026, 13:35 UTC
+
+- **Who:** Mert
+- **Done:** Added attributed satellite imagery, brighter supported-point heat layers and dated badges; changed camera detail to aligned rows and full-width comparison/evidence sections.
+- **Completed:** 70 frontend checks and nonincremental frontend TypeScript pass. Captured the sparse old glow and large empty left column in the actual browser.
+- **Still open:** Immutable production build and browser acceptance before push/cutover. Initial test invocation lacked the frontend path-alias configuration; reran successfully with its explicit tsconfig. No scientific or producer changes.

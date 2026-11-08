@@ -3,11 +3,12 @@
 import * as maplibregl from "maplibre-gl";
 import type { StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import "./camera-map.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowsOut } from "@phosphor-icons/react";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
-import { cameraHeatData, EMISSIONS_LAYER, EMISSIONS_SOURCE, emissionsHeatLayer } from "@/lib/map-heat";
+import { cameraHeatData, EMISSIONS_SOURCE, emissionsHeatLayer, emissionsCoreLayer, emissionsRingLayer } from "@/lib/map-heat";
 import { formatInstant, PACIFIC, type MapView } from "@/lib/format";
 
 export interface MapCamera {
@@ -22,29 +23,20 @@ export interface MapCamera {
   emissions: MapEmissionEstimate | null;
   secondaryValueLabel: string | null;
 }
-const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
-function softenStyle(style: StyleSpecification): StyleSpecification {
-  return {
-    ...style,
-    layers: style.layers.map((layer) => {
-      if (layer.type === "background")
-        return {
-          ...layer,
-          paint: { ...layer.paint, "background-color": "#f6f0e4" },
-        };
-      if (layer.type !== "fill") return layer;
-      const color = /water/i.test(layer.id)
-        ? "#d2e2dc"
-        : /park|wood|grass|landcover/i.test(layer.id)
-          ? "#d5e1bf"
-          : null;
-      if (!color) return layer;
-      const paint = { ...layer.paint, "fill-color": color };
-      delete paint["fill-pattern"];
-      return { ...layer, paint };
-    }),
-  };
-}
+/** Raster imagery avoids a separate third-party style/font dependency. */
+const SATELLITE_STYLE: StyleSpecification = {
+  version: 8,
+  sources: {
+    satellite: {
+      type: "raster",
+      tiles: ["https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: 'Imagery © <a href="https://www.esri.com/" target="_blank" rel="noopener noreferrer">Esri</a>, Vantor, Earthstar Geographics, and the GIS User Community',
+    },
+  },
+  layers: [{ id: "satellite-imagery", type: "raster", source: "satellite", paint: { "raster-saturation": -0.2, "raster-brightness-max": 0.82 } }],
+};
 function boundsFor(cameras: MapCamera[]) {
   const bounds = new maplibregl.LngLatBounds();
   for (const camera of cameras)
@@ -85,71 +77,59 @@ export function CameraMap({
     maplibregl.setWorkerUrl(
       new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).href,
     );
-    const controller = new AbortController();
     let map: maplibregl.Map | null = null;
     let observer: ResizeObserver | null = null;
     let cancelled = false;
-    fetch(STYLE_URL, { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error("Map style unavailable");
-        return response.json() as Promise<StyleSpecification>;
-      })
-      .then((style) => {
-        if (cancelled) return;
-        map = new maplibregl.Map({
-          container: element,
-          style: softenStyle(style),
-          bounds: boundsFor(camerasRef.current),
-          fitBoundsOptions: {
-            padding: { top: 48, bottom: 48, left: 55, right: 140 },
-            maxZoom: 13.5,
-          },
-          attributionControl: { compact: true },
-          cooperativeGestures: true,
-        });
-        map.addControl(
-          new maplibregl.NavigationControl({ showCompass: false }),
-          "top-right",
-        );
-        map.addControl(
-          new maplibregl.ScaleControl({ unit: "metric" }),
-          "bottom-left",
-        );
-        map.on("error", () =>
-          setProblem(
-            "Some map tiles could not load. All camera records remain available in the table.",
-          ),
-        );
-        observer = new ResizeObserver(() => {
-          if (!map || element.clientWidth === 0 || element.clientHeight === 0)
-            return;
-          map.resize();
-          map.fitBounds(boundsFor(camerasRef.current), {
-            padding: {
-              top: 48,
-              bottom: 48,
-              left: 55,
-              right: Math.min(140, element.clientWidth / 3),
-            },
-            maxZoom: 13.5,
-            duration: 0,
-          });
-        });
-        observer.observe(element);
-        mapRef.current = map;
-        map.once("load", () => {
-          if (!cancelled) setReady(true);
-        });
-      })
-      .catch((error) => {
-        if (!cancelled && error.name !== "AbortError")
-          setProblem(
-            "The map is unavailable. Use the camera table below to explore every intersection.",
-          );
+    try {
+      map = new maplibregl.Map({
+        container: element,
+        style: SATELLITE_STYLE,
+        bounds: boundsFor(camerasRef.current),
+        fitBoundsOptions: {
+          padding: { top: 48, bottom: 48, left: 55, right: 140 },
+          maxZoom: 13.5,
+        },
+        attributionControl: { compact: true },
+        cooperativeGestures: true,
       });
+      map.addControl(
+        new maplibregl.NavigationControl({ showCompass: false }),
+        "top-right",
+      );
+      map.addControl(
+        new maplibregl.ScaleControl({ unit: "metric" }),
+        "bottom-left",
+      );
+      map.on("error", () =>
+        setProblem(
+          "Some map tiles could not load. All camera records remain available in the table.",
+        ),
+      );
+      observer = new ResizeObserver(() => {
+        if (!map || element.clientWidth === 0 || element.clientHeight === 0)
+          return;
+        map.resize();
+        map.fitBounds(boundsFor(camerasRef.current), {
+          padding: {
+            top: 48,
+            bottom: 48,
+            left: 55,
+            right: Math.min(140, element.clientWidth / 3),
+          },
+          maxZoom: 13.5,
+          duration: 0,
+        });
+      });
+      observer.observe(element);
+      mapRef.current = map;
+      map.once("style.load", () => {
+        if (!cancelled) setReady(true);
+      });
+    } catch {
+      if (!cancelled) setProblem("The map is unavailable. Use the camera table below to explore every intersection.");
+    }
     return () => {
       cancelled = true;
-      controller.abort();
       observer?.disconnect();
       markersRef.current.forEach((marker) => marker.remove());
       markersRef.current = [];
@@ -166,8 +146,10 @@ export function CameraMap({
       try {
         if (!map.getSource(EMISSIONS_SOURCE))
           map.addSource(EMISSIONS_SOURCE, { type: "geojson", data: cameraHeatData(camerasRef.current) });
-        if (!map.getLayer(EMISSIONS_LAYER)) map.addLayer(emissionsHeatLayer);
-        map.setLayoutProperty(EMISSIONS_LAYER, "visibility", view === "emissions" ? "visible" : "none");
+        for (const layer of [emissionsHeatLayer, emissionsRingLayer, emissionsCoreLayer]) {
+          if (!map.getLayer(layer.id)) map.addLayer(layer);
+          map.setLayoutProperty(layer.id, "visibility", view === "emissions" ? "visible" : "none");
+        }
         const source = map.getSource(EMISSIONS_SOURCE) as maplibregl.GeoJSONSource;
         void source.setData(cameraHeatData(camerasRef.current)).then(() => {
           if (!cancelled) setHeatReady(true);
@@ -184,8 +166,8 @@ export function CameraMap({
         }
       }
     };
-    // ready records the initial style load. Later tile/source loading must not
-    // defer a mode change onto the map's one-time load event.
+    // Style readiness is independent of raster tile delivery. Later source loads
+    // must not defer a mode change onto a one-time map load event.
     update();
     return () => {
       cancelled = true;
@@ -201,6 +183,8 @@ export function CameraMap({
       anchor.className = "map-marker";
       anchor.href = camera.href;
       anchor.dataset.state = camera.state;
+      anchor.dataset.view = view;
+      anchor.dataset.supported = String(camera.emissions !== null);
       anchor.dataset.selected = String(camera.id === selectedId);
       anchor.setAttribute(
         "aria-label",
@@ -225,6 +209,16 @@ export function CameraMap({
         detail.append(secondary);
       }
       anchor.append(number, detail);
+      if (view === "emissions" && camera.emissions) {
+        const badge = document.createElement("span");
+        badge.className = "mm-emission-reading";
+        const amount = document.createElement("strong");
+        amount.textContent = camera.valueLabel;
+        const scope = document.createElement("small");
+        scope.textContent = `Supported minute · ${formatInstant(camera.emissions.minute, PACIFIC)}`;
+        badge.append(amount, scope);
+        anchor.append(badge);
+      }
       anchor.addEventListener("click", (event) => {
         if (
           event.metaKey ||
@@ -278,9 +272,18 @@ export function CameraMap({
         ref={container}
         role="region"
         aria-label={view === "emissions" ? "Heat map of latest supported camera emissions" : "Map of camera locations"}
+        data-basemap="satellite"
+        data-map-ready={ready}
         data-heat-layer-ready={heatReady}
         data-heat-points={cameraHeatData(cameras).features.length}
       />
+      {view === "emissions" ? (
+        <div className="map-heat-status" role="status">
+          <span className="map-heat-status-dot" aria-hidden="true" />
+          <strong>{cameraHeatData(cameras).features.length} / {cameras.length} cameras with supported estimates</strong>
+          <small>Camera points · estimated CO₂ · no dispersion inference</small>
+        </div>
+      ) : null}
       <button
         className="map-reset"
         type="button"

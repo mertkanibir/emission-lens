@@ -285,8 +285,8 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
           <a href="#scenario">Counterfactual</a>
           <a href="#evidence">Evidence & calibration</a>
         </nav>
-        <div className="split">
-          <div className="stack">
+        <div className="camera-analysis">
+          <div className="camera-analysis-pair">
             <section id="observation">
               <Panel
                 title="Source imagery and processing"
@@ -370,6 +370,88 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                 </div>
               </Panel>
             </section>
+            <section id="emissions">
+              <Panel
+                title="Estimated tailpipe emissions"
+                meta={<QualityChip state={emissions.quality_state} />}
+              >
+                <MeasurementScope scope={measurementScope(measurement)} />
+                {minuteEstimate ? (
+                  <SupportedMinuteEstimate estimate={minuteEstimate} cameraId={id} mode={mode} state={status.displayed_state} cohort={latestSupportedMinuteCohort(measurement)} />
+                ) : mode !== "synthetic" ? (
+                  <p className="context-note"><strong>{support.label}.</strong> {support.detail}</p>
+                ) : null}
+                <h3>Reporting-hour totals</h3>
+                <p className="fine">{windowLabel}. Each total requires support from every included record. A supported minute does not replace unavailable minutes with zero.</p>
+                <p className="context-note">{emissions.note}</p>
+                {ranges.map((range) => (
+                  <div className="pollutant" key={range.pollutant}>
+                    <dl className="readouts readouts-2">
+                      <Readout
+                        label={`${POLLUTANT_LABEL[range.pollutant]} · reporting hour`}
+                        large
+                      >
+                        <EmissionQuantity value={range.estimate} />
+                      </Readout>
+                      <Readout label="Scenario range">
+                        {range.low === null || range.high === null ? (
+                          <Quantity value={null} />
+                        ) : (
+                          <span className="q">
+                            {formatNumber(range.low, 6)}–{formatNumber(range.high, 6)}
+                            <span className="q-unit">g</span>
+                          </span>
+                        )}
+                      </Readout>
+                    </dl>
+                  </div>
+                ))}
+                <p className="fine">
+                  Tailpipe CO₂ and NOₓ are modeled from completed, calibrated
+                  traversals. They are not measured air quality. Scenario ranges
+                  are not statistical confidence intervals.
+                </p>
+                <details className="disclosure">
+                  <summary>Calculation method & factor provenance</summary>
+                  <p className="fine">
+                    Segment distance × the matching running-exhaust factor,
+                    using total traversal time including stops. Ordinary
+                    driving-cycle idling is already included; no second idle
+                    term is added.
+                  </p>
+                  <p className="fine">
+                    Factor catalog:{" "}
+                    <a href={factors.source_url}>
+                      CARB {factors.model_version}
+                    </a>{" "}
+                    · {factors.region} · {factors.calendar_year} · Annual.{" "}
+                    {factors.validation.factor_rows.toLocaleString("en-US")}{" "}
+                    validated factors, in g/vehicle-km. CARB aggregates fuel and
+                    model-year mixtures.
+                  </p>
+                  <p className="fine">
+                    The factor catalog supports several meteorological
+                    assumptions. The exact retained assumptions and measurement
+                    versions are listed below; these are not current weather
+                    observations.
+                  </p>
+                  <dl className="readouts readouts-2">
+                    <Readout label="Applied factor version">
+                      {uniqueText(
+                        emissions.rows.map((row) => row.factor_version),
+                      ) ?? <Quantity value={null} />}
+                    </Readout>
+                    <Readout label="Applied method version">
+                      {uniqueText(
+                        emissions.rows.map((row) => row.method_version),
+                      ) ?? <Quantity value={null} />}
+                    </Readout>
+                  </dl>
+                </details>
+              </Panel>
+            </section>
+          </div>
+          <div className="camera-analysis-pair camera-traffic-pair">
             <section id="traffic">
               <Panel title="Traffic by vehicle class" meta={windowLabel} flush>
                 <div className="table-scroll">
@@ -480,7 +562,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                 </div>
               </Panel>
             </section>
-            <Panel
+            <section id="history"><Panel
               title="Recorded minute history"
               meta={`${history.length} available ${history.length === 1 ? "minute" : "minutes"}`}
               flush
@@ -534,94 +616,15 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                   </div>
                 </>
               )}
-            </Panel>
+            </Panel></section>
           </div>
-          <div className="stack">
-            <section id="emissions">
-              <Panel
-                title="Estimated tailpipe emissions"
-                meta={<QualityChip state={emissions.quality_state} />}
-              >
-                <MeasurementScope scope={measurementScope(measurement)} />
-                {minuteEstimate ? (
-                  <SupportedMinuteEstimate estimate={minuteEstimate} cameraId={id} mode={mode} state={status.displayed_state} cohort={latestSupportedMinuteCohort(measurement)} />
-                ) : mode !== "synthetic" ? (
-                  <p className="context-note"><strong>{support.label}.</strong> {support.detail}</p>
-                ) : null}
-                <h3>Reporting-hour totals</h3>
-                <p className="fine">{windowLabel}. Each total requires support from every included record. A supported minute does not replace unavailable minutes with zero.</p>
-                <p className="context-note">{emissions.note}</p>
-                {ranges.map((range) => (
-                  <div className="pollutant" key={range.pollutant}>
-                    <dl className="readouts readouts-2">
-                      <Readout
-                        label={`${POLLUTANT_LABEL[range.pollutant]} · reporting hour`}
-                        large
-                      >
-                        <EmissionQuantity value={range.estimate} />
-                      </Readout>
-                      <Readout label="Scenario range">
-                        {range.low === null || range.high === null ? (
-                          <Quantity value={null} />
-                        ) : (
-                          <span className="q">
-                            {formatNumber(range.low, 6)}–{formatNumber(range.high, 6)}
-                            <span className="q-unit">g</span>
-                          </span>
-                        )}
-                      </Readout>
-                    </dl>
-                  </div>
-                ))}
-                <p className="fine">
-                  Tailpipe CO₂ and NOₓ are modeled from completed, calibrated
-                  traversals. They are not measured air quality. Scenario ranges
-                  are not statistical confidence intervals.
-                </p>
-                <details className="disclosure">
-                  <summary>Calculation method & factor provenance</summary>
-                  <p className="fine">
-                    Segment distance × the matching running-exhaust factor,
-                    using total traversal time including stops. Ordinary
-                    driving-cycle idling is already included; no second idle
-                    term is added.
-                  </p>
-                  <p className="fine">
-                    Factor catalog:{" "}
-                    <a href={factors.source_url}>
-                      CARB {factors.model_version}
-                    </a>{" "}
-                    · {factors.region} · {factors.calendar_year} · Annual.{" "}
-                    {factors.validation.factor_rows.toLocaleString("en-US")}{" "}
-                    validated factors, in g/vehicle-km. CARB aggregates fuel and
-                    model-year mixtures.
-                  </p>
-                  <p className="fine">
-                    The factor catalog supports several meteorological
-                    assumptions. The exact retained assumptions and measurement
-                    versions are listed below; these are not current weather
-                    observations.
-                  </p>
-                  <dl className="readouts readouts-2">
-                    <Readout label="Applied factor version">
-                      {uniqueText(
-                        emissions.rows.map((row) => row.factor_version),
-                      ) ?? <Quantity value={null} />}
-                    </Readout>
-                    <Readout label="Applied method version">
-                      {uniqueText(
-                        emissions.rows.map((row) => row.method_version),
-                      ) ?? <Quantity value={null} />}
-                    </Readout>
-                  </dl>
-                </details>
-              </Panel>
-            </section>
-            <section id="scenario">
+          <section id="scenario">
               <Panel
                 title="Stopped-time counterfactual"
                 meta={<span className="chip chip-draft">Hypothetical</span>}
               >
+                <div className="scenario-workbench">
+                <div className="scenario-controls">
                 <p>
                   Recalculate the same completed movement cohort under an explicit stopped-time reduction. This is not a prediction of signal-timing performance.
                 </p>
@@ -664,6 +667,8 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                     Compare scenario
                   </button>
                 </form>
+                </div>
+                <div className="scenario-results">
                 {scenario === null ? (
                   <p className="note" role="alert">
                     Enter a percentage from 0 to 100 to compare a scenario.
@@ -835,9 +840,11 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                     </Link>
                   </>
                 )}
+                </div>
+                </div>
               </Panel>
             </section>
-            <section id="evidence">
+          <section id="evidence">
               <Panel
                 title="Scientific inputs and evidence gates"
                 meta={
@@ -876,7 +883,6 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                 </p>
               </Panel>
             </section>
-          </div>
         </div>
       </div>
   );
