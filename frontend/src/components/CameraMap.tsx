@@ -178,12 +178,26 @@ export function CameraMap({
     const map = mapRef.current;
     if (!map || !ready) return;
     markersRef.current.forEach((marker) => marker.remove());
+    // Keep nearby supported labels apart without moving their geographic pins.
+    const supported = camerasRef.current.filter((camera) => camera.emissions !== null)
+      .sort((a, b) => b.latitude - a.latitude);
+    const labelPositions = new Map<string, "above" | "below">();
+    if (supported.length === 2) {
+      const [north, south] = supported;
+      const a = map.project([north.longitude, north.latitude]);
+      const b = map.project([south.longitude, south.latitude]);
+      if (Math.abs(a.y - b.y) < 85 && Math.abs(a.x - b.x) < 260) {
+        labelPositions.set(north.id, "above");
+        labelPositions.set(south.id, "below");
+      }
+    }
     markersRef.current = camerasRef.current.map((camera) => {
       const anchor = document.createElement("a");
       anchor.className = "map-marker";
       anchor.href = camera.href;
       anchor.dataset.state = camera.state;
       anchor.dataset.view = view;
+      anchor.dataset.labelPosition = labelPositions.get(camera.id) ?? "center";
       anchor.dataset.supported = String(camera.emissions !== null);
       anchor.dataset.selected = String(camera.id === selectedId);
       anchor.setAttribute(

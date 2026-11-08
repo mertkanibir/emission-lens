@@ -243,8 +243,8 @@ export function OverviewBoard({
             </div>
             {view === "emissions" ? (
               <div className="map-heat-legend" aria-label="Emissions heat map legend">
-                <div><span className="map-heat-ramp" aria-hidden="true" /><strong>Estimated CO₂ · 0 → 100+ g per supported minute</strong></div>
-                <p>Each camera uses its latest supported minute; dates and coverage can differ. Color saturates at 100 g. Rings and glow are screen-space camera symbols, not pollution spread or exposure.</p>
+                <div><span className="map-heat-ramp" aria-hidden="true" /><strong>Center color · estimated CO₂ · 0 → 100+ g per supported minute</strong></div>
+                <p>Each camera uses its latest supported minute; dates and coverage can differ. Center color saturates at 100 g; halo marks supported camera points. Rings and glow are screen-space camera symbols, not pollution spread or exposure.</p>
                 <p>{selected.mapEstimate
                   ? `Camera ${selectedId}: ${formatInstant(selected.mapEstimate.minute, PACIFIC)} · ${stateLabel(selected.status.displayed_state)}. Other minutes may be unavailable.`
                   : `Camera ${selectedId}: no supported emissions snapshot in this window.`} {cameras.filter((item) => item.mapEstimate !== null).length} of {cameras.length} cameras have supported estimates.</p>

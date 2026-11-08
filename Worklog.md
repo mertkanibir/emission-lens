@@ -1356,3 +1356,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Added attributed satellite imagery, brighter supported-point heat layers and dated badges; changed camera detail to aligned rows and full-width comparison/evidence sections.
 - **Completed:** 70 frontend checks and nonincremental frontend TypeScript pass. Captured the sparse old glow and large empty left column in the actual browser.
 - **Still open:** Immutable production build and browser acceptance before push/cutover. Initial test invocation lacked the frontend path-alias configuration; reran successfully with its explicit tsconfig. No scientific or producer changes.
+
+### 8 November 2026, 08:37 America/New_York / 8 November 2026, 13:37 UTC
+
+- **Who:** Mert
+- **Done:** Corrected nearby supported badge collisions and clarified center color versus halo meaning after inspecting the actual satellite view.
+- **Completed:** Initial immutable production build and actual3153 satellite/heat/full-width scenario rendering pass; focused map checks, TypeScript and diff checks pass after the refinement.
+- **Still open:** Final immutable rebuild, phone/wide-screen acceptance and3152 cutover. The private build helper initially used an unsupported system-Python tar extraction option; fixed the helper and rebuilt successfully. Producer and private persistence remain intact.

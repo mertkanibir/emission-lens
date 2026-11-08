@@ -67,7 +67,7 @@ export const emissionsCoreLayer: CircleLayerSpecification = {
   filter: [">", ["get", "co2_g"], 0],
   layout: { visibility: "none" },
   paint: {
-    "circle-radius": 10,
+    "circle-radius": 20,
     "circle-color": ["interpolate", ["linear"], ["get", "co2_g"], 0, "#40d6a4", 25, "#ddeb81", 50, "#ffbd61", 100, "#f37042"],
     "circle-stroke-color": "#fffce9",
     "circle-stroke-width": 2,
