@@ -243,6 +243,57 @@ class StoppedTests(unittest.TestCase):
         for second in range(11, 15):
             self.assertIsNone(other.update(frame(second), []).queue_count)
 
+    def _queue_with_lost_identity_and_qualified_visible_vehicle(self):
+        metrics = CameraMetrics(self.config())
+        for second in range(4):
+            result = metrics.update(frame(second), [vehicle(0.4, 0.4)])
+        self.assertEqual(result.queue_count, 1)
+        # The original identity disappears. A different visible vehicle needs
+        # its own complete stopped qualification, not the old vehicle's time.
+        for second in range(4, 7):
+            self.assertIsNone(metrics.update(frame(second), [vehicle(0.7, 0.4, identity=2)]).queue_count)
+        result = metrics.update(frame(7), [vehicle(0.7, 0.4, identity=2)])
+        self.assertEqual(result.queue_count, 1)
+        return metrics
+
+    def test_visible_queue_lower_bound_does_not_erase_missing_identity_or_invent_zero(self):
+        metrics = self._queue_with_lost_identity_and_qualified_visible_vehicle()
+        self.assertEqual(metrics.update(frame(8), [vehicle(0.7, 0.4, identity=2)]).queue_count, 1)
+        # Observing the new vehicle outside resolves only that vehicle. The
+        # original missing vehicle still prevents an empty-queue assertion.
+        self.assertIsNone(metrics.update(frame(9), [vehicle(0.95, 0.4, identity=2)]).queue_count)
+        for second in range(10, 31):
+            self.assertIsNone(metrics.update(frame(second), []).queue_count)
+        # A valid observation of the original identity outside the ROI is
+        # evidence of departure; elapsed time alone was never enough.
+        self.assertEqual(metrics.update(frame(31), [vehicle(0.95, 0.4)]).queue_count, 0)
+
+    def test_positive_visible_queue_does_not_bypass_current_observation_blockers(self):
+        cases = {
+            "repeated source frame": (7, [vehicle(0.7, 0.4, identity=2)]),
+            "source gap": (12, [vehicle(0.7, 0.4, identity=2)]),
+            "invalid detection": (8, [vehicle(0.7, 0.4, identity=2), vehicle(float("nan"), 0.4, identity=3)]),
+            "unqualified current vehicle": (8, [vehicle(0.7, 0.4, identity=2), vehicle(0.5, 0.4, identity=3)]),
+        }
+        for reason, (second, vehicles) in cases.items():
+            with self.subTest(reason=reason):
+                metrics = self._queue_with_lost_identity_and_qualified_visible_vehicle()
+                self.assertIsNone(metrics.update(frame(second), vehicles).queue_count)
+
+    def test_visible_queue_lower_bound_preserves_camera_and_session_isolation(self):
+        first = self._queue_with_lost_identity_and_qualified_visible_vehicle()
+        second = CameraMetrics(config(camera_id="223", stopped_threshold_per_s=0.01,
+                                     stopped_min_duration_s=3,
+                                     queue_region=[[0.1, 0.1], [0.9, 0.1], [0.9, 0.9], [0.1, 0.9]]))
+        for instant in range(4):
+            result = second.update(frame(instant, camera="223"), [vehicle(0.5, 0.4)])
+        self.assertEqual(result.queue_count, 1)
+        self.assertIsNone(first.update(frame(8), [vehicle(0.95, 0.4, identity=2)]).queue_count)
+        self.assertEqual(second.update(frame(4, camera="223"), [vehicle(0.5, 0.4)]).queue_count, 1)
+        for instant in range(3):
+            self.assertIsNone(first.update(frame(instant, session=2), [vehicle(0.5, 0.4)]).queue_count)
+        self.assertEqual(first.update(frame(3, session=2), [vehicle(0.5, 0.4)]).queue_count, 1)
+
 
 class ConfigTests(unittest.TestCase):
     def raw(self):

@@ -188,6 +188,12 @@ class CrossingEvent:
 
 @dataclass(frozen=True)
 class MetricsUpdate:
+    """Image observations; positive queue counts are visible lower bounds.
+
+    A positive queue count is not a complete inventory of an occluded region.
+    Zero still requires no unresolved missing queue identities.
+    """
+
     camera_id: str
     session: int
     enabled: bool
@@ -360,5 +366,8 @@ class CameraMetrics:
                     state.first_media_time_s = media
             # Retain missing evidence beyond the motion-history expiry. Neither
             # a timeout nor a source gap is a visibly observed empty queue.
-            queue_unknown = queue_unknown or bool(self._queue_missing)
+            # Current qualified stops nevertheless support a positive visible
+            # lower bound. Historical loss alone cannot erase that evidence;
+            # every current-frame qualification/visibility blocker still wins.
+            queue_unknown = queue_unknown or (bool(self._queue_missing) and queue_count == 0)
         return self._result(events, None if queue_unknown else queue_count, stopped_deltas, discontinuity, skipped)
