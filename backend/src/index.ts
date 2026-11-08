@@ -28,3 +28,5 @@ export { get_measurement_registry_status } from "./registry.ts";
 export { ingest_measurement_batch, refresh_measurements, read_measurement_window, localMeasurementRepository } from "./measurements.ts";
 export type { MeasurementReceipt, MeasurementRepository } from "./measurements.ts";
 export { handleMeasurementPost, handleMeasurementGet, handleMeasurementEvidenceGet, handleMeasurementRefreshPost } from "./measurement-http.ts";
+export { retained_measurement_minutes } from "./retained.ts";
+export { read_reviews } from "./reviews.ts";

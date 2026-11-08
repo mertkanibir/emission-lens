@@ -1227,3 +1227,11 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Extracted the reusable CameraDetail server view and composed network/camera evidence on one scrolling workspace; tightened technical network hierarchy and made 220/228 count exclusions explicit.
 - **Completed:** Camera deep links and embedded scenario selection preserve camera/mode/UTC bounds; all 67 current frontend checks and nonincremental TypeScript pass. Existing scientific unavailable/support semantics remain unchanged.
 - **Open:** External context, durable review, scoped planning panels and final isolated production/browser acceptance remain in progress. No live service, worker, source data or calibration changed.
+
+
+### 8 November 2026, 03:28 America/New_York / 8 November 2026, 08:28 UTC
+
+- **Who:** Mert
+- **Done:** Implemented separately stored durable aggregate-evidence reviews with immutable audit events, bounded validation/corruption handling, public scoped reads and opted-in local browser signed-session/CSRF write routes. Added safe dated retained-minute navigation without changing default reporting-hour or worker records.
+- **Completed:** Three focused review persistence/audit, malformed-target/corruption and browser session/origin/CSRF/expiry tests pass; backend type checking and whitespace checks pass. No worker credentials enter the browser.
+- **Still open:** Review UI, timestamped external context, scoped enriched planning briefs and isolated browser acceptance remain in progress. Review resolution does not approve or rewrite scientific evidence.

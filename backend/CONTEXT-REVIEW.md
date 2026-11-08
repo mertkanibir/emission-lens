@@ -4,6 +4,8 @@
 **Interface decision:** 8 November 2026, 03:27 America/New_York / 08:27 UTC  
 **Status:** Additive version 1.0 interfaces agreed for implementation. Core worker 1.1 and measurement 1.0 remain unchanged.
 
+**Review implementation checkpoint (8 November 2026, 03:35 America/New_York / 08:35 UTC):** Durable annotation-only storage, bounded public reads, local signed-session/CSRF handlers and thin routes are implemented. Three focused audit/target/corruption/authentication checks and backend type checking pass. The safe `retained_measurement_minutes` navigation index exposes complete retained minutes within 24 hours and current support, allowing an explicit dated selection after the producer stops. It never substitutes older data into the reporting hour. Review UI, external context, enriched/scoped brief and browser acceptance remain in progress.
+
 ## Review 1.0
 
 `GET /api/reviews?camera=222&mode=live&from=UTC&to=UTC` returns `{review_version:'1.0',camera_id,mode,from,to,items,events,write_available}`. Paired optional boundaries use the measurement reader's strict complete-minute selection; the default is its reporting hour. Items identify an opaque review UUID, camera/mode, safe aggregate target `{kind:'measurement'|'traffic',reference,minute}`, issue (`classification`, `camera_view`, `coverage`, `timing`, `other`), note, state (`open`, `investigating`, `resolved`), author (`Mert` or `Carter`) and UTC timestamps. Measurement targets retain a safe source-batch aggregate reference plus the original derivation reference; traffic targets retain camera/mode/minute only. No traversal/session identity or private path is public.
