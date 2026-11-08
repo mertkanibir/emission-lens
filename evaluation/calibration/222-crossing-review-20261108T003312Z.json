@@ -1,0 +1,65 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T00:41:06.617667+00:00",
+  "camera_id": "222",
+  "mode": "replay",
+  "clip_sha256": "e6db50f024cd61dc13140f24d60dbaa2070d962fda1bde6f2da52f10475401d3",
+  "geometry_proposal": "222-image-proposal.json",
+  "geometry_sha256": "756000681a1e8c7b1ef920e41b1e76c20ce064681e373811931fe6d5ce000ce8",
+  "gate_id": "approach-toward-camera",
+  "direction": "positive",
+  "review_state": "provisional_visual_candidates_not_human_confirmed",
+  "review_method": "Inspected decoded image crops with the proposed finite gate overlaid, sampled about every 0.25 decoder-media seconds between 94.057 and 102.057 s. Broad brackets reflect visual uncertainty.",
+  "time_basis": "OpenCV decoder media seconds from this clip; not capture UTC or runtime hysteresis confirmation time",
+  "window_start_s": 94.057,
+  "window_end_s": 102.057,
+  "private_contact_sheet": "evaluation/frames/measurement-222/crossing-candidates-094-102.jpg",
+  "candidate_events": [
+    {
+      "token": "candidate-1",
+      "bracket_media_s": [
+        97.79,
+        99.524
+      ],
+      "visual_class": "car",
+      "appearance_note": "Dark SUV in the left selected lane moves across the proposed gate toward image bottom."
+    },
+    {
+      "token": "candidate-2",
+      "bracket_media_s": [
+        98.257,
+        99.524
+      ],
+      "visual_class": "car",
+      "appearance_note": "Light compact car in the right selected lane moves across the proposed gate toward image bottom."
+    },
+    {
+      "token": "candidate-3",
+      "bracket_media_s": [
+        100.524,
+        101.524
+      ],
+      "visual_class": "car",
+      "appearance_note": "Following light SUV in the left selected lane moves across the proposed gate."
+    },
+    {
+      "token": "candidate-4",
+      "bracket_media_s": [
+        101.524,
+        102.057
+      ],
+      "visual_class": "car",
+      "appearance_note": "Following grey minivan in the right selected lane reaches/crosses the proposed gate; human review must refine the footpoint bracket."
+    }
+  ],
+  "events_are_exhaustive": false,
+  "accepted_crossing_total": null,
+  "human_reviewer_confirmation": null,
+  "runtime_event_matches": null,
+  "limitations": [
+    "This is a review aid and candidate list, not an independent human crossing answer key or accepted count.",
+    "Sampling/occlusion, the bounding-box footpoint proxy and exact finite endpoints must be checked on full-rate playback.",
+    "Runtime hysteresis confirmation can lag visual line intersection; match tolerances need a predeclared estimator and reviewer decision.",
+    "No camera geometry is enabled by this record."
+  ]
+}

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 19:42 America/New_York / 8 November 2026, 00:42 UTC
+
+- **Who:** Mert
+- **Done:** Finished bounded camera-222 crossing-review preparation and authoritative scaled-source discovery. Published four provisional event candidates with clip/geometry hashes and media-time brackets, and recorded LA County/Torrance source checks. Reconciled the producer document with the accepted internal per-traversal stopped_time_s decision in Coordination.md, without adding public fields or changing minute stopped-time meaning.
+- **Completed:** The private source clip and review contact sheet provide concrete playback evidence; event candidates are explicitly not human-confirmed, exhaustive or accepted counts, and have no runtime matching result. The LA County service metadata is accessible and georeferenced but dated 2013; no current matching control points, appropriate ground-distance conversion or positional-uncertainty evidence was established. The standalone calibration primitive and its previously passed 19 mathematical tests / focused 58 tests plus 47 subtests are complete. Structured evidence checks preserve null accepted counts and empty accepted ground references. No raw media, guesses, external messages, training/model changes, GPU allocations or actual camera enablement were introduced.
+- **Still open:** A human must confirm/refine selected-gate events and compare the actual YOLO11n/640 runtime; independently scaled current-view control points plus held-out validation distances, uncertainties and acceptance tolerances must be supplied. Engineering can consume the approved per-traversal stopped-time interface now, but real calibrated traversal evidence remains absent. All physical calibrations and unsupported physical/emissions outputs remain unavailable. No further calibration abstraction is needed for this checkpoint; the remaining dependency is field evidence.
+
 ### 7 November 2026, 19:38 America/New_York / 8 November 2026, 00:38 UTC
 
 - **Who:** Mert
