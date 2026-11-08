@@ -25,6 +25,7 @@ import {
 } from "../src/measurements.ts";
 import {
   IngestError,
+  MAX_STORED_MEASUREMENTS,
   readSnapshot,
   readWorkerStore,
 } from "../src/persistence.ts";
@@ -1080,4 +1081,40 @@ test("measurement-only multi-minute runs retain established device and final end
     assert.equal(readWorkerStore().runs[0].ended_at, next.run.ended_at);
     changed.run.device = "verified-test-device";
     await assert.rejects(ingest_measurement_batch(changed, NOW), code(409));
+  }));
+
+// Exercise both sides of the shared capacity boundary without changing scientific inputs.
+test("extended measurement ledger reloads and retries at capacity, then fails closed without dropping history", () =>
+  isolated(async ({ path }) => {
+    const source = batch();
+    source.traversals = [];
+    source.observations = [];
+    source.retract = true;
+    await ingest_measurement_batch(source, NOW);
+    const original = readSnapshot(path);
+    const template = original.measurement_batches![0];
+    const { sealMeasurement } = await import("../src/measurement-core.ts");
+    const { fingerprint } = await import("../src/registry.ts");
+    const receipts = Array.from({ length: MAX_STORED_MEASUREMENTS }, (_, sequence) => {
+      const { data_digest: templateDigest, ...entry } = structuredClone(template);
+      entry.sequence = sequence;
+      entry.source.batch_id = sequence === 0 ? source.batch_id : randomUUID();
+      entry.source_digest = sequence === 0 ? template.source_digest : fingerprint(entry.source);
+      entry.stored_source_digest = fingerprint(entry.source);
+      return sealMeasurement(entry);
+    });
+    writeFileSync(path, JSON.stringify({ ...original, next_sequence: receipts.length, measurement_batches: receipts }));
+    assert.equal(readSnapshot(path).measurement_batches!.length, MAX_STORED_MEASUREMENTS);
+    assert.equal((await ingest_measurement_batch(source, NOW)).duplicate, true);
+    const before = readFileSync(path, "utf8");
+    await assert.rejects(ingest_measurement_batch({ ...source, batch_id: randomUUID() }, NOW), code(507));
+    assert.equal(readFileSync(path, "utf8"), before);
+    const extra = structuredClone(receipts[0]);
+    extra.sequence = receipts.length;
+    extra.source.batch_id = randomUUID();
+    extra.source_digest = fingerprint(extra.source);
+    extra.stored_source_digest = fingerprint(extra.source);
+    const { data_digest: extraDigest, ...payload } = extra;
+    writeFileSync(path, JSON.stringify({ ...original, next_sequence: receipts.length + 1, measurement_batches: [...receipts, sealMeasurement(payload)] }));
+    assert.throws(() => readSnapshot(path), code(503));
   }));

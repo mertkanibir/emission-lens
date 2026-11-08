@@ -29,6 +29,7 @@ import {
   readSnapshot,
   readSnapshotView,
   STORE_RETENTION_MS,
+  MAX_STORED_MEASUREMENTS,
   storePath,
   withStoreLock,
   type WorkerSnapshot,
@@ -279,7 +280,7 @@ export async function ingest_measurement_batch(
       superseded,
     });
     const next = retained.filter((e) => e !== previous).concat(entry);
-    if (next.length > 1000)
+    if (next.length > MAX_STORED_MEASUREMENTS)
       throw new IngestError(
         "Measurement store reached its retained snapshot capacity.",
         507,

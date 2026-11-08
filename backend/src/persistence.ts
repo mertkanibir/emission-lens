@@ -8,6 +8,7 @@ import { composeMeasurements, validateStoredMeasurement } from "./measurement-co
 import { loadRegistry } from "./registry.ts";
 
 export const MAX_STORED_BATCHES = 10000;
+export const MAX_STORED_MEASUREMENTS = 2000;
 export const STORE_RETENTION_MS = 24 * 60 * 60 * 1000;
 export const MAX_STORE_BYTES = 32 * 1024 * 1024;
 
@@ -66,7 +67,7 @@ export function readSnapshot(path: string): WorkerSnapshot {
       ids.add(item.batch.batch_id);
     }
     if (raw.measurement_batches !== undefined) {
-      if (!Array.isArray(raw.measurement_batches) || raw.measurement_batches.length > 1000) throw new Error("Invalid measurement ledger.");
+      if (!Array.isArray(raw.measurement_batches) || raw.measurement_batches.length > MAX_STORED_MEASUREMENTS) throw new Error("Invalid measurement ledger.");
       for (const item of raw.measurement_batches) {
         if (!Number.isSafeInteger(item.sequence) || item.sequence < 0 || item.sequence >= raw.next_sequence || sequences.has(item.sequence) || !Number.isFinite(Date.parse(item.accepted_at))) throw new Error("Invalid measurement receipt.");
         validateStoredMeasurement(item);
