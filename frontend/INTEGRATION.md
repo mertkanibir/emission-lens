@@ -1,8 +1,26 @@
 # Measurement integration — frontend consumers
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 23:13 America/New_York / 8 November 2026, 04:13 UTC
+**Updated:** 8 November 2026, 00:26 America/New_York / 05:26 UTC
 **State:** controlled consumer acceptance and bounded actual-record camera-222 verification completed; field-validation and operational limits remain explicit.
+
+## Combined 222/223 profile compatibility — 8 November 2026, 00:26 America/New_York / 05:26 UTC
+
+Mert extended the existing scope resolver using the actual supplied identities documented by engineering in [the 223 handoff](../backend/223-HANDOFF.md). The same existing public read fields recognize exactly these camera/revision/calibration combinations, with the sole shared mapping `pretrained-visual-to-emfac2007-v1`:
+
+| Camera | Registry revision | Calibration |
+|---|---|---|
+| 222 | `222-first-camera-2026-11-08T03:19:55Z` | `222-ground-esri-v1-7f52d53d8fc8` |
+| 222 | `222-223-2026-11-08T04:03:40Z` | `222-ground-esri-v1-7f52d53d8fc8` |
+| 223 | `222-223-2026-11-08T04:03:40Z` | `223-ground-esri-v1-34782d640860` |
+
+Recognition still requires configured/current physical approval, live/replay mode, the exact sole mapping and matching calibration/mapping references on every retained minute. Cross-camera identities, camera 223 under the old 222-only revision, revoked/invalid/unknown registries, additional mappings, synthetic mode and mixed retained versions remain generic. No public API or calculation field changes.
+
+Camera 222 retains its eastern 20 m description under both recognized revisions. Camera 223 identifies the **15 m southbound segment** and completed southbound movement vehicles, with fixed distance/fleet assumptions, longer possible curved-turn paths and unavailable linked stops. Retained temperature/humidity inputs remain modeling assumptions rather than measured weather; the supplied configuration uses 70 °F / 60% RH. An empty window reports absent retained weather inputs and supplies no invented physical quantity. This copy does not claim through-only paths, human count ground truth, surveyed scale or validated traversal timing. Components, layout, styles, controls, numeric support and null handling are unchanged.
+
+All **44 frontend tests**, frontend TypeScript without incremental output, the production build and scoped whitespace checks pass. Tests/build ran in a private isolated source/dependency copy, leaving shared generated output untouched. Three added regression groups cover both cameras/modes/revisions, strict mismatch/mixed/revocation rejection, unchanged source/numeric values and absent/mixed weather. A separate read/render check used a byte-identical copy of Carter's actual staged registry (SHA-256 `7ed03ca706bd8b674d14b6459ce697f818574ab93a07a8d13f29201c5ecab85a`) with no measurement store: both live/replay scopes were recognized, synthetic remained generic, all six camera/mode physical/scenario reads stayed null, no store was created and registry bytes were unchanged. No worker token or fabricated traversal was used.
+
+The live production process on port 3138 (PID 3943) still reports its original 222 registry revision. This frontend checkpoint performs no service restart, active registry/store change, refresh, inference or worker activation. The isolated build handoff is retained in `/tmp/emission-lens-223-frontend-path.json`. Engineering still owns coordinated registry installation, derivation refresh/reverification for retained 222 records and actual 223 delivery; presentation compatibility alone does not activate or validate those steps.
 
 **Actual-record checkpoint (7 November 2026, 23:07 America/New_York / 8 November 2026, 04:07 UTC):** Mert verified the final stopped-writer snapshot from GPU job 175979 in an isolated production dashboard. Full-window replay/live counts are 30/17 with original completed cohorts 8/4, offline states and correctly unavailable window estimates due to incomplete other minutes. Separate explicitly labeled one-minute slices show the retained finite CO₂/NOₓ baselines while positive stopped-time scenarios remain unavailable. Scope/assumptions, numerical tooltips, mode isolation, source hashes and the two existing history/snapshot presentation limits are recorded in [the bounded consumer evidence](222-CONSUMER-ACCEPTANCE.md). Original localhost and shared build output remain unchanged. No product feature or contract change was made.
 
