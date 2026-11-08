@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:00 America/New_York / 8 November 2026, 15:00 UTC
+
+- **Who:** Mert
+- **Done:** Added a separate loopback preview gateway that reuses existing authenticated in-memory frame handlers and streams all other requests to one fixed local writer, with bounded proxying and malformed/disconnected request handling.
+- **Completed:** 140 backend tests, backend TypeScript and whitespace checks pass. Integration proves an uncompleted writer response cannot block preview identity/scope checks.
+- **Still open:** Install the isolated gateway, measure genuine native frame delivery and finish the pinned worker handoff/combined acceptance.
+
 ### 8 November 2026, 09:54 America/New_York / 8 November 2026, 14:54 UTC
 
 - **Who:** Mert

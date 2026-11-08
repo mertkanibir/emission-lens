@@ -1,7 +1,7 @@
 # Runtime checks
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 18:13 America/New_York (23:13 UTC)
+**Updated:** 8 November 2026, 09:59 America/New_York / 8 November 2026, 14:59 UTC
 
 The live worker runs separately from web requests. GPU resources are allocated explicitly and released at the end of each bounded run. CI uses a CPU-only PyTorch runtime; it verifies logic and fixtures without claiming GPU execution or downloading footage.
 
@@ -95,3 +95,16 @@ ssh -S "$HOME/.ssh/emission-lens/control" -o BatchMode=yes student032@alpha1.emp
 Both checks pass on this recovery. This changes local connection plumbing only; it does not grant scientific acceptance or start an inference job. Camera-222 live operation is separately authorized by Mert, with one GPU slice, a six-hour scheduler cap and a shorter worker interval reserving time for setup/shutdown. Running-state evidence and the final job/end time are recorded in Worklog.md and Coordination.md after verification. Private runtime manifests, relays and credentials remain outside Git.
 
 **Running checkpoint (8 November 2026, 00:23 America/New_York / 05:23 UTC):** Live job 176075 is running on CUDA and delivering to the single production application on loopback port 3138. Its scheduled allocation end is 06:12:38 America/New_York / 11:12:38 UTC. An owned idle-awake process follows the corrected connection guard's lifetime; system sleep settings are unchanged. Keep the authenticated Terminal and laptop/network available. Only this job's relays are scheduled for cleanup; the user's SSH master is preserved. Actual end-of-job cleanup and sustained reliability remain unverified. See [the startup and relay-repair evidence](../evaluation/222-live-restart-176075.md).
+
+## Isolated local preview gateway — 8 November 2026, 09:59 America/New_York / 14:59 UTC
+
+Mert added `infra/local-preview-gateway.ts` to keep transient preview delivery responsive while the writer process validates and persists aggregate batches. Run the existing built application on the separate loopback writer port3155 using its unchanged private store, registry and worker authentication. Keep the consumer review configuration on its existing process. Start the gateway in a separate process with the same private worker token supplied through the environment:
+
+```bash
+npx tsx infra/local-preview-gateway.ts \
+  --host 127.0.0.1 --listen-port 3151 --upstream-port 3155
+```
+
+Both ports and the loopback host must be explicit. The gateway handles only `POST /api/frames` and `GET /api/cameras/:id/frame` itself, reusing the existing worker authorization,512KiB request bound,350KiB JPEG bound, camera/mode validation, sequence ordering and60-second maximum in-memory TTL. POST and GET must reach this same gateway process. Preview data is never written to disk, and the gateway has no ledger writer. All other requests and responses stream to the fixed `127.0.0.1:3155` target; caller-provided hosts cannot select an upstream. Hop-by-hop headers are removed, interrupted connections are canceled, and upstream requests have a30-second deadline. Errors contain no credentials or private upstream details.
+
+Point browser traffic and the existing worker SSH relay at the gateway port3151. Keep the original writer configuration intact, and preserve the authoritative ledger when changing process ports. This addition does not launch, stop or migrate either process automatically. It does not change inference speed or scientific acceptance. Three integration checks cover authentication, camera/mode scope, stale frames, declared and chunked body limits, idempotent same-frame identity, safe proxy response headers, unavailable upstream errors, and a writer response deliberately held pending while preview GET completes. Existing frame-handler tests separately cover TTL expiration and sequence conflicts. Runtime frame-rate acceptance remains a separate live check.
