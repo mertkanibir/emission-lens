@@ -1,0 +1,146 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T05:53:27.906881+00:00",
+  "check": "isolated_camera223_original_source_bounded_replay_integration",
+  "state": "completed_bounded_replay_software_milestone",
+  "scheduler": {
+    "job_id": "176174",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:01:51",
+    "wall_cap_s": 300,
+    "allocation_released": true,
+    "actual_inference_device": "cuda:0",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb"
+  },
+  "source": {
+    "archive_commit": "b1081f19883e1950ab3c6cf28af22be41e7ec30e",
+    "archive_sha256": "6c044ddb894f121ae34d7ff9206e4f2dcf546ba385acb19521b34807280b5457",
+    "worker_main_sha256": "20ec7e4eaabf7972260ac5be2b5b0ec4953963138f27bdfaf795a729e9e71713",
+    "recipe_sha256": "2c9edaf2c93f715d6d908c9c98e3f9c190b32ee6a1285e91ea2850aac68a2475",
+    "isolated_ready_handoff_sha256": "57ab8a89c9ac4ba57975d5365e13a73df4f8d83f492ee7bb86f4a040d299ac24",
+    "final_safe_readiness_sha256": "fc30e86e9e1ed6f58c85ed160fdd12cc844c0aaf719db8e1da6b4604b894d147",
+    "exact_file_adapter_sha256": "0af709c64c4ed31deb4d8f836b9b2f63f0941d8c9572131f5b2d3671a2a6844e",
+    "entry_sha256": "f1abeee36aebcd1e1227b47c57c0003f97976123b2b868754b03e804cd6ee97e",
+    "cpu_preflight_sha256": "6bd5ce752d17b247af3b96e3d6feb10ab0f134bf49ba88ee2384397aee3601fd",
+    "original_clip_sha256": "808476414ca24d93f3190bb4a315a8fcbefe807c18c5e4f527d115a1ba89d2a0",
+    "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "profile_inputs_sha256": {
+      "geometry.json": "e22aead81e8c3c561f8eaaf20ba0460c050b7c7979e46df31a485f27d7251b4c",
+      "traversals.json": "5fa3d72c391552e51f8d1c4a185958b203f59da89d348e93a0e28843d0f0c047"
+    },
+    "two_camera_registry_sha256": "7ed03ca706bd8b674d14b6459ce697f818574ab93a07a8d13f29201c5ecab85a",
+    "selected_input": "original_TS_exact_file_adapter_only",
+    "rejected_derivative_proof_sha256": "cada8711cc8f1e09de12be2cd876d471f283edd55e03d17fc2b5134e8cdc7ebb"
+  },
+  "input_window": {
+    "allowed_original_source_window_s": [
+      60,
+      180
+    ],
+    "actual_first_processed_source_media_s": 60.061,
+    "actual_last_processed_source_media_s": 148.053,
+    "actual_processed_source_media_span_s": 87.99199999999999,
+    "requested_worker_wall_s": 100,
+    "whole_120_source_seconds_processed": false,
+    "original_media_clock_preserved": true,
+    "capture_utc_verified": false,
+    "exact_original_file_only_adapter": true,
+    "cpu_timestamp_frame_pair_proof": {
+      "original_pairs": 1800,
+      "all_equal": true,
+      "opencv": "4.12",
+      "cross_version_equivalence_claimed": false
+    },
+    "derivative_rejected_without_inference": true,
+    "derivative_limitation": "Pixel matching did not preserve timing; 30 original frames were missing within the checked [60,150) interval."
+  },
+  "profile": {
+    "camera_id": "223",
+    "mode": "replay",
+    "weights": "pretrained YOLO11n",
+    "image_size": 640,
+    "sample_fps": 15,
+    "image_geometry_version": "223-image-v2",
+    "count_gate_id": "count-1",
+    "calibration_version": "223-ground-esri-v1-34782d640860",
+    "mapping_version": "pretrained-visual-to-emfac2007-v1",
+    "movement_id": "223-southbound-through",
+    "distance_m": 15,
+    "meteorology": {
+      "temperature_f": 70,
+      "relative_humidity_pct": 60,
+      "basis": "fixed_assumptions_not_observed_weather"
+    },
+    "stopped_time_s": null,
+    "owner_scientific_approval": "Carter supplied profile; no new scale/path/accuracy approval inferred from this execution"
+  },
+  "execution": {
+    "worker_returncode": 0,
+    "worker_failure": null,
+    "single_camera_sessions": 1,
+    "processed_frames": 1319,
+    "reader_frames_kept": 1319,
+    "reader_buffer_drops": 0,
+    "count_1_crossings": 93,
+    "crossings_by_class": {
+      "car": 91,
+      "bus": 1,
+      "truck": 1
+    },
+    "completed_traversals": 26,
+    "legacy_delivered_batches": 35,
+    "legacy_pending_batches": 0,
+    "measurement_delivered_batches": 18,
+    "measurement_pending_batches": 0,
+    "previews_sent": 28,
+    "preview_failures": 1,
+    "median_track_wall_ms": 24.052821099758148,
+    "p95_track_wall_ms": 25.988420471549034,
+    "timing_diagnostics_are_not_sustained_acceptance": true
+  },
+  "persisted_public_view": {
+    "http_status": 200,
+    "camera_id": "223",
+    "mode": "replay",
+    "snapshot_sha256": "b4d4633f81d3ff8a8dfecb9b2bec9a32c2c24d88eba444d90f77af3974ee6e0c",
+    "minute_states": [
+      "unavailable",
+      "ready"
+    ],
+    "supported_ok_minute_rows_only_estimated_g": {
+      "co2": 71.49666919969158,
+      "nox": 0.014042455333372915
+    },
+    "estimates_scope": "Supported ready/OK minute rows only; excludes insufficient-evidence minute rows and is not a full-window or all-traffic total.",
+    "whole_window_scenario_available": false,
+    "whole_window_baseline_g": {
+      "co2": null,
+      "nox": null
+    },
+    "positive_stopped_reduction_scenario_g": {
+      "co2": null,
+      "nox": null
+    },
+    "independent_arithmetic_auth_evidence_reload_retained_222_clone_invariance_review": "pending separate consumer final checkpoint at publication"
+  },
+  "cleanup_and_scope": {
+    "owned_223_login_forward_cancelled_after_terminal": true,
+    "compute_exit_relay_and_remote_token_cleanup_configured": true,
+    "camera222_live_job_176075_and_application_preserved": true,
+    "camera222_guard_idle_awake_and_ssh_master_untouched": true,
+    "isolated_223_application_retained_for_review": true,
+    "four_camera_registry_activated_by_this_job": false,
+    "additional_inference_launched_by_this_publication": false,
+    "count_accuracy_or_physical_scale_path_validated": false,
+    "worker_backend_frontend_contract_sources_changed_by_this_job": false
+  },
+  "private_artifact_sha256": {
+    "replay-final.private.json": "c6fa5a9bcd2404f79b01472bec1743482ef2fc4d3646afb1d03368459a8b1404",
+    "exit.private.json": "74b279348b11798326824ed0256a9a9701408664b43b52bba467aa5bb014e17e",
+    "start.private.json": "c0e6d34b00659e05b9058f38c657fc04bf3042dc020b2bb7d83a635034aff2ca",
+    "window-preflight.private.json": "6bd5ce752d17b247af3b96e3d6feb10ab0f134bf49ba88ee2384397aee3601fd",
+    "derivative-timing-proof.private.json": "cada8711cc8f1e09de12be2cd876d471f283edd55e03d17fc2b5134e8cdc7ebb",
+    "slurm-176174.out": "471fabd2aa12da35638568440accf4be0d4df7fadf1e2b7a64b26a53ecd47107"
+  }
+}

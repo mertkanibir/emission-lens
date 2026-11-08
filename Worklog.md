@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:54 America/New_York / 8 November 2026, 05:54 UTC
+
+- **Who:** Mert
+- **Done:** Published evaluation/223-replay-integration-176174.md/json for the completed isolated original-TS GPU replay, exact-file adapter/source provenance, actual processed interval, drained delivery and retained public per-minute estimate snapshot. Preserved the rejected derivative's timing failure and qualified the OpenCV 4.12 CPU timestamp/frame-pair proof; no cross-version decoder or physical-accuracy claim is made.
+- **Completed:** Job 176174 completed 0:0 in 1m51s with actual cuda:0 and worker failure null. The 100-second wall run admitted only original [60,180), actually processing 60.061–148.053 source seconds: 1319 frames kept/processed, zero reader-buffer drops, 93 count-1 crossings (91 car/1 bus/1 truck) and26 completed traversals. All35 legacy and18 measurement batches delivered with zero pending;28 previews sent and one failure retained. Supported OK-minute rows alone sum to71.496669 g estimated CO2 and0.014042455 g estimated NOx; another minute is insufficient, and full-window baseline/scenario values stay null. Source/recipe/archive/adapter/entry/final-report hash bindings, JSON, links and scoped whitespace checks pass. Owned223 relay cleanup followed terminal completion; the separate app and ongoing222 live path remain preserved.
+- **Still open:** Independent final arithmetic/authenticated-private-evidence/reload/retained222 clone-invariance review belongs to the separate consumer checkpoint; no final pass is inferred here. Carter's fixed15m through movement, fleet and70F/60%RH assumptions and null stopped evidence remain conditional; physical scale/path/count validation and complete coverage/sustained acceptance are unresolved. The derivative was rejected without inference after timing loss/30 missing original frames; the actual run did not process the entire120-second allowed source window. No registry refresh, application restart, worker/model/config/contract change, additional inference or four-camera registry activation is part of this publication. Raw IDs/event times/evidence/media/credentials remain private. Other streams' handoff/registry work is preserved and excluded.
+
 ### 8 November 2026, 00:42 America/New_York (05:42 UTC)
 
 - **Who:** Carter
