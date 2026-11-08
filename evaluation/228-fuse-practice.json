@@ -1,0 +1,389 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T03:38:43.469722+00:00",
+  "check": "228_practice_only_fuse_score_trial",
+  "window": [
+    60,
+    180
+  ],
+  "detail_window": [
+    83,
+    110
+  ],
+  "reference": {
+    "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
+    "review_method": "independent_assisted_visual_sequence",
+    "human_confirmed": false,
+    "reference_total_inclusive": 138,
+    "reference_total_excluding_ambiguous": 108,
+    "comparison_interpretation": "time/direction agreement, not human vehicle accuracy"
+  },
+  "recipe_sha256": "b856d4b428924cc50227c3680e2b058ec0bcc2e944ba7fffb1772fa08ad1d68d",
+  "runner_sha256": "3c9e3ecc17f0451ac5deb6b84c6a5dcf22e0f49c309a301af84e10688e0b8185",
+  "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+  "raw_geometry_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+  "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "weights": "pretrained yolo11n.pt",
+  "image_size": 640,
+  "sample_fps": 15,
+  "source_commit": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+  "source_sha256": {
+    "evaluation/check_counts.py": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+    "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1",
+    "worker/track.py": "65a5c46113543fcde3ec5e08ddef69f01f769ddba0dfa28da8d7cb07d8052b80",
+    "worker/metrics.py": "1cef779e94e0a7ce7bc971e4d563816b29aafaaf9efec173a6a75637a9196b2b",
+    "worker/stream.py": "164018b8a45c42837e4d637f959159f09548ad16a0b0eb32a8eed989eba86d23"
+  },
+  "default_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+  "candidate_yaml_sha256": "2dc2fd19c4f4dea2fd7ae6c33bb192353625d5e22f3323e3f67fb192b9540031",
+  "only_yaml_change": {
+    "fuse_score": {
+      "control": true,
+      "candidate": false
+    }
+  },
+  "failed_attempt": {
+    "job_id": "175947",
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "elapsed": "00:00:24",
+    "reason": "Observer read predictor.args.persist; actual persist is a model-track/callback argument. Control stopped on first frame; candidate not run.",
+    "runner_sha256": "89b5048a032018a859db2ecd1a5d61ace32276af1076ffb3f5a32b0178114306",
+    "recipe_sha256": "8a66b4552b5a9b4c54c52b45af6fd624d7aec1521b615f1e156b82353807d486",
+    "source_and_log_preserved_privately": true
+  },
+  "execution": {
+    "job_id": "175957",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:00:48",
+    "wall_cap": "00:02:00",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "node": "alphagpu01",
+    "gpu_slice": "1g.10gb:1",
+    "cpu_request": 1,
+    "memory_request": "16G",
+    "account": "rpicourse",
+    "qos": "normal",
+    "reservation": "binghamton_hackathon",
+    "allocation_released": true,
+    "tests_passed": 43,
+    "subtests_passed": 18,
+    "observer_retry_explicitly_authorized": true
+  },
+  "integrity": {
+    "detail_frames_control": 324,
+    "detail_frames_candidate": 324,
+    "raw_detector_outputs_identical_in_detail": true,
+    "raw_detector_stream_sha256": {
+      "control": "0fdf9626f5000b8746d6bd139d69ea0da57a95305d95e67c1ed373ef21bc539a",
+      "candidate": "0fdf9626f5000b8746d6bd139d69ea0da57a95305d95e67c1ed373ef21bc539a"
+    },
+    "index_alignment_verified": true,
+    "identity_confirmation": "Event-index alignment is exact; physical identity/extras require the frozen visual audit."
+  },
+  "runs": {
+    "control": {
+      "pipeline_recipe_sha256": "23c83c660a0dc34bcc5a9ad6f723ff3504e93be2db07949b38b6b448ea3a3a5f",
+      "actual_configuration": {
+        "first_media_s": 60.06,
+        "tracker_class": "BYTETracker",
+        "tracker_args": {
+          "tracker_type": "bytetrack",
+          "track_high_thresh": 0.25,
+          "track_low_thresh": 0.1,
+          "new_track_thresh": 0.25,
+          "track_buffer": 30,
+          "match_thresh": 0.8,
+          "fuse_score": true,
+          "device": "cuda:0"
+        },
+        "resolved_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+        "max_frames_lost": 30,
+        "raw_callback_precedes_tracking": true,
+        "actual_tracking_callback_persist": true,
+        "predictor_args": {
+          "imgsz": 640,
+          "conf": 0.1,
+          "classes": [
+            2,
+            3,
+            5,
+            7
+          ],
+          "tracker": "bytetrack.yaml",
+          "mode": "track",
+          "batch": 1
+        },
+        "actual_inference_device": "cuda:0",
+        "resolved_yaml_basename": "bytetrack.yaml",
+        "resolved_yaml_full_path_private": true
+      },
+      "frames_processed": 1392,
+      "sample_decisions_sha256": "d2b692f1cb247e786ed1f3c38ba35a63a865b757a01f8ce24c145f238ceece0f",
+      "count_sha256": "7c8f04ff8946d2a328de20f8aefb5a526dfd65e96b2daeaffc0f0bd14607f2f6",
+      "detail_trace_sha256": "67aa3ba080f9cfa9b5c6df874759210b75b190594255d9fcd4e8999c61043652",
+      "wall_s": 20.540547816082835,
+      "max_processed_media_s": 179.981,
+      "control_json_values_equal_original": true,
+      "assisted_inclusive": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 66,
+        "reference_total": 138,
+        "observed_total": 66,
+        "tp": 66,
+        "fp": 0,
+        "fn": 72,
+        "precision": 1.0,
+        "recall": 0.4782608695652174,
+        "relative_total_error": -0.5217391304347826,
+        "direction_error": {
+          "positive": -46,
+          "negative": -26
+        }
+      },
+      "assisted_excluding_ambiguous": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 63,
+        "reference_total": 108,
+        "observed_total": 66,
+        "tp": 63,
+        "fp": 3,
+        "fn": 45,
+        "precision": 0.9545454545454546,
+        "recall": 0.5833333333333334,
+        "relative_total_error": -0.3888888888888889,
+        "direction_error": {
+          "positive": -16,
+          "negative": -26
+        }
+      },
+      "directional_assisted_agreement": {
+        "positive_inclusive": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 23,
+          "reference_total": 69,
+          "observed_total": 23,
+          "tp": 23,
+          "fp": 0,
+          "fn": 46,
+          "precision": 1.0,
+          "recall": 0.3333333333333333,
+          "relative_total_error": -0.6666666666666666,
+          "direction_error": {
+            "positive": -46,
+            "negative": 0
+          }
+        },
+        "positive_excluding_ambiguous": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 20,
+          "reference_total": 39,
+          "observed_total": 23,
+          "tp": 20,
+          "fp": 3,
+          "fn": 19,
+          "precision": 0.8695652173913043,
+          "recall": 0.5128205128205128,
+          "relative_total_error": -0.41025641025641024,
+          "direction_error": {
+            "positive": -16,
+            "negative": 0
+          }
+        },
+        "negative_inclusive": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 43,
+          "reference_total": 69,
+          "observed_total": 43,
+          "tp": 43,
+          "fp": 0,
+          "fn": 26,
+          "precision": 1.0,
+          "recall": 0.6231884057971014,
+          "relative_total_error": -0.37681159420289856,
+          "direction_error": {
+            "positive": 0,
+            "negative": -26
+          }
+        },
+        "negative_excluding_ambiguous": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 43,
+          "reference_total": 69,
+          "observed_total": 43,
+          "tp": 43,
+          "fp": 0,
+          "fn": 26,
+          "precision": 1.0,
+          "recall": 0.6231884057971014,
+          "relative_total_error": -0.37681159420289856,
+          "direction_error": {
+            "positive": 0,
+            "negative": -26
+          }
+        }
+      }
+    },
+    "candidate": {
+      "pipeline_recipe_sha256": "4219569b40c201158ed67439c253bfbb72af2babbcd3dbed118fdc363651a7fc",
+      "actual_configuration": {
+        "first_media_s": 60.06,
+        "tracker_class": "BYTETracker",
+        "tracker_args": {
+          "tracker_type": "bytetrack",
+          "track_high_thresh": 0.25,
+          "track_low_thresh": 0.1,
+          "new_track_thresh": 0.25,
+          "track_buffer": 30,
+          "match_thresh": 0.8,
+          "fuse_score": false,
+          "device": "cuda:0"
+        },
+        "resolved_yaml_sha256": "2dc2fd19c4f4dea2fd7ae6c33bb192353625d5e22f3323e3f67fb192b9540031",
+        "max_frames_lost": 30,
+        "raw_callback_precedes_tracking": true,
+        "actual_tracking_callback_persist": true,
+        "predictor_args": {
+          "imgsz": 640,
+          "conf": 0.1,
+          "classes": [
+            2,
+            3,
+            5,
+            7
+          ],
+          "tracker": "candidate.bytetrack.yaml",
+          "mode": "track",
+          "batch": 1
+        },
+        "actual_inference_device": "cuda:0",
+        "resolved_yaml_basename": "candidate.bytetrack.yaml",
+        "resolved_yaml_full_path_private": true
+      },
+      "frames_processed": 1392,
+      "sample_decisions_sha256": "d2b692f1cb247e786ed1f3c38ba35a63a865b757a01f8ce24c145f238ceece0f",
+      "count_sha256": "8479653e5dc41fe5a28a7ce146e845a22d510ca8b8cf8d9fcb6ad2efc51a8f75",
+      "detail_trace_sha256": "f9d513ea5d86fb72998cf1761d82d284533262d3d3e0f4f26e3176bfac16e4bd",
+      "wall_s": 12.788488110527396,
+      "max_processed_media_s": 179.981,
+      "control_json_values_equal_original": null,
+      "assisted_inclusive": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 115,
+        "reference_total": 138,
+        "observed_total": 123,
+        "tp": 118,
+        "fp": 5,
+        "fn": 20,
+        "precision": 0.959349593495935,
+        "recall": 0.855072463768116,
+        "relative_total_error": -0.10869565217391304,
+        "direction_error": {
+          "positive": -11,
+          "negative": -4
+        }
+      },
+      "assisted_excluding_ambiguous": {
+        "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+        "legacy_closest_first_tp": 98,
+        "reference_total": 108,
+        "observed_total": 123,
+        "tp": 100,
+        "fp": 23,
+        "fn": 8,
+        "precision": 0.8130081300813008,
+        "recall": 0.9259259259259259,
+        "relative_total_error": 0.1388888888888889,
+        "direction_error": {
+          "positive": 19,
+          "negative": -4
+        }
+      },
+      "directional_assisted_agreement": {
+        "positive_inclusive": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 53,
+          "reference_total": 69,
+          "observed_total": 58,
+          "tp": 54,
+          "fp": 4,
+          "fn": 15,
+          "precision": 0.9310344827586207,
+          "recall": 0.782608695652174,
+          "relative_total_error": -0.15942028985507245,
+          "direction_error": {
+            "positive": -11,
+            "negative": 0
+          }
+        },
+        "positive_excluding_ambiguous": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 36,
+          "reference_total": 39,
+          "observed_total": 58,
+          "tp": 36,
+          "fp": 22,
+          "fn": 3,
+          "precision": 0.6206896551724138,
+          "recall": 0.9230769230769231,
+          "relative_total_error": 0.48717948717948717,
+          "direction_error": {
+            "positive": 19,
+            "negative": 0
+          }
+        },
+        "negative_inclusive": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 62,
+          "reference_total": 69,
+          "observed_total": 65,
+          "tp": 64,
+          "fp": 1,
+          "fn": 5,
+          "precision": 0.9846153846153847,
+          "recall": 0.927536231884058,
+          "relative_total_error": -0.057971014492753624,
+          "direction_error": {
+            "positive": 0,
+            "negative": -4
+          }
+        },
+        "negative_excluding_ambiguous": {
+          "matching_policy": "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1",
+          "legacy_closest_first_tp": 62,
+          "reference_total": 69,
+          "observed_total": 65,
+          "tp": 64,
+          "fp": 1,
+          "fn": 5,
+          "precision": 0.9846153846153847,
+          "recall": 0.927536231884058,
+          "relative_total_error": -0.057971014492753624,
+          "direction_error": {
+            "positive": 0,
+            "negative": -4
+          }
+        }
+      }
+    }
+  },
+  "scope": {
+    "production_files_changed": false,
+    "camera_enabled": false,
+    "model_promoted": false,
+    "thresholds_or_metric_geometry_changed": false,
+    "sampler_or_fps_changed": false,
+    "fresh_720_840_processed": false,
+    "further_trial_run": false,
+    "full_clip_execution_deferred": true,
+    "physical_anchor_and_extra_audit": "Review owner confirmed a duplicate vehicle association and flagged truck-part/further duplicates; candidate remains unapproved."
+  },
+  "practice_audit_reported": {
+    "duplicate_association_confirmed": true,
+    "additional_truck_part_duplicate": "reported probable; further groups under audit",
+    "promotion_approved": false,
+    "human_accuracy_established": false
+  }
+}

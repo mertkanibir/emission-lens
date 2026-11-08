@@ -9,6 +9,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 ### 7 November 2026, 22:38 America/New_York / 8 November 2026, 03:38 UTC
 
 - **Who:** Mert
+- **Done:** Completed the authorized private 228 practice score-fusion experiment and unchanged n/640 control. Published the separate helper/tests, frozen recipe/YAML hashes, actual first-frame tracker arguments and safe directional/ambiguity comparison evidence. Original source/defaults, every threshold, geometry, sampler and weights remain fixed.
+- **Completed:** Metadata-only failure 175947 stopped after 24 seconds before candidate inference; failed source/log/recipes are preserved. Authorized corrected job 175957 completed 0:0 in 48 seconds on cuda:0, 43 tests plus 18 subtests passing, allocation released. Control JSON values equal the original practice baseline; both passes use identical 1392 samples and identical raw detections on all 324 detailed frames. Candidate total is 123 versus control 66. Assisted agreement and directional/ambiguity bounds are recorded, with private identity/cost/trajectory evidence handed off.
+- **Still open:** Review owner confirmed duplicate physical-vehicle association, so the fuse-off candidate is preserved as improved-but-unapproved and is not promoted. No raw IDs/events/YAML or imagery is committed. Fresh 720–840 stays unopened, camera settings/defaults are unchanged and full-clip work is deferred. Parent separately authorized one original-fusion n/1280 practice alternative; its pinned execution is the next scoped checkpoint, with no training or additional repair.
+
+### 7 November 2026, 22:38 America/New_York / 8 November 2026, 03:38 UTC
+
+- **Who:** Mert
 - **Done:** Merged Carter's class-to-CARB mapping basis and preserved the calibration, practice-trial and physical duplicate-review histories alongside concurrent backend work.
 - **Completed:** Mapping JSON parses; the publication merge is clean and scoped whitespace checks pass. The mapping documents its scenario assumptions and does not itself activate a server registry or establish physical validation.
 - **Still open:** Backend review of the proposed registry and mapping assumptions, camera-222 calibrated traversal validation and independent scale check; camera-228 resolution-only practice evidence and a fresh held-out check. Existing uncommitted package work remains with its owners.
