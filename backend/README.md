@@ -1,11 +1,13 @@
 # Backend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC
+**Updated:** 7 November 2026, 23:03 America/New_York / 8 November 2026, 04:03 UTC
 
 Read path for camera status, traffic windows, estimated emissions, scenarios, investigation priorities, and draft briefs. The store reads validated live/replay worker batches when `EMISSION_LENS_STORE_PATH` is configured, with separate labeled synthetic fixtures. `db/` is a Postgres draft and has not been applied.
 
 Live and replay windows remain empty until their own worker records arrive. The synthetic minute is labeled and is excluded from live totals. Invalid or missing calibration suppresses speed and distance-based emissions.
+
+**Camera-222 handoff (7 November 2026, 23:03 America/New_York / 8 November 2026, 04:03 UTC):** Carter's supplied private calibration/mapping approvals and replacement traversal config validate in a separate opt-in application; the original application is unchanged. GPU job 175979 delivered 30 replay crossings / 8 completed candidates and 17 live crossings / 4 candidates. A fresh-process final disk reload, authenticated contribution recalculation and exact brief attachment exports pass. Each mode has one ready minute and one without a completed cohort, so default whole-window estimates remain null; only explicitly scoped ready-minute estimates are supported. See [222-HANDOFF.md](./222-HANDOFF.md) for the exact evidence, full UI clone and separately labeled minute slices. The fixed 20 m, fleet/weather assumptions and curved-path/scale/manual-timing limitations remain disclosed. Controlled approved/pending probes, 105 backend tests and TypeScript/Python checks pass. Linked stops remain null, withholding positive shorter-stop scenarios. No contract or approval values changed.
 
 **Historical factor note (7 November 2026, 16:25 America/New_York / 21:25 UTC):** Mert loaded the validated 1,296-row CARB RUNEX catalog from `emissions/`. `get_factor_catalog_status` exposes provenance and scope; `lookup_runex_factor` returns g/vehicle-km at an explicit speed bin and meteorology; `estimate_completed_traversals` returns contract-1.0 rows and supporting evidence. No production class mapping is enabled. The existing fixture store is not replaced: worker persistence, calibrated observations and class mappings are still required for live results. See `emissions/README.md` for the supported region, year, method and limitations. No contract fields changed.
 

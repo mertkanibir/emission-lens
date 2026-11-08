@@ -475,6 +475,7 @@ export function read_measurement_window(input: {
     evidence_refs,
     assumptions: [
       `Hypothetical stopped-time reduction: ${reduction}%.`,
+      "Visual-to-regulatory class mixtures are modeling assumptions; image labels alone do not measure vehicle VMT, fuel or regulatory weight class.",
       ...entries.map(
         (entry) =>
           `Retained assumptions for ${entry.source.minute}: temperature ${entry.source.meteorology.temperature_f} °F; relative humidity ${entry.source.meteorology.relative_humidity_pct}%. Calibration ${entry.source.calibration_version ?? "unavailable"}; class mapping ${entry.source.mapping_version ?? "unavailable"}.`,
