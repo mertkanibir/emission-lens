@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 19:43 America/New_York (8 November 2026, 00:43 UTC)
+
+- **Who:** Mert
+- **Done:** Completed the bounded engineering integration checkpoint: preserved explicit offline camera states as heartbeat age grows; added a calculation-only completed-traversal report and per-traversal shorter-stop CO₂/NOₓ scenario with signed changes; removed the aggregate stopped/cohort-duration shortcut for nonzero scenarios; serialized stale writer-lock recovery. Published package API/method/reliability documentation and the concrete measurement/registry/persistence proposal in `evaluation/integration-readiness.md`, following the accepted internal handoff in `Coordination.md`.
+- **Completed:** All 82 backend tests pass, including 12 synthetic per-traversal scenario tests, 11 report tests, the offline/cohort regressions and six bounded reliability cases. Backend and contract type checks pass. Synthetic examples use retained CARB factors with explicitly fake calibration and mapping assumptions, activate no camera and write no live emissions. Concurrent lock reapers, lost HTTP acknowledgements, atomic readers and transaction failures are covered. Local documentation targets and scoped whitespace checks pass. No production web build was run during the parallel dashboard wave.
+- **Still open:** Same-session entry/exit and traversal-linked stopped producer, approved calibration/class registries, private calculation-evidence persistence, authoritative composed minute writes and coordinated per-pollutant UI/read/brief binding. Physical scale/crossing validation and long live source-outage/restart tests remain required. The current aggregate-only scenario still has unavailable grams; this is ready calculation code, not a finished live emissions pipeline. Existing single-host deployment is the immediate target; multi-instance hosting is deferred. No training, labels, weights, real geometry, credentials or other stream edits were changed by this checkpoint.
+
 ### 7 November 2026, 19:42 America/New_York / 8 November 2026, 00:42 UTC
 
 - **Who:** Mert

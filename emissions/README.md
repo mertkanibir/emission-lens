@@ -79,3 +79,5 @@ The factor-data dependency is resolved for the documented scope. Camera calibrat
 - [CSV output documentation](https://emfac.arb.ca.gov/emfac2025-usersguide/uchap/ch7.output.html).
 
 CARB publishes the source data. The normalized subset is a reproducible transformation by Mert, not a CARB endorsement or regulatory determination. No source licence grant beyond the public source's terms is asserted.
+
+**Calculation checkpoint (7 November 2026, 19:41 America/New_York / 8 November 2026, 00:41 UTC):** Added the pure [per-completed-traversal stopped-time scenario engine](./SCENARIOS.md) and the backend's [calculation-only report](../backend/TRAVERSAL-REPORT.md). Explicit synthetic tests verify real-factor arithmetic and nonlinear speed-bin selection per vehicle, fixed cohort/assumptions, signed increases and unavailable evidence. No live geometry, regulatory mixture, EV discount or uncertainty interval is enabled. The current worker still emits no emissions; measurement producer, approved shared registries, evidence persistence and authoritative publication remain required code/evidence work.

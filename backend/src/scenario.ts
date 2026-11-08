@@ -38,12 +38,12 @@ function adjustTiming(
   traversal: number | null,
   reductionPct: number,
 ): { stopped: number | null; traversal: number | null } {
-  if (stopped === null) return { stopped: null, traversal };
-  const nextStopped = stopped * (1 - reductionPct / 100);
-  if (traversal === null) return { stopped: nextStopped, traversal: null };
-  const moving = traversal - stopped;
-  if (moving < 0) return { stopped: null, traversal: null };
-  return { stopped: nextStopped, traversal: moving + nextStopped };
+  // Observation-minute stops may include vehicles that have not completed.
+  // They cannot be subtracted from the completed cohort's traversal duration.
+  return {
+    stopped: stopped === null ? null : stopped * (1 - reductionPct / 100),
+    traversal: reductionPct === 0 ? traversal : null,
+  };
 }
 
 function sideFrom(
@@ -103,6 +103,7 @@ export function compare_scenario(input: {
     "Network effects and displaced queues are not modeled.",
     emissions.note,
     "Scenario ranges are not statistical confidence intervals.",
+    "Observed minute stopped seconds and completed-traversal durations can describe different vehicles. Nonzero changes need per-traversal stopped evidence before scenario traversal time, speed or grams can be calculated.",
   ];
   if (!allowSpeed) {
     limitations.push(

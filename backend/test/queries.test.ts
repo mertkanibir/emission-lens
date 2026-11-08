@@ -5,6 +5,7 @@ import {
   ASSISTANT_TOOLS,
   compare_scenario,
   draft_brief,
+  displayedState,
   get_camera_status,
   get_emissions_window,
   get_traffic_window,
@@ -63,10 +64,18 @@ test("shorter-stop scenario does not invent grams or speed", () => {
   const car = scenario.classes.find((row) => row.vehicle_class === "car");
   assert.equal(car?.baseline_stopped_vehicle_seconds, 420);
   assert.equal(car?.scenario_stopped_vehicle_seconds, 336);
+  assert.equal(car?.scenario_traversal_time_s, null);
   assert.equal(scenario.baseline.average_speed_m_s, null);
   assert.equal(scenario.scenario.average_speed_m_s, null);
   assert.equal(scenario.scenario.estimate_g, null);
   assert.equal(scenario.baseline.stopped_vehicle_seconds, null);
+});
+
+test("an aggregate-only zero change preserves traversal time without assuming matched stopped cohorts", () => {
+  const scenario = compare_scenario({ cameraId: "222", mode: "synthetic", stoppedTimeReductionPct: 0 });
+  const car = scenario.classes.find((row) => row.vehicle_class === "car");
+  assert.equal(car?.scenario_traversal_time_s, car?.baseline_traversal_time_s);
+  assert.ok(scenario.limitations.some((line) => /different vehicles/.test(line)));
 });
 
 test("electric fleet share does not discount an already aggregated factor twice", () => {
@@ -97,6 +106,18 @@ test("missing heartbeat is offline even if a frame could still be on screen", ()
   const status = get_camera_status("222", "live");
   assert.equal(status.displayed_state, "offline");
   assert.equal(status.heartbeat_at, null);
+});
+
+test("an explicitly offline worker stays offline as its last heartbeat ages", () => {
+  const status = {
+    camera_id: "222", mode: "live" as const, state: "offline" as const,
+    heartbeat_at: "2026-11-07T20:00:00Z", last_source_timestamp: null,
+    processing_delay_ms: null, fps: 0,
+  };
+  assert.equal(displayedState(status, "2026-11-07T20:00:10Z"), "offline");
+  assert.equal(displayedState(status, "2026-11-07T21:00:00Z"), "offline");
+  assert.equal(displayedState({ ...status, heartbeat_at: null }, "2026-11-07T21:00:00Z"), "offline");
+  assert.equal(displayedState({ ...status, state: "live" }, "2026-11-07T21:00:00Z"), "degraded");
 });
 
 test("validator rejects a zero estimate marked unavailable", () => {

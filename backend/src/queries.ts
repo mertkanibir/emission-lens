@@ -70,7 +70,7 @@ function uniqueOrNull(values: Array<number | null>): number | null {
 export function displayedState(status: CameraStatus, asOfIso: string): CameraState {
   // Caltrans does not expose capture UTC. A worker heartbeat records advancing
   // frame processing; capture time remains independently unavailable.
-  if (status.heartbeat_at === null) return "offline";
+  if (status.state === "offline" || status.heartbeat_at === null) return "offline";
   if (isStale(status.heartbeat_at, asOfIso)) return "degraded";
   return status.state;
 }

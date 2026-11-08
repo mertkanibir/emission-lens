@@ -19,3 +19,7 @@ export { ingestWorkerBatch, IngestError } from "./ingest.ts";
 export { readWorkerStore } from "./persistence.ts";
 export { handleWorkerPost } from "./http.ts";
 export { handleFramePost, handleFrameGet } from "./frames.ts";
+export { build_completed_traversal_report } from "./traversal-report.ts";
+export type { CompletedTraversalReport, CompletedTraversalReportInput, ReportTraversal } from "./traversal-report.ts";
+export { compare_completed_traversal_scenario, SCENARIO_METHOD_VERSION } from "../../emissions/src/scenario.ts";
+export type { CompletedTraversalScenario, ScenarioTraversal, TraversalScenarioAdjustment, TraversalScenarioInput } from "../../emissions/src/scenario.ts";

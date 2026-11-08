@@ -139,6 +139,42 @@ export function readWorkerStore(): WorkerStore {
   }
 }
 
+function writerIsAbandoned(lock: string): boolean {
+  try {
+    const owner = JSON.parse(readFileSync(/* turbopackIgnore: true */ lock, "utf8")) as { pid: number };
+    if (!Number.isSafeInteger(owner.pid) || owner.pid <= 0 || statSync(/* turbopackIgnore: true */ lock).mtimeMs >= Date.now() - 30_000) return false;
+    try { process.kill(owner.pid, 0); } catch (probe) {
+      return (probe as NodeJS.ErrnoException).code === "ESRCH";
+    }
+  } catch { /* A writer may still be creating or releasing the lock. */ }
+  return false;
+}
+
+/** Serialize reapers, then check the CURRENT owner again before removing a lock. */
+function recoverAbandonedWriter(lock: string): boolean {
+  if (!writerIsAbandoned(lock)) return false;
+  const recovery = `${lock}.recovery`;
+  let recoveryFd: number;
+  try {
+    recoveryFd = openSync(/* turbopackIgnore: true */ recovery, "wx", 0o600);
+  } catch {
+    // Recovery claims are never reaped automatically: a crashed recovery needs
+    // operator review, rather than risking removal of another active claim.
+    return false;
+  }
+  try {
+    writeFileSync(recoveryFd, JSON.stringify({ pid: process.pid }));
+    if (!writerIsAbandoned(lock)) return false;
+    unlinkSync(/* turbopackIgnore: true */ lock);
+    return true;
+  } catch {
+    return false;
+  } finally {
+    closeSync(recoveryFd);
+    unlinkSync(/* turbopackIgnore: true */ recovery);
+  }
+}
+
 /** Local POSIX store: exclusive writer, fsynced private file, then atomic rename. */
 export function withStoreLock<T>(path: string, update: (snapshot: WorkerSnapshot) => { snapshot: WorkerSnapshot; result: T }): T {
   mkdirSync(/* turbopackIgnore: true */ dirname(path), { recursive: true, mode: 0o700 });
@@ -151,15 +187,7 @@ export function withStoreLock<T>(path: string, update: (snapshot: WorkerSnapshot
       writeFileSync(lockFd, JSON.stringify({ pid: process.pid }));
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw new IngestError("Worker store is not writable.", 503);
-      // Recover a crashed writer only after confirming that its PID no longer exists.
-      try {
-        const owner = JSON.parse(readFileSync(/* turbopackIgnore: true */ lock, "utf8")) as { pid: number };
-        if (Number.isSafeInteger(owner.pid) && owner.pid > 0 && statSync(/* turbopackIgnore: true */ lock).mtimeMs < Date.now() - 30_000) {
-          try { process.kill(owner.pid, 0); } catch (probe) {
-            if ((probe as NodeJS.ErrnoException).code === "ESRCH") { unlinkSync(/* turbopackIgnore: true */ lock); continue; }
-          }
-        }
-      } catch { /* A writer may still be creating or releasing the lock. */ }
+      if (recoverAbandonedWriter(lock)) continue;
       if (Date.now() >= deadline) throw new IngestError("Worker store is busy; retry this batch unchanged.", 503);
       Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 20);
     }
