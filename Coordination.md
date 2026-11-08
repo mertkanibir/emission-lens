@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 8 November 2026, 00:35 America/New_York / 05:35 UTC
+**Updated:** 8 November 2026, 00:40 America/New_York / 05:40 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -230,3 +230,9 @@ Mert requested an immediate role reset using the current lineup and a second fro
 **Push cadence:** Publish each small coherent verified milestone immediately, aiming for 5–10 minute shareable checkpoints during active coding when ready. Include the required dated notes and own Worklog entry for each published slice. Hold broken/unsafe/secret-bearing changes, preserve concurrent edits, never manufacture empty commits or skip checks, and never force-push. Use `mkdir /tmp/emission-lens-publish.lock` for a short exclusive index/Worklog publication operation and release it on exit; do not hold it during builds/tests or commit another stream's files.
 
 The completed [isolated reliability replay](./evaluation/reliability/README.md) recovered delivery without mixing modes. The [relocated 228 practice comparison](./evaluation/video_validation/228-relocated-practice.md) still fails both assisted ambiguity bounds; sampled coverage is not human truth. Neither changes production scientific approval. Camera 223 remains a separate staged integration checkpoint, 220 stays queued and 228 `[720,840)` remains unviewed. All current data contracts and ordinary-idle/null rules are unchanged.
+
+## Camera 220 review released — 8 November 2026, 00:40 America/New_York / 05:40 UTC
+
+Mert's status check distinguishes the completed 228 two-minute practice review from an accepted model or completed full recording. Its relocated-gate model has 80 crossings versus 137–138 partial assisted candidates and fails both screens; 220 independent counting had not started. The available 220 source now proceeds in parallel rather than waiting for a 228 repair. Full-Stack Software Engineer — 2 owns one source/metadata acquisition, practice-only gate/policy selection and freeze, followed by the declared held-out review and a separately frozen assisted ledger. Reference counts remain withheld until the relevant freeze. The private source locator handoff already exists; preserve media hashes, native PTS, actual inspected coverage and uncertainty. Raw footage/frames/identities remain ignored.
+
+This release supersedes the earlier 220 queued status for those two review windows only. No full-file review, production geometry/count activation, physical acceptance, model change or extra GPU job follows. Carter owns distance calibration; any later baseline execution is separately coordinated after the blind handoff, with 223 integration ahead of it and live 222 preserved. Camera 228's reserved `[720,840)` interval remains outside all review/render work.
