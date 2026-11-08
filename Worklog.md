@@ -9,6 +9,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 ### 8 November 2026, 03:35 America/New_York / 8 November 2026, 08:35 UTC
 
 - **Who:** Mert
+- **Done:** Added the compact calculation-input register, scope-preserving review/brief deep links and visible/exported weather attribution.
+- **Completed:** Seven focused context/review checks, backend/frontend TypeScript and scoped whitespace pass. Actual CARB units/versions/factor count, fixed movement distances, retained meteorology and explicit fleet weights are visible separately from modeled weather. Official Open-Meteo data attribution and CC BY 4.0 links are recorded.
+- **Still open:** Combined production build, browser save/state/reload/export acceptance and candidate cutover; independent field validation remains open.
+
+### 8 November 2026, 03:35 America/New_York / 8 November 2026, 08:35 UTC
+
+- **Who:** Mert
 - **Done:** Preserved the accidentally combined context/benchmark publication and corrected its two Markdown whitespace errors; centralized remaining index and Worklog publication.
 - **Completed:** Independent delivery/benchmark suite passes all seven tests; scoped whitespace now passes. The benchmark data and prior histories are retained unchanged. The earlier stream released its lock after a whitespace failure with staged paths; another stream included them without checking the index. No reset or history rewrite occurred.
 - **Still open:** Combined application/browser acceptance and separately reviewed live continuation; remaining streams must hand verified paths to integration without staging.
