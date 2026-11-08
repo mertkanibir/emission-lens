@@ -1,6 +1,6 @@
 {
   "camera_id": "220",
-  "version": "220-image-v1",
+  "version": "220-image-v2",
   "enabled": false,
   "image_geometry_status": "unvalidated",
   "road_region": [
@@ -183,6 +183,18 @@
       "end": [
         0.6188,
         0.7
+      ],
+      "direction": "both"
+    },
+    {
+      "id": "count-3",
+      "start": [
+        0.1168,
+        0.8108
+      ],
+      "end": [
+        0.6795,
+        0.8335
       ],
       "direction": "both"
     }

@@ -1,0 +1,68 @@
+{
+ "camera_id": "220",
+ "movement_id": [
+  "220-away-through",
+  "220-toward-through"
+ ],
+ "status": "approved in the private registry by Carter; camera counting not yet enabled",
+ "view_version": "220-image-v2",
+ "calibration_version": "220-ground-esri-v1-d2c4e9781c94",
+ "correspondences": "220-road-plane-correspondences.json",
+ "movement": {
+  "220-away-through": {
+   "entry": "count-3 negative",
+   "exit": "count-1 negative"
+  },
+  "220-toward-through": {
+   "entry": "count-1 positive",
+   "exit": "count-3 positive"
+  }
+ },
+ "path": "Both directions through the near half of the intersection between count-1 (stop bar) and count-3, a ground line 12 m nearer the camera: away from the camera (count-1 negative, 58 of 91 practice crossings) and toward it (count-1 positive, 33 of 91).",
+ "distance_m": 12.0,
+ "distance_uncertainty_m": {
+  "leave_one_out_range": [
+   10.79,
+   13.21
+  ]
+ },
+ "fit": {
+  "fit": {
+   "pairs": 6,
+   "rms_m": 0.736,
+   "max_m": 1.112
+  },
+  "validation": {
+   "pairs": 2,
+   "rms_m": 0.461,
+   "max_m": 0.553
+  }
+ },
+ "rejected_pairs": [
+  {
+   "pair": 6,
+   "reason": "camera point is a crosswalk stripe end but the aerial point has no crosswalk stripe (lane lines beside parked cars); feature mismatch"
+  },
+  {
+   "pair": 7,
+   "reason": "camera point lies on a moving car, not the road surface"
+  },
+  {
+   "pair": 11,
+   "reason": "camera point lies on plain lane asphalt far down the road with no identifiable marking to match"
+  },
+  {
+   "pair": 12,
+   "reason": "camera point is at the frame edge beside the overlay logo with no visible road feature"
+  }
+ ],
+ "limitations": [
+  "Calibrated points cover only the near intersection; only 2 validation pairs remain, so distance uncertainty is wider (leave-one-out 10.8-13.2 m).",
+  "The camera angle offers few near-field road features; validation max is about 1.5 m.",
+  "Esri World Imagery positional accuracy is not published for this location.",
+  "count-1 counts must be validated before the camera is enabled.",
+  "The road is treated as a plane; lens distortion is not modelled.",
+  "Turning paths that cross both gates are longer than the straight distance."
+ ],
+ "recorded_at": "2026-11-08T05:01:34+00:00"
+}

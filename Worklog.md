@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:02 America/New_York (05:02 UTC)
+
+- **Who:** Carter
+- **Done:** Calibrated camera 220 to the ground from 12 clicked pairs; rejected 4 with recorded reasons (one on a moving car, one at the frame edge by the logo, one stripe/no-stripe mismatch, one on unmarked far asphalt). Added `count-3` to `220.measurement.json` (`220-image-v2`, still disabled until counts are validated) 12 m nearer the camera than `count-1`, with two movements, `220-away-through` and `220-toward-through` (12.0 m). Evidence: `evaluation/calibration/220-road-plane-correspondences.json` and `220-movement.json`. The private registry now covers 222, 223 and 220.
+- **Completed:** Fit RMS 0.74 m (6 pairs), validation RMS 0.46 m (2 pairs). Leave-one-out distance 10.8-13.2 m. Registry passes `parseRegistry`; the 220 traversal config loads once the line file is enabled.
+- **Still open:** 220 count validation by Mert's automated review; if `count-1` moves, the movement is rebuilt. Only two validation pairs remain, so 220's distance is the least certain of the three.
+
 
 ### 7 November 2026, 23:54 America/New_York / 8 November 2026, 04:54 UTC
 
