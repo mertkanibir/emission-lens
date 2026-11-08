@@ -93,6 +93,17 @@ def per_camera(value, camera):
     return value.get("by_camera", {}).get(camera, value)
 
 
+def acceptance_exercises(summary, provenance):
+    checks = {"actual_completed_candidates": summary["completed_candidates"] > 0,
+              "all_completed_stops_numeric": summary["unknown_stop_count"] == 0,
+              "count_gate_observations": summary["selected_gate_crossings"] > 0,
+              "numeric_complete_minute_scenario": summary["numeric_complete_minute_scenarios"] > 0,
+              "source_execution_linkage": provenance["source_execution_receipt_linked"]}
+    if provenance["source_window_s"] is not None:
+        checks["explicit_source_endpoints_covered"] = provenance["requested_source_endpoints_covered_within_1s"]
+    return checks
+
+
 class GenerationChanged(Exception):
     pass
 
@@ -143,6 +154,9 @@ def main():
         policy = json.loads(policy_data)
         validate_policy(camera, policy)
         geometry_data = Path(item["geometry_path"]).read_bytes()
+        geometry = json.loads(geometry_data)
+        assert geometry["camera_id"] == camera and geometry["enabled"] is True and geometry["image_geometry_status"] == "reviewed"
+        assert geometry["version"] == {"222": "222-image-v4", "223": "223-image-v2"}[camera] == policy["view_version"]
         source_data = Path(item["source_recording_path"]).read_bytes()
         assert digest(source_data) == item["source_sha256"]
         assert runtime["failure"] is None and runtime["run"]["mode"] == "replay"
@@ -152,6 +166,7 @@ def main():
         assert runtime["delivery"]["enabled"] and runtime["delivery"]["pending_batches"] == 0
         assert runtime["measurement_delivery"]["enabled"] and runtime["measurement_delivery"]["pending_batches"] == 0
         measurement = per_camera(runtime["measurements"], camera)
+        assert measurement["count_gate_id"] == "count-1"
         assert measurement["config_sha256"] == digest(geometry_data)
         assert measurement["traversal"]["config_sha256"] == digest(policy_data)
         assert "|v:" + digest(policy_data)[:16] in runtime["run"]["model_version"]
@@ -268,7 +283,7 @@ def main():
     else:
         raise RuntimeError("Three concurrent replacements prevented a generation-bound read; no acceptance claimed.")
 
-    summaries = {camera: {"completed_candidates": 0, "positive_stop_count": 0, "zero_stop_count": 0, "unknown_stop_count": 0, "max_stopped_time_s": None, "minutes": []} for camera in THRESHOLDS}
+    summaries = {camera: {"completed_candidates": 0, "positive_stop_count": 0, "zero_stop_count": 0, "unknown_stop_count": 0, "max_stopped_time_s": None, "selected_gate_crossings": 0, "minutes": []} for camera in THRESHOLDS}
     identities = set()
     for entry, evidence, scenario in zip(entries, responses, loaded["scenarios"]):
         source = entry["source"]; run = runs[source["run"]["run_id"]]; camera = run["camera"]
@@ -287,7 +302,9 @@ def main():
         anchors = {s["session_id"]: instant(s["anchor_utc"]) for s in source["timing"]["sessions"]}
         assert len(approved["traversals"]) == len(source["traversals"])
         summary = summaries[camera]
+        summary["selected_gate_crossings"] += sum(row["count"] for row in linked["traffic"] if row["camera_id"] == camera and row["mode"] == "replay" and instant(row["minute"]) == instant(source["minute"]) and row["count"] is not None)
         for raw, traversal in zip(source["traversals"], approved["traversals"]):
+            assert raw["movement_id"] == {"222": "222-eastbound-through", "223": "223-southbound-through"}[camera]
             identity = (source["run"]["run_id"], raw["session_id"], raw["traversal_id"])
             assert identity not in identities
             identities.add(identity)
@@ -339,7 +356,7 @@ def main():
         assert summary["completed_candidates"] == per_camera(runtime["completed_traversals"], camera)["completed_traversals"]
         scoped = [v for label, v in zip(labels, views) if label["camera"] == camera and label["scope"] == "explicit_window"]
         summary["complete_minute_queries"] = len(scoped)
-        summary["numeric_complete_minute_scenarios"] = sum(v["scenario"]["available"] for v in scoped)
+        summary["numeric_complete_minute_scenarios"] = sum(all(p[key] is not None for p in v["scenario"]["pollutants"].values() for key in ("baseline_g", "scenario_g", "change_g", "change_pct")) for v in scoped)
         summary["scenario_increase_minutes"] = sum(any(p["change_g"] is not None and p["change_g"] > 0 for p in m["pollutants"].values()) for m in summary["minutes"])
         whole = next(v for label, v in zip(labels, views) if label["camera"] == camera and label["mode"] == "replay" and label["scope"] == "reporting_hour")
         incomplete = any(m["pollutants"]["co2"]["scenario_g"] is None for m in summary["minutes"])
@@ -349,20 +366,15 @@ def main():
             assert all(p["baseline_g"] is None for p in whole["scenario"]["pollutants"].values())
         summary["whole_window_scenario_available"] = whole["scenario"]["available"]
         summary["incomplete_whole_window_preserved"] = not incomplete or not whole["scenario"]["available"]
-    exercises = {camera: {"actual_completed_candidates": summary["completed_candidates"] > 0,
-                          "positive_stopped_observed": summary["positive_stop_count"] > 0,
-                          "numeric_complete_minute_scenario": summary["numeric_complete_minute_scenarios"] > 0,
-                          "source_execution_linkage": provenance[camera]["source_execution_receipt_linked"]} for camera, summary in summaries.items()}
-    for camera in THRESHOLDS:
-        if provenance[camera]["source_window_s"] is not None:
-            exercises[camera]["explicit_source_endpoints_covered"] = provenance[camera]["requested_source_endpoints_covered_within_1s"]
+    exercises = {camera: acceptance_exercises(summary, provenance[camera]) for camera, summary in summaries.items()}
     complete = all(all(values.values()) for values in exercises.values())
-    result = {"state": "PASS_actual_stop_replays" if complete else "PARTIAL_actual_replays_verified_with_unexercised_conditions", "checked_at": datetime.now(timezone.utc).isoformat(),
+    result = {"state": "PASS_backend_actual_stop_replays" if complete else "PARTIAL_actual_replays_verified_with_unexercised_conditions", "checked_at": datetime.now(timezone.utc).isoformat(),
               "registry_sha256": digest(registry_data), "snapshot_sha256": digest(data), "current_authenticated_reads": len(responses), "generation_races_reacquired": races,
               "fresh_process_private_and_public_equal": True, "original_CARB_baseline_and20_oracle": True, "mode_and_public_identity_boundary": True,
               "provenance": provenance, "cameras": summaries, "exercises": exercises,
+              "frontend_REPLAY_scenario_check": "Requires the independent frontend/browser receipt; this backend driver makes no browser acceptance claim.",
               "methodological_correction": "A 20% shorter-stop scenario may increase estimated emissions across nonlinear RUNEX bins. Signed results are preserved; scenario<=baseline is not an acceptance invariant.",
-              "limitations": ["Configured300s is wall duration, not processed source duration; actual first/last PTS, session spans, drops and issue counters are retained. Native intra-session gaps, continuous/loss-free coverage and field accuracy remain unverified.", "Image stopped time does not identify an engine-running state.", "No ordinary-idle process, extra EV discount, statistical interval or claimed real-world savings is added."]}
+              "limitations": ["Configured300s is wall duration, not processed source duration; actual first/last PTS, session spans, drops and issue counters are retained. Native intra-session gaps, continuous/loss-free coverage and field accuracy remain unverified.", "The stopped-time reference is calibration-derived, not human annotated; image stopped time does not identify an engine-running state.", "220/228 are excluded from these replay metrics because their held-out count screens failed; registry presence does not approve new count/traversal results.", "223 already has accepted emissions E2E job176174; this is its new stopped-policy check, not its first emissions replay.", "No ordinary-idle process, extra EV discount, statistical interval or claimed real-world savings is added."]}
     save(args.output / "result.json", result)
     print(json.dumps({"state": result["state"], "result_path": str(args.output / "result.json"), "current_authenticated_reads": len(responses), "exercises": exercises}, indent=2))
 

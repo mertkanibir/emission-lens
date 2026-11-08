@@ -74,6 +74,14 @@ class StopReplayAcceptanceTests(unittest.TestCase):
         self.assertEqual(CHECK.per_camera(diagnostic, "222"), diagnostic)
         self.assertEqual(CHECK.per_camera({"by_camera": {"223": diagnostic}}, "223"), diagnostic)
 
+    def test_supported_all_zero_stops_satisfy_the_actual_checklist(self):
+        summary = {"completed_candidates": 2, "positive_stop_count": 0, "unknown_stop_count": 0,
+                   "selected_gate_crossings": 7, "numeric_complete_minute_scenarios": 1}
+        provenance = {"source_execution_receipt_linked": True, "source_window_s": None}
+        self.assertTrue(all(CHECK.acceptance_exercises(summary, provenance).values()))
+        summary["unknown_stop_count"] = 1
+        self.assertFalse(CHECK.acceptance_exercises(summary, provenance)["all_completed_stops_numeric"])
+
 
 if __name__ == "__main__":
     unittest.main()
