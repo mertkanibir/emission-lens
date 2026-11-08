@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:21 America/New_York / 8 November 2026, 05:21 UTC
+
+- **Who:** Mert
+- **Done:** Prepared release/DEVPOST.md, release/DEMO.md and release/README.md as reviewable submission copy, an exact three-minute live/replay script, a source/licence inventory, claim-to-evidence ledger and truthful final checklist. Rechecked the official hacker guide, preserved the contributor/settings hold and kept all source/runtime/scientific inputs unchanged.
+- **Completed:** Independent claim/licence/privacy review passes; the opening identifies an assumption-based camera path rather than independent physical acceptance. All relative document links resolve, script segments total 180 seconds, historical pollutant values match the retained job-175979 source, and scoped whitespace/attribution/credential-marker checks pass. A read-only public API check at 05:18:30 UTC observed camera 222 reported/displayed live with a recent processing heartbeat and null capture timestamp; it does not certify completed job 176075, preview acceptance or sustained performance. No application build, GPU job, external submission, release publication or message was started by this work.
+- **Still open:** Exact Devpost form/registration and upload requirements, Mert/Carter confirmation of actual AI use, project/dependency licence/compliance choice, reviewed screenshots/video, a fresh same-pipeline replay or dated fallback, timed combined rehearsal and actual submission confirmation before 11:00 New York. Independent scale/path/traversal and broader count acceptance, other-camera delivery/review, linked stopped evidence, long-run/outage tests and hosted persistence retain their recorded limits. Other streams' infrastructure/reliability edits remain excluded.
+
 ### 8 November 2026, 00:19 America/New_York / 8 November 2026, 05:19 UTC
 
 - **Who:** Mert
