@@ -1,6 +1,6 @@
 {
   "camera_id": "228",
-  "version": "228-image-v1",
+  "version": "228-image-v2",
   "enabled": false,
   "image_geometry_status": "unvalidated",
   "road_region": [
@@ -223,24 +223,24 @@
     {
       "id": "count-1",
       "start": [
-        0.2789,
-        0.3333
+        0.2201,
+        0.3714
       ],
       "end": [
-        0.7695,
-        0.3972
+        0.7743,
+        0.4509
       ],
       "direction": "both"
     },
     {
       "id": "count-2",
       "start": [
-        0.8109,
-        0.4597
+        0.7654,
+        0.4628
       ],
       "end": [
-        0.7188,
-        0.8431
+        0.648,
+        0.8124
       ],
       "direction": "both"
     }

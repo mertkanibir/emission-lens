@@ -6,6 +6,14 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+
+### 7 November 2026, 23:54 America/New_York / 8 November 2026, 04:54 UTC
+
+- **Who:** Mert
+- **Done:** Pulled the current repository and personally redrew camera 228's two gates using a private browser fallback after the native OpenCV window stayed invisible. Saved config/cameras/228.measurement.json as 228-image-v2; recorded source hash and practice-only rerun scope in evaluation/228-redraw-practice.md.
+- **Completed:** The existing MetricsConfig parser validates both gates; road/exclusion/policy fields match the prior file exactly. Camera remains disabled/unvalidated. Historical geometry/results and original media are retained privately; no model, tracker, contract or other camera changed. Scoped whitespace checks pass.
+- **Still open:** Terminal's Screen Time restriction and the expired Empire AI SSH connection prevent the authorized count rerun. Mert is restoring access. No new GPU job/count result, old-ledger accuracy comparison or fresh 720–840 access is claimed.
+
 ### 7 November 2026, 23:44 America/New_York / 8 November 2026, 04:44 UTC
 
 - **Who:** Mert
