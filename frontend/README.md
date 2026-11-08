@@ -1,9 +1,9 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 19:58 America/New_York / 8 November 2026, 00:58 UTC
+**Updated:** 7 November 2026, 21:01 America/New_York / 8 November 2026, 02:01 UTC
 
-The four-camera Torrance dashboard reads the shared backend contract. The server reads live/replay worker records from the configured local store. Without a worker, those modes remain empty. The synthetic sample is explicitly labeled and excluded from live totals.
+The four-camera Torrance dashboard reads the shared backend contract and the separately versioned measurement read model. The server reads worker status, retained observations and accepted measurement snapshots from the protected local store. Dated history and processing freshness are independent: retained records do not make an offline worker live. Live, replay and labeled synthetic records remain separate.
 
 ## Observation workspace
 
@@ -66,3 +66,15 @@ Dependencies: shared read models do not expose geometry review confirmation, per
 ## Larger-type acceptance pass
 
 **7 November 2026, 19:58 America/New_York / 8 November 2026, 00:58 UTC — Mert.** Production build and all five frontend readiness guards pass. Browser checks cover all four workspace menus, Escape/outside/exclusive dismissal, all four camera destinations, register search/reset/filter/sort, overview mode switches, four detail disclosures, all four brief camera options, copy feedback and an actual text download. Desktop (1618 px), compact navigation, tablet (820 px), and phones (354/390 px) were checked. Phone menu panels fit; camera/review/brief content stays inside the viewport outside independent table scroll areas. A horizontal gesture left overview page pan at zero. Local motion on/off and system reduced-motion behavior pass. No browser warnings/errors or map-worker error was captured. Browser overrides and temporary production resources were restored; the user's localhost server remains running. See `../design-qa.md` for evidence and limits.
+
+## Reviewed measurement binding
+
+**7 November 2026, 21:00 America/New_York / 8 November 2026, 02:00 UTC — Mert.** The frontend now exposes the documented thin Node/dynamic adapters for `/api/measurements` (GET/POST), authenticated `/api/measurements/evidence` (GET), and authenticated `/api/measurements/refresh` (POST). Backend handlers own authentication, bounded validation, approved-registry resolution, persistence, composition and calculations. No registry approval control, credential, private path or raw traversal/session identity is added to the public UI. See [the exact backend interface](../backend/MEASUREMENT-INGESTION.md) and [frontend integration/acceptance](INTEGRATION.md).
+
+Camera/scenario views consume one measurement snapshot for separate estimated CO2/NOx baseline, hypothetical scenario, signed gram/percent changes, completed-cohort timing, minute assumptions and safe evidence references. A positive change stays an increase; missing sides withhold changes; baseline zero has no defined percent. General observation-minute stopped time stays separate from the completed cohort. Summary gram formatting preserves small NOx values; detailed comparisons retain precision. Registry approval is camera/mode scoped and does not assert reviewed count accuracy or overall measurement readiness. The brief shows the backend's exact pollutant and assumption text; copying/downloading uses that same rendered string. Mixed minute meteorology remains distinct.
+
+The approved compact mark and favicon/apple metadata are applied from `public/brand/` without changing the layout, palette or delivered asset bytes. Brand acceptance is independent of scientific readiness.
+
+Verification: all **24 frontend tests** and the combined production build pass. Controlled loopback production checks cover route → private fixture store → reads → camera/scenario/brief rendering → exact 2,126-character downloaded draft, plus desktop/354 px phone menus, four cameras, modes, scenario bounds, disclosures and reduced motion. Actual live grams remain unavailable without approved physical inputs. Temporary test resources were removed and the user's port-3000 process was preserved. Exact results, fixture boundaries and remaining physical-calibration/mapping/hosting inputs are recorded in `INTEGRATION.md`.
+
+**Generated-type cleanup (7 November 2026, 21:01 America/New_York / 8 November 2026, 02:01 UTC):** Production type regeneration cleared the reported stale duplicate route declaration; root `npm run typecheck` passes. No tracked declaration or user server was removed. Final build verification remains owned by this frontend stream.

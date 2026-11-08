@@ -1,4 +1,4 @@
-import type { EmissionsWindow, TrafficWindow } from "@emission-lens/backend";
+import type { EmissionsWindow, TrafficWindow, MeasurementWindowView } from "@emission-lens/backend";
 import type { Camera, CameraCalibration, Mode } from "@emission-lens/contracts";
 
 export interface ReadinessFact {
@@ -25,40 +25,54 @@ export function measurementReadiness({
   emissions,
   factors,
   mode,
+  measurement,
 }: {
   camera: Pick<Camera, "road_region">;
   calibration: CameraCalibration;
   traffic: Pick<TrafficWindow, "totals">;
-  emissions: Pick<EmissionsWindow, "quality_state" | "estimate_g_by_pollutant">;
+  emissions: Pick<EmissionsWindow, "quality_state" | "estimate_g_by_pollutant"> & Partial<Pick<EmissionsWindow, "rows">>;
   factors: FactorStatus;
   mode: Mode;
+  measurement?: MeasurementWindowView;
 }): ReadinessFact[] {
   const geometryPresent =
     camera.road_region !== null && calibration.gates != null;
   const completed = traffic.totals.completed_traversals;
-  const estimatesPresent =
-    emissions.quality_state === "ok" &&
-    emissions.estimate_g_by_pollutant.co2 !== null &&
-    emissions.estimate_g_by_pollutant.nox !== null;
+  const supported = (pollutant: "co2" | "nox") => {
+    if (emissions.estimate_g_by_pollutant[pollutant] === null) return false;
+    const rows = emissions.rows?.filter((row) => row.pollutant === pollutant);
+    return rows && rows.length > 0
+      ? rows.every((row) => row.quality_state === "ok" && row.estimate_g !== null)
+      : emissions.quality_state === "ok";
+  };
+  const co2Present = supported("co2");
+  const noxPresent = supported("nox");
+  const estimatesPresent = co2Present && noxPresent;
+  const registry = measurement?.registry;
   return [
     {
       label: "Image geometry & review",
-      status: geometryPresent
-        ? "Present · review not reported"
-        : "Geometry incomplete",
-      detail: `Road region: ${camera.road_region === null ? "missing" : "present"}; gates: ${calibration.gates == null ? "missing" : "present"}. Review confirmation is unavailable; presence alone is not approval.`,
-      missing: !geometryPresent,
+      status: measurement
+        ? "Count review not reported"
+        : geometryPresent ? "Present · review not reported" : "Geometry incomplete",
+      detail: measurement
+        ? "The public measurement summary does not expose selected-gate count review. A stored count, geometry presence or physical-calibration approval does not establish reviewed crossing accuracy."
+        : `Road region: ${camera.road_region === null ? "missing" : "present"}; gates: ${calibration.gates == null ? "missing" : "present"}. Review confirmation is unavailable; presence alone is not approval.`,
+      missing: measurement ? true : !geometryPresent,
     },
     {
       label: "Physical calibration",
-      status:
-        calibration.validation_status === "valid"
+      status: registry
+        ? registry.state === "invalid" ? "Registry invalid" : registry.physical_calibration_approved ? "Registry approved" : "Not approved"
+        : calibration.validation_status === "valid"
           ? "Marked valid"
           : calibration.validation_status === "invalid"
             ? "Invalid"
             : "Missing",
-      detail: `Version: ${calibration.version}. References: ${calibration.reference_measurements == null ? "missing" : "present"}; transform: ${calibration.transform == null ? "missing" : "present"}. A valid flag does not establish class mappings, completed traversals, or independent field validation.`,
-      missing: calibration.validation_status !== "valid",
+      detail: registry
+        ? `Camera/mode registry: ${registry.state}. Revision: ${registry.revision ?? "unavailable"}; calibration version: ${registry.calibration_version ?? "unavailable"}. Count approval alone does not approve physical calibration or emissions; each retained measurement must match the approved versions.`
+        : `Version: ${calibration.version}. References: ${calibration.reference_measurements == null ? "missing" : "present"}; transform: ${calibration.transform == null ? "missing" : "present"}. A valid flag does not establish class mappings, completed traversals, or independent field validation.`,
+      missing: registry ? registry.state !== "configured" || !registry.physical_calibration_approved : calibration.validation_status !== "valid",
     },
     {
       label: "Completed traversals",
@@ -69,17 +83,22 @@ export function measurementReadiness({
       detail:
         mode === "synthetic"
           ? "Labeled synthetic aggregate. It does not establish calibrated field traversals."
-          : "A minute-aggregate count. Individual calibrated-traversal evidence is unavailable.",
+          : measurement
+            ? `${measurement.minutes.length} retained measurement snapshots. Original scenario cohort: ${measurement.scenario.completed_cohort.count ?? "unavailable"}. Private calculation evidence is identified by the public receipt references; it does not certify crossing accuracy.`
+            : "A minute-aggregate count. Individual calibrated-traversal evidence is unavailable.",
       missing: completed === null || completed === 0,
     },
     {
       label: "Visual-to-CARB mapping",
-      status: factors.production_mapping_loaded
+      status: registry
+        ? registry.mapping_versions.length > 0 ? "Versions registered" : "No version reported"
+        : factors.production_mapping_loaded
         ? "Reported loaded"
         : "Not loaded",
-      detail:
-        "Production mapping availability is reported by the factor catalog. Per-camera mapping versions and supporting evidence are unavailable.",
-      missing: !factors.production_mapping_loaded,
+      detail: registry
+        ? `Camera/mode mapping versions: ${registry.mapping_versions.join(", ") || "unavailable"}. Applied versions and blocking reasons are listed with each retained measurement; a catalog alone does not approve a mapping.`
+        : "Production mapping availability is reported by the factor catalog. Per-camera mapping versions and supporting evidence are unavailable.",
+      missing: registry ? registry.mapping_versions.length === 0 : !factors.production_mapping_loaded,
     },
     {
       label: "Running-exhaust factors",
@@ -92,8 +111,8 @@ export function measurementReadiness({
     },
     {
       label: "Estimated CO₂ & NOₓ",
-      status: estimatesPresent ? "Estimates recorded" : "Unavailable",
-      detail: `Record quality: ${emissions.quality_state.replaceAll("_", " ")}. Missing estimates remain unavailable, never zero.`,
+      status: estimatesPresent ? "Estimates recorded" : co2Present || noxPresent ? "Partial estimates" : "Unavailable",
+      detail: `CO₂: ${co2Present ? "recorded" : "unavailable"}; NOₓ: ${noxPresent ? "recorded" : "unavailable"}. Record quality: ${emissions.quality_state.replaceAll("_", " ")}. Each pollutant retains its own support; missing estimates remain unavailable, never zero.`,
       missing: !estimatesPresent,
     },
   ];

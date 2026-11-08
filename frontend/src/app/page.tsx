@@ -2,11 +2,12 @@ import {
   get_camera_status,
   get_emissions_window,
   get_traffic_window,
+  get_measurement_registry_status,
   listCameras,
 } from "@emission-lens/backend";
-import { calibrationFor } from "@emission-lens/contracts";
 import { AppShell } from "@/components/AppShell";
 import { OverviewBoard } from "@/components/OverviewBoard";
+import { registryCalibrationState } from "@/lib/measurement";
 import { hrefWith, parseMode, parseView } from "@/lib/format";
 
 export default async function OverviewPage({
@@ -17,12 +18,13 @@ export default async function OverviewPage({
   const query = await searchParams;
   const mode = parseMode(query.mode);
   const view = parseView(query.view);
+  const now = new Date();
   const cameras = listCameras().map((camera) => ({
     camera,
-    status: get_camera_status(camera.id, mode),
-    traffic: get_traffic_window({ cameraId: camera.id, mode }),
-    emissions: get_emissions_window({ cameraId: camera.id, mode }),
-    calibration: calibrationFor(camera.id).validation_status,
+    status: get_camera_status(camera.id, mode, now),
+    traffic: get_traffic_window({ cameraId: camera.id, mode, now }),
+    emissions: get_emissions_window({ cameraId: camera.id, mode, now }),
+    calibration: registryCalibrationState(get_measurement_registry_status(camera.id, mode)),
   }));
   const selectedId = cameras.some((item) => item.camera.id === query.camera)
     ? query.camera!

@@ -19,9 +19,8 @@ export function ScenarioPollutants({ rows }: { rows: PollutantComparisonInput[] 
             <tr>
               <th>Pollutant</th>
               <th className="num">Baseline</th>
-              <th className="num">Hypothetical scenario</th>
-              <th className="num">Change · g</th>
-              <th className="num">Change · %</th>
+              <th className="num">Scenario</th>
+              <th className="num">Change · g / %</th>
             </tr>
           </thead>
           <tbody>
@@ -31,12 +30,11 @@ export function ScenarioPollutants({ rows }: { rows: PollutantComparisonInput[] 
                 <td className="num"><span className={row.baseline === null ? "q-null" : "q"}>{scenarioValue(row.baseline, "g")}</span></td>
                 <td className="num"><span className={row.scenario === null ? "q-null" : "q"}>{scenarioValue(row.scenario, "g")}</span></td>
                 <td className="num">
-                  <span className={row.changeGrams === null ? "q-null" : "q compare-delta"}>
+                  <span className={row.changeGrams === null ? "q-null" : "q"}>
                     {signedScenarioValue(row.changeGrams, "g")}
                   </span>
-                </td>
-                <td className="num">
-                  <span className={row.changePercent === null ? "q-null" : "q compare-delta"}>
+                  <br />
+                  <span className={row.changePercent === null ? "q-null" : "q"}>
                     {signedScenarioValue(row.changePercent, "%")}
                   </span>
                 </td>

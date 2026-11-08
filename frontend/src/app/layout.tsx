@@ -13,6 +13,13 @@ export const metadata: Metadata = {
   title: "Emission Lens",
   description:
     "Estimated intersection emissions from public cameras. Not a measured air-quality index.",
+  icons: {
+    icon: [
+      { url: "/brand/favicon.svg", type: "image/svg+xml" },
+      { url: "/brand/favicon.ico", sizes: "any" },
+    ],
+    apple: [{ url: "/brand/icon-180.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({

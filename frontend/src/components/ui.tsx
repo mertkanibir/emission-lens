@@ -2,6 +2,7 @@ import { Leaf } from "@phosphor-icons/react/dist/ssr";
 import type { CameraState, QualityState } from "@emission-lens/contracts";
 import { qualityLabel, stateLabel } from "@/lib/format";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
+import { scenarioValue } from "@/lib/scenario-presentation";
 
 /** Three-lamp signal head: green lit for live, amber for degraded, unlit for offline. */
 export function SignalHead({
@@ -55,6 +56,15 @@ export function Quantity({
       {unit ? <span className="q-unit">{unit}</span> : null}
     </span>
   );
+}
+
+/** Grams retain small NOx values instead of rounding them to a supported zero. */
+export function EmissionQuantity({ value }: { value: number | null }) {
+  if (value === null || !Number.isFinite(value)) return <span className="q-null">Unavailable</span>;
+  const text = Math.abs(value) >= 10_000
+    ? `${new Intl.NumberFormat("en-US", { notation: "scientific", maximumFractionDigits: 2 }).format(value)} g`
+    : scenarioValue(value, "g", false, Math.abs(value) >= 1 ? 1 : 6);
+  return <span className="q" title={`${value} g`}>{text.slice(0, -2)}<span className="q-unit">g</span></span>;
 }
 
 export function Readout({

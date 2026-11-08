@@ -32,10 +32,11 @@ export default async function BriefPage({
   const camera = cameras.find((item) => item.id === cameraId)!;
   const reduction = parseReduction(query.reduce);
   const validReduction = isValidReduction(reduction);
+  const now = new Date();
   const brief = validReduction
-    ? draft_brief({ cameraId, mode, stoppedTimeReductionPct: reduction })
+    ? draft_brief({ cameraId, mode, stoppedTimeReductionPct: reduction, now })
     : null;
-  const ranking = rank_investigation_priorities({ cameraId, mode });
+  const ranking = rank_investigation_priorities({ cameraId, mode, now });
 
   return (
     <AppShell

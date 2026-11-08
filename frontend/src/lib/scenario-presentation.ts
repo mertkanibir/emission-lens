@@ -31,12 +31,12 @@ export function presentPollutantComparison(input: PollutantComparisonInput) {
 }
 
 /** Enough precision for small NOx totals; positive changes remain increases. */
-export function scenarioValue(value: number | null, unit: "g" | "%", signed = false): string {
+export function scenarioValue(value: number | null, unit: "g" | "%", signed = false, precision?: number): string {
   if (value === null || !Number.isFinite(value)) return "Unavailable";
-  const digits = unit === "g" ? 6 : 2;
+  const digits = precision ?? (unit === "g" ? 6 : 2);
   const magnitude = new Intl.NumberFormat("en-US", {
     maximumFractionDigits: digits,
-    ...(value !== 0 && Math.abs(value) < 10 ** -digits
+    ...(value !== 0 && (Math.abs(value) < 10 ** -digits || (unit === "g" && Math.abs(value) >= 1_000_000))
       ? { notation: "scientific" as const }
       : {}),
   }).format(Math.abs(value));

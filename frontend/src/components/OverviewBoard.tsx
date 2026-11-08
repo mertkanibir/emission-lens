@@ -22,10 +22,10 @@ import type {
 } from "@emission-lens/backend";
 import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
-import { Quantity, StateChip } from "@/components/ui";
+import { scenarioValue } from "@/lib/scenario-presentation";
+import { Quantity, StateChip, EmissionQuantity } from "@/components/ui";
 import {
   formatAge,
-  formatNumber,
   formatWindow,
   hrefWith,
   PACIFIC,
@@ -182,10 +182,7 @@ export function OverviewBoard({
             <Cloud size={19} />
           </div>
           <strong>
-            <Quantity
-              value={selected.emissions.estimate_g_by_pollutant.co2}
-              unit="g"
-            />
+            <EmissionQuantity value={selected.emissions.estimate_g_by_pollutant.co2} />
           </strong>
           <span className="metric-caption">
             {selected.emissions.estimate_g_by_pollutant.co2 !== null
@@ -251,7 +248,7 @@ export function OverviewBoard({
                     view === "emissions"
                       ? item.emissions.estimate_g_by_pollutant.co2 === null
                         ? "CO₂ unavailable"
-                        : `${formatNumber(item.emissions.estimate_g_by_pollutant.co2!)} g CO₂`
+                        : `${scenarioValue(item.emissions.estimate_g_by_pollutant.co2, "g")} CO₂`
                       : item.traffic.totals.count === null
                         ? "Counts unavailable"
                         : `${item.traffic.totals.count} crossings`,
@@ -415,10 +412,7 @@ export function OverviewBoard({
                         <Quantity value={item.traffic.queue_count} digits={0} />
                       </td>
                       <td>
-                        <Quantity
-                          value={item.emissions.estimate_g_by_pollutant.co2}
-                          unit="g"
-                        />
+                        <EmissionQuantity value={item.emissions.estimate_g_by_pollutant.co2} />
                       </td>
                       <td>
                         <Link
@@ -490,10 +484,7 @@ export function OverviewBoard({
               <div>
                 <dt>Estimated NOₓ</dt>
                 <dd>
-                  <Quantity
-                    value={selected.emissions.estimate_g_by_pollutant.nox}
-                    unit="g"
-                  />
+                  <EmissionQuantity value={selected.emissions.estimate_g_by_pollutant.nox} />
                 </dd>
               </div>
               <div>

@@ -100,7 +100,8 @@ test("sample traversals stay labeled and partial pollutant records do not imply 
   const facts = measurementReadiness(value);
   assert.equal(facts[2].status, "16 recorded");
   assert.match(facts[2].detail, /synthetic aggregate/);
-  assert.equal(facts.at(-1)?.status, "Unavailable");
+  assert.equal(facts.at(-1)?.status, "Partial estimates");
+  assert.equal(facts.at(-1)?.missing, true);
 });
 
 test("complete supported pollutant zeros are recorded estimates, not missing values", () => {
@@ -113,4 +114,53 @@ test("complete supported pollutant zeros are recorded estimates, not missing val
     measurementReadiness(value).at(-1)?.status,
     "Estimates recorded",
   );
+});
+
+test("server registry facts replace static physical flags without claiming reviewed counts", () => {
+  const value = input();
+  value.traffic.totals.count = 24;
+  value.measurement = {
+    camera_id: "222", mode: "live", from: "2026-11-07T20:00:00Z", to: "2026-11-07T21:00:00Z",
+    registry: { state: "configured", revision: "controlled-test", calibration_version: "controlled-calibration", mapping_versions: ["controlled-mapping"], physical_calibration_approved: false },
+    minutes: [], evidence_refs: [], limitations: [],
+    scenario: {
+      available: false,
+      pollutants: {
+        co2: { baseline_g: null, scenario_g: null, change_g: null, change_pct: null },
+        nox: { baseline_g: null, scenario_g: null, change_g: null, change_pct: null },
+      },
+      completed_cohort: {
+        count: null,
+        baseline: { distance_m: null, traversal_time_s: null, stopped_time_s: null },
+        scenario: { distance_m: null, traversal_time_s: null, stopped_time_s: null },
+      },
+      assumptions: [], evidence_refs: [], limitations: [],
+    },
+  };
+  let facts = measurementReadiness(value);
+  assert.equal(facts[0].status, "Count review not reported");
+  assert.equal(facts[1].status, "Not approved");
+  assert.equal(facts.at(-1)?.status, "Unavailable");
+  value.measurement.registry.physical_calibration_approved = true;
+  facts = measurementReadiness(value);
+  assert.equal(facts[1].status, "Registry approved");
+  assert.equal(facts[0].status, "Count review not reported");
+  assert.equal(facts.at(-1)?.status, "Unavailable");
+  assert.match(facts[1].detail, /controlled-calibration/);
+});
+
+test("unsupported numeric fields do not claim readiness, while supported pollutants remain independent", () => {
+  const value = input();
+  value.emissions.estimate_g_by_pollutant = { co2: 0, nox: 0 };
+  assert.equal(measurementReadiness(value).at(-1)?.status, "Unavailable");
+  value.emissions.estimate_g_by_pollutant.nox = null;
+  value.emissions.rows = [{
+    camera_id: "222", minute: "2026-11-07T20:04:00Z", mode: "live", pollutant: "co2",
+    quality_state: "ok", estimate_g: 0, range_low_g: null, range_high_g: null,
+    factor_version: "controlled-test-factor", method_version: "controlled-test-method",
+  }];
+  const fact = measurementReadiness(value).at(-1)!;
+  assert.equal(fact.status, "Partial estimates");
+  assert.match(fact.detail, /CO₂: recorded; NOₓ: unavailable/);
+  assert.equal(fact.missing, true);
 });

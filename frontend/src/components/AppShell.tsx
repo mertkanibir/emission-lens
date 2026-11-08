@@ -1,9 +1,10 @@
 import {
   get_camera_status,
   get_traffic_window,
+  get_measurement_registry_status,
   listCameras,
 } from "@emission-lens/backend";
-import { calibrationFor, type Mode } from "@emission-lens/contracts";
+import { type Mode } from "@emission-lens/contracts";
 import Link from "next/link";
 import {
   Leaf,
@@ -49,7 +50,7 @@ export function AppShell({
     (status) => status.displayed_state === "live",
   ).length;
   const calibrated = cameras.filter(
-    (camera) => calibrationFor(camera.id).validation_status === "valid",
+    (camera) => get_measurement_registry_status(camera.id, mode).physical_calibration_approved,
   ).length;
   const asOf = statuses[0].as_of;
   const hasTraffic = cameras.some(
@@ -88,9 +89,14 @@ export function AppShell({
           href={hrefWith("/", { mode })}
           aria-label="Emission Lens home"
         >
-          <span className="brand-symbol">
-            <Leaf size={24} weight="fill" />
-          </span>
+          <img
+            className="brand-symbol"
+            src="/brand/mark.svg"
+            width={37}
+            height={40}
+            alt=""
+            style={{ background: "transparent", objectFit: "contain" }}
+          />
           <span className="brand-lockup">
             <strong>Emission Lens</strong>
             <small>A clearer perspective.</small>
@@ -210,7 +216,7 @@ export function AppShell({
                     </dd>
                   </div>
                   <div>
-                    <dt>Valid calibrations</dt>
+                    <dt>Registry-approved calibrations</dt>
                     <dd>
                       {calibrated} / {cameras.length}
                     </dd>

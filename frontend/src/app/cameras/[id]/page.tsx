@@ -6,6 +6,7 @@ import {
   get_factor_catalog_status,
   get_traffic_window,
   listCameras,
+  read_measurement_window,
 } from "@emission-lens/backend";
 import {
   calibrationFor,
@@ -18,9 +19,13 @@ import { AppShell } from "@/components/AppShell";
 import { ReductionInput } from "@/components/ReductionInput";
 import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
+import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
+import { ScenarioPollutants } from "@/components/ScenarioPollutants";
+import { registryCalibrationState, scenarioPollutantRows, observationStoppedRows } from "@/lib/measurement";
 import {
   Panel,
   Quantity,
+  EmissionQuantity,
   QualityChip,
   Readout,
   StateChip,
@@ -115,19 +120,27 @@ export default async function CameraPage({
 
   const reduction = parseReduction(query.reduce);
   const validReduction = isValidReduction(reduction);
-  const status = get_camera_status(id, mode);
-  const traffic = get_traffic_window({ cameraId: id, mode });
-  const emissions = get_emissions_window({ cameraId: id, mode });
+  const now = new Date();
+  const status = get_camera_status(id, mode, now);
+  const traffic = get_traffic_window({ cameraId: id, mode, now });
+  const emissions = get_emissions_window({ cameraId: id, mode, now });
   const factors = get_factor_catalog_status();
   const calibration = calibrationFor(id);
-  const calibrationValid = calibration.validation_status === "valid";
+  const measurement = read_measurement_window({
+    cameraId: id, mode, now,
+    stoppedTimeReductionPct: validReduction ? reduction : 20,
+  });
+  const calibrationState = registryCalibrationState(measurement.registry);
+  const calibrationValid = calibrationState === "valid";
   const scenario = validReduction
     ? compare_scenario({
         cameraId: id,
         mode,
         stoppedTimeReductionPct: reduction,
+        now,
       })
     : null;
+  const observationStops = scenario === null ? [] : observationStoppedRows(scenario.classes);
   // Class totals span the selected window; the minute history below keeps the
   // original records separate. Camera-minute queue observations are never summed.
   const rows = classRows(
@@ -557,14 +570,14 @@ export default async function CameraPage({
                         label={`${POLLUTANT_LABEL[range.pollutant]} · central estimate`}
                         large
                       >
-                        <Quantity value={range.estimate} unit="g" />
+                        <EmissionQuantity value={range.estimate} />
                       </Readout>
                       <Readout label="Scenario range">
                         {range.low === null || range.high === null ? (
                           <Quantity value={null} />
                         ) : (
                           <span className="q">
-                            {formatNumber(range.low)}–{formatNumber(range.high)}
+                            {formatNumber(range.low, 6)}–{formatNumber(range.high, 6)}
                             <span className="q-unit">g</span>
                           </span>
                         )}
@@ -596,9 +609,10 @@ export default async function CameraPage({
                     model-year mixtures.
                   </p>
                   <p className="fine">
-                    Temperature assumptions are 60, 70, and 80 °F at 60%
-                    relative humidity. These are scenario assumptions, not
-                    current weather observations.
+                    The factor catalog supports several meteorological
+                    assumptions. The exact retained assumptions and measurement
+                    versions are listed below; these are not current weather
+                    observations.
                   </p>
                   <dl className="readouts readouts-2">
                     <Readout label="Applied factor version">
@@ -657,10 +671,10 @@ export default async function CameraPage({
                 ) : (
                   <>
                     <div className="table-scroll">
-                      <table className="data-table">
+                      <table className="data-table" aria-label="Original completed-cohort comparison">
                         <thead>
                           <tr>
-                            <th>Measure</th>
+                            <th>Completed-cohort measure</th>
                             <th className="num">Baseline</th>
                             <th className="num">
                               {formatNumber(
@@ -675,24 +689,19 @@ export default async function CameraPage({
                         <tbody>
                           {[
                             {
-                              label: "Stopped vehicle-s",
-                              before: scenario.baseline.stopped_vehicle_seconds,
-                              after: scenario.scenario.stopped_vehicle_seconds,
+                              label: "Completed-cohort distance · m",
+                              before: measurement.scenario.completed_cohort.baseline.distance_m,
+                              after: measurement.scenario.completed_cohort.scenario.distance_m,
                             },
                             {
-                              label: "Traversal vehicle-s",
-                              before: scenario.baseline.traversal_time_s,
-                              after: scenario.scenario.traversal_time_s,
+                              label: "Completed-cohort traversal · vehicle-s",
+                              before: measurement.scenario.completed_cohort.baseline.traversal_time_s,
+                              after: measurement.scenario.completed_cohort.scenario.traversal_time_s,
                             },
                             {
-                              label: "Average speed · m/s",
-                              before: scenario.baseline.average_speed_m_s,
-                              after: scenario.scenario.average_speed_m_s,
-                            },
-                            {
-                              label: "Estimated emissions · g",
-                              before: scenario.baseline.estimate_g,
-                              after: scenario.scenario.estimate_g,
+                              label: "Traversal-linked stopped · vehicle-s",
+                              before: measurement.scenario.completed_cohort.baseline.stopped_time_s,
+                              after: measurement.scenario.completed_cohort.scenario.stopped_time_s,
                             },
                           ].map((row) => (
                             <tr key={row.label}>
@@ -730,15 +739,32 @@ export default async function CameraPage({
                         </tbody>
                       </table>
                     </div>
-                    {scenario.baseline.estimate_g === null ||
-                    scenario.scenario.estimate_g === null ? (
+                    <ScenarioPollutants rows={scenarioPollutantRows(measurement.scenario.pollutants)} />
+                    {Object.values(measurement.scenario.pollutants).some((value) => value.baseline_g === null || value.scenario_g === null) ? (
                       <p className="context-note">
-                        Estimated grams are unavailable for this comparison. A
-                        numeric change in stopped time does not establish an
-                        emissions change.
+                        Unsupported pollutant values stay unavailable. Observation-minute
+                        stopped time is separate from the original completed-traversal
+                        cohort used for estimated emissions.
                       </p>
                     ) : null}
-                    {scenario.classes.length === 0 ? (
+                    <details className="disclosure">
+                      <summary>Completed cohort & calculation evidence</summary>
+                      <p className="fine">
+                        {measurement.scenario.completed_cohort.count === null
+                          ? "No supported completed-traversal cohort is available."
+                          : `${formatNumber(measurement.scenario.completed_cohort.count, 0)} completed ${measurement.scenario.completed_cohort.count === 1 ? "traversal" : "traversals"} in the original reporting cohort.`}
+                        {" "}The same vehicles and original completion timestamps are used
+                        for baseline and scenario; hypothetical rows never enter observed totals.
+                      </p>
+                      <ul className="limits">
+                        {measurement.scenario.assumptions.map((line) => <li key={line}>{line}</li>)}
+                      </ul>
+                      <div className="evidence-list">
+                        {measurement.scenario.evidence_refs.map((reference) => <code key={reference}>{reference}</code>)}
+                      </div>
+                      <p className="fine">References identify retained calculation evidence. Private provenance requires authenticated access.</p>
+                    </details>
+                    {observationStops.length === 0 ? (
                       <p className="context-note">
                         There are no traversals to compare. The result is
                         insufficient evidence, not zero.
@@ -750,11 +776,12 @@ export default async function CameraPage({
                           scenario.baseline.stopped_vehicle_seconds === null
                         }
                       >
-                        <summary>Stopped time by vehicle class</summary>
+                        <summary>Observation-minute stopped time by class</summary>
                         <p className="fine">
+                          These general minute observations can include vehicles
+                          outside the completed cohort. Their stopped-time arithmetic
+                          does not supply traversal-linked stops or emissions inputs.
                           A full-mix total requires a value for every class.
-                          Available class observations can still be compared
-                          individually.
                         </p>
                         <div className="table-scroll">
                           <table className="data-table">
@@ -766,7 +793,7 @@ export default async function CameraPage({
                               </tr>
                             </thead>
                             <tbody>
-                              {scenario.classes.map((row) => (
+                              {observationStops.map((row) => (
                                 <tr key={row.vehicle_class}>
                                   <td className="class-name">
                                     {row.vehicle_class.replaceAll("_", " ")}
@@ -795,7 +822,7 @@ export default async function CameraPage({
                     <details className="disclosure">
                       <summary>Assumptions & limitations</summary>
                       <ul className="limits">
-                        {scenario.limitations.map((line) => (
+                        {[...new Set([...scenario.limitations, ...measurement.limitations, ...measurement.scenario.limitations])].map((line) => (
                           <li key={line}>{line}</li>
                         ))}
                       </ul>
@@ -823,7 +850,7 @@ export default async function CameraPage({
                       calibrationValid ? "chip chip-ok" : "chip chip-missing"
                     }
                   >
-                    {calibration.validation_status}
+                    {calibrationState === "valid" ? "Registry approved" : calibrationState}
                   </span>
                 }
               >
@@ -840,14 +867,16 @@ export default async function CameraPage({
                   emissions={emissions}
                   factors={factors}
                   mode={mode}
+                  measurement={measurement}
                 />
+                <MeasurementSnapshots window={measurement} />
                 <p className="context-note">
                   {calibrationValid
-                    ? "Calibration is marked valid. Supported estimates still require calibrated completed traversals, documented class mappings, and applied factor provenance."
+                    ? "The server registry reports physical calibration approved for this camera and mode. Each estimate still requires matching versioned measurements, class mappings and applied factors."
                     : "Speeds and distance-based emissions are suppressed until calibration is valid. A queue without completed calibrated traversals does not imply zero emissions."}
                 </p>
                 <p className="fine">
-                  Calibration version: {calibration.version}. Weather, nearby
+                  Calibration version: {measurement.registry.calibration_version ?? "Unavailable"}. Weather, nearby
                   schools, and community context are not loaded for this window.
                 </p>
               </Panel>

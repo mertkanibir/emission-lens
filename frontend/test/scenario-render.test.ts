@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { EmissionQuantity } from "../src/components/ui.tsx";
 import { ScenarioPollutants } from "../src/components/ScenarioPollutants.tsx";
 
 test("comparison renders independently labeled pollutants and keeps signed increases visible", () => {
@@ -14,7 +15,7 @@ test("comparison renders independently labeled pollutants and keeps signed incre
   assert.match(html, /scope="row">Estimated NOₓ/);
   assert.match(html, /\+20 g/);
   assert.match(html, /\+20%/);
-  assert.match(html, /0 g/);
+  assert.match(html, /0.*g/);
   assert.match(html, /Percent change is undefined when the baseline is zero/);
   assert.match(html, /positive value is an increase/);
 });
@@ -29,4 +30,13 @@ test("a missing pollutant never borrows another pollutant's totals or changes", 
   assert.doesNotMatch(nox, /\+9 g|\+90%/);
   assert.match(html, /−0.1 g/);
   assert.match(html, /−10%/);
+});
+
+test("small observed gram values remain distinct from supported zero in shared readouts", () => {
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 0.0586826695 })), /0.058683.*g/);
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 0.0000001 })), /1E-7.*g/);
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 0 })), /0.*g/);
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: null })), /Unavailable/);
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 522.704037 })), /522.7<.*g/);
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 12345 })), /1.23E4.*g/);
 });
