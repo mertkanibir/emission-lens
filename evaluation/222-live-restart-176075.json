@@ -1,0 +1,142 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T05:19:00.035564+00:00",
+  "check": "camera_222_authorized_live_worker_startup",
+  "status": "healthy_at_timestamped_startup_verification_left_running",
+  "verified_at_utc": "2026-11-08T05:16:47.829209+00:00",
+  "verified_at_local": "2026-11-08T00:16:47.829209-05:00",
+  "scheduler": {
+    "job_id": "176075",
+    "state_at_verification": "RUNNING",
+    "node": "alphagpu01",
+    "requested_worker_seconds": 21240,
+    "allocation_cap_seconds": 21600,
+    "allocation_end_at_utc": "2026-11-08T11:12:38Z",
+    "allocation_end_at_local": "2026-11-08T06:12:38-05:00",
+    "allocation_seconds_remaining_at_verification": 21350.170791,
+    "completed": false,
+    "final_worker_diagnostic_available": false,
+    "automatic_requeue": false,
+    "pretermination_signal_s": 120
+  },
+  "source": {
+    "archive_commit": "7b5818f923dab43815ffd7f74fb2ec9c9ee6c5d3",
+    "archive_sha256": "e350faba679a6a57b26a4b06883a43e19cb8e1704044014dab239e2932eb359f",
+    "worker_main_sha256": "20ec7e4eaabf7972260ac5be2b5b0ec4953963138f27bdfaf795a729e9e71713",
+    "recipe_sha256": "e5c2d2d671a9ca105e52ddfd75bb33d357b7e00659d1236477e35705f6cc174c",
+    "weights": "pretrained yolo11n.pt",
+    "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "profile_inputs_sha256": {
+      "geometry.json": "ab1b684086ce1d2543bba2c9df41748aad8e2c8af4ce164c9e2dbbd95188e674",
+      "traversals.json": "5c114e23b66025231bae6ab90ddaac96e4a1c54382e346c864e73495a6e13b85"
+    },
+    "registry_sha256": "e244d2633ff6c59ff7446c991486fffcf01a2638cdfccd46fc4b27953bf273f9",
+    "production_ready_record_sha256": "64c41be3245c36c4377cba7031e4c05634123b8ee9674249efe447ad0a3b96dc",
+    "worker_models_geometry_registry_contracts_changed_by_startup": false
+  },
+  "profile": {
+    "camera_id": "222",
+    "mode": "live",
+    "image_size": 640,
+    "sample_fps": 15,
+    "count_gate_id": "count-1",
+    "calibration_version": "222-ground-esri-v1-7f52d53d8fc8",
+    "mapping_version": "pretrained-visual-to-emfac2007-v1",
+    "movement_id": "222-eastbound-through",
+    "fixed_movement_distance_m": 20,
+    "owner_approval": "Carter",
+    "temperature_f_assumption": 70,
+    "relative_humidity_pct_assumption": 60,
+    "fleet_mixture_is_modeling_assumption": true,
+    "stopped_time_s": null,
+    "independent_scale_curved_turn_and_manual_traversal_validation": false,
+    "timing_basis": "estimated HLS media UTC; not verified capture UTC"
+  },
+  "startup_observation": {
+    "actual_inference_device": "cuda:0",
+    "heartbeat_advances": true,
+    "processed_preview_sequence_advances": true,
+    "latest_preview_sequence": 3896,
+    "private_bridge_media_interval_advances": true,
+    "legacy_pending_batches": 0,
+    "measurement_pending_batches": 0,
+    "crossings": 38,
+    "completed_traversals": 8,
+    "supported_ok_minute_rows_only_estimated_g": {
+      "co2": 39.774198104752095,
+      "nox": 0.009009019615313056
+    },
+    "emissions_sum_scope": "Supported OK minute rows only, not the whole window or all traffic.",
+    "whole_window_scenario_available": false,
+    "whole_window_baseline_g": {
+      "co2": null,
+      "nox": null
+    },
+    "scenario_estimated_g": {
+      "co2": null,
+      "nox": null
+    },
+    "count_accuracy_or_sustained_performance_accepted": false,
+    "current_api_bridge_private_evidence_run_identity_matches": true,
+    "private_evidence_payload_public": false,
+    "consolidated_production_application_preserved": true,
+    "worker_left_running": true
+  },
+  "relay_repair": {
+    "initial_guard_v1_error": "Incorrectly treated the allocation as ended and closed its login relay during startup; it also removed the remote environment file.",
+    "original_guard_preserved_sha256": "cb052f6c3606930ae3e9e823e86275519888afc0ee070b7fffa3a20e797d9687",
+    "v2_guard_sha256": "fa3143c740edd779c4be99f1b76a934b5940ac3d399611f1ae8f2cd24c0d8a6e",
+    "recipe_rewritten_to_hide_v1_failure": false,
+    "same_login_port_restored": true,
+    "worker_restarted": false,
+    "source_profile_unchanged": true,
+    "worker_retains_inherited_private_environment": true,
+    "v2_guard_checks": [
+      "squeue active-state veto",
+      "two absent-queue plus terminal-accounting confirmations",
+      "final queue check before cancellation"
+    ],
+    "v2_stubbed_guard_checks_passed": true,
+    "v2_guard_running_at_verification": true,
+    "actual_allocation_end_cleanup_observed": false
+  },
+  "termination_plan": {
+    "warning_before_job_end_s": 120,
+    "worker_grace_s": 90,
+    "launcher_grace_s": 100,
+    "cpu_dummy_child_and_stubbed_ssh_checks_passed": true,
+    "compute_exit_closes_owned_relay_and_removes_remote_credential_copy": true,
+    "local_guard_cancels_only_its_fixed_login_forward_after_end_confirmation": true,
+    "user_ssh_master_preserved": true,
+    "idle_awake_process_bound_to_guard_lifetime": true,
+    "cleanup_not_performed_by_this_publication": true,
+    "continuity_dependencies": [
+      "production application remains available",
+      "laptop/network/SSH session remain connected",
+      "configured allocation remains active until its cap or an earlier stop"
+    ],
+    "six_hour_completion_or_end_cleanup_claimed": false
+  },
+  "preview_observer_note": "Initial inspection used an incorrect JPEG response field; the corrected image_data_url check passed. This observation error did not require worker restart or inference rerun.",
+  "remaining_acceptance": [
+    "final worker diagnostics and actual allocation-end cleanup",
+    "independent physical scale and curved-turn movement eligibility",
+    "manual traversal and count accuracy checks",
+    "new human reference events for camera228 repositioned gates",
+    "longer sustained performance/outage evidence and complete demo acceptance"
+  ],
+  "private_artifact_sha256": {
+    "startup-verification.private.json": "91b4e4f276f020938d719250081ddf4a7e1e9ad14b907a2f0d6b7a46d8118b15",
+    "start.private.json": "77336d7256a19ccb7647a17d643a283d09422299dbd9896ca567d71bebbbdafa",
+    "live-proof.private.json": "cd7c5860ee991f3425cfd3c90f1fcee86a04cb9f927afc1f7f55792f9c02ca5a",
+    "relay-repair.private.json": "8c5030d6fa2839f25e7778707061590e83779ba108ce6a5704d74dff5466b93a",
+    "termination-test.private.json": "d7c3fb9804b81a16e29f72e73387806cfa73a467cad807aff269ea93b7f7616b",
+    "startup-cameras-1.private.json": "659f0b260d0731ca892b12a78d8a3e2431d10e36f5ee9dfd770a526a2d732586",
+    "startup-cameras-2.private.json": "b00df44edf13444f2f0417978f1045063cd499ca6ccbf7bb84cc530c91f21475",
+    "startup-cameras-3.private.json": "dcd7080c1b545fa3c911c81b92b5477d3f1076625145c18381f9600bf4e6c66e",
+    "startup-measurements-2.private.json": "3c74f5b4bc1d2fb0dd8c1f86ae872304426d42220bcab734e952c4eb68a6f938",
+    "startup-measurements-3.private.json": "28250cd443ca318a321c4e5aa129f8bd9dddac1e09f7b3486d652dfee5dfbe8d",
+    "preview-1.private.json": "ec1b1d6677d8a190a0b683593d145cd9363748d284a54d2bf726a56b60c310e5",
+    "preview-2.private.json": "af227fdbbffd20a0399d622ecdb76930c2f06be89f61d88d007fe1300e6159b5"
+  }
+}

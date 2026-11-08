@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:19 America/New_York / 8 November 2026, 05:19 UTC
+
+- **Who:** Mert
+- **Done:** Published evaluation/222-live-restart-176075.md/json as a bounded startup snapshot verified at 8 November 2026, 00:16:47 America/New_York / 05:16:47 UTC. Recorded the frozen source/archive/profile/recipe, actual GPU processing, consolidated production delivery, conditional supported-minute estimates, repaired private relay guard and configured termination dependencies. This evidence-only publication leaves the healthy worker, application, SSH master, relays and cleanup processes running and untouched.
+- **Completed:** At that snapshot job 176075 was RUNNING on alphagpu01 with actual cuda:0, advancing heartbeats/processed previews/private bridge media, latest preview sequence 3896, 38 crossings, 8 completed traversals and zero pending legacy/measurement batches. Supported OK-minute rows alone sum to 39.774198 g estimated CO2 and 0.009009020 g estimated NOx; full-window baseline/scenario values remain null. Exact source/profile/recipe/startup/repair hash bindings, supported-row arithmetic, JSON, links and scoped whitespace verify. Existing private CPU dummy-child/stubbed-SSH guard and signal checks pass; no broad build or inference check was added.
+- **Still open:** The initial v1 cleanup guard wrongly closed the startup login relay and removed its remote environment file; the same port was restored without restarting the worker, which retained its inherited environment. Original guard/recipe bytes are preserved, and separate v2 repair provenance records active-queue veto, two absent/terminal confirmations and a final queue check. Actual allocation-end cleanup and final diagnostics remain pending; the configured 5h54m worker duration/six-hour allocation cap ending 06:12:38 America/New_York / 11:12:38 UTC is not a completion or uninterrupted-performance claim. Continuity depends on the application, laptop/network/SSH and active allocation. Conditional fixed20m/fleet/70F/60%RH assumptions, independent scale/curved-turn/manual-traversal/count validation and camera228's new human reference events remain unresolved. No worker/model/geometry/registry/contract changes, raw IDs/times, evidence payloads/images, credentials or credential paths are included. Other streams' infrastructure work is preserved and excluded.
+
 ### 8 November 2026, 00:16 America/New_York (05:16 UTC)
 
 - **Who:** Carter
