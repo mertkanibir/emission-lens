@@ -1,0 +1,61 @@
+{
+ "camera_id": "223",
+ "movement_id": "223-southbound-through",
+ "status": "approved in the private registry by Carter",
+ "view_version": "223-image-v2",
+ "calibration_version": "223-ground-esri-v1-34782d640860",
+ "correspondences": "223-road-plane-correspondences.json",
+ "movement": {
+  "entry_gate_id": "count-3",
+  "exit_gate_id": "count-1",
+  "entry_direction": "negative",
+  "exit_direction": "negative"
+ },
+ "path": "Through traffic crossing the intersection and leaving across count-1 (far crosswalk), from a ground line 15 m before count-1.",
+ "distance_m": 15.0,
+ "distance_uncertainty_m": {
+  "leave_one_out_range": [
+   14.48,
+   15.35
+  ],
+  "method": "perpendicular gate separation, refit omitting each fit pair"
+ },
+ "fit": {
+  "fit": {
+   "pairs": 8,
+   "rms_m": 0.587,
+   "max_m": 0.967
+  },
+  "validation": {
+   "pairs": 4,
+   "rms_m": 1.077,
+   "max_m": 1.528
+  }
+ },
+ "rejected_pairs": [
+  {
+   "pair": 1,
+   "reason": "camera point sits in the gap between crosswalk stripes while the aerial point sits on a stripe; feature mismatch"
+  },
+  {
+   "pair": 12,
+   "reason": "camera point lies on a queued vehicle in the turn lane, not the road surface"
+  },
+  {
+   "pair": 13,
+   "reason": "camera point lies on plain asphalt under the timestamp overlay; no feature matches the aerial lane-line point"
+  },
+  {
+   "pair": 15,
+   "reason": "camera point lies on plain asphalt with no identifiable road feature to match"
+  }
+ ],
+ "limitations": [
+  "The camera angle offers few near-field road features; validation max is about 1.5 m.",
+  "Esri World Imagery positional accuracy is not published for this location.",
+  "count-1 counts are validated by automated assisted review, not a human count.",
+  "The road is treated as a plane; lens distortion is not modelled.",
+  "Turning paths that cross both gates are longer than the straight distance."
+ ],
+ "recorded_at": "2026-11-08T04:03:40+00:00"
+}

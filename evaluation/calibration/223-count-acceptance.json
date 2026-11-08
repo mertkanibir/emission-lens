@@ -1,0 +1,58 @@
+{
+ "camera_id": "223",
+ "geometry_version": "223-image-v1",
+ "geometry_sha256_before_enabling": "0ef2217d4fe207d94145abfd95666734f86fb32ef4f59b9701ff6043d96a554b",
+ "designated_gate": "count-1",
+ "directions": "both",
+ "validation_type": "automated assisted review (not a human count)",
+ "validated_by": "Mert's independent assisted visual review, frozen before model results were viewed",
+ "evidence": [
+  "evaluation/video_validation/report.md",
+  "evaluation/count-validation-223-228.md",
+  "evaluation/count-validation-223-228.json"
+ ],
+ "held_out_window": {
+  "clip_time": "6:00-8:00",
+  "model": "yolo11n, 640 px, 15 fps (live worker settings)",
+  "all_reviewed_crossings": {
+   "reference": 136,
+   "model": 129,
+   "matched": 125,
+   "recall": 0.9191,
+   "precision": 0.969,
+   "count_error": -0.0515
+  },
+  "excluding_11_ambiguous": {
+   "reference": 125,
+   "model": 129,
+   "matched": 123,
+   "recall": 0.984,
+   "precision": 0.9535,
+   "count_error": 0.032
+  },
+  "matching": "one to one, same direction, within 1.5 s"
+ },
+ "acceptance_bar": {
+  "min_recall": 0.85,
+  "max_abs_count_error": 0.15,
+  "same_bar_as": "222"
+ },
+ "limitations": [
+  "Reference is an automated assisted review, not a human count; human-reference metrics are null.",
+  "The review report notes open endpoint and direction questions on count-1.",
+  "Recording gaps at clip 9:43-9:59 and 10:28-10:32 are outside the checked window.",
+  "count-2 is not validated and is not usable: it counted 8 crossings, all one direction, on the held-out window."
+ ],
+ "enabled_by": "Carter",
+ "enabled_at": "2026-11-08T03:51:57+00:00",
+ "count_2_sanity_check": {
+  "clip_time": "6:00-8:00",
+  "model": "yolo11n, 640 px, 15 fps",
+  "count_1_model_total": 129,
+  "count_2_model_total": 8,
+  "count_2_directions": {
+   "positive": 8
+  },
+  "finding": "count-2 counts one direction only and far fewer crossings, like 222's edge-hugging count-2; not usable. count-1 reproduces Mert's model total of 129."
+ }
+}
