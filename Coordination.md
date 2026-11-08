@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC
+**Updated:** 7 November 2026, 21:31 America/New_York / 8 November 2026, 02:31 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -99,3 +99,29 @@ The Release & Submission Manager owns the stale GitHub contributor display. Curr
 3. Demonstrate actual reviewed completed traversals through worker → persisted estimated CO₂/NOₓ → scenario → brief, followed by bounded forced-outage and labeled-replay rehearsal on the final runtime.
 4. Configure a shared hosted database and preview topology if the demo must run beyond the verified single persistent host. Supabase is not yet provisioned or wired.
 5. Finish Devpost/demo materials and final rehearsal; contributor-cache resolution remains with the release stream. Optional context layers and further training do not block the local software checkpoint.
+
+## Carter's count handoff — 7 November 2026, 21:31 America/New_York / 8 November 2026, 02:31 UTC
+
+Mert read the latest completed project-chat outputs and Carter's 21:16–21:25 America/New_York messages. Carter is handling camera 220 and assigned count acceptance for **223 and 228** to Mert. These numbers are camera IDs. His committed `b1a5edf` enables only 222/count-1 after its human comparison, with pretrained YOLO11n/640 at requested 15 FPS. Mert safely fast-forwarded the shared checkout to that revision; no model weights or labels changed.
+
+### Dispatched work
+
+| Work stream | Owner and paths | Current assignment |
+|---|---|---|
+| Independent video review | Mert; new video-validation engineer, `evaluation/video_validation/`, focused new tests, private `data/raw/video_validation/` | Review all four supplied clips, starting with 223/228. Freeze practice-selected gates, then independently inspect held-out video and hash timestamped ledgers before seeing Carter/model references. Extend the queue to remaining video/windows without reprocessing identical frozen inputs. |
+| Media and model execution | Mert; existing GPU/data stream, private clips and safe scalar execution evidence | Acquire the clips once, retain hashes/PTS/recording provenance and run the existing pretrained 640/15-FPS baseline at the frozen geometry. Keep outputs away from the blind visual review until its ledger freezes. |
+| Queue portability | Mert; existing full-stack stream, `worker/publish.py`, focused tests/docs and optional narrow CI | Investigate Carter's 13 Windows PermissionError reports without weakening POSIX durability. Distinguish unsupported directory syncing from open temporary-file locking; obtain actual Windows CI evidence when available. |
+| Consumer acceptance | Mert; dashboard stream, existing frontend boundaries | Verify that reviewed 222 image counts do not imply supported speed, distance or emissions, while the other cameras remain pending. Preserve the completed design. |
+| Evidence reconciliation | Mert; central planning and `evaluation/calibration/222-count-audit.md` | Reproduce existing claims, preserve original human evidence, resolve matching/boundary/hash conventions and make acceptance decisions explicit. |
+
+### Review protocol and current evidence
+
+- **Practice:** `[60,180)` clip seconds; inspect unannotated timestamped sequences with gate overlays and road visible on both sides. Choose the designated gate using practice only; freeze its geometry and metrics policy before held-out scoring.
+- **Held-out:** `[360,480)` clip seconds; record gate, direction, event time, supported visual class, uncertainty and frame/PTS references. Sparse contact sheets alone do not certify full temporal coverage. Keep assisted visual review distinct from Carter's human annotations; initial assisted ledgers have `human_confirmed=false`.
+- **Comparison:** One-to-one, same gate/direction, default 1.5-second tolerance; canonical comparison maximizes matched events, then minimizes summed absolute timing error with deterministic tie-breaking. Preserve legacy closest-first results separately. Report total and per-direction errors, precision/recall, disputed events, missingness and coverage. Totals-only references cannot establish event-level precision/recall.
+- **Provenance:** Retain original media and raw geometry hashes plus canonical JSON/selected-geometry fingerprints; LF/CRLF differences alone can change byte hashes. Retain original endpoint annotations and simultaneous distinct vehicles; do not silently normalize invalid timestamps into an interval or discard them as duplicates.
+- **Acceptance:** Carter's proposed recall ≥85% and absolute total error ≤15% is an initial screening result. Flag precision/direction/visibility failures even when an aggregate screen passes. No camera is enabled solely by an assisted review; Mert/Carter must accept the evidence. Counting approval never authorizes physical calibration or estimated emissions.
+
+The 223 and 228 videos and companion recording JSONs are downloaded into their ignored camera clip directories and hash-verified. Existing 222 media is available. Camera 220 media/reference availability and Carter's additional human keys remain pending discovery/sharing. The four-video/full-recording queue is assigned, **not completed or verified**. Mert requested a shared folder link if one exists while independent work proceeds on available files. Raw video, frames, temporary review sheets and private download capabilities stay out of Git.
+
+The numerical [222 audit](./evaluation/calibration/222-count-audit.md) reproduces Carter's original results and records the boundary/direction sensitivity. It is not an additional visual annotation or a reason to overwrite the original key. The other project chats' completed software outputs remain valid at their documented synthetic/local scope; contributor-display setting changes remain on hold.

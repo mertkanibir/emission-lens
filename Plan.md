@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. The separate measurement path now persists reviewed-input calculations, per-pollutant scenarios and traceable briefs; independent synthetic HTTP checks cover restart, export, revocation and retraction. Estimated HLS media-clock alignment and a held-out detector comparison are recorded; the tuned candidate was not promoted. Accepted count review, physical road calibration, class mappings, live calibrated traversals and hosted shared persistence remain open.
+**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. The separate measurement path persists reviewed-input calculations, per-pollutant scenarios and traceable briefs; independent synthetic HTTP checks cover restart, export, revocation and retraction. Carter has enabled camera 222's reviewed count-1 image crossing path; its original result reproduces, with boundary/direction limitations recorded. Independent assisted review is starting for all four clips, prioritizing 223/228; Carter handles 220. Physical road calibration, class mappings, live calibrated traversals and hosted shared persistence remain open. The tuned candidate was not promoted.
 
 ---
 
@@ -643,13 +643,15 @@ Do not claim deployment to NYSDOT or Binghamton. Describe that as a possible fut
 
 **Status reconciliation (7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC):** Mert reconciled the server measurement path, scenario/brief binding and independent synthetic acceptance with the remaining scientific and operational work. Passing software fixtures do not approve real geometry or class mixtures. Fine-tuning completed with no candidate promotion. See [coordination](./Coordination.md), [timing alignment](./evaluation/timing-alignment.md) and [evaluation](./evaluation/README.md).
 
-1. Finish Mert and Carter's crossing-by-crossing count review, including held-out tracking and dropped-frame effects. Preserve the working model while this evidence is collected.
-2. Review and enable actual camera regions/gates only after acceptance; independently support physical movement distances and calibration. Saved drawings remain disabled/unvalidated.
+1. Complete count review for 223/228, Carter's 220 work and the independent four-video comparison. Carter enabled only 222/count-1 in `b1a5edf`; retain its [reproduced result and boundary/direction audit](./evaluation/calibration/222-count-audit.md). Preserve the working model and distinguish assisted review from human ground truth.
+2. Review remaining camera regions/gates before enabling them; independently support physical movement distances and calibration. Camera 222's image-count review does not validate physical calibration, and the other drawings remain disabled/unvalidated pending their reviews.
 3. Approve documented visual-to-CARB class mixtures and explicit meteorology assumptions for each applicable mode/window. The scoped RUNEX factor table is acquired and validated; its availability alone does not enable physical estimates.
 4. Install reviewed server registry records and opt-in worker settings, then demonstrate one actual completed camera traversal through persisted CO₂/NOₓ, scenario and brief. Synthetic approvals never authorize live or replay output.
 5. Extend bounded GPU/delivery evidence to longer operation, forced outages and full labeled-replay rehearsal using the final runtime. Preserve null/stale/offline semantics and mode isolation.
 6. Provision and verify shared hosted persistence/preview delivery if a hosted demonstration is required. The working local snapshot is a single-host target, not a Supabase deployment or multi-instance database.
 7. Complete demo/submission materials, attribution and final rehearsal. Add contextual layers only if they demonstrate value after the core path; avoid delaying the finish for optional data or training.
+
+**Count-review handoff (7 November 2026, 21:31 America/New_York / 8 November 2026, 02:31 UTC):** Mert read Carter's new instructions and assigned separate independent visual review, private clip acquisition/model baselines, Windows queue portability and count-only UI verification. The videos for 223/228 are downloaded; their practice geometry must freeze before held-out scoring. Carter's 222 result is count-only, not physical calibration. New assisted ledgers remain blinded to human/model references until hashed; missing media or answer keys remain explicitly pending. See [coordination](./Coordination.md).
 
 ## 22. Sources
 
