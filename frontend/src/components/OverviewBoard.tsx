@@ -26,7 +26,7 @@ import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
 import { SelectedEmissionMetric } from "@/components/SelectedEmissionMetric";
 import type { measurementScope } from "@/lib/measurement-scope";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
-import { queueObservation, queueValueDescription, queueScopeDescription, type measurementSupport } from "@/lib/observation-presentation";
+import { queueObservation, queueValueDescription, queueScopeDescription, type latestSupportedMinuteCohort, type measurementSupport } from "@/lib/observation-presentation";
 import { scenarioValue } from "@/lib/scenario-presentation";
 import { Quantity, QueueQuantity, StateChip, EmissionQuantity } from "@/components/ui";
 import {
@@ -47,6 +47,7 @@ type CameraCard = {
   calibration: "missing" | "invalid" | "valid";
   mapEstimate: MapEmissionEstimate | null;
   measurementSupport: ReturnType<typeof measurementSupport>;
+  minuteCohort: ReturnType<typeof latestSupportedMinuteCohort>;
 };
 const filters = [
   { key: "all", label: "All cameras" },
@@ -489,7 +490,7 @@ export function OverviewBoard({
                 : `${formatAge(selected.status.heartbeat_at, selected.status.as_of)} since heartbeat at the data clock${mode === "synthetic" ? " (synthetic sample)" : ""}.`}
             </p>
             <MeasurementScope scope={scope} compact />
-            {selected.mapEstimate ? <SupportedMinuteEstimate estimate={selected.mapEstimate} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} /> : mode !== "synthetic" ? <p className="context-note"><strong>{selected.measurementSupport.label}.</strong> {selected.measurementSupport.detail}</p> : null}
+            {selected.mapEstimate ? <SupportedMinuteEstimate estimate={selected.mapEstimate} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} cohort={selected.minuteCohort} /> : mode !== "synthetic" ? <p className="context-note"><strong>{selected.measurementSupport.label}.</strong> {selected.measurementSupport.detail}</p> : null}
             <dl className="mini-facts">
               <div>
                 <dt>Completed traversals</dt>

@@ -3,7 +3,7 @@ import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { latestSupportedMapEstimate } from "../src/lib/map-emissions.ts";
-import { measurementSupport, queueObservation } from "../src/lib/observation-presentation.ts";
+import { latestSupportedMinuteCohort, measurementSupport, queueObservation } from "../src/lib/observation-presentation.ts";
 import { SelectedEmissionMetric } from "../src/components/SelectedEmissionMetric.tsx";
 import { SupportedMinuteEstimate } from "../src/components/SupportedMinuteEstimate.tsx";
 import { Quantity } from "../src/components/ui.tsx";
@@ -42,6 +42,41 @@ test("the shared detail readout retains minute time, mode, offline state and ind
   assert.match(html, /Estimated NOₓ · same minute/);
   assert.match(html, /class="q-null">Unavailable/);
   assert.match(html, /separate from the reporting-hour total/);
+});
+
+test("supported-minute linked cohort zero is visible independently of unavailable observation-hour stops", () => {
+  const estimate = latestSupportedMapEstimate(supportedWindow())!;
+  const html = renderToStaticMarkup(createElement(SupportedMinuteEstimate, { estimate, cameraId: "222", mode: "replay", state: "offline", cohort: { count: 5, stopped_time_s: 0 } }));
+  assert.match(html, /Completed movement cohort · same minute/);
+  assert.match(html, /Traversal-linked stopped time · same cohort/);
+  assert.match(html, /title="0 vehicle-s">0/);
+  assert.match(html, /General observation-hour stopped time remains separate/);
+  assert.match(html, /Video cannot establish whether an engine is running/);
+  const absent = renderToStaticMarkup(createElement(SupportedMinuteEstimate, { estimate, cameraId: "222", mode: "replay", state: "offline", cohort: { count: 5, stopped_time_s: null } }));
+  assert.match(absent, /Linked stopped time unavailable/);
+  assert.doesNotMatch(absent, /title="0 vehicle-s"/);
+  const tiny = renderToStaticMarkup(createElement(SupportedMinuteEstimate, { estimate, cameraId: "222", mode: "replay", state: "offline", cohort: { count: 5, stopped_time_s: 0.0001 } }));
+  assert.match(tiny, /1E-4/);
+  assert.doesNotMatch(tiny, /title="0 vehicle-s"/);
+});
+
+test("the linked cohort comes only from the exact supported minute and never from hour or observation stops", () => {
+  const window = supportedWindow();
+  window.scenario.completed_cohort = { count: 999, baseline: { distance_m: null, traversal_time_s: null, stopped_time_s: 999 }, scenario: { distance_m: null, traversal_time_s: null, stopped_time_s: 999 } };
+  const observation = queueRow(null); observation.stopped_vehicle_seconds = 888;
+  window.minutes[0].traffic = [observation];
+  assert.equal(latestSupportedMinuteCohort(window), null);
+  window.minutes[0].completed_cohort = { count: 5, stopped_time_s: 0 };
+  const before = structuredClone(window);
+  assert.deepEqual(latestSupportedMinuteCohort(window), { count: 5, stopped_time_s: 0 });
+  assert.deepEqual(window, before);
+  window.minutes[0].completed_cohort.stopped_time_s = null;
+  assert.deepEqual(latestSupportedMinuteCohort(window), { count: 5, stopped_time_s: null });
+  window.minutes[0].completed_cohort = { count: 0, stopped_time_s: 0 };
+  assert.equal(latestSupportedMinuteCohort(window), null);
+  window.minutes[0].completed_cohort = { count: 5, stopped_time_s: 0 };
+  window.registry.physical_calibration_approved = false;
+  assert.equal(latestSupportedMinuteCohort(window), null);
 });
 
 test("unapproved cameras cannot borrow supported values, and labeled synthetic totals stay samples", () => {

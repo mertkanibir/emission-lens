@@ -26,7 +26,7 @@ import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
 import { MeasurementScope } from "@/components/MeasurementScope";
 import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
 import { latestSupportedMapEstimate } from "@/lib/map-emissions";
-import { measurementSupport, queueObservation, queueValueDescription, queueScopeDescription } from "@/lib/observation-presentation";
+import { latestSupportedMinuteCohort, measurementSupport, queueObservation, queueValueDescription, queueScopeDescription } from "@/lib/observation-presentation";
 import { measurementScope } from "@/lib/measurement-scope";
 import { ScenarioPollutants } from "@/components/ScenarioPollutants";
 import { registryCalibrationState, scenarioPollutantRows, observationStoppedRows } from "@/lib/measurement";
@@ -577,7 +577,7 @@ export default async function CameraPage({
               >
                 <MeasurementScope scope={measurementScope(measurement)} />
                 {minuteEstimate ? (
-                  <SupportedMinuteEstimate estimate={minuteEstimate} cameraId={id} mode={mode} state={status.displayed_state} />
+                  <SupportedMinuteEstimate estimate={minuteEstimate} cameraId={id} mode={mode} state={status.displayed_state} cohort={latestSupportedMinuteCohort(measurement)} />
                 ) : mode !== "synthetic" ? (
                   <p className="context-note"><strong>{support.label}.</strong> {support.detail}</p>
                 ) : null}

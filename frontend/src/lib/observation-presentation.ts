@@ -1,5 +1,19 @@
-import type { MeasurementRegistryStatus, TrafficWindow } from "@emission-lens/backend";
-import type { MapEmissionEstimate } from "./map-emissions";
+import type { MeasurementRegistryStatus, MeasurementWindowView, TrafficWindow } from "@emission-lens/backend";
+import { latestSupportedMapEstimate, type MapEmissionEstimate } from "./map-emissions";
+
+/** Read only the linked completed cohort from the exact strictly supported snapshot. */
+export function latestSupportedMinuteCohort(window: MeasurementWindowView) {
+  const estimate = latestSupportedMapEstimate(window);
+  if (estimate === null) return null;
+  const minute = window.minutes.find((row) => Date.parse(row.minute) === Date.parse(estimate.minute));
+  const cohort = minute?.completed_cohort;
+  if (!cohort || cohort.count === null || !Number.isInteger(cohort.count) || cohort.count <= 0) return null;
+  return {
+    count: cohort.count,
+    stopped_time_s: cohort.stopped_time_s !== null && Number.isFinite(cohort.stopped_time_s) && cohort.stopped_time_s >= 0
+      ? cohort.stopped_time_s : null,
+  };
+}
 
 export function queueValueDescription(value: number) {
   return value > 0
