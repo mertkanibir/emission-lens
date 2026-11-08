@@ -1,7 +1,7 @@
 # Frontend acceptance and demo usability
 
-**Owner:** Mert  
-**Updated:** 8 November 2026, 00:44 America/New_York / 8 November 2026, 05:44 UTC
+**Owner:** Mert
+**Updated:** 8 November 2026, 00:53 America/New_York / 8 November 2026, 05:53 UTC
 
 ## Focused checklist and ownership
 
@@ -54,3 +54,7 @@ Mert copied exactly `backend/src/queries.ts`, `backend/src/brief.ts` and the foc
 Public measurement reads preserve approved live/replay profiles and unavailable full-window/scenario values; synthetic is unapproved and supplies no measurement minutes. Private store SHA-256 remains `6f592b0d6858751039ac3edd3ddb469eabf430878ef760ac7fa1dd4640420db1`; registry remains `e244d2633ff6c59ff7446c991486fffcf01a2638cdfccd46fc4b27953bf273f9`. No source timestamp or private bytes changed. A private `acceptance-result.json` indexes copied source hashes, tests, download and mode/status results.
 
 The owned 3142 listener is stopped, the acceptance tab is closed and viewport override reset. The original temporary tab reached a connection-error page during the first owned rebuild; browser policy prevented closing that tab through the available API. No native GUI or another owner's tab was used. Production 3138 retains its original listener PID 3943; no production source link, backend update or registry change was installed. Fresh 223 replay delivery, full four-camera responsive/motion/accessibility acceptance and final rehearsal remain open. No further UI defect was demonstrated in the agreed preview/menu paths, so they are unchanged.
+
+## Actual 223 checkpoint — 8 November 2026, 00:53 America/New_York / 8 November 2026, 05:53 UTC
+
+The later [actual 223 replay frontend acceptance](223-REPLAY-ACCEPTANCE.md) completes the bounded replay/preview/heat-map/brief consumer check on unchanged frozen application 3139 during job 176174. Advancing real replay frames, the supported 05:49 UTC pollutant minute, unavailable 05:48 minute and whole-window/scenario estimates, exact 2,474-character export, mode separation and post-run offline/preview expiry pass. This supersedes the earlier fresh-223-delivery blocker for this bounded replay only; execution coverage, scientific acceptance, sustained reliability, live activation and final rehearsal remain separate. No optional UI/source changes or rebuild were performed.
