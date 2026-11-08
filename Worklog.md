@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:42 America/New_York (05:42 UTC)
+
+- **Who:** Carter
+- **Done:** Added `evaluation/stop_threshold.py` and fitted a per-camera stopped-motion threshold (normalized image displacement per second) against a calibrated ground-speed reference: below 0.5 m/s over 1 s is stopped, above 1.5 m/s is moving, between is excluded. Fitting uses the road region in each movement's depth band, since stops happen mostly at stop bars just outside the movements. Thresholds: 222 0.0225, 223 0.0283, 220 0.0211, 228 0.0235. Evidence in `evaluation/calibration/<camera>-stop-threshold.json`; the private traversal configs now carry `stop_observation` with a new context version.
+- **Completed:** Balanced accuracy 95.4% (222), 95.9% (223), 93.5% (220), 98.3% (228) on clip 3:00-5:00, with 1,896-8,173 stopped intervals per camera. Inside the movements, moving intervals stay moving at 99.0-100%; 220 classifies its 116 stopped intervals at 98.3%. Thresholds sit about twice the geometric 0.5 m/s image rate, reflecting box jitter.
+- **Still open:** Stopped intervals inside 222, 223 and 228 movements are rare (0-12 in the fit window), so in-movement stopped accuracy there is unmeasured. The reference is calibration-derived, not human-annotated. Mert swaps in the updated traversal configs and confirms shorter-stop scenarios populate.
+
 ### 8 November 2026, 00:39 America/New_York / 8 November 2026, 05:39 UTC
 
 - **Who:** Mert

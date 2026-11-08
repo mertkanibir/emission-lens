@@ -1,0 +1,25 @@
+{
+ "threshold": 0.028288553158792168,
+ "balanced_accuracy": 0.9590966320581104,
+ "stopped_recall": 0.9662302704025449,
+ "moving_recall": 0.9519629937136758,
+ "intervals": 16604,
+ "stopped_intervals": 8173,
+ "stopped_rate_p95": 0.022520276007764267,
+ "moving_rate_p05": 0.02928575045691951,
+ "inside_movement": {
+  "intervals": 3435,
+  "stopped_intervals": 0,
+  "stopped_recall": null,
+  "moving_recall": 0.9973799126637555
+ },
+ "geometric_0p5_mps_rate": 0.011462173312317223,
+ "fitting_region": "road region within the movement depth band +/- 0.1 image height, excluding parking",
+ "camera_id": "223",
+ "window_s": [
+  180.0,
+  300.0
+ ],
+ "model": "yolo11n.pt 640 px 15 fps",
+ "reference": "calibrated ground speed over 1 s: < 0.5 m/s stopped, > 1.5 m/s moving"
+}
