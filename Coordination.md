@@ -2,9 +2,20 @@
 
 **Owner:** Mert
 
-**Updated:** 8 November 2026, 01:20 America/New_York / 8 November 2026, 06:20 UTC
+**Updated:** 8 November 2026, 01:47 America/New_York / 06:47 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
+
+## Resumed completion scope — 8 November 2026, 01:47 America/New_York / 06:47 UTC
+
+Mert supersedes the prior executive implementation freeze while preserving archived conversations. Three internal work streams own backend/evidence, frontend/build acceptance and worker/replay execution; Mert owns central decisions and final integration. No archived stream is reopened.
+
+- Backend/evidence: compatible latest-minute queue metadata, explicit complete-minute measurement/scenario reads, generation-aware current authenticated evidence and fresh-process replay arithmetic acceptance.
+- Frontend: supported-minute cards beside strict hour totals, exact selected-cohort scenario controls, known unchanged 222/223 scopes in the four-camera registry, one isolated frozen build at 3151 and HTTP/browser acceptance.
+- Worker/replay: independent per-camera producer/outboxes, conservative provisional image-region queues and one bounded actual 222/223 stopped-policy replay. Preserve healthy GPU jobs176075/176255 and services3138/3139/3150; report capacity blockers rather than cancelling them. Use only reviewed practice windows, exact Carter stopped policies, original source timing, independent replay state and fresh outboxes.
+- Mert visually accepted a private provisional visible-approach 222 queue polygon for bounded image-based stationary occupancy, with explicit threshold-portability and incomplete-identity limits. Count gates, reviewed view, physical calibration and detector remain unchanged. A separate 223 polygon requires visual review before activation. No public accuracy, full-intersection queue length or count acceptance follows.
+
+Incoming email remains read-only and proposal-only until reviewed centrally. The five-minute schedule targets this main conversation; it does not wake archived chats, execute messages, change models or send replies. Latest Carter checklist is retained privately with exact message provenance. Actual deployment, proof and remaining limitations must be recorded before calling the application finished.
 
 ## Next acceptance milestone
 
