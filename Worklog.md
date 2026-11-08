@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:10 America/New_York / 8 November 2026, 05:10 UTC
+
+- **Who:** Mert
+- **Done:** Replaced the pending-access status in evaluation/228-redraw-practice.md with the completed recipe-pinned camera-228 practice run and added evaluation/228-redraw-practice.json. Recorded Mert's previously published v2 gates, preserved road/exclusion/policy settings, source/archive/input/configuration/sample/output hashes and separate directional/class counts. The earlier SSH blockage was resolved before submission. Fast-forwarded Carter's nonoverlapping camera220 publication without altering it.
+- **Completed:** Job 176055 completed 0:0 in 38 seconds on one H100 MIG1g.10gb slice under a three-minute cap, with40 tests plus12 subtests passing. Actual cuda:0, YOLO11n640/requested15FPS, original ByteTrack/fuse-score/default thresholds and persistence verify. All30 copied source/config/test hashes and the1477-decision sampler stream match their frozen records;1392 frames were processed. Count-1 reports80 crossings (34positive/46negative;78car/2bus), while count-2 separately reports15 (7positive/8negative;15car). Source/config inputs remain unchanged and this run's allocation is released. Local hashes, JSON, links and scoped whitespace checks pass.
+- **Still open:** The relocated gates need new visual reference events; the historical138/108 assisted ledger and its accuracy scores are inapplicable, so no accuracy or improvement claim is made. Gate totals must not be summed as distinct vehicles. Camera228 remains disabled/unvalidated; protected [720,840) is untouched. This publication changes no config, old study, detector/tracker threshold, production setting, public contract or physical approval and authorizes no further compute. Raw media, event ledgers/IDs, per-frame receipts and private capabilities remain excluded. Other streams' camera222 work is preserved separately.
+
 ### 8 November 2026, 00:02 America/New_York (05:02 UTC)
 
 - **Who:** Carter

@@ -1,0 +1,177 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T05:08:47.136170+00:00",
+  "check": "228_user_repositioned_gates_practice_counts",
+  "state": "completed_count_check_without_accuracy_acceptance",
+  "mode": "replay",
+  "camera_id": "228",
+  "window": [
+    60,
+    180
+  ],
+  "initialization_media_s": 60,
+  "geometry": {
+    "version": "228-image-v2",
+    "sha256": "238c036de60a315aca0f03f5c0c2172fa5bd4d1d0bb31caadde627a7fd59138a",
+    "source_commit": "7b5818f923dab43815ffd7f74fb2ec9c9ee6c5d3",
+    "changed_fields": [
+      "version",
+      "gates"
+    ],
+    "road_region_and_exclusions_unchanged": true,
+    "counting_policy_unchanged": true,
+    "enabled": false,
+    "image_geometry_status": "unvalidated",
+    "save_method": "Mert personally saved two gates in a private browser fallback using the same GeometryDraft and MetricsConfig validators after the native OpenCV window was unavailable."
+  },
+  "scheduler": {
+    "job_id": "176055",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:00:38",
+    "wall_cap": "00:03:00",
+    "gpu": "H100 MIG 1g.10gb",
+    "cpus": 1,
+    "memory": "16G",
+    "tests_passed": 40,
+    "subtests_passed": 12,
+    "allocation_released": true
+  },
+  "source": {
+    "archive_commit": "7b5818f923dab43815ffd7f74fb2ec9c9ee6c5d3",
+    "archive_sha256": "43b9bdc4d1176d93de9532d154f40021b41682f5a9635f1a64b5eefedad44aa8",
+    "recipe_sha256": "7df1a7b675bba3db45d1d93679e0eae4cf99b6e3bdb7007fb4f70af64b75ea86",
+    "runner_sha256": "35ab81c39071a7d83689ae22dda3b350e88b8583427e0a4333ca80acca847b57",
+    "source_sha256": {
+      "config/cameras/220.yaml": "858a8bb4552bd2ffb45a17b39fd4547dc320c10550f81ce061a229c5c2280f3c",
+      "config/cameras/222.yaml": "0e01e59c8acca77ef9efd8500d188f42c65e25270458fa56cedbdc1e46563cf2",
+      "config/cameras/223.yaml": "ccac8acc41eea322b5b6825e7f05b5b802f24a1d1aee89a7dc95427f032ac133",
+      "config/cameras/228.measurement.json": "238c036de60a315aca0f03f5c0c2172fa5bd4d1d0bb31caadde627a7fd59138a",
+      "config/cameras/228.yaml": "b32e07a65a8b8a2094882a123a9e29f9cacd2391d52ff4629f994ab960916115",
+      "evaluation/check_counts.py": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+      "tests/test_check_counts.py": "85f1a71674aefcbbf633b322640fe5c9be0597bf67bd70f858311f599799a7f4",
+      "tests/test_draw_geometry.py": "a9311abc4aebca028c7983b94cbcc09768f54b09ccdb8f92b2ede4ebef4412b9",
+      "tests/test_metrics.py": "c2627039a7c0ce43061515fa4439fd7313fa3fc5a63be5da9239a1bdf35edf0f",
+      "worker/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "worker/aggregate.py": "dc86b2545103191ef07e0de683c8041db6ed3ebd8c141d1a72c6a1c05aecc0ae",
+      "worker/calibrate_points.py": "909fc0e4e5257d4cbe7730296aff4f2cca2bbb7af68971d438bdc60657ab41e1",
+      "worker/calibration.py": "b2365b35d99addee54813762b80a74944585d036ebab27dcc477e3d37cb78ac7",
+      "worker/collect_frames.py": "c45a15b18ae375d5c7bd9ea04fbe6827c3e695b7e7cf523aadf59d3c441a73a9",
+      "worker/config.py": "80acf5841d2eb4efb9a50ef0b98e7e45aff060a69e1ad400286fe201e4f85bc3",
+      "worker/dataset.py": "7d722bb7aa96faf453abb6661a0d99cec7f8d92eb562134abae22097f8033aae",
+      "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1",
+      "worker/draw_geometry.py": "c1cbb61f63cd25db345e3ba27a5b2d03389bd569699e79402ddade7d8849bed5",
+      "worker/live_view.py": "fd639ceb1b30ad32ffca1b5a7c904d35eec0189182c9467571adac8140c4b319",
+      "worker/main.py": "20ec7e4eaabf7972260ac5be2b5b0ec4953963138f27bdfaf795a729e9e71713",
+      "worker/measurement.py": "062510d2a45b4ad89502c7ff5b7d903a96e7cc42617dee154fa3590afdc73057",
+      "worker/metrics.py": "1cef779e94e0a7ce7bc971e4d563816b29aafaaf9efec173a6a75637a9196b2b",
+      "worker/publish.py": "127a0176bcf78b23406b981bfc67b037094d847290b32429f43b02fd7cff97f8",
+      "worker/record_clips.py": "687130ee9a0baee121292ce1b9b4b6572d7b6c221691a98507ddd076219c308b",
+      "worker/stream.py": "164018b8a45c42837e4d637f959159f09548ad16a0b0eb32a8eed989eba86d23",
+      "worker/timing.py": "abed869b6cb37cd894b192717f52e9b9e15371bed0737a8b95e6a09b5296fa24",
+      "worker/track.py": "65a5c46113543fcde3ec5e08ddef69f01f769ddba0dfa28da8d7cb07d8052b80",
+      "worker/traversal.py": "a2c6121cff77f669e83a04fcbc53b9434104e9a1ade526364deeb11df2134a9a",
+      "config/cameras/222.measurement.json": "ab1b684086ce1d2543bba2c9df41748aad8e2c8af4ce164c9e2dbbd95188e674",
+      "config/cameras/measurement.example.json": "5f107b6f40dbbb289551affd0706de92542df5a1d458f34487f17c5ad5118ad6"
+    },
+    "weights": "pretrained yolo11n.pt",
+    "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+    "default_tracker_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+    "source_inputs_unchanged_after_execution": true
+  },
+  "actual_configuration": {
+    "device": "cuda:0",
+    "predictor": {
+      "imgsz": 640,
+      "conf": 0.1,
+      "classes": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "tracker": "bytetrack.yaml",
+      "mode": "track",
+      "batch": 1
+    },
+    "tracker_yaml_arguments": {
+      "tracker_type": "bytetrack",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 30,
+      "match_thresh": 0.8,
+      "fuse_score": true
+    },
+    "tracker_runtime_extra_arguments": {
+      "device": "cuda:0"
+    },
+    "tracker_raw_arguments": {
+      "tracker_type": "bytetrack",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 30,
+      "match_thresh": 0.8,
+      "fuse_score": true,
+      "device": "cuda:0"
+    },
+    "registered_callback_persist_values": [
+      true
+    ],
+    "resolved_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b"
+  },
+  "configuration_observation": "Saved after CLI completion and before argument validation; not first-frame tracing. YAML-defined keys were compared with the frozen defaults and runtime extra fields recorded separately.",
+  "sampling": {
+    "requested_fps": 15,
+    "frames_processed": 1392,
+    "first_processed_media_s": 60.06,
+    "last_processed_media_s": 179.981,
+    "sample_decisions_sha256": "d2b692f1cb247e786ed1f3c38ba35a63a865b757a01f8ce24c145f238ceece0f",
+    "identical_source_sampler_decisions_to_previous_practice": true,
+    "source_frame_decisions": 1477
+  },
+  "separate_gate_counts": {
+    "count-1": {
+      "total": 80,
+      "positive": 34,
+      "negative": 46,
+      "by_class": {
+        "car": 78,
+        "bus": 2
+      }
+    },
+    "count-2": {
+      "total": 15,
+      "positive": 7,
+      "negative": 8,
+      "by_class": {
+        "car": 15
+      }
+    }
+  },
+  "counting_interpretation": "Each gate is a separate crossing observation; gate totals must not be added as distinct vehicles.",
+  "acceptance": {
+    "manual_accuracy": null,
+    "old_gate_reference_reused": false,
+    "old_138_108_reference_applicable": false,
+    "new_gate_reference_events_required": true,
+    "candidate_promoted": false,
+    "camera_enabled": false,
+    "physical_calibration_or_emissions_approved": false,
+    "reserved_720_840_processed": false,
+    "training_or_tracker_tuning_performed": false,
+    "further_compute_authorized_by_checkpoint": false
+  },
+  "private_artifact_sha256": {
+    "counts.private.json": "08697fa6864851d3408aedce6d300370eafe1e15e7f3f44e42a3ae7906283d94",
+    "scalar-summary.private.json": "a152e0370e3873e56d17226cb9f737c82dd138ac887da02d9949dc805789e5d4",
+    "execution.private.json": "cd293dcdcec9074ecb19077bde2ee9694a13114d39eed53655bfb3abebeef7a7",
+    "actual-configuration.private.json": "8068992967f6350cdfe7cbdb02227f13a394a1b4d9e3ff563c7484f07ed72d37",
+    "samples.private.json": "2f0e87e7fe119365a174fb6ca2a7fab47ece8813a70ac01f90ff1c71a6c08b45",
+    "slurm-176055.out": "3fb7a2c69b8cf4337efb8197a9e472fdbe216a9b1185096dea20da65ef6f34d3",
+    "geometry-before.json": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+    "geometry-after.json": "238c036de60a315aca0f03f5c0c2172fa5bd4d1d0bb31caadde627a7fd59138a"
+  }
+}
