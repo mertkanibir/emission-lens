@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-08T05:36:00Z",
+  "updated_at": "2026-11-08T13:59:41.103733+00:00",
   "scope": "Selected locked direct web/build dependency notices only; not a complete transitive or binary clearance",
   "notices": [
     {
@@ -57,6 +57,14 @@
       "notice_file": "tsx-4.23.15.txt",
       "upstream_package_file": "LICENSE",
       "sha256": "8dded67841a9261a622c739fb61c81785e93765de852828ceeb9403d20a74581"
+    },
+    {
+      "package": "pdfkit",
+      "version": "0.20.2",
+      "license_id": "MIT",
+      "notice_file": "pdfkit-0.20.2.txt",
+      "upstream_package_file": "LICENSE",
+      "sha256": "5f0d5197d2b5d91f41de43143b0be42fb55515bc2b894f2a9b62de9f7056c0f8"
     }
   ]
 }

@@ -3357,3 +3357,8 @@ body {
 @media (max-width: 700px) {
   .camera-analysis #evidence .measurement-readiness { grid-template-columns: minmax(0, 1fr); }
 }
+
+.regional-atmosphere { display:grid;gap:14px;padding:20px;border:1px solid var(--seam-strong);background:#f3eee2;min-width:0; }
+.regional-atmosphere > header { display:flex;align-items:start;justify-content:space-between;gap:14px;flex-wrap:wrap; }
+.regional-atmosphere h3 { font-size:18px;margin-top:6px; }
+.regional-atmosphere .metric-grid small { font-size:11px;font-weight:500; }

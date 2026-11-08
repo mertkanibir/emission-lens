@@ -1384,3 +1384,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Fixed phone marker shrink-to-fit sizing, removed the redundant small-map location pill and moved the compact fit control above imagery attribution.
 - **Completed:** Actual native emissions navigation, two supported points and344px document reflow pass; prior final-source production build passed.
 - **Still open:** Rebuild this CSS-only correction, inspect final map and publish/cut over3152. Source records, contract and producer remain unchanged.
+
+### 8 November 2026, 08:59 America/New_York / 8 November 2026, 13:59 UTC
+
+- **Who:** Mert
+- **Done:** Implemented polished exact-draft PDF downloads, interval analytics, separate timestamped CAMS model context and validated/deduplicated750ms preview pickup. Reduced full-page refresh to30seconds with transition gating after measuring consumer contention. Retained the PDFKit licence.
+- **Completed:** 86 frontend checks and TypeScript pass; actual scoped PDF rendered across three pages. Four regional-source boundary/unit/mode tests pass.57.61-second GPU sample:22211.92FPS,22315.83FPS, no new reader drops; lifetime drops persist. Producer preview responses~10ms versus consumer~6.64s in one parallel sample, motivating lower SSR frequency.
+- **Still open:** Final immutable build, actual PDF HTTP download/source comparison, analytics/context/preview browser checks and consumer cutover. No worker, detector, source sampling, calibration, estimate formula, camera eligibility or core contract changed; no measured detector speedup claimed.

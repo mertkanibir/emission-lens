@@ -28,10 +28,15 @@ export function BriefActions({
   return (
     <div className="brief-actions">
       <div className="button-row">
+        <form action="/api/brief/pdf" method="post">
+          <input type="hidden" name="text" value={text} />
+          <input type="hidden" name="filename" value={filename.replace(/\.txt$/, ".pdf")} />
+          <button className="button button-primary" type="submit">Download PDF brief</button>
+        </form>
         <form action="/api/brief" method="post">
           <input type="hidden" name="text" value={text} />
           <input type="hidden" name="filename" value={filename} />
-          <button className="button button-primary" type="submit">
+          <button className="button" type="submit">
             Download text
           </button>
         </form>

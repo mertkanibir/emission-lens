@@ -1,0 +1,4 @@
+import { getRegionalAirQuality } from "@/lib/regional-air-quality";
+import type { Mode } from "@emission-lens/contracts";
+export const runtime="nodejs";export const dynamic="force-dynamic";
+export async function GET(request:Request){const p=new URL(request.url).searchParams;if([...p.keys()].some(k=>!["camera","mode","from","to"].includes(k)||p.getAll(k).length!==1)||!['live','replay','synthetic'].includes(p.get('mode')??'live'))return Response.json({error:"Unsupported context query."},{status:400});try{return Response.json(await getRegionalAirQuality({cameraId:p.get('camera')??'222',mode:(p.get('mode')??'live') as Mode,from:p.get('from')??undefined,to:p.get('to')??undefined}),{headers:{'Cache-Control':'no-store'}});}catch{return Response.json({error:'Invalid context interval or camera.'},{status:400});}}

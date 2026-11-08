@@ -1,0 +1,5 @@
+.preview-runtime { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--seam); background: #e9efe0; color: #253e30; font-size: 12px; font-variant-numeric: tabular-nums; }
+.preview-runtime > span { display: grid; gap: 5px; min-width: 0; }
+.preview-runtime strong { color: #51604d; font-size: 10px; font-weight: 600; }
+.preview-runtime > p { grid-column: 1/-1; color: #51604d; font-size: 10px; line-height: 1.6; }
+@media(max-width:600px) { .preview-runtime { grid-template-columns: minmax(0,1fr); gap: 9px; } .preview-runtime > span { grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items: center; } }

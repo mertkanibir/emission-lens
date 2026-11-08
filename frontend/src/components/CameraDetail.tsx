@@ -20,6 +20,7 @@ import { ReductionInput } from "@/components/ReductionInput";
 import { ScenarioWindowControls } from "@/components/ScenarioWindowControls";
 import { latestCompleteScenarioMinute } from "@/lib/scenario-window";
 import { RetainedWindowControls } from "@/components/RetainedWindowControls";
+import { EvidenceAnalytics } from "@/components/EvidenceAnalytics";
 import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
@@ -297,6 +298,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                   key={`${id}-${mode}`}
                   cameraId={id}
                   mode={mode}
+                  inferenceFps={status.fps}
                 />
                 <div className="panel-body">
                   <dl className="readouts readouts-2">
@@ -618,6 +620,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
               )}
             </Panel></section>
           </div>
+          <EvidenceAnalytics measurement={scenarioMeasurement} reduction={reduction} />
           <section id="scenario">
               <Panel
                 title="Stopped-time counterfactual"
