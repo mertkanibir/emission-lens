@@ -6,6 +6,20 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:38 America/New_York / 8 November 2026, 03:38 UTC
+
+- **Who:** Mert
+- **Done:** Merged Carter's class-to-CARB mapping basis and preserved the calibration, practice-trial and physical duplicate-review histories alongside concurrent backend work.
+- **Completed:** Mapping JSON parses; the publication merge is clean and scoped whitespace checks pass. The mapping documents its scenario assumptions and does not itself activate a server registry or establish physical validation.
+- **Still open:** Backend review of the proposed registry and mapping assumptions, camera-222 calibrated traversal validation and independent scale check; camera-228 resolution-only practice evidence and a fresh held-out check. Existing uncommitted package work remains with its owners.
+
+### 7 November 2026, 22:22 America/New_York (03:22 UTC)
+
+- **Who:** Carter
+- **Done:** Prepared camera 222 for end-to-end delivery: a private server registry (`registry_version` 1.0) approving the 222 ground calibration, the 20 m `222-eastbound-through` movement, and class mapping `pretrained-visual-to-emfac2007-v1` for live and replay; the private traversal config now names that mapping. Mapping basis is committed in `evaluation/calibration/class-mapping-v1.json`.
+- **Completed:** The registry passes `backend/src/registry.ts` `parseRegistry`, and the traversal config loads with `TraversalBridge.from_config`. Truck shares come from human-labeled test frames; the car sedan/SUV split is an explicit scenario assumption.
+- **Still open:** Mert installs the registry on the backend and runs the worker for 222 at 15 fps with `--count-gate-id count-1` and `--traversal-config`, first on the recorded clip and then live; then confirms counts and CO2/NOx minutes reach the dashboard. Car split should be replaced with EMFAC VMT shares when available.
+
 ### 7 November 2026, 22:10 America/New_York (03:10 UTC)
 
 - **Who:** Carter
