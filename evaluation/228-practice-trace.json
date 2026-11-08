@@ -1,0 +1,219 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T03:14:38.070536+00:00",
+  "check": "228_read_only_practice_trace",
+  "summary": {
+    "kind": "summary",
+    "owner": "Mert",
+    "mode": "replay",
+    "camera_id": "228",
+    "started_at_utc": "2026-11-08T03:03:55.265050+00:00",
+    "job_id": "175928",
+    "node": "alphagpu01",
+    "gpu": "NVIDIA H100 80GB HBM3 MIG 1g.10gb",
+    "source_commit": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+    "source_sha256": {
+      "evaluation/check_counts.py": "689f4583198fdd2f913dc2c6a0717824f85a951d9b4efc0998043176c5ad23a7",
+      "worker/metrics.py": "1cef779e94e0a7ce7bc971e4d563816b29aafaaf9efec173a6a75637a9196b2b",
+      "worker/stream.py": "164018b8a45c42837e4d637f959159f09548ad16a0b0eb32a8eed989eba86d23",
+      "worker/track.py": "65a5c46113543fcde3ec5e08ddef69f01f769ddba0dfa28da8d7cb07d8052b80",
+      "worker/detect.py": "398e8611f4061c10bee145e38e188fe7f1efc3731e10b7120f2acedd8edc1fc1"
+    },
+    "runner_sha256": "51309644f3ff72abc58f886a74f8da7e6993467d789cca03a1ef1adada2bd12a",
+    "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+    "raw_geometry_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+    "selected_geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+    "settings": {
+      "initialization_media_s": 60.0,
+      "detailed_window": [
+        83.0,
+        110.0
+      ],
+      "processing_end_s": 110.0,
+      "sample_fps": 15,
+      "image_size": 640,
+      "gate": "count-1",
+      "metrics_policy": {
+        "min_track_hits": 3,
+        "hysteresis": 0.01,
+        "max_gap_s": 1.0,
+        "stopped_threshold_per_s": null,
+        "stopped_min_duration_s": 3.0,
+        "queue_region": null
+      }
+    },
+    "raw_pts_origin": 3025948946,
+    "raw_pts_time_base": "1/90000",
+    "clock_mapping": "OpenCV media = (original raw PTS - observed first PTS)/90000; verified on same clip in 175884",
+    "detection_scope": "post-NMS vehicle detections at original conf=0.1, copied before ByteTrack association",
+    "gate_predicate_scope": "copied before/after state and same pure geometry helpers; actual emitted events recorded independently",
+    "packages": {
+      "torch": "2.7.1+cu128",
+      "ultralytics": "8.4.206",
+      "opencv-python": "5.0.0.93",
+      "lap": "0.5.14"
+    },
+    "finished_at_utc": "2026-11-08T03:04:12.967983+00:00",
+    "actual_inference_device": "cuda:0",
+    "elapsed_wall_s": 17.725652888417244,
+    "source_and_geometry_unchanged": true,
+    "trace_sha256": "2e8cfff00e7f723740ce8fd014d523e189c328769a873f45891010662708d28f",
+    "actual_tracker_callback_smoke_check": {
+      "media_time_s": 60.06,
+      "actual_xyxy_boxes_read": true,
+      "raw_callback_before_tracker": true,
+      "observer_callback_index": 1,
+      "tracking_callback_index": 2
+    },
+    "baseline_prefix_equivalence": {
+      "count-2": {
+        "matches_original_practice_prefix": true,
+        "baseline_events": 13,
+        "observed_events": 13
+      },
+      "count-1": {
+        "matches_original_practice_prefix": true,
+        "baseline_events": 20,
+        "observed_events": 20
+      }
+    },
+    "counters": {
+      "tracked_vehicle_observations": 2385,
+      "eligible_track_observations": 1900,
+      "outside_road_track_observations": 485,
+      "excluded_track_observations": 364,
+      "prior_removed_by_eligibility_observations": 0,
+      "observer_gate_predicate_disagreements": 0,
+      "gate_reason_same_stable_side": 1674,
+      "gate_reason_inside_hysteresis_band": 92,
+      "detailed_sampled_frames": 324,
+      "raw_post_nms_detection_observations": 6533,
+      "source_gap_resets_in_detail": 0,
+      "selected_gate_emissions_in_detail": 18,
+      "gate_reason_eligibility_rejected": 485,
+      "gate_reason_would_emit": 18,
+      "gate_reason_no_prior_after_reset_expiry_or_first_admission": 112,
+      "gate_reason_establishing_stable_side": 4
+    },
+    "prefix_sampling": {
+      "decoded_frames": 711,
+      "kept": 666,
+      "rejected": 45,
+      "rejected_within_1ns_of_due": 1,
+      "rejected_within_1us_of_due": 1,
+      "rejected_within_1ms_of_due": 45,
+      "minimum_rejection_lateness_s": 7.105427357601002e-15,
+      "maximum_rejection_lateness_s": 0.0006666666666745868
+    },
+    "detail_sampling": {
+      "decoded_frames": 366,
+      "kept": 324,
+      "rejected": 42,
+      "rejected_within_1ns_of_due": 0,
+      "rejected_within_1us_of_due": 0,
+      "rejected_within_1ms_of_due": 42,
+      "minimum_rejection_lateness_s": 0.00033333333318807945,
+      "maximum_rejection_lateness_s": 0.0006666666666745868
+    },
+    "reserved_window_processed": false,
+    "interpretation_limit": "Track/frame observations are not unique physical vehicle counts; no visual pairing or repair efficacy is established."
+  },
+  "posthoc_scalar_analysis": {
+    "window": [
+      83,
+      110
+    ],
+    "observations_not_unique_vehicles": true,
+    "confidence_threshold": 0.25,
+    "threshold_source": "installed default bytetrack.yaml; unchanged",
+    "near_gate_band_normalized": 0.03,
+    "near_gate_band_role": "descriptive only, not a decision threshold",
+    "counts": {
+      "frames_with_no_raw_detections": 0,
+      "frames_with_no_confirmed_tracks": 0,
+      "raw_detections_below_0_25": 3780,
+      "raw_detections_at_least_0_25": 2753,
+      "raw_eligible_detection_observations": 4496,
+      "new_lost_track_transitions": 140,
+      "raw_near_finite_gate_observations": 634,
+      "raw_near_finite_gate_below_0_25": 262,
+      "admissions_near_gate": 19
+    },
+    "admission_origins": {
+      "recovered_lost_track_without_metric_history": 33,
+      "previously_unconfirmed_tracker": 79
+    },
+    "interpretation": "Root must pair trace positions/times with independently reviewed physical passages. No detection association, missing-vehicle attribution or repair efficacy is established."
+  },
+  "failed_attempt": {
+    "job_id": "175925",
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "elapsed": "00:00:30",
+    "detailed_frames": 0,
+    "reason": "Observer used older STrack.tlbr; installed API is STrack.xyxy. This was not a baseline counting failure.",
+    "runner_sha256": "e5c1c3692ac31d2a1f858ca9f29e303cf8973441076a85f70ad0fc49d47eddf0",
+    "failed_trace_sha256": "3f22741f79b5da1b7b821f3e70ba7fc6dcaca2d98baf7b968258c8b7da36ce6c",
+    "preserved_privately": true
+  },
+  "corrected_attempt": {
+    "job_id": "175928",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:00:33",
+    "wall_cap": "00:02:00",
+    "gpu_slice": "1g.10gb:1",
+    "account": "rpicourse",
+    "qos": "normal",
+    "reservation": "binghamton_hackathon",
+    "allocation_released": true,
+    "retry_explicitly_authorized": true,
+    "tests_passed": 39,
+    "subtests_passed": 12
+  },
+  "privacy": {
+    "raw_tracker_id_values_committed": false,
+    "raw_images_committed": false,
+    "private_capabilities_committed": false,
+    "full_frame_trace_private": true
+  },
+  "scope": {
+    "worker_checker_model_config_unchanged": true,
+    "no_sampler_epsilon_or_recipe_change": true,
+    "no_geometry_repair": true,
+    "reserved_720_840_processed": false,
+    "no_accuracy_or_repair_efficacy_claim": true
+  },
+  "installed_tracker_readback": {
+    "package_version": "8.4.206",
+    "default_yaml_sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+    "byte_tracker_source_sha256": "7d4a16b926e43c2c9c5a65e250839c6c3eb0c2c81c82f7febb3cbc995dc7d32d",
+    "matching_source_sha256": "b253e58d9967d993b5cd9f634a86749d4868a0056adeb2c86177442ea29678a1",
+    "default_arguments": {
+      "tracker_type": "bytetrack",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 30,
+      "match_thresh": 0.8,
+      "fuse_score": true
+    },
+    "unconfirmed_assignment_limit": 0.7,
+    "low_score_second_pass_limit": 0.5,
+    "fused_cost": "1 - IoU * incoming_detection_score",
+    "source_locations": {
+      "unconfirmed_association": "byte_tracker.py:462-488",
+      "shared_get_dists": "byte_tracker.py:527-532",
+      "fuse_score": "trackers/utils/matching.py:145-168",
+      "first_association": "byte_tracker.py:401-410",
+      "second_association": "byte_tracker.py:445-460"
+    },
+    "config_resolution": "worker explicitly passes bytetrack.yaml; no same-name repo file found; one installed package match; check_yaml/check_file resolver readback verified",
+    "argument_evidence_kind": "static resolved-default reconstruction, not a saved runtime tracker.args snapshot",
+    "future_trial_requirement": "Snapshot resolved config and vars(tracker.args) on first frame before drawing candidate conclusions.",
+    "candidate_applied": false,
+    "candidate_scope_note": "fuse_score=false changes both first-stage and unconfirmed association; low-score second stage already uses IoU only",
+    "interpretation": "Source-compatible delayed-confirmation mechanism, not proof of all missed physical vehicles or a validated repair."
+  }
+}

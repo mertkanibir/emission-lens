@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:14 America/New_York / 8 November 2026, 03:14 UTC
+
+- **Who:** Mert
+- **Done:** Added the separate read-only 228 practice observer, synthetic observer tests and safe scalar trace provenance. Preserved original sampler/tracker initialization at 60 seconds, recorded detailed per-frame evidence only on 83–110 seconds and shared private trace paths after completion. Read the actual installed ByteTrack confirmation/fuse-score source and defaults without applying any candidate setting.
+- **Completed:** Initial job 175925 failed after 30 seconds solely because the observer used the old tlbr field; failed source/partial trace/log are preserved. Explicitly authorized corrected job 175928 completed 0:0 in 33 seconds, actual cuda:0, with 39 tests plus 12 subtests passing and allocation released. First-frame smoke verified real xyxy boxes and callback ordering. Both gates' prefix time/direction events exactly match the retained baseline; 324 detailed frame rows and trace SHA verify. All 42 detail-window sampler rejections were 0.333–0.667 ms early, with none within one microsecond; no sampler policy change was made. Observed gate predicates agree with actual events and source/config bytes are unchanged. Raw tracker IDs/boxes remain private; no imagery or capabilities are committed.
+- **Still open:** Review owners must pair physical passages with late confirmation/lost/eligibility evidence; aggregate frame observations do not establish the overall deficit. Installed default fusion and 0.7 unconfirmed assignment imply score below 0.3 cannot match even at perfect IoU; a fuse-score candidate would also affect first-stage association. Exact runtime args were not saved in this trace, so an authorized candidate must snapshot them. No candidate/repair/training or geometry change occurred in this checkpoint. Fresh 228 720–840 remains untouched and broad full-clip execution remains deferred.
+
 ### 7 November 2026, 22:03 America/New_York / 8 November 2026, 03:03 UTC
 
 - **Who:** Mert
