@@ -233,10 +233,86 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--outbox", type=Path, default=Path("runs/worker-outbox"))
     result.add_argument("--output", type=Path, required=True)
     result.add_argument("--replay-file", type=Path, help="Local clip for one --camera; visibly published as replay.")
-    result.add_argument("--measurement-config", type=Path, help="Optional reviewed image ROI/gates JSON; no geometry enabled by default.")
-    result.add_argument("--count-gate-id", help="Required explicit counting gate when a measurement config has multiple gates.")
-    result.add_argument("--traversal-config", type=Path, help="Optional private v1 movement/stop policy; disabled by default. Server registry approval remains separate.")
+    result.add_argument("--measurement-config", type=Path, action="append", help="Reviewed image ROI/gates JSON; repeat for independent cameras. Disabled by default.")
+    result.add_argument("--count-gate-id", action="append", help="Selected count gate: GATE for one config, or repeat CAMERA=GATE for several.")
+    result.add_argument("--traversal-config", type=Path, action="append", help="Private v1 movement/stop policy; repeat by camera. Server registry approval remains separate.")
     return result
+
+
+def _values(value):
+    # Also retain the programmatic Namespace API used by existing launchers.
+    return [] if value is None else list(value) if isinstance(value, (list, tuple)) else [value]
+
+
+def load_measurement_configs(args, camera_ids):
+    """Match explicit files and selected gates without depending on file order."""
+    from worker.metrics import MetricsConfig
+
+    configured = {}
+    for path in _values(args.measurement_config):
+        body = Path(path).read_bytes()
+        raw = json.loads(body)
+        config = MetricsConfig.from_dict(raw)
+        if config.camera_id not in camera_ids:
+            raise ValueError("Measurement camera must be selected and enabled.")
+        if config.camera_id in configured:
+            raise ValueError("Only one measurement configuration per camera is allowed.")
+        configured[config.camera_id] = {"config": config, "bytes": body, "raw": raw}
+    gates = {}
+    for selected in _values(args.count_gate_id):
+        if "=" in selected:
+            camera_id, gate_id = selected.split("=", 1)
+        elif len(configured) == 1:
+            camera_id, gate_id = next(iter(configured)), selected
+        else:
+            raise ValueError("Use CAMERA=GATE for multiple measurement configurations.")
+        if camera_id not in configured or not gate_id or camera_id in gates:
+            raise ValueError("Each counting gate must name one configured camera exactly once.")
+        gates[camera_id] = gate_id
+    for camera_id, item in configured.items():
+        item["count_gate_id"] = gates.get(camera_id)
+    return configured
+
+
+def load_traversal_configs(args, measurements):
+    configured = {}
+    for path in _values(getattr(args, "traversal_config", None)):
+        body = Path(path).read_bytes()
+        raw = json.loads(body)
+        if raw == {"bridge_version": "1.0", "enabled": False}:
+            continue
+        camera_id = raw.get("camera_id") if isinstance(raw, dict) else None
+        if camera_id not in measurements or camera_id in configured:
+            raise ValueError("Each traversal configuration must match one unique measurement camera.")
+        configured[camera_id] = {"raw": raw, "bytes": body}
+    return configured
+
+
+def _config_hashes(item):
+    return {
+        "config_sha256": hashlib.sha256(item["bytes"]).hexdigest(),
+        "canonical_config_sha256": hashlib.sha256(json.dumps(item["raw"], sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest(),
+    }
+
+
+def _by_camera_report(items):
+    """Keep the original flat report for a single camera; add explicit scope."""
+    if len(items) == 1:
+        return {**next(iter(items.values())), "by_camera": items}
+    return {"enabled": bool(items), "by_camera": items}
+
+
+def measurement_directories(outbox, camera_ids, multiple):
+    """Do not strand another camera's recovery evidence after a CLI change."""
+    root = Path(outbox) / "measurements"
+    configured = {camera_id: root / camera_id if multiple else root for camera_id in camera_ids}
+    if root.exists():
+        retained = [root, *(path for path in root.iterdir() if path.is_dir())]
+        for directory in retained:
+            has_evidence = (directory / "bridge.checkpoint").exists() or any(directory.glob("*.json"))
+            if has_evidence and directory not in configured.values():
+                raise ValueError("Unselected measurement outbox retains evidence; drain/review it before changing camera layout or use a fresh run outbox.")
+    return configured
 
 
 def run(args, stop_requested=None) -> dict:
@@ -258,15 +334,8 @@ def run(args, stop_requested=None) -> dict:
     if args.replay_file and (len(cameras) != 1 or not args.replay_file.is_file()):
         raise ValueError("Replay requires one camera and an existing local clip.")
     mode = "replay" if args.replay_file else "live"
-    measurement_config = None
-    if args.measurement_config:
-        from worker.metrics import MetricsConfig
-        measurement_bytes = args.measurement_config.read_bytes()
-        measurement_config = MetricsConfig.from_dict(json.loads(measurement_bytes))
-        if measurement_config.camera_id not in {camera.id for camera in cameras}:
-            raise ValueError("Measurement camera must be selected and enabled.")
-    elif args.count_gate_id:
-        raise ValueError("A counting gate requires --measurement-config.")
+    measurement_configs = load_measurement_configs(args, {camera.id for camera in cameras})
+    traversal_configs = load_traversal_configs(args, measurement_configs)
     url, token = os.environ.get("EMISSION_LENS_INGEST_URL"), os.environ.get("EMISSION_LENS_WORKER_TOKEN")
     if bool(url) != bool(token):
         raise ValueError("Set both ingest URL and worker token, or neither for diagnostic-only execution.")
@@ -288,36 +357,49 @@ def run(args, stop_requested=None) -> dict:
     models = {camera.id: DeviceModel(load_model(args.weights), args.device) for camera in cameras}
     vehicle_labels = frozenset({"car", "tesla", "pickup", "truck", "box_truck", "tractor_trailer", "bus", "motorcycle", "unknown"})
     trackers = {camera.id: CameraTracker(weights=args.weights, labels=vehicle_labels, image_size=args.image_size, model=models[camera.id]) for camera in cameras}
-    metrics = aggregate = None
-    if measurement_config:
-        from worker.aggregate import MinuteAggregator
-        from worker.metrics import CameraMetrics
-        labels = frozenset(models[measurement_config.camera_id].names.values()) & vehicle_labels
+    from worker.aggregate import MinuteAggregator
+    from worker.metrics import CameraMetrics
+    from worker.timing import MEDIA_CLOCK_VERSION
+
+    metrics, aggregates, measurement_provenance = {}, {}, {}
+    for camera_id, item in sorted(measurement_configs.items()):
+        config = item["config"]
+        labels = frozenset(models[camera_id].names.values()) & vehicle_labels
         if "tesla" in labels:
             labels |= {"car"}  # TrackLabeler's conservative Tesla fallback.
-        aggregate = MinuteAggregator(measurement_config, run_record["run_id"], mode, args.count_gate_id, labels)
-        metrics = CameraMetrics(measurement_config)
-        measurement_hash = hashlib.sha256(measurement_bytes).hexdigest()
+        aggregate = MinuteAggregator(config, run_record["run_id"], mode, item["count_gate_id"], labels)
+        aggregates[camera_id], metrics[camera_id] = aggregate, CameraMetrics(config)
+        gate = next(value for value in item["raw"]["gates"] if value["id"] == aggregate.count_gate_id)
+        measurement_provenance[camera_id] = {
+            **_config_hashes(item), "image_geometry_version": config.version,
+            "count_gate_id": aggregate.count_gate_id,
+            "selected_gate_sha256": hashlib.sha256(json.dumps(gate, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+        }
+        if camera_id in traversal_configs:
+            measurement_provenance[camera_id]["traversal"] = _config_hashes(traversal_configs[camera_id])
+    if len(aggregates) == 1:
+        camera_id, aggregate = next(iter(aggregates.items()))
         if aggregate.enabled:
-            from worker.timing import MEDIA_CLOCK_VERSION
-            run_record["model_version"] += f"|m:{measurement_config.version}|g:{aggregate.count_gate_id}|s:{measurement_hash[:16]}|t:{MEDIA_CLOCK_VERSION}"
-            if len(run_record["model_version"]) > 256:
-                raise ValueError("Model, measurement version and gate identifiers exceed the provenance field length.")
+            run_record["model_version"] += f"|m:{aggregate.config.version}|g:{aggregate.count_gate_id}|s:{measurement_provenance[camera_id]['config_sha256'][:16]}|t:{MEDIA_CLOCK_VERSION}"
+        if camera_id in traversal_configs:
+            run_record["model_version"] += "|v:" + measurement_provenance[camera_id]["traversal"]["config_sha256"][:16]
+    elif aggregates:
+        # One bounded run fingerprint covers every full per-camera hash/gate.
+        manifest = json.dumps(measurement_provenance, sort_keys=True, separators=(",", ":")).encode()
+        run_record["model_version"] += "|multi:" + hashlib.sha256(manifest).hexdigest()[:32] + "|t:" + MEDIA_CLOCK_VERSION
+    if len(run_record["model_version"]) > 256:
+        raise ValueError("Model and measurement provenance exceed the supported field length.")
 
-    traversal_bridge = measurement_outbox = None
-    if getattr(args, "traversal_config", None):
-        traversal_bytes = args.traversal_config.read_bytes()
-        traversal_raw = json.loads(traversal_bytes)
-        if traversal_raw != {"bridge_version": "1.0", "enabled": False}:
-            run_record["model_version"] += "|v:" + hashlib.sha256(traversal_bytes).hexdigest()[:16]
-            if len(run_record["model_version"]) > 256:
-                raise ValueError("Model and measurement provenance exceed the supported field length.")
-        state_path = args.outbox / "measurements" / "bridge.checkpoint" if url else None
-        traversal_bridge = TraversalBridge.from_config(traversal_raw, measurement_config, run_record, state_path)
-        if traversal_bridge and url:
+    traversal_bridges, measurement_outboxes = {}, {}
+    directories = measurement_directories(args.outbox, traversal_configs, len(aggregates) > 1)
+    for camera_id, item in sorted(traversal_configs.items()):
+        directory = directories[camera_id]
+        state_path = directory / "bridge.checkpoint" if url else None
+        traversal_bridges[camera_id] = TraversalBridge.from_config(item["raw"], measurement_configs[camera_id]["config"], run_record, state_path)
+        if url:
             endpoint = os.environ.get("EMISSION_LENS_MEASUREMENT_URL") or measurement_url(url)
-            measurement_outbox = Outbox(args.outbox / "measurements", HttpSender(endpoint, token))
-            recover_measurement_outbox(measurement_outbox)
+            measurement_outboxes[camera_id] = Outbox(directory, HttpSender(endpoint, token))
+            recover_measurement_outbox(measurement_outboxes[camera_id])
 
     class ReplayReader(StreamReader):
         def run(self):
@@ -357,13 +439,15 @@ def run(args, stop_requested=None) -> dict:
             # Unconfigured metrics are unavailable, not empty observations.
             # Do not reserve a camera-minute with an all-null placeholder.
             outbox.enqueue(envelope(run_record, statuses, []))
-        observation_batches = aggregate.batches(run_record) if aggregate else []
+        observation_batches = {camera_id: aggregate.batches(run_record) for camera_id, aggregate in aggregates.items()}
         if outbox:
-            for batch in observation_batches:
-                outbox.enqueue(batch)
+            for batches in observation_batches.values():
+                for batch in batches:
+                    outbox.enqueue(batch)
             outbox.flush()
-        if traversal_bridge:
-            traversal_bridge.publish(run_record, observation_batches, measurement_outbox)
+        for camera_id, bridge in traversal_bridges.items():
+            measurement_outbox = measurement_outboxes.get(camera_id)
+            bridge.publish(run_record, observation_batches[camera_id], measurement_outbox)
             # Publish linked legacy observations before dependent calculations.
             # The bridge checkpoint is committed before this outbox can flush.
             if measurement_outbox and (not outbox or not outbox.pending()):
@@ -391,10 +475,10 @@ def run(args, stop_requested=None) -> dict:
                 run_record["device"] = ",".join(sorted(verified_devices))
                 processed_at = utc_now()
                 progress[camera.id].observe(frame, vehicles, time.perf_counter() - before, processed_at, time.monotonic())
-                if metrics and camera.id == measurement_config.camera_id:
-                    aggregate.observe(frame, metrics.update(frame, vehicles))
-                if traversal_bridge and camera.id == measurement_config.camera_id:
-                    traversal_bridge.observe(frame, vehicles)
+                if camera.id in metrics:
+                    aggregates[camera.id].observe(frame, metrics[camera.id].update(frame, vehicles))
+                if camera.id in traversal_bridges:
+                    traversal_bridges[camera.id].observe(frame, vehicles)
                 if previews:
                     previews.submit(frame, vehicles, run_record["run_id"], mode, processed_at, time.monotonic())
             if time.monotonic() >= next_publish:
@@ -415,7 +499,7 @@ def run(args, stop_requested=None) -> dict:
         shutdown_error = None
         try:
             publish(ended=True)
-            if args.require_delivery and (outbox.pending() or (measurement_outbox and measurement_outbox.pending())):
+            if args.require_delivery and (outbox.pending() or any(box.pending() for box in measurement_outboxes.values())):
                 raise RuntimeError("Required worker delivery is incomplete; queued batches retained.")
         except Exception as error:
             if failure is None:
@@ -443,9 +527,9 @@ def run(args, stop_requested=None) -> dict:
                 "cameras": {c.id: progress[c.id].diagnostic(readers[c.id].status()) for c in cameras},
                 "delivery": {"enabled": bool(outbox), "delivered_batches": outbox.delivered if outbox else 0, "attempts": outbox.attempts if outbox else 0, "pending_batches": len(outbox.pending()) if outbox else 0},
                 "previews": {"enabled": bool(previews), **(previews.diagnostic() if previews else {})},
-                "measurements": {**aggregate.diagnostic(), "config_sha256": measurement_hash} if aggregate else {"enabled": False},
-                "completed_traversals": traversal_bridge.diagnostic() if traversal_bridge else {"enabled": False},
-                "measurement_delivery": {"enabled": bool(measurement_outbox), "delivered_batches": measurement_outbox.delivered if measurement_outbox else 0, "attempts": measurement_outbox.attempts if measurement_outbox else 0, "pending_batches": len(measurement_outbox.pending()) if measurement_outbox else 0},
+                "measurements": _by_camera_report({camera_id: {**aggregate.diagnostic(), **measurement_provenance[camera_id]} for camera_id, aggregate in aggregates.items()}),
+                "completed_traversals": _by_camera_report({camera_id: bridge.diagnostic() for camera_id, bridge in traversal_bridges.items()}),
+                "measurement_delivery": {"enabled": bool(measurement_outboxes), "delivered_batches": sum(box.delivered for box in measurement_outboxes.values()), "attempts": sum(box.attempts for box in measurement_outboxes.values()), "pending_batches": sum(len(box.pending()) for box in measurement_outboxes.values()), "by_camera": {camera_id: {"delivered_batches": box.delivered, "attempts": box.attempts, "pending_batches": len(box.pending())} for camera_id, box in measurement_outboxes.items()}},
                 "failure": failure,
                 "limitations": [
                     "Tracked detection observations are repeated per-frame observations, not unique vehicle crossings or evaluated accuracy.",

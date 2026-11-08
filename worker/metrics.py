@@ -226,6 +226,8 @@ class CameraMetrics:
         self._tracks: dict[int, _TrackState] = {}
         self._counted: set[tuple[int, str, str]] = set()
         self._counts = Counter()
+        self._queue_missing: set[int] = set()
+        self._queue_observed_since: float | None = None
 
     def _inside_road(self, point: Point) -> bool:
         return point_in_polygon(point, self.config.road_region) and not any(point_in_polygon(point, region) for region in self.config.excluded_regions)
@@ -235,6 +237,8 @@ class CameraMetrics:
         self._tracks.clear()
         self._counted.clear()
         self._counts.clear()
+        self._queue_missing.clear()
+        self._queue_observed_since = None
 
     def _result(self, events=(), queue=None, stopped=None, discontinuity=False, skipped=0) -> MetricsUpdate:
         active = self.config.enabled and self.config.image_geometry_status == "reviewed"
@@ -265,7 +269,13 @@ class CameraMetrics:
             # Repeated/frozen source frames never add crossings or stopped seconds.
             return self._result(stopped={} if self.config.stopped_threshold_per_s is not None else None, discontinuity=True)
         discontinuity = new_session or (self._last_media is not None and media - self._last_media > self.config.max_gap_s)
+        prior_queue = {
+            track_id for track_id, state in self._tracks.items()
+            if self.config.queue_region is not None and point_in_polygon(state.point, self.config.queue_region)
+        }
         if discontinuity:
+            self._queue_missing.update(prior_queue)
+            self._queue_observed_since = media
             self._tracks.clear()  # Deduplication survives footage gaps within this session.
         self._last_media = media
         self._tracks = {key: state for key, state in self._tracks.items() if media - state.media_time_s <= self.config.max_gap_s}
@@ -275,18 +285,26 @@ class CameraMetrics:
         events, seen = [], set()
         stopped_deltas = {} if self.config.stopped_threshold_per_s is not None else None
         queue_count = 0 if self.config.queue_region is not None else None
-        queue_unknown = False
+        queue_unknown = self.config.queue_region is not None and (
+            discontinuity or self._queue_observed_since is None
+            or media - self._queue_observed_since < self.config.stopped_min_duration_s
+        )
         skipped = 0
         for vehicle in vehicles:
             track_id, label = vehicle.track_id, vehicle.label
-            seen.add(track_id)
             d = vehicle.detection
             coordinates = (d.x1, d.y1, d.x2, d.y2)
             if label not in VEHICLE_CLASSES or any(not math.isfinite(value) for value in coordinates) or not (0 <= d.x1 < d.x2 <= width and 0 <= d.y1 < d.y2 <= height):
                 self._tracks.pop(track_id, None)
                 skipped += 1
+                if self.config.queue_region is not None:
+                    queue_unknown = True
                 continue
             point = ((d.x1 + d.x2) / (2 * width), d.y2 / height)
+            seen.add(track_id)
+            # Re-observation is required to resolve an occluded queue identity;
+            # time passing alone does not prove it left the image region.
+            self._queue_missing.discard(track_id)
             if not self._inside_road(point):
                 self._tracks.pop(track_id, None)
                 continue
@@ -332,10 +350,15 @@ class CameraMetrics:
                     queue_unknown = True
                 elif state.stopped:
                     queue_count += 1
-        if self.config.queue_region is not None and any(
-            track_id not in seen and point_in_polygon(state.point, self.config.queue_region)
-            for track_id, state in self._tracks.items()
-        ):
-            # Brief occlusions are missing evidence, never a supported empty queue.
-            queue_unknown = True
+        if self.config.queue_region is not None:
+            missing = prior_queue - seen
+            self._queue_missing.update(missing)
+            for track_id in missing:
+                if track_id in self._tracks:
+                    state = self._tracks[track_id]
+                    state.stationary_s, state.stopped = 0.0, False
+                    state.first_media_time_s = media
+            # Retain missing evidence beyond the motion-history expiry. Neither
+            # a timeout nor a source gap is a visibly observed empty queue.
+            queue_unknown = queue_unknown or bool(self._queue_missing)
         return self._result(events, None if queue_unknown else queue_count, stopped_deltas, discontinuity, skipped)

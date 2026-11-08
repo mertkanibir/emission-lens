@@ -424,9 +424,9 @@ class TraversalBridge:
         if frame.session != self._session:
             self._positions.clear()
             self._session = frame.session
-            if len(self._clocks) >= 32:
+            if len(self._clocks) >= self._bridge.max_events:
                 raise PublishError(
-                    "Traversal bridge session capacity reached; preserve the outbox and start a reviewed new run."
+                    "Traversal bridge clock capacity reached; preserve the outbox and start a reviewed new run."
                 )
         clock = self._clocks.setdefault(frame.session, SessionMediaClock())
         clock.observe(media_microseconds(frame.media_time_s), frame.received_at)

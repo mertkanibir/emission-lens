@@ -206,6 +206,43 @@ class StoppedTests(unittest.TestCase):
         self.assertIsNone(result.queue_count)
         self.assertEqual(result.stopped_seconds_delta_by_class, {})
 
+    def test_empty_queue_needs_continuous_advancing_observation_before_supported_zero(self):
+        metrics = CameraMetrics(self.config())
+        for second in range(3):
+            self.assertIsNone(metrics.update(frame(second), []).queue_count)
+        self.assertEqual(metrics.update(frame(3), []).queue_count, 0)
+        self.assertIsNone(metrics.update(frame(3), []).queue_count)
+        self.assertIsNone(metrics.update(frame(10), []).queue_count)
+        self.assertIsNone(metrics.update(frame(0, session=2), []).queue_count)
+
+    def test_expired_occlusion_does_not_turn_into_zero_and_reappearance_requalifies(self):
+        metrics = CameraMetrics(self.config())
+        for second in range(4):
+            result = metrics.update(frame(second), [vehicle(0.5, 0.4)])
+        self.assertEqual(result.queue_count, 1)
+        for second in range(4, 9):
+            self.assertIsNone(metrics.update(frame(second), []).queue_count)
+        self.assertIsNone(metrics.update(frame(9), [vehicle(0.5, 0.4)]).queue_count)
+        for second in range(10, 12):
+            self.assertIsNone(metrics.update(frame(second), [vehicle(0.5, 0.4)]).queue_count)
+        self.assertEqual(metrics.update(frame(12), [vehicle(0.5, 0.4)]).queue_count, 1)
+        # A valid observed identity outside the ROI resolves its absence there.
+        self.assertEqual(metrics.update(frame(13), [vehicle(0.95, 0.4)]).queue_count, 0)
+
+    def test_invalid_box_and_gap_with_lost_queue_vehicle_remain_unavailable(self):
+        metrics = CameraMetrics(self.config())
+        for second in range(4):
+            metrics.update(frame(second), [vehicle(0.5, 0.4)])
+        self.assertIsNone(metrics.update(frame(4), [vehicle(float("nan"), 0.4)]).queue_count)
+        for second in range(5, 9):
+            self.assertIsNone(metrics.update(frame(second), []).queue_count)
+        other = CameraMetrics(self.config())
+        for second in range(4):
+            other.update(frame(second), [vehicle(0.5, 0.4)])
+        self.assertIsNone(other.update(frame(10), []).queue_count)
+        for second in range(11, 15):
+            self.assertIsNone(other.update(frame(second), []).queue_count)
+
 
 class ConfigTests(unittest.TestCase):
     def raw(self):

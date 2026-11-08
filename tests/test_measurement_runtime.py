@@ -298,6 +298,200 @@ class RuntimeMeasurementTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             bridge.observe(frame(1, camera="223"), [])
 
+    def test_more_than_32_independent_sessions_in_different_minutes_are_retained(self):
+        raw, metrics, run = settings()
+        bridge = TraversalBridge.from_config(raw, metrics, run)
+        for session in range(1, 35):
+            for media, x in enumerate([0.2, 0.4, 0.5, 0.5, 0.8, 0.9]):
+                bridge.observe(frame(media, received=NOW + timedelta(minutes=session, seconds=media), session=session), [vehicle(x)])
+            bridge.publish(run)
+        self.assertEqual(bridge.diagnostic()["session_count"], 34)
+        self.assertEqual(bridge.diagnostic()["completed_traversals"], 34)
+        self.assertEqual(len(bridge._bridge.checkpoint()["state"]["events"]), 34)
+        self.assertEqual(len(bridge._bridge.checkpoint()["state"]["published"]), 34)
+
+    def test_33_sessions_in_one_minute_still_fail_the_contract_bound_without_losing_evidence(self):
+        raw, metrics, run = settings()
+        bridge = TraversalBridge.from_config(raw, metrics, run)
+        for session in range(1, 34):
+            for media, x in enumerate([0.2, 0.4, 0.5, 0.5, 0.8, 0.9]):
+                bridge.observe(frame(media, session=session), [vehicle(x)])
+            if session <= 32:
+                bridge.publish(run)
+        before = bridge._bridge.checkpoint()
+        with self.assertRaisesRegex(ValueError, "32"):
+            bridge.publish(run)
+        self.assertEqual(bridge._bridge.checkpoint(), before)
+        self.assertEqual(len(bridge._new_events), 1)
+        self.assertEqual(bridge.diagnostic()["completed_traversals"], 33)
+
+    def test_repeated_config_cli_matches_cameras_and_rejects_ambiguous_or_duplicate_selection(self):
+        from dataclasses import asdict
+        from worker.main import load_measurement_configs, load_traversal_configs, parser
+
+        raw, metrics, _ = settings()
+        with tempfile.TemporaryDirectory() as folder:
+            directory = Path(folder)
+            paths = []
+            for camera in ("222", "223"):
+                geometry = asdict(metrics)
+                geometry["camera_id"] = camera
+                path = directory / (camera + ".json")
+                path.write_text(json.dumps(geometry))
+                paths.append(path)
+            base = ["--output", str(directory / "report.json")]
+            options = ["--measurement-config", str(paths[1]), "--measurement-config", str(paths[0])]
+            args = parser().parse_args(base + options + ["--count-gate-id", "222=entry", "--count-gate-id", "223=exit"])
+            configs = load_measurement_configs(args, {"222", "223"})
+            self.assertEqual(configs["222"]["count_gate_id"], "entry")
+            self.assertEqual(configs["223"]["count_gate_id"], "exit")
+            for invalid in [
+                options + ["--count-gate-id", "entry"],
+                options + ["--count-gate-id", "222=entry", "--count-gate-id", "222=exit"],
+                options + ["--count-gate-id", "228=entry"],
+                options + ["--measurement-config", str(paths[0])],
+                ["--count-gate-id", "entry"],
+            ]:
+                with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                    load_measurement_configs(parser().parse_args(base + invalid), {"222", "223"})
+            traversal = directory / "traversal.json"
+            traversal.write_text(json.dumps({**raw, "camera_id": "228"}))
+            args.traversal_config = [traversal]
+            with self.assertRaises(ValueError):
+                load_traversal_configs(args, configs)
+
+    def test_changing_camera_outbox_layout_cannot_hide_retained_checkpoint_or_retry(self):
+        from worker.main import measurement_directories
+
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / "measurements"
+            root.mkdir()
+            legacy = root / "bridge.checkpoint"
+            legacy.write_text("retained-private-checkpoint")
+            before = legacy.read_bytes()
+            self.assertEqual(measurement_directories(Path(folder), ["222"], False), {"222": root})
+            with self.assertRaisesRegex(ValueError, "retains evidence"):
+                measurement_directories(Path(folder), ["222", "223"], True)
+            self.assertEqual(legacy.read_bytes(), before)
+            legacy.unlink()
+            camera = root / "223"
+            camera.mkdir()
+            retry = camera / "retained.json"
+            retry.write_text("immutable-retry")
+            for cameras, multiple in [(["222"], True), (["222"], False), ([], False)]:
+                with self.subTest(cameras=cameras, multiple=multiple), self.assertRaisesRegex(ValueError, "retains evidence"):
+                    measurement_directories(Path(folder), cameras, multiple)
+            self.assertEqual(retry.read_text(), "immutable-retry")
+            self.assertEqual(measurement_directories(Path(folder), ["222", "223"], True)["223"], camera)
+
+    def test_main_two_independent_measurements_keep_other_cameras_unavailable(self):
+        import contextlib
+        import io
+        import threading
+        from dataclasses import asdict
+        from worker.main import parser, run as run_worker
+
+        raw, metrics, _ = settings()
+        stopped, payloads = threading.Event(), []
+        cameras = ("222", "223", "220", "228")
+        points = [0.1, 0.2, 0.4, 0.5, 0.8, 0.9, 0.9, 0.9]
+        sources = {}
+        for camera in cameras:
+            sources[camera] = []
+            for sequence in range(len(points)):
+                reconnect = camera == "222" and sequence >= 6
+                current = frame(sequence - 6 if reconnect else sequence, received=NOW + timedelta(seconds=sequence), session=2 if reconnect else 1, camera=camera)
+                current.sequence = sequence
+                sources[camera].append(current)
+
+        class Queue:
+            def __init__(self, camera):
+                self.camera = camera
+
+            def get(self, timeout_s):
+                current = sources[self.camera].pop(0) if sources[self.camera] else None
+                if not any(sources.values()):
+                    stopped.set()
+                return current
+
+        class Reader:
+            def __init__(self, camera, **_kwargs):
+                self.frames = Queue(camera.id)
+
+            def start(self):
+                pass
+
+            def stop(self):
+                pass
+
+            def join(self, _timeout):
+                pass
+
+            def status(self):
+                return SimpleNamespace(state="live", frames_kept=len(points), frames_dropped=0)
+
+        class Device:
+            type = "cpu"
+
+            def __str__(self):
+                return "cpu"
+
+        model = SimpleNamespace(names={0: "car"}, predictor=SimpleNamespace(model=SimpleNamespace(model=SimpleNamespace(parameters=lambda: iter([SimpleNamespace(device=Device())])))))
+
+        class Tracker:
+            def __init__(self, **_kwargs):
+                pass
+
+            def update(self, current):
+                return [vehicle(0.9 if current.session == 2 else points[current.sequence])]
+
+        fake_torch = SimpleNamespace(set_num_threads=lambda _: None, cuda=SimpleNamespace(is_available=lambda: False), version=SimpleNamespace(cuda=None))
+
+        def sender(url, _token, **_kwargs):
+            return lambda body: payloads.append((url, json.loads(body))) or True
+
+        with tempfile.TemporaryDirectory() as folder:
+            directory = Path(folder)
+            weights = directory / "weights"
+            weights.write_bytes(b"synthetic placeholder; never loaded")
+            options = ["--seconds", "2", "--device", "cpu", "--weights", str(weights), "--output", str(directory / "report.json"), "--outbox", str(directory / "outbox"), "--require-delivery"]
+            for camera in ("222", "223"):
+                geometry = directory / (camera + "-image.json")
+                geometry.write_text(json.dumps({**asdict(metrics), "camera_id": camera,
+                    "queue_region": [[0.05, 0.05], [0.95, 0.05], [0.95, 0.95], [0.05, 0.95]],
+                    "stopped_threshold_per_s": 0.01, "stopped_min_duration_s": 1}))
+                traversal = directory / (camera + "-traversals.json")
+                traversal.write_text(json.dumps({**raw, "camera_id": camera}))
+                options += ["--measurement-config", str(geometry), "--count-gate-id", camera + "=entry", "--traversal-config", str(traversal)]
+            modules = {"cv2": SimpleNamespace(), "torch": fake_torch, "worker.detect": SimpleNamespace(load_model=lambda _: model), "worker.track": SimpleNamespace(CameraTracker=Tracker), "worker.stream": SimpleNamespace(StreamReader=Reader)}
+            environment = {"EMISSION_LENS_INGEST_URL": "http://localhost/api/worker", "EMISSION_LENS_MEASUREMENT_URL": "http://localhost/api/measurements", "EMISSION_LENS_WORKER_TOKEN": "controlled-test-token-no-service-access"}
+            with patch.dict("sys.modules", modules), patch.dict("os.environ", environment), patch("worker.config.load_cameras", return_value=[SimpleNamespace(id=camera) for camera in cameras]), patch("worker.main.HttpSender", side_effect=sender), patch("importlib.metadata.version", return_value="controlled-test"), contextlib.redirect_stdout(io.StringIO()):
+                report = run_worker(parser().parse_args(options), stopped)
+            self.assertEqual(set(report["measurements"]["by_camera"]), {"222", "223"})
+            for camera in ("222", "223"):
+                self.assertEqual(report["completed_traversals"]["by_camera"][camera]["completed_traversals"], 1)
+                self.assertEqual(report["measurements"]["by_camera"][camera]["selected_gate_crossings_by_class"], {"car": 1})
+                self.assertTrue((directory / "outbox" / "measurements" / camera / "bridge.checkpoint").is_file())
+                self.assertEqual(report["measurement_delivery"]["by_camera"][camera]["pending_batches"], 0)
+                self.assertEqual(len(report["measurements"]["by_camera"][camera]["canonical_config_sha256"]), 64)
+                self.assertEqual(len(report["measurements"]["by_camera"][camera]["selected_gate_sha256"]), 64)
+            self.assertEqual(report["completed_traversals"]["by_camera"]["222"]["session_count"], 2)
+            self.assertEqual(report["completed_traversals"]["by_camera"]["223"]["session_count"], 1)
+            observations = [payload for url, payload in payloads if url.endswith("/worker") and payload["traffic"]]
+            measurements = [payload for url, payload in payloads if url.endswith("/measurements")]
+            self.assertEqual({row["camera_id"] for payload in observations for row in payload["traffic"]}, {"222", "223"})
+            self.assertEqual({payload["camera_id"] for payload in measurements}, {"222", "223"})
+            latest_rows = {payload["traffic"][0]["camera_id"]: payload["traffic"] for payload in observations}
+            self.assertTrue(all(row["queue_count"] is None for row in latest_rows["222"]))
+            self.assertEqual([row["queue_count"] for row in latest_rows["223"]], [1])
+            refs = {(payload["batch_id"], payload["revision"]): payload for payload in observations}
+            for payload in measurements:
+                self.assertEqual(payload["mode"], "live")
+                if payload["observation_ref"]:
+                    linked = refs[(payload["observation_ref"]["batch_id"], payload["observation_ref"]["revision"])]
+                    self.assertEqual({row["camera_id"] for row in linked["traffic"]}, {payload["camera_id"]})
+            self.assertNotIn("123456789", json.dumps(measurements))
+
     def test_main_runtime_wires_the_opt_in_bridge_to_its_separate_sender(self):
         import contextlib
         import io
