@@ -19,48 +19,11 @@ export function AnimatedNumber({
 }) {
   const visual = useRef<HTMLSpanElement>(null);
   const previousValue = useRef(value);
-  const visible = useRef(false);
   const animation = useRef<Animation | null>(null);
   const formatter = useMemo(
     () => new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }),
     [digits],
   );
-
-  useEffect(() => {
-    const element = visual.current;
-    if (!element) return;
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const root = document.documentElement;
-    const preferenceChanged = () => {
-      if (
-        media.matches ||
-        root.dataset.motion === "off" ||
-        document.visibilityState !== "visible"
-      ) {
-        stopAnimation(animation);
-      }
-    };
-    const intersection = new IntersectionObserver(([entry]) => {
-      visible.current = entry.isIntersecting;
-      if (!visible.current) stopAnimation(animation);
-    });
-    intersection.observe(element);
-    const preference = new MutationObserver(preferenceChanged);
-    preference.observe(root, {
-      attributes: true,
-      attributeFilter: ["data-motion"],
-    });
-    media.addEventListener("change", preferenceChanged);
-    document.addEventListener("visibilitychange", preferenceChanged);
-
-    return () => {
-      stopAnimation(animation);
-      intersection.disconnect();
-      preference.disconnect();
-      media.removeEventListener("change", preferenceChanged);
-      document.removeEventListener("visibilitychange", preferenceChanged);
-    };
-  }, []);
 
   useEffect(() => {
     const changed = previousValue.current !== value;
@@ -70,7 +33,6 @@ export function AnimatedNumber({
     if (
       !changed ||
       !element ||
-      !visible.current ||
       !Number.isFinite(value) ||
       document.visibilityState !== "visible" ||
       document.documentElement.dataset.motion === "off" ||
@@ -79,6 +41,9 @@ export function AnimatedNumber({
     ) {
       return;
     }
+    const bounds = element.getBoundingClientRect();
+    if (bounds.bottom < 0 || bounds.top > window.innerHeight) return;
+    // No per-number global observers or subscriptions: only visible changed values animate.
     // The displayed number never changes during feedback; only its presentation does.
     const effect = element.animate(
       [

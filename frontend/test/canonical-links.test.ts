@@ -1,0 +1,3 @@
+import assert from 'node:assert/strict';import test from 'node:test';import {hrefWith} from '../src/lib/format.ts';
+test('equivalent workspace state has one canonical href regardless of object insertion order',()=>{assert.equal(hrefWith('/',{view:'emissions',to:'b',camera:'223',mode:'live',from:'a',reduce:20}),hrefWith('/',{mode:'live',camera:'223',reduce:20,from:'a',to:'b',view:'emissions'}));assert.equal(hrefWith('/',{view:'emissions',camera:'223'}),'/?camera=223&view=emissions');});
+test('an explicit reporting-hour reset retains blank window without keeping blank date bounds',()=>{assert.equal(hrefWith('/',{mode:'live',camera:'222',window:'',from:'',to:''}),'/?camera=222&window=');});

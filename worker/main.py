@@ -6,6 +6,7 @@ require calibration. Raw frames stay in memory and are not saved.
 
 import argparse
 import base64
+import copy
 import hashlib
 import json
 import math
@@ -23,6 +24,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
 from worker.publish import HttpSender, Outbox, TraversalBridge, measurement_url, recover_measurement_outbox
+from worker.pacing import LiveMediaPacer
 from worker.delivery import BackgroundDelivery
 
 
@@ -181,15 +183,18 @@ class PreviewPublisher:
             return
         self._next_due[frame.camera_id] = now + self.interval_s
         try:
-            body = json.dumps(self.encoder(frame, vehicles, run_id, mode, processed_at), allow_nan=False).encode()
+            # Hold a private image snapshot while encoding happens off the tracker.
+            current = copy.copy(frame)
+            if hasattr(frame, "image"):
+                object.__setattr__(current, "image", frame.image.copy())
+            work = (current, tuple(vehicles), run_id, mode, processed_at)
         except Exception:
             with self._ready:
                 self.failures[frame.camera_id] += 1
             return
         with self._ready:
-            # At most one pending JPEG per selected camera. New evidence
-            # replaces unsent preview imagery instead of creating a backlog.
-            self._pending[frame.camera_id] = body
+            # One unsent frame per camera bounds memory under encoding/network loss.
+            self._pending[frame.camera_id] = work
             self._ready.notify()
 
     def _deliver(self):
@@ -199,8 +204,9 @@ class PreviewPublisher:
                 if self._stopped:
                     return
                 camera_id = next(iter(self._pending))
-                body = self._pending.pop(camera_id)
+                work = self._pending.pop(camera_id)
             try:
+                body = json.dumps(self.encoder(*work), allow_nan=False).encode()
                 delivered = self.sender(body)
             except Exception:
                 delivered = False
@@ -228,6 +234,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--fps", type=float, default=5)
     result.add_argument("--device", default="0", help="Ultralytics device, e.g. 0 or cpu.")
     result.add_argument("--require-cuda", action="store_true")
+    result.add_argument("--pace-live", action="store_true", help="Pace live processing by original media time with a four-second initial buffer; replay unchanged.")
     result.add_argument("--require-delivery", action="store_true", help="Fail if publishing is disabled or final batches remain queued.")
     result.add_argument("--publish-every", type=float, default=5)
     result.add_argument("--preview-every", type=float, default=0, help="Optional annotated in-memory preview interval; 0 disables.")
@@ -350,6 +357,7 @@ def run(args, stop_requested=None) -> dict:
             raise ValueError("Previews need the configured ingest endpoint and worker token.")
         endpoint = os.environ.get("EMISSION_LENS_PREVIEW_URL") or preview_url(url)
         previews = PreviewPublisher(HttpSender(endpoint, token, timeout_s=1.0), args.preview_every)
+    pacer = LiveMediaPacer(4.0) if getattr(args, "pace_live", False) and mode == "live" else None
     started = utc_now()
     run_record = {
         "run_id": str(uuid.uuid4()), "model_version": str(args.weights.name),
@@ -467,6 +475,10 @@ def run(args, stop_requested=None) -> dict:
                 if frame is None:
                     continue
                 found_frame = True
+                if pacer is not None:
+                    delay = pacer.delay(camera.id, frame.session, frame.media_time_s, time.monotonic())
+                    if delay and stop_requested.wait(delay):
+                        break
                 before = time.perf_counter()
                 vehicles = trackers[camera.id].update(frame)
                 model = models[camera.id].model
@@ -532,7 +544,7 @@ def run(args, stop_requested=None) -> dict:
                 "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                 "weights_sha256": hashlib.sha256(args.weights.read_bytes()).hexdigest(),
                 "runtime_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-                "settings": {"target_sampling_fps": args.fps, "image_size": args.image_size, "duration_s": args.seconds, "device": args.device},
+                "settings": {"target_sampling_fps": args.fps, "image_size": args.image_size, "duration_s": args.seconds, "device": args.device, "live_playback_buffer_s": pacer.buffer_s if pacer else 0},
                 "packages": {name: version(name) for name in ("torch", "ultralytics", "opencv-python")},
                 "cuda_runtime": torch.version.cuda,
                 "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,

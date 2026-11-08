@@ -27,6 +27,7 @@ import {
   IngestError,
   materialize,
   readSnapshot,
+  readSnapshotView,
   STORE_RETENTION_MS,
   storePath,
   withStoreLock,
@@ -69,7 +70,7 @@ const empty = (): WorkerSnapshot => ({
 });
 function localSnapshot(): WorkerSnapshot {
   const path = storePath();
-  return path ? readSnapshot(path) : empty();
+  return path ? readSnapshotView(path) : empty();
 }
 function receipt(
   entry: StoredMeasurement,

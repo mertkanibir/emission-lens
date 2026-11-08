@@ -1,0 +1,26 @@
+{
+  "owner": "Mert",
+  "verified_at_utc": "2026-11-08T14:20:47.966117+00:00",
+  "scope": "Four-camera measurement and traffic reads against the same isolated retained-store snapshot; no network or GPU benchmark.",
+  "clock": "2026-11-08T14:12:00.000Z",
+  "baseline_ms": [
+    1314.196042,
+    975.8287079999998,
+    959.4263329999999,
+    977.9954169999996
+  ],
+  "cached_ms": [
+    382.633875,
+    49.11129200000005,
+    50.451459,
+    52.056916
+  ],
+  "warm_baseline_median_ms": 975.8287079999998,
+  "warm_cached_median_ms": 50.451459,
+  "all_output_sha256": "b6d84b58fbb7ab2f0eb849e5e1ff2f2a01a3c758cab107cfc748256db5862d99",
+  "identical_outputs": true,
+  "limitations": [
+    "Four paired batches only, one captured local store; not an end-to-end latency or sustained throughput claim.",
+    "Every changed atomic store signature is freshly validated; writer reads remain independent and mutable."
+  ]
+}

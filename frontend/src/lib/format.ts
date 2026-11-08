@@ -26,8 +26,14 @@ export function parseView(value: string | undefined): MapView {
 /** Builds a same-site href. Live is the default mode, so it is left out of the query. */
 export function hrefWith(path: string, params: Record<string, string | number | null | undefined>): string {
   const query = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (value === null || value === undefined || value === "") continue;
+  const order = ["mode", "camera", "view", "reduce", "from", "to", "window"];
+  const keys = Object.keys(params).sort((a, b) => {
+    const ai = order.indexOf(a), bi = order.indexOf(b);
+    return (ai < 0 ? order.length : ai) - (bi < 0 ? order.length : bi) || a.localeCompare(b);
+  });
+  for (const key of keys) {
+    const value = params[key];
+    if (value === null || value === undefined || (value === "" && key !== "window")) continue;
     if (key === "mode" && value === "live") continue;
     query.set(key, String(value));
   }

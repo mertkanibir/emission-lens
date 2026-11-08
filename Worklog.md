@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:20 America/New_York / 8 November 2026, 14:20 UTC
+
+- **Who:** Mert
+- **Done:** Added immutable signature-bound query views/materialization reuse, canonical workspace URLs and lower-overhead numeric feedback. Added opt-in original-media live pacing and moved preview JPEG encoding off the tracking loop for the reserved-resource replacement.
+- **Completed:** Four captured-store baseline/candidate batches have identical full output hashes; warm four-camera reads975.83ms versus50.45ms.130 existing backend plus4 cache/invalidation/writer tests pass; backend types pass;93 frontend checks and types pass. GPU stream reports15 focused runtime tests pass.
+- **Still open:** New2MIG/24CPU producer handoff and web/PDF compact-workspace production/browser checks are pending. Scientific contracts/model/source sampling and prior evidence remain unchanged.
+
 ### 8 November 2026, 09:06 America/New_York / 8 November 2026, 14:06 UTC
 
 - **Who:** Mert

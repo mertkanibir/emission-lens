@@ -81,6 +81,37 @@ export function readSnapshot(path: string): WorkerSnapshot {
   }
 }
 
+/** Query-only snapshots keep a validated immutable view until the atomic file changes.
+ * Writers deliberately continue through readSnapshot() and receive fresh mutable data.
+ */
+let querySnapshot: { path: string; signature: string; value: WorkerSnapshot } | undefined;
+function freezeSnapshot<T>(value: T): T {
+  if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
+    for (const nested of Object.values(value)) freezeSnapshot(nested);
+    Object.freeze(value);
+  }
+  return value;
+}
+export function readSnapshotView(path: string): WorkerSnapshot {
+  try {
+    if (!existsSync(/* turbopackIgnore: true */ path)) {
+      querySnapshot = undefined;
+      return freezeSnapshot(empty());
+    }
+    const stat = statSync(/* turbopackIgnore: true */ path, { bigint: true });
+    const signature = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+    if (querySnapshot?.path === path && querySnapshot.signature === signature) return querySnapshot.value;
+    const value = freezeSnapshot(readSnapshot(path));
+    querySnapshot = { path, signature, value };
+    return value;
+  } catch (error) {
+    querySnapshot = undefined;
+    if (error instanceof IngestError) throw error;
+    throw new IngestError("The worker store cannot be read or validated. Preserve it for recovery.", 503);
+  }
+}
+const queryMaterializations = new WeakMap<WorkerSnapshot, { registry: string; value: WorkerStore }>();
+
 export function trafficKey(row: TrafficMinute): string {
   return `${row.mode}|${row.camera_id}|${Date.parse(row.minute)}|${row.vehicle_class}`;
 }
@@ -91,6 +122,9 @@ function emissionsKey(row: EmissionsMinute): string {
 
 /** Newer processing heartbeats win even if an older network retry arrives later. */
 export function materialize(snapshot: WorkerSnapshot): WorkerStore {
+  const registry = loadRegistry();
+  const cached = Object.isFrozen(snapshot) ? queryMaterializations.get(snapshot) : undefined;
+  if (cached?.registry === registry.digest) return cached.value;
   const runs = new Map<string, WorkerRun>();
   const statuses = new Map<string, { value: CameraStatus; time: number }>();
   const traffic = new Map<string, { value: TrafficMinute; time: number }>();
@@ -113,14 +147,19 @@ export function materialize(snapshot: WorkerSnapshot): WorkerStore {
       if (!emissions.has(key) || eventTime >= emissions.get(key)!.time) emissions.set(key, { value: row, time: eventTime });
     }
   }
-  return composeMeasurements({
+  const result = composeMeasurements({
     runs: [...runs.values()],
     statuses: [...statuses.values()].map((row) => row.value),
     traffic: [...traffic.values()].map((row) => row.value),
     emissions: [...emissions.values()].map((row) => row.value),
     batches: snapshot.batches.map(({ batch, accepted_at }) => ({ batch_id: batch.batch_id, revision: batch.revision, accepted_at })),
     measurement_batches: [],
-  }, snapshot, loadRegistry());
+  }, snapshot, registry);
+  if (Object.isFrozen(snapshot)) {
+    immutable(result);
+    queryMaterializations.set(snapshot, { registry: registry.digest, value: result });
+  }
+  return result;
 }
 
 let cachedRead: { path: string; signature: string; value: WorkerStore } | undefined;
@@ -145,7 +184,7 @@ export function readWorkerStore(): WorkerStore {
     const stat = statSync(/* turbopackIgnore: true */ path, { bigint: true });
     const signature = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}:${loadRegistry().digest}`;
     if (cachedRead?.path === path && cachedRead.signature === signature) return cachedRead.value;
-    const value = immutable(materialize(readSnapshot(path)));
+    const value = immutable(materialize(readSnapshotView(path)));
     cachedRead = { path, signature, value };
     return value;
   } catch (error) {
