@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:42 America/New_York (05:42 UTC)
+
+- **Who:** Carter
+- **Done:** Added `evaluation/stop_threshold.py` and fitted a per-camera stopped-motion threshold (normalized image displacement per second) against a calibrated ground-speed reference: below 0.5 m/s over 1 s is stopped, above 1.5 m/s is moving, between is excluded. Fitting uses the road region in each movement's depth band, since stops happen mostly at stop bars just outside the movements. Thresholds: 222 0.0225, 223 0.0283, 220 0.0211, 228 0.0235. Evidence in `evaluation/calibration/<camera>-stop-threshold.json`; the private traversal configs now carry `stop_observation` with a new context version.
+- **Completed:** Balanced accuracy 95.4% (222), 95.9% (223), 93.5% (220), 98.3% (228) on clip 3:00-5:00, with 1,896-8,173 stopped intervals per camera. Inside the movements, moving intervals stay moving at 99.0-100%; 220 classifies its 116 stopped intervals at 98.3%. Thresholds sit about twice the geometric 0.5 m/s image rate, reflecting box jitter.
+- **Still open:** Stopped intervals inside 222, 223 and 228 movements are rare (0-12 in the fit window), so in-movement stopped accuracy there is unmeasured. The reference is calibration-derived, not human-annotated. Mert swaps in the updated traversal configs and confirms shorter-stop scenarios populate.
+
 ### 8 November 2026, 00:39 America/New_York / 8 November 2026, 05:39 UTC
 
 - **Who:** Mert
@@ -801,3 +808,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Independently rebuilt the private3142 consumer with exact backend wording checkpoint03ad2daa327e5f266f2ac0006d2716b25a656d5c plus published frontendacee09c; added actual rendered/export/mode/status results to frontend/ACCEPTANCE.md. No backend source was edited by this stream.
 - **Completed:** All57 combined checks pass (47frontend+10focused backend availability); isolated production build passes. Approved222 empty replay brief/ranking/camera text is corrected. Actual1,422-character download matches every rendered body line. Public full-window/scenario grams stay null; replay/synthetic remain separate, replay frame unavailable/offline, and frozen live heartbeat correctly displays degraded. Heat layer ready with timestamped7.9gCO2/0.001485gNOx same-minute snapshot; Traffic uses reporting-window values, mode transitions retain heat point counts1→0→0→1. Private store/registry hashes are unchanged; no browser warnings/errors captured in final tab.
 - **Open:** Fresh223 replay and full four-camera/responsive/motion/accessibility rehearsal remain separate acceptance work; exact running-source link requires the coordinated verified web-build handoff. Owned3142 is stopped, acceptance tab closed and viewport reset; the earlier owned connection-error tab could not be closed through available browser API policy. Production3138 retains originalPID3943 and live176075 is untouched. No scientific/contract/missing-data change, production installation or unsupported measurement/benefit claim; concurrent backend documents excluded.
+
+
+## 8 November 2026, 00:44 America/New_York / 8 November 2026, 05:44 UTC — Mert
+
+- **Done:** Integrated already published Carter checkpoint22c5fcb with the independent frontend acceptance recordc08d938 after a normal fetch-first push rejection. Resolved only the append-only Worklog overlap, preserving both full entries; no force push, stash or reset.
+- **Completed:** Both commits remain ancestors. Existing backend handoff/candidate working bytes are unchanged, no unresolved conflicts remain and scoped frontend/document whitespace passes. Carter's threshold source/configuration/test files are inherited unchanged from his remote commit, not modified or newly activated by this frontend stream.
+- **Open:** Frontend acceptance limits remain as recorded above. Existing production3138/job176075 and other working edits are unchanged; no new GPU, calibration approval or scientific test claim.
