@@ -1,7 +1,7 @@
 # Four-recording execution and acceptance
 
 **Owner:** Mert  
-**Updated:** 8 November 2026, 01:15 America/New_York / 06:15 UTC
+**Updated:** 8 November 2026, 01:19 America/New_York / 06:19 UTC
 **Checkpoint:** 8 November 2026, 01:13 America/New_York / 06:13 UTC
 
 This matrix distinguishes source availability, model execution, visual review and scientific acceptance. A completed offline count batch does not establish accuracy or activate a camera. Raw video, detailed event ledgers, credentials and private source capabilities remain outside Git.
@@ -40,3 +40,10 @@ The actual frozen-cohort math/reload checker initially failed an ISO string comp
 
 
 **Final actual stopped-policy audit: PARTIAL (8 November 2026, 01:15 America/New_York / 06:15 UTC).** The existing checker closes without another retry. Corrected parsed-instant comparison passes; the frozen 06:12 UTC snapshot validates in a fresh backend process, all 192 old worker batches / 18 old measurement entries are identical, and all four new 222 references/revisions/run/minute/linked-stopped bounds pass. Nine completed candidates contain three positive stopped values (0.066, 0.067, 0.067 s) and six supported zeros. Independent original CARB CSV baseline and explicit 20% hypothetical same-cohort calculations pass. Final checker assertion `current_refs > 0` fails: all four frozen evidence references return 404 against advancing live 3150. Same-generation authenticated current-evidence/reload-to-HTTP acceptance therefore remains **unverified**; this does not demonstrate a runtime or arithmetic regression. No positive savings, field accuracy, complete live stopped-policy E2E pass, new app/job or further diagnostic loop is claimed. No 3160 app exists. Source snapshots, failed responses and partial result remain with the integration handoff.
+
+
+## Final archival handoff — 8 November 2026, 01:19 America/New_York / 06:19 UTC
+
+All six engineer streams and evidence/release coordination are actually archived after completed publications and handoffs. Full-Stack 1's completed/idle final turn and exact remote publication `be383b150ace06f810280a1c9892cc73ad57584e` were verified before archival. Main project conversation retains the read-only five-minute mail schedule for held proposals and runtime/remaining-work ownership; operations finishes this publication then idle. No new work, archived-chat messages or runtime shutdown follows.
+
+Canonical actual stopped-policy result: [PARTIAL report](../backend/STOPPED-LIVE-176255.md), [scalar receipt](../backend/stopped-live-176255-result.json). All-four recording execution and live preview/browser acceptance remain complete; 220/228 count acceptance remains failed, and same-generation authenticated current evidence remains unverified after four frozen-reference404s. Existing live job176255/3150 remains bounded by **03:14:15 New York / 08:14:15 UTC** allocation end; protected176075/3138 by **06:12:38 New York / 11:12:38 UTC**. Nominal worker timing is distinct from exact allocation caps; earlier source/host/transport/capacity failure remains possible.
