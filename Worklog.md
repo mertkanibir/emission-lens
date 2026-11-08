@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 20:29 America/New_York / 8 November 2026, 01:29 UTC
+
+- **Who:** Mert
+- **Done:** Published the exact internal completed-traversal producer API in worker/TRAVERSALS.md before implementation, for engineering's independent runtime/persistence wiring. Scoped work to a new pure module, its tests and package document.
+- **Completed:** Explicit entry/exit roles, directions, accepted distance/calibration evidence, continuity/identity policy, traversal-linked stops and UTC attribution are proposed without extending contract 1.1. Reviewed current contracts and the accepted scenario handoff; checked document whitespace and the approved author/push account.
+- **Still open:** Implement and verify the producer with synthetic trajectories, then publish its tested checkpoint. Runtime wiring, storage composition, real calibration and manual count/model validation remain their owners' work; no camera/model/data settings or GPU job changed.
+
 ### 7 November 2026, 20:25 America/New_York / 8 November 2026, 01:25 UTC
 
 - **Who:** Mert
