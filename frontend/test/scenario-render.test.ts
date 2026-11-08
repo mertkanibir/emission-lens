@@ -38,5 +38,5 @@ test("small observed gram values remain distinct from supported zero in shared r
   assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 0 })), /0.*g/);
   assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: null })), /Unavailable/);
   assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 522.704037 })), /522.7<.*g/);
-  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 12345 })), /1.23E4.*g/);
+  assert.match(renderToStaticMarkup(createElement(EmissionQuantity, { value: 12345 })), /12.3.*kg/);
 });

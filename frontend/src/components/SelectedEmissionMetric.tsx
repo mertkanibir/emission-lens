@@ -19,10 +19,10 @@ export function SelectedEmissionMetric({ estimate, windowCo2, cameraId, mode, st
       <div className="summary-label"><span>Estimated CO₂</span><Cloud size={19} /></div>
       <strong>{value === null ? <Quantity value={null} unavailable={support.label} /> : <EmissionQuantity value={value} />}</strong>
       <span className="metric-caption">
-        {estimate ? <>
+        {mode === "synthetic" ? "Labeled synthetic reporting-window estimate" : estimate ? <>
           Latest supported minute · <time dateTime={estimate.minute}>{formatInstant(estimate.minute, PACIFIC)}</time><br />
           Camera {cameraId} · {modeLabel(mode)} · feed {stateLabel(state).toLowerCase()} · completed movement only
-        </> : mode === "synthetic" ? "Labeled synthetic reporting-window estimate" : support.detail}
+        </> : support.detail}
       </span>
       <span className="metric-caption">
         Reporting-hour CO₂: {windowCo2 === null ? "unavailable; required records are unsupported or missing" : <EmissionQuantity value={windowCo2} />}.

@@ -79,10 +79,11 @@ export function QueueQuantity({ value, unavailable = "No queue observation" }: {
 /** Grams retain small NOx values instead of rounding them to a supported zero. */
 export function EmissionQuantity({ value }: { value: number | null }) {
   if (value === null || !Number.isFinite(value)) return <span className="q-null">Unavailable</span>;
-  const text = Math.abs(value) >= 10_000
-    ? `${new Intl.NumberFormat("en-US", { notation: "scientific", maximumFractionDigits: 2 }).format(value)} g`
-    : scenarioValue(value, "g", false, Math.abs(value) >= 1 ? 1 : 6);
-  return <span className="q" title={`${value} g`}>{text.slice(0, -2)}<span className="q-unit">g</span></span>;
+  const kilograms = Math.abs(value) >= 1000;
+  const unit = kilograms ? "kg" : "g";
+  const shown = kilograms ? value / 1000 : value;
+  const text = scenarioValue(shown, unit, false, Math.abs(shown) >= 1 ? 1 : 6);
+  return <span className="q" title={`${value} g`}>{text.slice(0, -(unit.length + 1))}<span className="q-unit">{unit}</span></span>;
 }
 
 export function Readout({

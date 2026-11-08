@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:26 America/New_York / 8 November 2026, 15:26 UTC
+
+- **Who:** Mert
+- **Done:** Labeled synthetic hour totals independently of the latest map minute and replaced large scientific-notation gram readouts with kilograms, retaining exact grams and small-value precision.
+- **Completed:** 99 frontend checks, TypeScript and whitespace pass.
+- **Still open:** Final immutable build, signed actual PDF export and installed browser/phone acceptance.
+
 ### 8 November 2026, 10:25 America/New_York / 8 November 2026, 15:25 UTC
 
 - **Who:** Mert
