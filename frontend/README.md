@@ -1,7 +1,7 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 17:26 America/New_York (22:26 UTC)
+**Updated:** 7 November 2026, 18:58 America/New_York (23:58 UTC)
 
 The four-camera Torrance dashboard reads the shared backend contract. The server reads live/replay worker records from the configured local store. Without a worker, those modes remain empty. The synthetic sample is explicitly labeled and excluded from live totals.
 
@@ -9,13 +9,15 @@ The four-camera Torrance dashboard reads the shared backend contract. The server
 
 **Design note (7 November 2026, 17:26 America/New_York / 22:26 UTC):** Mert applied the latest supplied palette across the entire interface: warm tan `#FAF3EA` and green `#058247`, sampled after converting the reference image to sRGB. Cream and sage surfaces, bold typography, a light street map, and editorial environmental imagery retain the selected logistics/travel composition. This supersedes the charcoal theme. No scientific calculation or shared-contract change was made.
 
+**Polish note (7 November 2026, 18:58 America/New_York / 23:58 UTC):** Mert retained the tan/green palette, bold typography, navigation, and overall composition. A joined metric readout, road-grouped station index, compact camera identifiers, coordinates, sharper panel geometry, and more specific headings make the existing workspace more distinctive. Station order is geographic within each road; it does not imply tracking between cameras. A green selection outline is independent of the marker's amber/neutral health face. Fit controls preserve room around every marker.
+
 - **Overview:** selected-camera metrics, four-camera map, searchable/filterable/sortable intersection table, selected evidence, actual vehicle-class bars, and a plain-language explanation of the estimation steps.
 - **Camera detail:** four-camera switcher, section links, observations and diagnostics, class totals across recorded minutes, actual minute history, factor provenance, calibration readiness, and shorter-stop scenarios.
 - **Evidence review:** an explicit disconnected review feed and a useful explanation of corrections. An empty queue does not imply approved evidence.
 - **Planning brief:** a readable draft, camera and scenario controls, evidence references, clipboard action, and a real text attachment. Export returns the exact draft text, normalizes native-form line endings, and neither stores nor sends it.
 - **Menus:** camera network, help, data status, and reporting-window explanation. Menus dismiss with Escape or an outside click; only one opens at a time. Native disclosures remain keyboard accessible.
 - **Metric colors:** blue crossings, amber queues, green estimated emissions, violet recorded coverage, and teal completed traversals. Labels identify every category; color does not imply severity or a valid estimate. Unavailable values remain neutral.
-- **Motion:** staggered card entrances, selection-panel transitions, vehicle-bar reveals, menu openings, hover feedback, and 650 ms numeric/camera easing. Numeric transitions are bounded by the real values; null stays unavailable and supported zero stays zero. Screen readers receive the exact record value. Both the local motion preference and operating-system reduced-motion setting cancel or skip animation. No simulated telemetry, fake history, or pollution plumes.
+- **Motion:** exact values render immediately. Genuine visible numeric updates receive 160 ms presentation feedback, evidence selection 180 ms, and menus 140 ms; map orientation uses a nonblocking 320 ms transition. Page-load stagger/count-up sequences and looping decoration are removed. Numeric feedback stops offscreen, in a hidden document, or when motion is disabled. The system reduced-motion preference overrides saved local preferences. Native menu Escape handling restores focus only when focus was inside that menu.
 
 ## Data meanings
 
@@ -35,9 +37,11 @@ Image prompt: “Premium editorial photograph of a sunlit coastal California urb
 
 ## Verification
 
-Production build passes. All 29 backend tests pass with `node --import tsx --test backend/test/*.test.ts` (the ordinary test wrapper's IPC socket is restricted in this environment). Attachment checks cover a valid export and invalid filename; the actual browser-downloaded synthetic brief matches the displayed draft content.
+Production build and all 51 backend tests pass with `npm run build` and `npm test`. Attachment checks cover a valid export and invalid filename; the actual browser-downloaded synthetic brief matches the displayed draft content.
 
 Browser checks covered all four camera selections, search/no-results/reset, each status filter and sort option, traffic/emissions layers, live/replay/synthetic on overview/detail/review/brief, menus and disclosures, scenario 0/40/100 and invalid 101, blank-number validation, keyboard slider synchronization, all four brief camera options, copying, actual download, mobile layouts, and reduced motion. The latest palette pass rechecked overview, camera detail, review, and brief at desktop/phone widths, light menus, live null states, exact synthetic values, motion on/off, and reduced motion. The camera-network menu marks its active route without opening over the heading. Wide evidence tables remain in their own scroll areas and phone pages do not pan horizontally. Desktop and phone captures and comparison details are recorded in `../design-qa.md`.
+
+**Latest polish checks (7 November 2026, 18:58 America/New_York / 23:58 UTC):** All workspace menus and camera-menu destinations, outside/Escape/exclusive dismissal, all mode switches on each route, station links, filter/search/reset/sort, map layers/zoom/fit, detail disclosures/anchors, scenario boundaries and blank validation, four brief options, copy feedback, and a real text download passed browser checks. Wide/compact desktop and a 354 CSS-pixel phone viewport were inspected. Phone menus fit and horizontal gestures leave the page at `scrollX = 0`; evidence tables retain their own scroll areas. Exact sample values and reduced-motion behavior pass with no new browser warnings/errors. Before/after evidence is in `../design-qa.md`.
 
 ## Still open
 

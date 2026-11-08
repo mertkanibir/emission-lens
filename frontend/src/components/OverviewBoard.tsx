@@ -109,18 +109,22 @@ export function OverviewBoard({
     return [...classes].sort((a, b) => (b[1] ?? -1) - (a[1] ?? -1));
   }, [traffic.rows]);
   const crossings = traffic.totals.count;
+  const stationGroups = ["SR-107", "SR-1"].map((road) => ({
+    road,
+    stations: cameras
+      .filter((item) => item.camera.name.startsWith(`${road} at `))
+      .sort((a, b) => b.camera.latitude - a.camera.latitude),
+  }));
 
   return (
     <div className="overview-page">
       <header className="overview-heading">
         <div>
-          <p className="section-kicker">A little more perspective</p>
           <h1>
-            Your intersection overview<span>.</span>
+            Torrance intersections<span>.</span>
           </h1>
           <p>
-            Understand traffic. Explore its footprint. Make the next step an
-            informed one.
+            Traffic observations and the evidence behind estimated emissions.
           </p>
         </div>
         <details suppressHydrationWarning data-menu className="period-menu">
@@ -213,7 +217,7 @@ export function OverviewBoard({
           <section className="map-card" aria-label="Intersection map">
             <header className="map-card-head">
               <div>
-                <h2>A local view, a bigger picture</h2>
+                <h2>Observation map</h2>
                 <span>
                   <MapPin size={13} /> Torrance · 4 configured intersections
                 </span>
@@ -258,6 +262,37 @@ export function OverviewBoard({
                 <MapPin size={14} /> South Bay, Los Angeles County
               </span>
             </div>
+            <nav
+              className="station-index"
+              aria-label="Select an observation station"
+            >
+              {stationGroups.map(({ road, stations }) => (
+                <div className="station-group" key={road}>
+                  <span className="station-road">{road}</span>
+                  {stations.map(({ camera, status }) => (
+                    <Link
+                      key={camera.id}
+                      href={cameraHref(camera.id)}
+                      scroll={false}
+                      aria-label={`Select camera ${camera.id} on ${road}`}
+                      aria-current={
+                        camera.id === selectedId ? "location" : undefined
+                      }
+                      title={camera.name}
+                    >
+                      <i
+                        className={`dot dot-${status.displayed_state}`}
+                        aria-hidden="true"
+                      />
+                      {camera.id}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+              <span className="station-index-note">
+                Camera locations · independent observations
+              </span>
+            </nav>
             <div className="map-foot">
               <span>
                 <i className="dot dot-live" />
@@ -275,7 +310,7 @@ export function OverviewBoard({
             <div className="table-heading">
               <div>
                 <h2>
-                  Your camera network <span>{cameras.length}</span>
+                  Intersection register <span>{cameras.length}</span>
                 </h2>
                 <p>Choose an intersection to explore its observations.</p>
               </div>
@@ -350,7 +385,7 @@ export function OverviewBoard({
                           scroll={false}
                         >
                           <span className="camera-id-badge">
-                            <VideoCamera size={17} />
+                            {item.camera.id}
                           </span>
                           <span>
                             <strong>
@@ -440,13 +475,13 @@ export function OverviewBoard({
             </div>
             <div className="nature-copy">
               <h2>
-                Better streets.
+                Evidence for
                 <br />
-                <em>Thoughtful decisions.</em>
+                <em>better streets.</em>
               </h2>
               <p>
-                Traffic is one part of a place’s environmental story. Start with
-                evidence, then explore the possibilities.
+                Observe traffic. Understand the limits. Explore what could
+                change.
               </p>
               <span className="image-caption">
                 Illustrative image · not camera footage
@@ -455,12 +490,16 @@ export function OverviewBoard({
           </section>
           <section className="selection-card" key={`evidence-${selectedId}`}>
             <header>
-              <span className="section-kicker">
-                In focus · Camera {selectedId}
+              <span className="camera-focus-id">
+                <VideoCamera size={14} /> Camera {selectedId}
               </span>
               <StateChip state={selected.status.displayed_state} />
             </header>
             <h2>{selected.camera.name}</h2>
+            <p className="station-coordinate">
+              {selected.camera.latitude.toFixed(4)}° N /{" "}
+              {Math.abs(selected.camera.longitude).toFixed(4)}° W
+            </p>
             <p>
               {selected.status.heartbeat_at === null
                 ? "No heartbeat received. The camera is configured, but its worker is not connected."

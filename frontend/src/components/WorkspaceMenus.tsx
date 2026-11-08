@@ -13,12 +13,20 @@ export function WorkspaceMenus() {
         if (menu.open && !menu.contains(event.target)) menu.open = false;
     };
     const escape = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      for (const menu of menus())
-        if (menu.open) {
-          menu.open = false;
-          menu.querySelector("summary")?.focus();
+      if (event.key !== "Escape" || event.defaultPrevented || event.isComposing)
+        return;
+      let returnFocus: HTMLElement | null = null;
+      for (const menu of menus()) {
+        if (!menu.open) continue;
+        if (menu.contains(document.activeElement)) {
+          returnFocus = menu.querySelector<HTMLElement>(":scope > summary");
         }
+        menu.open = false;
+      }
+      if (returnFocus) {
+        event.preventDefault();
+        returnFocus.focus({ preventScroll: true });
+      }
     };
     const exclusive = (event: Event) => {
       if (

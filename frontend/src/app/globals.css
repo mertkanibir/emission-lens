@@ -21,7 +21,7 @@
   --synthetic: #5f658b;
   --font-ui: var(--font-display), Arial, sans-serif;
   --font-data: var(--font-mono, ui-monospace), monospace;
-  --radius: 20px;
+  --radius: 14px;
   --sidebar: 190px;
 }
 * {
@@ -69,6 +69,14 @@ h1,
 h2,
 h3 {
   line-height: 1.3;
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+input,
+textarea {
+  caret-color: var(--lane);
 }
 svg {
   flex-shrink: 0;
@@ -603,8 +611,8 @@ button:disabled {
 .overview-heading h1 {
   font-size: 30px;
   font-weight: 700;
-  letter-spacing: -0.05em;
-  margin: 5px 0 8px;
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
 }
 .overview-heading h1 > span {
   color: var(--lane);
@@ -724,7 +732,41 @@ button:disabled {
 }
 .overview-metrics {
   margin-bottom: 22px;
+  gap: 0;
+  border: 1px solid var(--seam);
+  border-radius: 14px;
+  background: var(--asphalt-2);
+  overflow: hidden;
 }
+.overview-metrics > .summary-card {
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--seam);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 20px;
+  gap: 12px;
+}
+.overview-metrics > .summary-card:last-child {
+  border-right: 0;
+}
+.overview-metrics .summary-label::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--metric-accent);
+}
+.overview-metrics .summary-label > span {
+  flex: 1;
+}
+.overview-metrics .summary-label > svg {
+  opacity: 0.7;
+}
+.overview-metrics .metric-caption {
+  max-width: 27ch;
+}
+
 .overview-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 258px;
@@ -739,7 +781,7 @@ button:disabled {
 }
 .map-card {
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 14px;
   background: var(--asphalt-2);
   border: 1px solid var(--seam);
 }
@@ -853,11 +895,11 @@ button:disabled {
   display: grid;
   place-items: center;
   width: 34px;
-  height: 34px;
+  height: 22px;
   background: #f9faf5;
-  border: 2px solid #737b6a;
-  border-radius: 50%;
-  box-shadow: 0 3px 10px #253c2526;
+  border: 1px solid #737b6a;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #253c251a;
   font-size: 10px;
   font-weight: 700;
   color: #526049;
@@ -876,22 +918,37 @@ button:disabled {
   box-shadow: 0 3px 10px #253c2515;
 }
 .map-marker[data-selected="true"] .mm-number {
-  border-color: #058247;
-  background: #058247;
-  color: white;
-  box-shadow:
-    0 0 0 5px #05824725,
-    0 4px 12px #253c2530;
+  outline: 2px solid var(--lane);
+  outline-offset: 3px;
+  background: #e1efda;
+  border-color: #55775a;
+  color: #176339;
 }
 .map-marker[data-selected="true"] .mm-detail {
-  display: block;
+  display: grid;
+  gap: 2px;
+}
+.mm-street {
+  font-size: 9px;
+  color: var(--paint-dim);
+}
+.mm-detail strong {
+  font-size: 10px;
+  font-weight: 800;
 }
 .map-marker[data-state="degraded"] .mm-number {
   border-color: #b38b43;
+  background: #fff1d2;
+  color: #80500f;
+}
+.map-marker[data-state="offline"] .mm-number {
+  background: #eeeee6;
+  border-color: #8a9383;
+  color: #535d4e;
 }
 .map-marker:hover .mm-number {
-  background: #058247;
-  color: #fffaf1;
+  outline: 2px solid var(--lane);
+  outline-offset: 3px;
 }
 .map-foot {
   display: flex;
@@ -959,7 +1016,7 @@ button:disabled {
 }
 .camera-table-card {
   border: 1px solid var(--seam);
-  border-radius: 20px;
+  border-radius: 14px;
   background: var(--asphalt-2);
   overflow: hidden;
 }
@@ -1172,7 +1229,7 @@ button:disabled {
   color: var(--paint-faint);
 }
 .nature-card {
-  border-radius: 20px;
+  border-radius: 14px;
   overflow: hidden;
   background: #e6eddf;
   border: 1px solid #cfdbc5;
@@ -1205,7 +1262,7 @@ button:disabled {
 .nature-copy h2 {
   font-size: 23px;
   font-weight: 700;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
   line-height: 1.25;
 }
 .nature-copy h2 em {
@@ -1222,11 +1279,11 @@ button:disabled {
 }
 .image-caption {
   font-size: 8px;
-  color: #5d7154;
+  color: #526349;
 }
 .selection-card,
 .class-card {
-  border-radius: 20px;
+  border-radius: 14px;
   background: var(--asphalt-2);
   border: 1px solid var(--seam);
   padding: 20px;
@@ -1420,7 +1477,7 @@ button:disabled {
 .page-title {
   font-size: 29px;
   font-weight: 700;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
 }
 .page-title-row {
   display: flex;
@@ -1647,7 +1704,7 @@ section[id] {
   gap: 8px;
   padding: 10px 16px;
   min-height: 38px;
-  border-radius: 22px;
+  border-radius: 8px;
   border: 1px solid var(--seam-strong);
   background: #f3eee2;
   color: var(--paint);
@@ -2014,89 +2071,41 @@ details.disclosure .readouts {
 .signal[data-state="degraded"] i:nth-child(2) {
   background: var(--caution);
 }
-/* Motion describes interface changes, never simulated incoming observations. */
-@keyframes arrive {
+/* One short camera-to-evidence transition, with native menus responding immediately. */
+@keyframes evidence-focus {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0.72;
+    transform: translateX(5px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes bar-reveal {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
   }
 }
 @keyframes menu-reveal {
   from {
-    opacity: 0;
-    transform: translateY(-5px);
+    opacity: 0.5;
+    transform: translateY(-3px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-@keyframes motion-meter {
-  50% {
-    transform: scaleY(0.45);
-  }
-}
 @media (prefers-reduced-motion: no-preference) {
-  html:not([data-motion="off"]) .metric-grid > .summary-card {
-    animation: arrive 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
-  }
-  html:not([data-motion="off"]) .metric-grid > .summary-card:nth-child(2) {
-    animation-delay: 0.07s;
-  }
-  html:not([data-motion="off"]) .metric-grid > .summary-card:nth-child(3) {
-    animation-delay: 0.14s;
-  }
-  html:not([data-motion="off"]) .metric-grid > .summary-card:nth-child(4) {
-    animation-delay: 0.21s;
-  }
-  html:not([data-motion="off"]) .overview-main,
-  html:not([data-motion="off"]) .page-head {
-    animation: arrive 0.55s 0.1s both;
-  }
   html:not([data-motion="off"]) .selection-card,
-  html:not([data-motion="off"]) .class-card {
-    animation: arrive 0.45s 0.12s both;
-  }
-  html:not([data-motion="off"]) .class-bars meter,
-  html:not([data-motion="off"]) .share-bar > span {
-    animation: bar-reveal 0.85s 0.15s both;
+  html:not([data-motion="off"]) .map-marker[data-selected="true"] .mm-detail {
+    animation: evidence-focus 180ms ease-out;
   }
   html:not([data-motion="off"]) details[open] > .help-content,
   html:not([data-motion="off"]) details[open] > .status-popover,
   html:not([data-motion="off"]) .period-menu[open] > div,
   html:not([data-motion="off"]) .sidebar-cameras[open] > div {
-    animation: menu-reveal 0.2s ease-out both;
-  }
-  html:not([data-motion="off"])
-    .motion-control[aria-pressed="true"]
-    .motion-bars
-    i {
-    animation: motion-meter 1.4s ease-in-out infinite;
-  }
-  html:not([data-motion="off"]) .motion-bars i:nth-child(2) {
-    animation-delay: -0.4s;
-  }
-  html:not([data-motion="off"]) .motion-bars i:nth-child(3) {
-    animation-delay: -0.8s;
-  }
-  html:not([data-motion="off"]) .summary-card:hover {
-    transform: translateY(-3px);
+    animation: menu-reveal 140ms ease-out;
   }
   html:not([data-motion="off"]) .button:hover > svg,
   html:not([data-motion="off"]) .row-action:hover > svg {
-    transform: translate(2px, -1px);
+    transform: translateX(2px);
   }
   .button:active {
     transform: translateY(1px);
@@ -2220,7 +2229,7 @@ html[data-motion="off"] *::after {
     gap: 18px;
   }
   .overview-metrics {
-    gap: 12px;
+    gap: 0;
   }
   .summary-card {
     padding: 17px;
@@ -2429,7 +2438,26 @@ html[data-motion="off"] *::after {
     width: 230px;
   }
   .sidebar-bottom {
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    margin: 0;
+  }
+  .sidebar-bottom .team-mark {
     display: none;
+  }
+  .sidebar-bottom .help-menu > summary {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+  }
+  .sidebar-bottom .help-content {
+    left: auto;
+    right: 0;
+    top: 50px;
+    bottom: auto;
+    width: min(300px, calc(100vw - 32px));
   }
   .workspace {
     margin-left: 0;
@@ -2465,6 +2493,13 @@ html[data-motion="off"] *::after {
   }
   .motion-control {
     padding: 6px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .status-menu > summary {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
   }
   .workspace-toolbar {
     padding: 15px 16px 10px;
@@ -2546,8 +2581,7 @@ html[data-motion="off"] *::after {
     top: 46px;
     width: 100%;
   }
-  .metric-grid,
-  .overview-metrics {
+  .metric-grid {
     gap: 10px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2876,29 +2910,6 @@ html[data-motion="off"] *::after {
     font-size: 21px;
   }
 }
-@media (max-width: 600px) {
-  .sidebar-bottom {
-    display: block;
-    position: absolute;
-    right: 16px;
-    top: 20px;
-    padding: 0;
-    margin: 0;
-  }
-  .sidebar-bottom .team-mark {
-    display: none;
-  }
-  .sidebar-bottom .help-menu > summary {
-    padding: 7px;
-  }
-  .sidebar-bottom .help-content {
-    left: auto;
-    right: 0;
-    top: 38px;
-    bottom: auto;
-    width: 280px;
-  }
-}
 .stack,
 .panel-body {
   grid-template-columns: minmax(0, 1fr);
@@ -2968,16 +2979,10 @@ summary,
 .camera-table-card,
 .selection-card,
 .class-card {
-  box-shadow: 0 2px 3px #40392504;
+  box-shadow: none;
 }
 .summary-card {
   border-top: 3px solid var(--seam-strong);
-  transition:
-    transform 0.24s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.24s;
-}
-.summary-card:hover {
-  box-shadow: 0 8px 22px #514a3610;
 }
 .summary-card--crossings {
   --metric-accent: var(--metric-blue);
@@ -3045,7 +3050,7 @@ summary,
 }
 .button > svg,
 .row-action > svg {
-  transition: transform 0.2s ease;
+  transition: transform 160ms ease-out;
 }
 .nature-card {
   border-color: #bed1b7;
@@ -3116,5 +3121,127 @@ body {
 }
 
 /* Temporary, timestamp-matched worker previews. */
-.camera-preview-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.preview-timestamp { position: absolute; z-index: 2; inset: auto 8px 8px 8px; width: fit-content; max-width: calc(100% - 16px); padding: 5px 8px; background: #142e23e6; color: #fff; font-size: 10px; line-height: 1.5; }
+.camera-preview-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.preview-timestamp {
+  position: absolute;
+  z-index: 2;
+  inset: auto 8px 8px 8px;
+  width: fit-content;
+  max-width: calc(100% - 16px);
+  padding: 5px 8px;
+  background: #142e23e6;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* Observation-station index: geographic order within each road, no inferred tracking route. */
+.station-index {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--seam);
+  background: #f7f4eb;
+}
+.station-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.station-road {
+  font: 800 10px var(--font-data);
+  color: var(--paint-dim);
+  margin-right: 5px;
+}
+.station-group a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 46px;
+  min-height: 36px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font: 800 11px var(--font-data);
+  text-decoration: none;
+}
+.station-group a:hover {
+  background: #e8eee0;
+}
+.station-group a[aria-current] {
+  background: #e4eedc;
+  color: var(--lane);
+  border-color: #b9cfae;
+}
+.station-group .dot {
+  margin: 0;
+}
+.station-index-note {
+  margin-left: auto;
+  color: var(--paint-faint);
+  font-size: 8px;
+}
+.camera-id-badge {
+  font: 800 10px var(--font-data);
+  border: 1px solid #cfdbc5;
+  border-radius: 7px;
+}
+.camera-focus-id {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 800 10px var(--font-data);
+  color: var(--lane);
+}
+.selection-card .station-coordinate {
+  font: 700 9px/1.6 var(--font-data);
+  color: var(--paint-faint);
+  margin: 0 0 12px;
+}
+.selection-card {
+  border-color: #bccfb6;
+}
+.period-menu summary:hover,
+.status-menu > summary:hover {
+  background: #f0eddf;
+}
+.page-head > .section-kicker {
+  display: none;
+}
+@media (max-width: 900px) {
+  .overview-metrics > .summary-card:nth-child(2) {
+    border-right: 0;
+  }
+  .overview-metrics > .summary-card:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--seam);
+  }
+}
+@media (max-width: 600px) {
+  .overview-metrics {
+    gap: 0;
+  }
+  .overview-metrics > .summary-card {
+    padding: 16px;
+  }
+  .station-index {
+    gap: 8px 14px;
+    padding: 10px 12px;
+  }
+  .station-index-note {
+    width: 100%;
+    margin-left: 0;
+  }
+  .station-group a {
+    min-width: 42px;
+    min-height: 42px;
+  }
+}

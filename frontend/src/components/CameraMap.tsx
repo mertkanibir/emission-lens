@@ -168,7 +168,12 @@ export function CameraMap({
       number.textContent = camera.id;
       const detail = document.createElement("span");
       detail.className = "mm-detail";
-      detail.textContent = camera.valueLabel;
+      const street = document.createElement("span");
+      street.className = "mm-street";
+      street.textContent = camera.name.split(" at ").at(-1) ?? camera.name;
+      const reading = document.createElement("strong");
+      reading.textContent = camera.valueLabel;
+      detail.append(street, reading);
       anchor.append(number, detail);
       anchor.addEventListener("click", (event) => {
         if (
@@ -200,14 +205,20 @@ export function CameraMap({
     if (camera)
       mapRef.current?.easeTo({
         center: [camera.longitude, camera.latitude],
-        duration: motionAllowed() ? 650 : 0,
+        duration: motionAllowed() ? 320 : 0,
       });
   }, [ready, selectedId]);
 
   function reset() {
     mapRef.current?.fitBounds(boundsFor(camerasRef.current), {
+      padding: {
+        top: 55,
+        bottom: 55,
+        left: 45,
+        right: Math.min(160, (container.current?.clientWidth ?? 480) / 3),
+      },
       maxZoom: 13.5,
-      duration: motionAllowed() ? 600 : 0,
+      duration: motionAllowed() ? 320 : 0,
     });
   }
   return (
