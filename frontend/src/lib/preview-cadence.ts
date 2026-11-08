@@ -1,6 +1,6 @@
 import type { Mode } from "@emission-lens/contracts";
 
-export const PREVIEW_POLL_MS = 750;
+export const PREVIEW_POLL_MS = 1000;
 export const PREVIEW_TTL_MS = 60_000;
 export interface ProcessedPreview {
   camera_id: string;

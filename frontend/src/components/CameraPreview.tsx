@@ -2,25 +2,36 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Mode } from "@emission-lens/contracts";
-import { isNewPreview, medianPreviewInterval, parseSelectedPreview, PREVIEW_POLL_MS, PREVIEW_TTL_MS, type ProcessedPreview } from "@/lib/preview-cadence";
+import { isNewPreview, parseSelectedPreview, PREVIEW_POLL_MS, PREVIEW_TTL_MS, type ProcessedPreview } from "@/lib/preview-cadence";
 import "./camera-preview.css";
 
 export function CameraPreview({ cameraId, mode, inferenceFps }: { cameraId: string; mode: Mode; inferenceFps?: number | null }) {
   const [frame, setFrame] = useState<ProcessedPreview | null>(null);
   const [now, setNow] = useState(Date.now());
   const [available, setAvailable] = useState(false);
-  const [cadence, setCadence] = useState<number | null>(null);
+  const [streamActive, setStreamActive] = useState(true);
+  const [streamVersion, setStreamVersion] = useState(0);
+  useEffect(() => {
+    setStreamActive(document.visibilityState === "visible");
+    const visible = () => { setStreamActive(document.visibilityState === "visible"); if(document.visibilityState === "visible") setStreamVersion(v=>v+1); };
+    const timer = window.setInterval(() => { if(document.visibilityState === "visible") { setStreamActive(true); setStreamVersion(v=>v+1); } }, 45000);
+    document.addEventListener("visibilitychange",visible);
+    return () => { clearInterval(timer); document.removeEventListener("visibilitychange",visible); };
+  }, [cameraId,mode]);
+  useEffect(() => {
+    if (streamActive || mode === "synthetic" || document.visibilityState !== "visible") return;
+    const retry = window.setTimeout(() => { setStreamVersion(v=>v+1); setStreamActive(true); }, 3000);
+    return () => window.clearTimeout(retry);
+  }, [streamActive,mode]);
   const frameRef = useRef<ProcessedPreview | null>(null);
   useEffect(() => {
     frameRef.current = null;
     setFrame(null);
     setAvailable(false);
-    setCadence(null);
     if (mode === "synthetic") return;
     let cancelled = false;
     let inFlight = false;
     let activeRequest: AbortController | null = null;
-    const intervals: number[] = [];
     const update = async () => {
       setNow(Date.now());
       if (cancelled || inFlight || document.visibilityState !== "visible") return;
@@ -35,13 +46,8 @@ export function CameraPreview({ cameraId, mode, inferenceFps }: { cameraId: stri
         if (cancelled) return;
         const previous = frameRef.current;
         if (isNewPreview(next, previous)) {
-          if (previous && next.run_id === previous.run_id && next.session === previous.session) {
-            intervals.push((Date.parse(next.processed_at) - Date.parse(previous.processed_at)) / 1000);
-            if (intervals.length > 6) intervals.shift();
-          } else intervals.length = 0;
           frameRef.current = next;
           setFrame(next);
-          setCadence(medianPreviewInterval(intervals));
         }
         setAvailable(true);
       } catch {
@@ -71,12 +77,15 @@ export function CameraPreview({ cameraId, mode, inferenceFps }: { cameraId: stri
         {retained ? (
           // The image and boxes are encoded together from one worker frame.
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="camera-preview-image" src={frame.image_data_url} alt={`Camera ${cameraId}, ${mode} frame with vehicle detections, received ${frame.received_at}. Capture time unavailable.`} />
+          <img className="camera-preview-image" src={streamActive ? `/api/cameras/${cameraId}/stream?mode=${mode}&v=${streamVersion}` : frame.image_data_url}
+            data-preview-transport={streamActive ? "mjpeg" : "snapshot"}
+            onError={() => setStreamActive(false)}
+            alt={`Camera ${cameraId}, ${mode} processed playback with matching vehicle overlays. Capture time unavailable.`} />
         ) : null}
         <span className="burn-in burn-in-tl">Camera {cameraId} · {mode.toUpperCase()}</span>
-        <span className="burn-in burn-in-tr">{retained ? current ? "Processed snapshot" : "Delayed snapshot" : "Frame unavailable"}</span>
+        <span className="burn-in burn-in-tr">{retained ? current ? streamActive ? "Buffered processed video" : "Processed snapshot" : "Delayed playback" : "Frame unavailable"}</span>
         {retained ? (
-          <span className="preview-timestamp">Received {new Date(frame.received_at).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour12: false })} Pacific · capture UTC unavailable</span>
+          <span className="preview-timestamp">Latest receipt {new Date(frame.received_at).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour12: false })} Pacific · capture UTC unavailable</span>
         ) : (
           <div className="viewport-msg">
             <span className="section-kicker">Evidence first</span>
@@ -86,10 +95,10 @@ export function CameraPreview({ cameraId, mode, inferenceFps }: { cameraId: stri
         )}
       </div>
       {mode !== "synthetic" ? <div className="preview-runtime" aria-label="Processing and preview cadence">
-        <span><strong>Latest worker rate</strong>{validFps ? `${inferenceFps.toFixed(1)} frames/s` : "Unavailable"}</span>
-        <span><strong>Observed snapshot spacing</strong>{cadence === null ? "Awaiting a second snapshot" : `${cadence.toFixed(1)} s`}</span>
+        <span><strong>Latest inference rate</strong>{validFps ? `${inferenceFps.toFixed(1)} frames/s` : "Unavailable"}</span>
+        <span><strong>Playback</strong>{streamActive ? "Buffered processed video" : "Snapshot fallback"}</span>
         <span><strong>Frame received</strong>{retained ? `${Math.floor(age)} s ago` : "Unavailable"}</span>
-        <p>Processed snapshots are separate from inference throughput. Visible-tab checks every 750 ms pick up new frames sooner; they do not create additional source frames.</p>
+        <p>Original processed frames and matching overlays are played together. A short media buffer smooths source delivery bursts; source capture UTC is unavailable.</p>
       </div> : null}
     </>
   );

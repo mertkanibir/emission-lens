@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:32 America/New_York / 8 November 2026, 14:32 UTC
+
+- **Who:** Mert
+- **Done:** Added bounded native multipart processed-JPEG playback, metadata separation, visibility/fallback handling and a higher bounded receipt capacity for two isolated producers.
+- **Completed:** Two stream scope/dedup/cancel tests and five immutable-read/capacity tests pass; frontend TypeScript passes. Initial compact/PDF immutable production build passes.
+- **Still open:** Live playback/camera navigation and backend3151 state-preserving replacement need verification. New GPU pacing failed steady-state evaluation and is being corrected; no smoothness/loss-free claim is made.
+
 ### 8 November 2026, 09:21 America/New_York / 8 November 2026, 14:21 UTC
 
 - **Who:** Mert

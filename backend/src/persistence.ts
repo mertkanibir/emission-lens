@@ -7,7 +7,7 @@ import type { StoredMeasurement } from "./measurement-types.ts";
 import { composeMeasurements, validateStoredMeasurement } from "./measurement-core.ts";
 import { loadRegistry } from "./registry.ts";
 
-export const MAX_STORED_BATCHES = 5000;
+export const MAX_STORED_BATCHES = 10000;
 export const STORE_RETENTION_MS = 24 * 60 * 60 * 1000;
 export const MAX_STORE_BYTES = 32 * 1024 * 1024;
 
