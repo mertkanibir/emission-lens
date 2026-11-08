@@ -197,18 +197,18 @@ export function OverviewBoard({
                 </span>
               </div>
               <nav className="map-layer-switch" aria-label="Map metric">
-                <Link
-                  href={cameraHref(selectedId, "activity")}
+                <a
+                  href={`${cameraHref(selectedId, "activity")}#network`}
                   aria-current={view === "activity" ? "page" : undefined}
                 >
                   Traffic
-                </Link>
-                <Link
-                  href={cameraHref(selectedId, "emissions")}
+                </a>
+                <a
+                  href={`${cameraHref(selectedId, "emissions")}#network`}
                   aria-current={view === "emissions" ? "page" : undefined}
                 >
                   Emissions heat map
-                </Link>
+                </a>
               </nav>
             </header>
             <div className="map-pane">

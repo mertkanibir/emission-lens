@@ -227,7 +227,7 @@ export function CameraMap({
         const badge = document.createElement("span");
         badge.className = "mm-emission-reading";
         const amount = document.createElement("strong");
-        amount.textContent = camera.valueLabel;
+        amount.textContent = camera.valueLabel.replace(/ · snapshot$/, "");
         const scope = document.createElement("small");
         scope.textContent = `Supported minute · ${formatInstant(camera.emissions.minute, PACIFIC)}`;
         badge.append(amount, scope);

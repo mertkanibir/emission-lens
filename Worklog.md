@@ -1363,3 +1363,10 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Corrected nearby supported badge collisions and clarified center color versus halo meaning after inspecting the actual satellite view.
 - **Completed:** Initial immutable production build and actual3153 satellite/heat/full-width scenario rendering pass; focused map checks, TypeScript and diff checks pass after the refinement.
 - **Still open:** Final immutable rebuild, phone/wide-screen acceptance and3152 cutover. The private build helper initially used an unsupported system-Python tar extraction option; fixed the helper and rebuilt successfully. Producer and private persistence remain intact.
+
+### 8 November 2026, 08:40 America/New_York / 8 November 2026, 13:40 UTC
+
+- **Who:** Mert
+- **Done:** Replaced unresponsive client map-tab transitions with native canonical network links, and removed the redundant narrow-map overlay covering a badge. Compacted marker labels without losing values or dates.
+- **Completed:** Frontend TypeScript and diff checks pass; prior production build, two visible heat markers, selected-interval scenario arithmetic and no document overflow were observed.
+- **Still open:** Final rebuild and repeat tab/mobile acceptance before publication. No API, formula, worker, contract or private persistence changes.

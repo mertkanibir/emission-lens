@@ -66,3 +66,11 @@
 }
 .map-marker[data-label-position="above"] .mm-emission-reading::before { bottom: -1px; transform: rotate(-45deg); }
 .map-marker[data-label-position="below"] .mm-emission-reading::before { top: -1px; transform: rotate(45deg); }
+
+@media (max-width: 600px) {
+  /* The legend already states support; keep overlays clear of the small map. */
+  .map-heat-status { display: none; }
+  .mm-emission-reading { left: calc(100% + 5px); max-width: 126px; }
+  .mm-emission-reading strong { white-space: normal; }
+  .mm-emission-reading small { max-width: 108px; }
+}
