@@ -1,0 +1,142 @@
+{
+  "state": "PARTIAL_frozen_arithmetic_pass_current_HTTP_acceptance_unverified",
+  "checked_at": "2026-11-08T06:15:49.869212+00:00",
+  "job_id": "176255",
+  "snapshot_at": "2026-11-08T06:12:00Z",
+  "snapshot_sha256": "aa7c10c9944d0babe3d651a53204460c7d6a40963455d52812c85d4991df8033",
+  "source_commit": "b1081f19883e1950ab3c6cf28af22be41e7ec30e",
+  "registry_sha256": "7ed03ca706bd8b674d14b6459ce697f818574ab93a07a8d13f29201c5ecab85a",
+  "traversal_policy_sha256": "6ffbac2983c8f2d465b2495a3d2238aaa7fd7c679776277b69f71ac607234b36",
+  "literal_image_displacement_per_s": 0.0225,
+  "verified": {
+    "baseline_worker_entries_exactly_preserved": 192,
+    "baseline_measurement_entries_exactly_preserved": 18,
+    "new_linked_measurement_minutes": 4,
+    "fresh_process_snapshot_validation": true,
+    "source_observation_revision_run_mode_and_UTC_instant_match": true,
+    "stopped_bounds_and_20m_server_distance": true,
+    "original_CARB_CSV_baseline_and20pct_arithmetic": true,
+    "fresh_process_same_cohort_scenario_recalculation": true
+  },
+  "cohorts": [
+    {
+      "minute": "2026-11-08T06:08:00.000Z",
+      "completed_candidates": 3,
+      "stopped_time_s": [
+        0.066,
+        0,
+        0
+      ],
+      "pollutants": {
+        "co2": {
+          "baseline_g": 17.546574344115356,
+          "hypothetical20_g": 17.546574344115356,
+          "signed_change_g": 0
+        },
+        "nox": {
+          "baseline_g": 0.0029703381429112665,
+          "hypothetical20_g": 0.0029703381429112665,
+          "signed_change_g": 0
+        }
+      }
+    },
+    {
+      "minute": "2026-11-08T06:09:00.000Z",
+      "completed_candidates": 2,
+      "stopped_time_s": [
+        0,
+        0
+      ],
+      "pollutants": {
+        "co2": {
+          "baseline_g": 7.853272210574367,
+          "hypothetical20_g": 7.853272210574367,
+          "signed_change_g": 0
+        },
+        "nox": {
+          "baseline_g": 0.0014851685007418328,
+          "hypothetical20_g": 0.0014851685007418328,
+          "signed_change_g": 0
+        }
+      }
+    },
+    {
+      "minute": "2026-11-08T06:10:00.000Z",
+      "completed_candidates": 2,
+      "stopped_time_s": [
+        0,
+        0
+      ],
+      "pollutants": {
+        "co2": {
+          "baseline_g": 11.697716229410238,
+          "hypothetical20_g": 11.697716229410238,
+          "signed_change_g": 0
+        },
+        "nox": {
+          "baseline_g": 0.001980225428607511,
+          "hypothetical20_g": 0.001980225428607511,
+          "signed_change_g": 0
+        }
+      }
+    },
+    {
+      "minute": "2026-11-08T06:11:00.000Z",
+      "completed_candidates": 2,
+      "stopped_time_s": [
+        0.067,
+        0.067
+      ],
+      "pollutants": {
+        "co2": {
+          "baseline_g": 10.009171862688053,
+          "hypothetical20_g": 10.009171862688053,
+          "signed_change_g": 0
+        },
+        "nox": {
+          "baseline_g": 0.0017584337186797112,
+          "hypothetical20_g": 0.0017584337186797112,
+          "signed_change_g": 0
+        }
+      }
+    }
+  ],
+  "initial_failure": {
+    "line": 14,
+    "cause": "Private checker compared equivalent +00:00 and .000Z UTC strings as unequal; parsed-instant correction passed on the same frozen snapshot."
+  },
+  "final_failure": {
+    "line": 53,
+    "assertion": "current_refs > 0",
+    "actual_current_refs": 0,
+    "cause": "All four frozen evidence references returned HTTP404 against the advancing live application. Same-generation authenticated current evidence and HTTP/reload equivalence are unverified; no runtime or arithmetic defect established."
+  },
+  "not_reached_by_final_checker": [
+    "public whole-window20 null assertion",
+    "other three live metrics empty assertion",
+    "process-ID and preview-watcher assertions"
+  ],
+  "separate_preview_acceptance": "See frontend/LIVE-CAMERAS.md; all four advancing actual previews were independently accepted.",
+  "candidate_scope": "222 new metrics;223/220/228 preview/status only. Legacy unknown-stop cohorts retained; full-window scenarios remain unavailable in separately observed runtime.",
+  "scientific_limits": [
+    "Estimated emissions only; image policy stopped time is not engine-running evidence or independent stopped-time accuracy.",
+    "20% is hypothetical; the selected cohorts remain in the same speed bins and legitimately give zero gram change.",
+    "No ordinary-idle addition, extra EV discount, claimed savings or camera expansion.",
+    "Ongoing bounded live run; sustained throughput/recovery and final completion not accepted."
+  ],
+  "resources": {
+    "candidate_port": 3150,
+    "candidate_pid": 29506,
+    "candidate_supervisor_pid": 29505,
+    "worker_seconds": 7200,
+    "allocation_end_UTC": "2026-11-08T08:14:15Z",
+    "allocation_end_America_New_York": "2026-11-08 03:14:15 EST",
+    "protected_application_ports": [
+      3138,
+      3139
+    ],
+    "protected_live_job": "176075",
+    "port3160_server_created": false
+  },
+  "no_retry_after_final_result": true
+}

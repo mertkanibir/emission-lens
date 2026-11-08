@@ -1,5 +1,7 @@
 # Backend
 
+**Live stopped-policy checkpoint (8 November 2026, 01:16 America/New_York / 06:16 UTC):** [Job 176255's actual 222 candidate audit](./STOPPED-LIVE-176255.md) is **partial**. Frozen source links, preservation of all 192 prior worker / 18 measurement entries, original-CARB baseline and hypothetical 20% calculations, and fresh-process snapshot validation pass. The final current-evidence assertion fails because all four frozen references return 404 against the advancing live application; authenticated same-generation HTTP/reload acceptance remains unverified. Independent browser acceptance confirms four advancing live previews on separate 3150; only 222 has new metrics. Healthy existing apps/jobs stay running. Exact failures, supported zero changes, private custody, resource bounds and remaining limits are documented without changing production or scientific inputs.
+
 **Owner:** Mert  
 **Updated:** 8 November 2026, 00:32 America/New_York / 05:32 UTC
 
