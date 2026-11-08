@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 08:58 America/New_York (13:58 UTC)
+
+- **Who:** Carter
+- **Done:** Corrected the Esri World Imagery credit in `release/DEVPOST.md`: it is now also the dashboard's credited satellite basemap, not only a calibration reference.
+- **Completed:** The draft matches the map's attribution in `frontend/src/components/CameraMap.tsx`.
+- **Still open:** Submission and the judging-time live run.
+
 ### 8 November 2026, 08:49 America/New_York / 8 November 2026, 13:49 UTC
 
 - **Who:** Mert

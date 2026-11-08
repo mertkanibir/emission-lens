@@ -90,7 +90,7 @@ Shorter-stop comparisons are implemented and fitted stopped-time thresholds are 
 
 ## Built with
 
-Python, OpenCV, FFmpeg, PyTorch/CUDA, Ultralytics YOLO11, ByteTrack, Empire AI, Next.js, React, TypeScript, MapLibre GL JS, Label Studio, Caltrans CWWP, CARB EMFAC2025, and Esri World Imagery (calibration reference only; not redistributed).
+Python, OpenCV, FFmpeg, PyTorch/CUDA, Ultralytics YOLO11, ByteTrack, Empire AI, Next.js, React, TypeScript, MapLibre GL JS, Label Studio, Caltrans CWWP, CARB EMFAC2025, and Esri World Imagery (calibration reference and the dashboard's credited satellite basemap).
 
 ## AI-use disclosure draft
 
