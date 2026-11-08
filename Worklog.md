@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:52 America/New_York / 8 November 2026, 08:52 UTC
+
+- **Who:** Mert
+- **Done:** Published exact-source3152 application acceptance and current README entry for the scrolling technical workspace, input/weather register, durable review and scoped planning/export.
+- **Completed:** Actual browser create/resolve/reload/process-restart history, exact downloaded draft, canonical section scope, excluded220 and synthetic separation pass. All735/60 baseline records remain exact. Source4051e98 CI passes130 backend tests and367 worker tests/160 subtests(two skips);69 frontend checks, types and12 factor checks pass locally. Desktop and phone bounds are recorded with screenshot limitations.
+- **Still open:** Separate guarded live continuation, sustained/field accuracy, shared hosting and final human rehearsal/Devpost submission; usage is93% consumed and no new optional feature work is planned.
+
 ### 8 November 2026, 03:46 America/New_York / 8 November 2026, 08:46 UTC
 
 - **Who:** Mert
