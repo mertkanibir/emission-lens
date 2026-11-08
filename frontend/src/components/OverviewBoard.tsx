@@ -190,9 +190,11 @@ export function OverviewBoard({
             />
           </strong>
           <span className="metric-caption">
-            {selected.calibration === "valid"
+            {selected.emissions.estimate_g_by_pollutant.co2 !== null
               ? "Tailpipe estimate · never measured AQI"
-              : "Awaiting valid road calibration"}
+              : selected.calibration === "valid"
+                ? "Estimate unavailable · inspect evidence"
+                : "Awaiting valid road calibration"}
           </span>
         </section>
         <section className="summary-card summary-card--coverage">

@@ -65,7 +65,9 @@ export function AppShell({
           : "No replay loaded. Recorded observations will appear here when available."
         : statuses.every((status) => status.heartbeat_at === null)
           ? "Waiting for a live worker. Missing observations are unavailable, never zero."
-          : "Live observations only. Replay and synthetic samples are excluded.";
+          : fresh === 0
+            ? "Live mode selected. No fresh processing heartbeat is reported."
+            : "Live observations only. Replay and synthetic samples are excluded.";
   const names = {
     overview: "Overview",
     camera: "Camera detail",

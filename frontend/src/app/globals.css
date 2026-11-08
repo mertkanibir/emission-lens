@@ -3141,6 +3141,29 @@ body {
   line-height: 1.5;
 }
 
+.measurement-readiness {
+  margin: 18px 0;
+}
+.measurement-readiness > div {
+  border-top: 1px solid var(--seam);
+  padding: 14px 0;
+}
+.measurement-readiness dt {
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+.measurement-readiness dd {
+  margin: 0;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-width: 0;
+}
+.measurement-readiness .fine {
+  overflow-wrap: anywhere;
+}
+
 /* Observation-station index: geographic order within each road, no inferred tracking route. */
 .station-index {
   display: flex;

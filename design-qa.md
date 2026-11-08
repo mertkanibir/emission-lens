@@ -1,7 +1,7 @@
 # Interface verification
 
 **Who:** Mert  
-**Updated:** 7 November 2026, 18:58 America/New_York / 23:58 UTC
+**Updated:** 7 November 2026, 19:45 America/New_York / 8 November 2026, 00:45 UTC
 
 **Current visual target:** the latest user-provided tan/green palette, applied to the earlier logistics/travel dashboard composition. Bold typography, distinguishable metric categories, environmental imagery, and purposeful motion are the requested direction.
 
@@ -73,3 +73,41 @@ This fix does not alter telemetry, calculations, contracts, or the tan/green des
 No contract, calculation, worker, calibration, or deployment changes belong to this refinement. External tile connectivity, scientific calibration, reviewed mappings, and hosted persistence remain separate limitations.
 
 final result: passed
+
+## Coordinated dashboard acceptance checkpoint
+
+**Mert — 7 November 2026, 19:45 America/New_York / 8 November 2026, 00:45 UTC.** Scope: concrete readiness/claim fixes and acceptance only. Tan/green, bold type, station identity, layout and short motion are preserved. No worker, geometry, calibration, contract, factor or mapping configuration was changed by this stream.
+
+### Supported changes
+
+- Camera readiness now shows six separate record facts: image geometry/review, calibration, completed aggregates, production mapping availability, factor catalog and recorded CO₂/NOₓ. No readiness percentage or review approval is inferred. Non-null geometry is only present; the review state is unavailable in shared records.
+- A valid calibration flag no longer claims sufficient support for emissions. Overview wording checks the actual estimate. Synthetic traversal aggregates remain explicitly illustrative.
+- Scenario output explains that timing arithmetic cannot establish an emissions change while grams are null. The live banner no longer treats any historical heartbeat as fresh processing.
+
+### Exact verification and evidence
+
+- `node --import tsx --test frontend/test/readiness.test.ts`: **5 passed**. Guards cover catalog-versus-camera readiness, geometry presence versus review, calibration versus independent validation, null versus supported zero, synthetic traversal counts, and complete versus partial pollutant estimates.
+- `npm run build`: **passed** on the shared checkout, outside the publication lock. This stream owned production builds during the wave.
+- Production verification used an owned loopback server on **3100**, leaving the original **3000 process (PID 46237)** running. The server on 3100 was shut down after the bounded checks.
+- Desktop checks: native camera/help/status/reporting menus, Escape/outside/exclusive dismissal, four station selections, both map layers, zoom/fit, all detail disclosures, live/replay/synthetic states, review explanation, brief navigation/options, copy feedback and actual download. No new console warnings/errors were captured.
+- Phone checks at **354 CSS pixels**: camera/help/status/reporting menus, evidence navigation, long readiness copy, page containment and zero horizontal pan. System reduced motion disabled the motion control; overrides were restored.
+- Downloaded synthetic camera-222 brief: **1,290 characters**, exact equality to the backend `draft_brief` output after line-ending normalization. Hidden-input/clipboard adapter reads did not supply the full text; clipboard readback returned empty despite success feedback. Exact export verification therefore used the actual downloaded file and the backend draft. Clipboard contents were not independently verified.
+- Scenario arithmetic: synthetic camera-222 car stopped time is **420 / 336 / 0 seconds** for 0/20/100% assumptions; full-mix missing values and both gram outputs stay null. These are labeled synthetic checks, not live measurements.
+- Screenshots: `/tmp/emission-lens-acceptance/readiness-desktop.jpg` and `/tmp/emission-lens-acceptance/readiness-phone.jpg`. Interaction results: `/tmp/emission-lens-acceptance/checks.json`. Local artifacts are not public footage or committed media.
+
+### Backend and scientific acceptance boundaries
+
+The initial isolated build reproduced reported `offline` being displayed `degraded` for all four stopped live workers. A later build of the shared working tree included engineering's precedence fix and returned `offline` for both reported/displayed states on all four. Live crossings and CO₂/NOₓ remained null. That backend fix belongs to engineering and must be included in final combined verification.
+
+No shared review approval, reviewer/time, per-camera mapping version/evidence or individual calibrated traversal evidence is exposed. Catalog production mapping is currently false. A validated catalog does not certify camera readiness. Review/context feeds remain unconnected. Public scenario gram outputs remain unavailable; a separate arithmetic calculator is not proof that field inputs are ready. Populated replay brief wording was identified as an engineering dependency; this checkpoint checked the existing empty replay state without injecting live or replay records.
+
+### Bounded demo path
+
+1. Open the existing localhost overview in **Live** mode. Explain reported processing state and unavailable metrics; a retained frame is not proof of live processing.
+2. Switch explicitly to **Synthetic sample**, camera 222. Identify 24 crossings, 16 completed illustrative traversals, queue 5, and one recorded minute. Camera 223 is stale; the other fixtures are offline.
+3. Open camera evidence and **Evidence & calibration**. Read each prerequisite independently: geometry/review, calibration, traversals, mapping, factors and estimates. A validated catalog does not clear the missing prerequisites.
+4. Compare a clearly hypothetical shorter-stop input. Show available per-class timing and the unavailable full-mix/gram results. Do not promise a signal-timing benefit.
+5. Open the matching brief, expand evidence references and download a local draft. Nothing is automatically sent. Explain disconnected review/context and the remaining calibration/mapping/evidence dependencies.
+6. Demonstrate phone menus, Escape dismissal and reduced-motion behavior without changing scientific configuration.
+
+**Checkpoint result:** frontend changes and bounded acceptance checks pass. Scientific readiness and final combined live/replay integration remain with their assigned streams and the coordinator.

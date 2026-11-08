@@ -17,6 +17,7 @@ import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { ReductionInput } from "@/components/ReductionInput";
 import { CameraPreview } from "@/components/CameraPreview";
+import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import {
   Panel,
   Quantity,
@@ -174,15 +175,6 @@ export default async function CameraPage({
         ),
       };
     });
-  const calibrationItems = [
-    { label: "Road region of interest", done: camera.road_region !== null },
-    { label: "Entry and exit gates", done: calibration.gates !== null },
-    {
-      label: "Reference measurements",
-      done: calibration.reference_measurements !== null,
-    },
-    { label: "Image-to-road transform", done: calibration.transform !== null },
-  ];
   const ranges = (["co2", "nox"] as const).map((pollutant) => {
     const matching = emissions.rows.filter(
       (row) => row.pollutant === pollutant,
@@ -307,7 +299,11 @@ export default async function CameraPage({
                 meta={<span>Caltrans District 7 · {modeLabel(mode)}</span>}
                 flush
               >
-                <CameraPreview key={`${id}-${mode}`} cameraId={id} mode={mode} />
+                <CameraPreview
+                  key={`${id}-${mode}`}
+                  cameraId={id}
+                  mode={mode}
+                />
                 <div className="panel-body">
                   <dl className="readouts readouts-2">
                     <Readout
@@ -326,7 +322,10 @@ export default async function CameraPage({
                         </span>
                       )}
                     </Readout>
-                    <Readout label="Source capture time" detail="Independent of the worker heartbeat; unavailable when the feed has no capture metadata.">
+                    <Readout
+                      label="Source capture time"
+                      detail="Independent of the worker heartbeat; unavailable when the feed has no capture metadata."
+                    >
                       {status.last_source_timestamp === null ? (
                         <Quantity value={null} />
                       ) : (
@@ -731,6 +730,14 @@ export default async function CameraPage({
                         </tbody>
                       </table>
                     </div>
+                    {scenario.baseline.estimate_g === null ||
+                    scenario.scenario.estimate_g === null ? (
+                      <p className="context-note">
+                        Estimated grams are unavailable for this comparison. A
+                        numeric change in stopped time does not establish an
+                        emissions change.
+                      </p>
+                    ) : null}
                     {scenario.classes.length === 0 ? (
                       <p className="context-note">
                         There are no traversals to compare. The result is
@@ -821,35 +828,22 @@ export default async function CameraPage({
                 }
               >
                 <p className="fine">
-                  Calibration connects image movement to real road distances.
-                  Counts and image-based queues remain useful while it is
-                  incomplete.
+                  These are the prerequisites behind an estimate, not a
+                  completion score. Counts and image-based queues require
+                  reviewed image geometry; physical distances require
+                  independent calibration.
                 </p>
-                <ul className="checklist">
-                  {calibrationItems.map((item) => (
-                    <li key={item.label}>
-                      <span
-                        className={
-                          item.done ? "check-mark is-yes" : "check-mark"
-                        }
-                        aria-hidden="true"
-                      >
-                        {item.done ? "✓" : "–"}
-                      </span>
-                      <span>{item.label}</span>
-                      <span
-                        className={
-                          item.done ? "chip chip-ok" : "chip chip-missing"
-                        }
-                      >
-                        {item.done ? "Configured" : "Missing"}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <MeasurementReadiness
+                  camera={camera}
+                  calibration={calibration}
+                  traffic={traffic}
+                  emissions={emissions}
+                  factors={factors}
+                  mode={mode}
+                />
                 <p className="context-note">
                   {calibrationValid
-                    ? "Calibration is valid. Speeds and distance-based emissions are supported."
+                    ? "Calibration is marked valid. Supported estimates still require calibrated completed traversals, documented class mappings, and applied factor provenance."
                     : "Speeds and distance-based emissions are suppressed until calibration is valid. A queue without completed calibrated traversals does not imply zero emissions."}
                 </p>
                 <p className="fine">

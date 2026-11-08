@@ -1,7 +1,7 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 18:58 America/New_York (23:58 UTC)
+**Updated:** 7 November 2026, 19:45 America/New_York / 8 November 2026, 00:45 UTC
 
 The four-camera Torrance dashboard reads the shared backend contract. The server reads live/replay worker records from the configured local store. Without a worker, those modes remain empty. The synthetic sample is explicitly labeled and excluded from live totals.
 
@@ -54,3 +54,11 @@ Reviewed road regions/gates, physical calibration, validated traffic metrics, co
 **GPU delivery verification (7 November 2026, 18:30 America/New_York / 23:30 UTC):** Mert verified actual four-camera CUDA processing reaching the local dashboard. Camera detail polls temporary annotated frames; boxes and pixels come from the same worker frame. The server keeps only the latest frame per camera/mode in process memory, expires it within 60 seconds, and never writes previews to the aggregate store. Desktop and 390 px phone checks decoded a real camera-222 preview with no page errors or horizontal overflow. Capture UTC stays unavailable and delayed frames are labeled. The completed worker run correctly changed all camera states to offline. The file store requires one persistent host; Vercel/shared database delivery is not established.
 
 **Timing documentation (7 November 2026, 18:55 America/New_York / 23:55 UTC):** Mert synchronized these data meanings with the implemented worker clock. New traffic rows use session-local estimated HLS media UTC, identified by `t:hls-min-anchor-v1` in run provenance. Camera evidence notes disclose estimated timing and warn when a reporting window mixes it with legacy or unspecified times. Heartbeats and preview receipt banners keep their original meaning; capture UTC remains unavailable. The labeled synthetic clock is unchanged. See [timing alignment](../evaluation/timing-alignment.md). The completed timing revision passed 51 backend tests, type checks, the production build and [CI](https://github.com/mertkanibir/emission-lens/actions/runs/42427132206); earlier UI-only test counts above are historical snapshots.
+
+## Measurement-readiness acceptance checkpoint
+
+**7 November 2026, 19:45 America/New_York / 8 November 2026, 00:45 UTC — Mert.** Camera evidence now lists image geometry/review, physical calibration, completed traversal aggregates, production mapping availability, the factor catalog, and recorded pollutant estimates together. The display uses existing typed records and has no overall readiness score. Geometry presence is not review approval; calibration flags are not independent validation; synthetic traversal counts are labeled; validated factors are not a claim that a camera estimate applied them. The overview caption uses the actual estimate, and the live-mode banner distinguishes selected mode from a fresh processing heartbeat. Scenario timing arithmetic explicitly does not imply an emissions change when grams are unavailable.
+
+Verification: `node --import tsx --test frontend/test/readiness.test.ts` passes five semantic guards; `npm run build` passes. Isolated production browser checks on port 3100 cover desktop/phone menus, map selection/zoom/fit/layers, live/replay/synthetic states, evidence disclosures, review/brief navigation, and a real text export exactly matching `draft_brief`. Scenario checks at 0/20/100 retain null grams. Copy feedback passed; the browser clipboard adapter returned empty text, so clipboard readback was not independently verified. Viewport/reduced-motion overrides were restored, the temporary tab/server were removed, and the user's port-3000 process was preserved.
+
+Dependencies: shared read models do not expose geometry review confirmation, per-camera mapping version/evidence, or individual calibrated-traversal evidence. Public scenario grams remain unavailable. Engineering owns offline precedence and any traversal/scenario interface; the latest tested shared-tree build includes its pending offline fix. The coordinator owns final combined acceptance. See `../design-qa.md` for the demo path and exact limits.
