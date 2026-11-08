@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 23:04 America/New_York / 8 November 2026, 04:04 UTC
+
+- **Who:** Mert
+- **Done:** Published evaluation/222-integration-175979.md/json for the isolated GPU → authenticated backend → persisted conditional estimated CO2/NOx → matching private evidence path. Recorded the exact source archive, executed runtime/input/report hashes, Carter-approved fixed20m/class/weather assumptions, later measurement-review replay clip and ancestor-Git-metadata limitation. No runtime, backend, frontend, config, default or contract changed in this evidence publication.
+- **Completed:** Authorized job 175979 completed 0:0 in 2m55s on one H100 MIG slice under a five-minute cap; 20 runtime/measurement-runtime tests passed. Actual cuda:0 replay/live produced 30/17 count crossings and 8/4 completed persisted traversals, with all 34/18 legacy and18/9 measurement batches delivered, zero pending batches and27/7 previews without failures. Current authorized-only private evidence matches; replay did not contaminate live and remained unchanged afterward; two preserved live heartbeats advance. Local artifact/source-archive hashes, supported-row arithmetic, JSON, link and whitespace checks pass. Both modes end offline, all runs ended, scheduler queue empty; relay hops closed and remote credential copy removed. Original server/SSH master and the separate review app are preserved.
+- **Still open:** Estimated replay35.741459gCO2/0.006533736gNOx and live17.345262gCO2/0.003161844gNOx are supported OK-minute sums only, never whole-window or all-traffic totals. Another empty-cohort minute in each mode remains unavailable; full-window baseline and tested20% stopped-reduction outputs remain null with null stopped evidence. Live retained1360 frames but processed1094 with265 buffer drops and one excessive-source-gap issue; backlog/media timing is not validated capture coverage or sustained performance. Independent scale/curved-turn eligibility/manual traversal and count accuracy, longer outage/restart checks, complete rehearsal and hosted persistence remain open. No further GPU job, continuous worker, scientific validation or full-demo acceptance is implied. Raw media, per-vehicle IDs/times, private evidence contents and credentials remain excluded; other streams' edits are untouched.
+
 ### 7 November 2026, 22:56 America/New_York / 8 November 2026, 03:56 UTC
 
 - **Who:** Mert

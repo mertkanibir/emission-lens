@@ -1,0 +1,180 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T04:03:50.481421+00:00",
+  "check": "isolated_222_gpu_authenticated_persistence_evidence_replay_live",
+  "status": "bounded_integration_passed_not_field_or_sustained_acceptance",
+  "scheduler": {
+    "job_id": "175979",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:02:55",
+    "wall_cap": "00:05:00",
+    "gpu_slice": "H100 MIG 1g.10gb",
+    "allocation_released": true,
+    "runtime_tests_passed": 20
+  },
+  "source": {
+    "archive_commit": "7d455137082c2a8457ab84c1225942f58380bae2",
+    "archive_sha256": "969e977daff6c5bd6a705d7b1fe742ba4c2c44700ae889ee697da4a633f69457",
+    "worker_main_sha256": "20ec7e4eaabf7972260ac5be2b5b0ec4953963138f27bdfaf795a729e9e71713",
+    "ancestor_checkout_git_metadata": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+    "git_metadata_limitation": "Runtime git_commit reports the surrounding ancestor checkout, not the copied archive. Archive commit plus archive and executed worker hashes identify the actual source.",
+    "recipe_sha256": "5a6a890adfeec59a85874d085e8582c2985f16c5ecf9b3f7cbfbb8edc4739543",
+    "driver_sha256": "a8d701a689a82e78af8295c689242332c72efe5037860b9cc7a5749eee171802",
+    "batch_sha256": "c5c6cb7634f7900b021a31b762ce2082635e33131cdb5107b51e75f81e49901d"
+  },
+  "profile": {
+    "camera_id": "222",
+    "image_geometry_version": "222-image-v4",
+    "count_gate_id": "count-1",
+    "movement_id": "222-eastbound-through",
+    "movement_distance_m": 20,
+    "registry_revision": "222-first-camera-2026-11-08T03:19:55Z",
+    "calibration_version": "222-ground-esri-v1-7f52d53d8fc8",
+    "mapping_version": "pretrained-visual-to-emfac2007-v1",
+    "approved_by": "Carter",
+    "approved_at_utc": "2026-11-08T03:19:55Z",
+    "approved_modes": [
+      "replay",
+      "live"
+    ],
+    "profile_inputs_sha256": {
+      "geometry.json": "ab1b684086ce1d2543bba2c9df41748aad8e2c8af4ce164c9e2dbbd95188e674",
+      "traversals.json": "5c114e23b66025231bae6ab90ddaac96e4a1c54382e346c864e73495a6e13b85",
+      "clip-222.ts": "e6db50f024cd61dc13140f24d60dbaa2070d962fda1bde6f2da52f10475401d3",
+      "yolo11n.pt": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    },
+    "replay_clip_role": "later measurement-review recording 222_20261108T003312Z.ts; not the earlier camera-222 count-check clip",
+    "temperature_f_assumption": 70,
+    "relative_humidity_pct_assumption": 60,
+    "fleet_mapping_is_modeling_assumption": true,
+    "independent_scale_and_curved_turn_eligibility_validated": false,
+    "per_traversal_stopped_time_s": null
+  },
+  "settings": {
+    "camera": "222",
+    "weights": "yolo11n.pt",
+    "image_size": 640,
+    "sample_fps": 15,
+    "count_gate_id": "count-1",
+    "device": "0",
+    "require_cuda": true,
+    "require_delivery": true,
+    "replay_wall_s": 90,
+    "live_wall_s": 60
+  },
+  "runs": {
+    "replay": {
+      "wall_duration_requested_s": 90.0,
+      "actual_device": "cuda:0",
+      "processed_frames": 1201,
+      "processed_media_span_s": 80.25800000000001,
+      "reader_frames_kept": 1201,
+      "reader_frames_dropped": 0,
+      "selected_gate_crossings": 30,
+      "completed_traversals": 8,
+      "persisted_traversals": 8,
+      "legacy_batches_delivered": 34,
+      "measurement_batches_delivered": 18,
+      "pending_legacy_batches": 0,
+      "pending_measurement_batches": 0,
+      "previews_sent": 27,
+      "preview_failures": 0,
+      "excessive_source_gap_issues": 0,
+      "minute_count": 2,
+      "supported_ok_minute_rows_only_estimated_g": {
+        "co2": 35.741459375498366,
+        "nox": 0.0065337364924251285
+      },
+      "emissions_sum_scope": "Supported quality_state=ok minute rows only; not the complete window or all traffic.",
+      "other_empty_cohort_minute_emissions": null,
+      "whole_window_scenario_baseline_g": {
+        "co2": null,
+        "nox": null
+      },
+      "tested_20pct_stopped_reduction_scenario_g": {
+        "co2": null,
+        "nox": null
+      }
+    },
+    "live": {
+      "wall_duration_requested_s": 60.0,
+      "actual_device": "cuda:0",
+      "processed_frames": 1094,
+      "processed_media_span_s": 90.79100000000001,
+      "reader_frames_kept": 1360,
+      "reader_frames_dropped": 265,
+      "selected_gate_crossings": 17,
+      "completed_traversals": 4,
+      "persisted_traversals": 4,
+      "legacy_batches_delivered": 18,
+      "measurement_batches_delivered": 9,
+      "pending_legacy_batches": 0,
+      "pending_measurement_batches": 0,
+      "previews_sent": 7,
+      "preview_failures": 0,
+      "excessive_source_gap_issues": 1,
+      "minute_count": 2,
+      "supported_ok_minute_rows_only_estimated_g": {
+        "co2": 17.34526207707351,
+        "nox": 0.003161844094161299
+      },
+      "emissions_sum_scope": "Supported quality_state=ok minute rows only; not the complete window or all traffic.",
+      "other_empty_cohort_minute_emissions": null,
+      "whole_window_scenario_baseline_g": {
+        "co2": null,
+        "nox": null
+      },
+      "tested_20pct_stopped_reduction_scenario_g": {
+        "co2": null,
+        "nox": null
+      }
+    }
+  },
+  "mode_isolation": {
+    "no_live_contamination_after_replay": true,
+    "replay_minutes_registry_evidence_unchanged_after_live": true,
+    "separate_run_ids_and_outboxes": true,
+    "two_preserved_live_heartbeats_advance": true
+  },
+  "evidence_checks": {
+    "unauthorized_http_status": 401,
+    "authorized_http_status": 200,
+    "current_records": true,
+    "matching_run_camera_mode_movement_calibration_mapping": true,
+    "linked_stopped_values_null": true,
+    "raw_payloads_public": false
+  },
+  "completion": {
+    "final_public_live_and_replay_state": "offline",
+    "final_public_live_and_replay_displayed_state": "offline",
+    "all_runs_ended": true,
+    "scheduler_queue_empty": true,
+    "compute_relay_closed": true,
+    "login_relay_closed_verified": true,
+    "remote_credential_copy_removed": true,
+    "original_server_modified": false,
+    "separate_review_application_retained": true,
+    "original_ssh_master_retained": true,
+    "continuing_worker": false
+  },
+  "scope": {
+    "worker_backend_frontend_contract_defaults_changed_by_run": false,
+    "more_gpu_jobs_authorized": false,
+    "field_count_accuracy_validated": false,
+    "full_demo_or_sustained_performance_accepted": false,
+    "unsupported_emissions_substituted_with_zero": false
+  },
+  "private_artifact_sha256": {
+    "acceptance.private.json": "08e29b32edd75d257d194bed40886d36e841733d93213ca9ebfe6ebb150532e4",
+    "replay.json": "9a15490ec9b26f884b41d76f0fa7a8709a04c7b747cc75ac363c35dd2663f75c",
+    "live.json": "51af8885edceb1cd374d07918c0345ffc210ad8936ec47f794b42a8596392af9",
+    "replay-view.private.json": "c6a70ef44371ddfd51e1d44ef438bf7d33500de0155d61116624f8c9ad1005d9",
+    "live-view.private.json": "2e21b68f6fee9c20124fae1934447c147520e019c9fa81c2ecd041c9e3de779a",
+    "live-status-0.private.json": "0fd6c3297b129ef2440363ad90df4957a698e4e2670b3806d396f4ca644c6b81",
+    "live-status-1.private.json": "dcb40deb873722844e77df267d826d118110afc008bae9ae2d3cac973c765995",
+    "forward.private.json": "d7ed06f4b8ecce721e694413d167891e9d965a0730557e07fd137e14338c2e92",
+    "shutdown-proof.private.json": "45a3e1a136f40986bdb08c7faec2d028766098f8a14169a21bf5c86e8d5263a6",
+    "slurm-175979.out": "698760683b4063bb886f889b56be2e87607b90ac3c4b98da9de109d0c522a3aa"
+  }
+}
