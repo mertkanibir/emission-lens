@@ -7,6 +7,7 @@ import {
   get_traffic_window,
   listCameras,
   read_measurement_window,
+  IngestError,
 } from "@emission-lens/backend";
 import {
   calibrationFor,
@@ -17,6 +18,8 @@ import {
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { ReductionInput } from "@/components/ReductionInput";
+import { ScenarioWindowControls } from "@/components/ScenarioWindowControls";
+import { latestCompleteScenarioMinute } from "@/lib/scenario-window";
 import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
@@ -91,7 +94,7 @@ export default async function CameraPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ mode?: string; reduce?: string }>;
+  searchParams: Promise<{ mode?: string; reduce?: string; from?: string; to?: string }>;
 }) {
   const { id } = await params;
   const query = await searchParams;
@@ -141,6 +144,22 @@ export default async function CameraPage({
   const minuteEstimate = latestSupportedMapEstimate(measurement);
   const support = measurementSupport(measurement.registry, minuteEstimate);
   const queue = queueObservation(traffic);
+  let scenarioMeasurement = measurement;
+  let scenarioWindowError: string | null = null;
+  if (query.from !== undefined || query.to !== undefined) {
+    try {
+      scenarioMeasurement = read_measurement_window({
+        cameraId: id, mode, now,
+        stoppedTimeReductionPct: validReduction ? reduction : 20,
+        from: query.from, to: query.to,
+      });
+    } catch (error) {
+      if (!(error instanceof IngestError) || error.status !== 400) throw error;
+      scenarioWindowError = error.message;
+    }
+  }
+  const explicitScenarioWindow = scenarioMeasurement.scope === "explicit_window";
+  const completeMinute = latestCompleteScenarioMinute(measurement, status.as_of);
   const scenario = validReduction
     ? compare_scenario({
         cameraId: id,
@@ -644,9 +663,10 @@ export default async function CameraPage({
                   sample. This does not predict what a signal adjustment would
                   achieve.
                 </p>
-                {measurement.scenario.completed_cohort.count !== null
-                  && measurement.scenario.completed_cohort.count > 0
-                  && measurement.scenario.completed_cohort.baseline.stopped_time_s === null ? (
+                <ScenarioWindowControls cameraId={id} mode={mode} reduction={validReduction ? reduction : 20} from={scenarioMeasurement.from} to={scenarioMeasurement.to} explicit={explicitScenarioWindow} candidate={completeMinute} error={scenarioWindowError} />
+                {scenarioMeasurement.scenario.completed_cohort.count !== null
+                  && scenarioMeasurement.scenario.completed_cohort.count > 0
+                  && scenarioMeasurement.scenario.completed_cohort.baseline.stopped_time_s === null ? (
                     <p className="context-note">
                       Traversal-linked stopped time is unavailable. Nonzero
                       stopped-time reduction results remain unavailable.
@@ -660,6 +680,10 @@ export default async function CameraPage({
                   {mode === "live" ? null : (
                     <input type="hidden" name="mode" value={mode} />
                   )}
+                  {explicitScenarioWindow ? <>
+                    <input type="hidden" name="from" value={scenarioMeasurement.from} />
+                    <input type="hidden" name="to" value={scenarioMeasurement.to} />
+                  </> : null}
                   <div className="field">
                     <label className="field-label" htmlFor="reduce">
                       Reduce stopped time by
@@ -690,10 +714,7 @@ export default async function CameraPage({
                             <th>Completed-cohort measure</th>
                             <th className="num">Baseline</th>
                             <th className="num">
-                              {formatNumber(
-                                scenario.assumptions.stopped_time_reduction_pct,
-                                0,
-                              )}
+                              {formatNumber(reduction, 0)}
                               % less stopping
                             </th>
                             <th className="num">Change</th>
@@ -703,18 +724,18 @@ export default async function CameraPage({
                           {[
                             {
                               label: "Completed-cohort distance · m",
-                              before: measurement.scenario.completed_cohort.baseline.distance_m,
-                              after: measurement.scenario.completed_cohort.scenario.distance_m,
+                              before: scenarioMeasurement.scenario.completed_cohort.baseline.distance_m,
+                              after: scenarioMeasurement.scenario.completed_cohort.scenario.distance_m,
                             },
                             {
                               label: "Completed-cohort traversal · vehicle-s",
-                              before: measurement.scenario.completed_cohort.baseline.traversal_time_s,
-                              after: measurement.scenario.completed_cohort.scenario.traversal_time_s,
+                              before: scenarioMeasurement.scenario.completed_cohort.baseline.traversal_time_s,
+                              after: scenarioMeasurement.scenario.completed_cohort.scenario.traversal_time_s,
                             },
                             {
                               label: "Traversal-linked stopped · vehicle-s",
-                              before: measurement.scenario.completed_cohort.baseline.stopped_time_s,
-                              after: measurement.scenario.completed_cohort.scenario.stopped_time_s,
+                              before: scenarioMeasurement.scenario.completed_cohort.baseline.stopped_time_s,
+                              after: scenarioMeasurement.scenario.completed_cohort.scenario.stopped_time_s,
                             },
                           ].map((row) => (
                             <tr key={row.label}>
@@ -752,8 +773,8 @@ export default async function CameraPage({
                         </tbody>
                       </table>
                     </div>
-                    <ScenarioPollutants rows={scenarioPollutantRows(measurement.scenario.pollutants)} />
-                    {Object.values(measurement.scenario.pollutants).some((value) => value.baseline_g === null || value.scenario_g === null) ? (
+                    <ScenarioPollutants rows={scenarioPollutantRows(scenarioMeasurement.scenario.pollutants)} />
+                    {Object.values(scenarioMeasurement.scenario.pollutants).some((value) => value.baseline_g === null || value.scenario_g === null) ? (
                       <p className="context-note">
                         Unsupported pollutant values stay unavailable. Observation-minute
                         stopped time is separate from the original completed-traversal
@@ -763,21 +784,23 @@ export default async function CameraPage({
                     <details className="disclosure">
                       <summary>Completed cohort & calculation evidence</summary>
                       <p className="fine">
-                        {measurement.scenario.completed_cohort.count === null
+                        {scenarioMeasurement.scenario.completed_cohort.count === null
                           ? "No supported completed-traversal cohort is available."
-                          : `${formatNumber(measurement.scenario.completed_cohort.count, 0)} completed ${measurement.scenario.completed_cohort.count === 1 ? "traversal" : "traversals"} in the original reporting cohort.`}
+                          : `${formatNumber(scenarioMeasurement.scenario.completed_cohort.count, 0)} completed ${scenarioMeasurement.scenario.completed_cohort.count === 1 ? "traversal" : "traversals"} in the original ${explicitScenarioWindow ? "selected window" : "reporting hour"} cohort.`}
                         {" "}The same vehicles and original completion timestamps are used
                         for baseline and scenario; hypothetical rows never enter observed totals.
                       </p>
                       <ul className="limits">
-                        {measurement.scenario.assumptions.map((line) => <li key={line}>{line}</li>)}
+                        {scenarioMeasurement.scenario.assumptions.map((line) => <li key={line}>{line}</li>)}
                       </ul>
                       <div className="evidence-list">
-                        {measurement.scenario.evidence_refs.map((reference) => <code key={reference}>{reference}</code>)}
+                        {scenarioMeasurement.scenario.evidence_refs.map((reference) => <code key={reference}>{reference}</code>)}
                       </div>
                       <p className="fine">References identify retained calculation evidence. Private provenance requires authenticated access.</p>
                     </details>
-                    {observationStops.length === 0 ? (
+                    {explicitScenarioWindow ? (
+                      <p className="fine">General observation-minute stopped time remains in the reporting-hour traffic table. It is not substituted for this selected completed-movement cohort's linked stops.</p>
+                    ) : observationStops.length === 0 ? (
                       <p className="context-note">
                         No observation-minute stopped-time records are available.
                         These records are separate from the completed movement cohort.
@@ -835,11 +858,12 @@ export default async function CameraPage({
                     <details className="disclosure">
                       <summary>Assumptions & limitations</summary>
                       <ul className="limits">
-                        {[...new Set([...scenario.limitations, ...measurement.limitations, ...measurement.scenario.limitations])].map((line) => (
+                        {[...new Set([...(explicitScenarioWindow ? [] : scenario.limitations), ...scenarioMeasurement.limitations, ...scenarioMeasurement.scenario.limitations])].map((line) => (
                           <li key={line}>{line}</li>
                         ))}
                       </ul>
                     </details>
+                    {explicitScenarioWindow ? <p className="fine">The brief and its export use the reporting hour. This selected-window comparison is not included in that draft.</p> : null}
                     <Link
                       className="button"
                       href={hrefWith("/brief", {
@@ -848,7 +872,7 @@ export default async function CameraPage({
                         reduce: reduction,
                       })}
                     >
-                      Include this scenario in a brief
+                      {explicitScenarioWindow ? "Open reporting-hour brief" : "Include this scenario in a brief"}
                     </Link>
                   </>
                 )}
