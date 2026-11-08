@@ -1,7 +1,7 @@
 # Frontend acceptance and demo usability
 
 **Owner:** Mert  
-**Updated:** 8 November 2026, 00:40 America/New_York / 8 November 2026, 05:40 UTC
+**Updated:** 8 November 2026, 00:44 America/New_York / 8 November 2026, 05:44 UTC
 
 ## Focused checklist and ownership
 
@@ -33,9 +33,24 @@ Accepted screenshots, in order, are retained privately as `01-overview.png`, `02
 - `TSX_TSCONFIG_PATH=frontend/tsconfig.json node --import tsx --test frontend/test/*.test.ts`: all **44 tests pass** in the private source copy.
 - `npx tsc -p frontend/tsconfig.json --incremental false` and `npm run build`: pass in that private copy. The first root-level test command omitted the frontend path configuration and failed alias resolution in three files; the documented corrected invocation passes all files. Initial dependency-copy symlink problems were repaired in the temporary copy before the passing build.
 - Browser checks reproduce both old feedback persistence and the corrected updated-draft feedback after an actual scheduled server refresh. Copy success feedback passes; browser-adapter clipboard readback is not claimed.
-- The brief/ranking says calibration is invalid when the approved 222 profile has no measurement minutes in the rolling window. Exact query, build/store identity and screenshot/download evidence were handed to the backend wording owner; this frontend patch does not change that text or any availability semantics.
+- The initial brief/ranking incorrectly said calibration was invalid when the approved 222 profile had no measurement minutes in the rolling window. Exact evidence was handed to the backend owner; the separately published fix and independent consumer recheck are recorded below. This stream changed no backend availability semantics.
 - Full four-camera flows, newly delivered 223 replay/heat-map evidence, broad responsive/motion regression and final rehearsal remain open. No complete accessibility conformance, physical accuracy, measured air quality, positive scenario savings, shared hosting or production installation is established by these checks. No scope or contract change is proposed.
 
 ## Licence/source checkpoint — 8 November 2026, 00:40 America/New_York / 8 November 2026, 05:40 UTC
 
 Mert agreed a narrow additional assignment for `AppShell.tsx` footer/help link markup. The footer now exposes the published AGPL-3.0 licence and clearly labeled source repository; help supplies the project-code/no-warranty/upstream-terms note and project/source guidance. The optional exact-web-source setting and its trust boundary are documented in [SOURCE.md](SOURCE.md). No running revision is inferred or configured in the acceptance build. All 47 frontend tests, TypeScript and the isolated build pass; desktop footer/focus and the 354 px phone help panel were visually checked, including Escape dismissal. Accepted private screenshots are `06-source-footer.png` and `07-phone-source-help.png`. The application owner retains the exact frozen-version launch/source obligation; production remains unchanged.
+
+## Independent wording and mode recheck — 8 November 2026, 00:44 America/New_York / 8 November 2026, 05:44 UTC
+
+Mert copied exactly `backend/src/queries.ts`, `backend/src/brief.ts` and the focused availability test from backend checkpoint `03ad2daa327e5f266f2ac0006d2716b25a656d5c` into the private source copy, retaining the published frontend `acee09c` changes. The rebuilt application passes all **57 combined checks**: 47 frontend tests plus 10 focused backend availability tests. Its production build passes.
+
+| Step | Independent consumer result |
+|---|---|
+| 5. Approved 222 / empty replay window | Brief, ranking and camera emissions text identify no estimated-emissions records while retaining mode/time approval. The old false invalid-calibration sentence is absent. The ranking asks for current-window traversals/mapping; numerical estimates remain unavailable. |
+| 6. Corrected brief export | Actual 1,422-character download exactly matches all rendered body lines, with replay/offline provenance, null pollutant estimates and no automatic sending. Private screenshot `08-corrected-empty-window-brief.png` and `replay-brief-corrected.txt` preserve the evidence. |
+| 7. Camera mode/status navigation | Brief → camera retains replay and 20% scenario. Replay is offline with no synchronized frame; switching to the frozen live copy reports no fresh heartbeat/degraded, rather than live from an old frame. Synthetic remains labeled with no camera footage; evidence-review navigation preserves synthetic mode. |
+| 8. Supported heat snapshot / mode transitions | The map reports a ready heat layer with one supported 222 point: 7.9 g estimated CO₂ and 0.001485 g estimated NOₓ from the same 9:33 PM PST minute, visibly Degraded with a nine-minute-old heartbeat. Reporting-window totals remain unavailable. Traffic uses reporting-window labeling; live → replay → synthetic → live has point counts 1 → 0 → 0 → 1. Private screenshot `09-stale-supported-heat-map.png` was inspected. |
+
+Public measurement reads preserve approved live/replay profiles and unavailable full-window/scenario values; synthetic is unapproved and supplies no measurement minutes. Private store SHA-256 remains `6f592b0d6858751039ac3edd3ddb469eabf430878ef760ac7fa1dd4640420db1`; registry remains `e244d2633ff6c59ff7446c991486fffcf01a2638cdfccd46fc4b27953bf273f9`. No source timestamp or private bytes changed. A private `acceptance-result.json` indexes copied source hashes, tests, download and mode/status results.
+
+The owned 3142 listener is stopped, the acceptance tab is closed and viewport override reset. The original temporary tab reached a connection-error page during the first owned rebuild; browser policy prevented closing that tab through the available API. No native GUI or another owner's tab was used. Production 3138 retains its original listener PID 3943; no production source link, backend update or registry change was installed. Fresh 223 replay delivery, full four-camera responsive/motion/accessibility acceptance and final rehearsal remain open. No further UI defect was demonstrated in the agreed preview/menu paths, so they are unchanged.
