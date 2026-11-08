@@ -1,0 +1,166 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T07:23:59.550213+00:00",
+  "state": "running_startup_accepted_not_sustained_acceptance",
+  "job_id": "176075",
+  "step_id": "176075.4",
+  "step_start_utc": "2026-11-08T07:17:25Z",
+  "run_id": "c8c01fee-6fcf-4306-8e4c-3f95fb63305e",
+  "run_started_at_utc": "2026-11-08T07:17:39.458804+00:00",
+  "mode": "live",
+  "camera_ids": [
+    "222",
+    "223"
+  ],
+  "out_of_scope_camera_ids": [
+    "220",
+    "228"
+  ],
+  "app_port": 3151,
+  "source_commit": "685dc72e2dab3c8be437f467ae96d2957daa99ba",
+  "metrics_source_content_revision": "59d2ac7",
+  "executed_main_sha256": "db55400ffc63ee5a01fc4f8cb7c83feb5cea26e8496e93cb581e711e7bf356c4",
+  "executed_metrics_sha256": "4c919ef9dd4edf7f954f2301e616b0479edd8f1227bb47b20794791eb38a2ab4",
+  "runtime_archive_sha256": "3f85fd1238787928fcf0ec8d5ca802211806f93a504c503c7ded44741d906df8",
+  "recipe_sha256": "48cbd734aa930ad68b382b62c450cc04742b526621d70d868ece45ed0aae1f98",
+  "private_entry_sha256": "cf84b550db54fc6549b5e030d29279cf28bb023a43fb1fcfffba422e7f5b580d",
+  "retained_minute_guard_sha256": "5a8fccdd8da65b7b3ebaaa0eb954fe4af9a5ac103883359dd144bcf84272431c",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "target_sampling_fps": 15,
+  "image_size": 640,
+  "profiles": {
+    "222": {
+      "view_version": "222-image-v4",
+      "selected_count_gate": "count-1",
+      "geometry_sha256": "118b60c1afbcd2139da7a6e58c7c6b4eca74e16b497e5f87fe81d0c00a4ea64c",
+      "canonical_geometry_sha256": "df7254fb7256e8b4b2e7644e97a296be27e91f66327f367f3ca1133a15848ed4",
+      "selected_gate_object_sha256": "f5bcf30a209d0d9c5dd6ceed15e5f59a11a662a31b5e56cf60eb229e3951adf4",
+      "traversal_policy_sha256": "6ffbac2983c8f2d465b2495a3d2238aaa7fd7c679776277b69f71ac607234b36",
+      "canonical_traversal_policy_sha256": "deb1ebf6e8c059a950652fd8aef917107535afd3f907af5330155fac75b6a3e4",
+      "queue_approval_manifest_sha256": "4286979cca328216901a203cc74d461d4eb4068623105a28c894947470bc79e9",
+      "stopped_image_displacement_per_s": 0.0225,
+      "queue_minimum_continuous_s": 3.0
+    },
+    "223": {
+      "view_version": "223-image-v2",
+      "selected_count_gate": "count-1",
+      "geometry_sha256": "1eb793f658ed13bc786ba4bc877acf8d732ed3a34496ca4741b2f6726021f874",
+      "canonical_geometry_sha256": "ed358702b9bea749883992fda0fd226496942d3f26331dd253951c019a28b6b4",
+      "selected_gate_object_sha256": "e08216bc3056fdb42793bb3c26f7b98e15ba2e093a3e2d7bb775c76b74f44eab",
+      "traversal_policy_sha256": "02619b6b1a3d1bf5610e4d0cbb7b022cdb21a80134bc8c620a5c32580864e869",
+      "canonical_traversal_policy_sha256": "957543e55623e3110d1dba12a652de4e6df988f18bad2e59a2c97f51c144a210",
+      "queue_approval_manifest_sha256": "094f3ec7e30f77bf5a40ffe4ac6e69b3ea7c4263019247a5a6be918f4011975c",
+      "stopped_image_displacement_per_s": 0.0283,
+      "queue_minimum_continuous_s": 3.0
+    }
+  },
+  "baseline": {
+    "worker_entries": 735,
+    "measurement_entries": 60,
+    "snapshot_sha256": "2b6e244efa982ebeaf5545bef95836ee50d834107eb6ad8fca5a959a6b7e49d4",
+    "retained_live_camera_minute_identities": 50,
+    "history_preservation": "Separate backend startup acceptance reports exact preservation of every baseline record. Every new quantity enqueue refuses canonical UTC camera-minute overlap with this sealed LIVE history; no deletion, pruning or merge."
+  },
+  "observed_progress": {
+    "owner": "Mert",
+    "at_utc": "2026-11-08T07:23:40.922311+00:00",
+    "run_id": "c8c01fee-6fcf-4306-8e4c-3f95fb63305e",
+    "cameras": {
+      "222": {
+        "processed_frames": 5620,
+        "reader_frames_kept": 5821,
+        "reader_frames_dropped": 201,
+        "reader_state": "live",
+        "last_processed_at": "2026-11-08T07:23:40.287919+00:00",
+        "last_received_at": "2026-11-08T07:23:36.338711+00:00",
+        "media_by_session": {
+          "1": {
+            "first_s": 0.0,
+            "last_s": 388.362,
+            "frames": 5620
+          }
+        }
+      },
+      "223": {
+        "processed_frames": 5426,
+        "reader_frames_kept": 5503,
+        "reader_frames_dropped": 22,
+        "reader_state": "live",
+        "last_processed_at": "2026-11-08T07:23:40.918465+00:00",
+        "last_received_at": "2026-11-08T07:23:39.526331+00:00",
+        "media_by_session": {
+          "1": {
+            "first_s": 1.467,
+            "last_s": 364.21700000000004,
+            "frames": 5426
+          }
+        }
+      }
+    }
+  },
+  "delivery_at_recording": {
+    "pending_worker": 0,
+    "pending_measurements": {
+      "222": 0,
+      "223": 0
+    },
+    "credential_copy_exists": true,
+    "exit_record_exists": false
+  },
+  "protected_live_guard": {
+    "samples": 73,
+    "maximum_observed_heartbeat_age_s": 14.880382,
+    "minimum_observed_free_mig_mib": 9425.8125,
+    "last_observation": {
+      "checked_at": "2026-11-08T07:23:44.856458+00:00",
+      "heartbeat": "2026-11-08T07:23:38.680108+00:00",
+      "age_s": 6.172919,
+      "state": "live",
+      "fps": 16.907285935627932,
+      "pending_files": 0,
+      "preview_sequence": 115529,
+      "preview_processed_at": "2026-11-08T07:23:37.017201+00:00",
+      "preview_received_at": "2026-11-08T07:23:36.957269+00:00",
+      "monotonic_s": 10573219.508953443,
+      "gpu_free_mib": 9425.8125
+    },
+    "guard_reason": null
+  },
+  "bounds": {
+    "owner": "Mert",
+    "command_started_at_utc": "2026-11-08T07:17:32.874525+00:00",
+    "ingestion_run_started_at_utc": "2026-11-08T07:17:39.458804+00:00",
+    "nominal_enforced_worker_stop_utc": "2026-11-08T09:17:32.874525+00:00",
+    "nominal_enforced_worker_stop_new_york": "2026-11-08T04:17:32.874525-05:00",
+    "scheduler_step_id": "176075.4",
+    "scheduler_step_start_utc": "2026-11-08T07:17:25Z",
+    "scheduler_step_time_limit_s": 7380,
+    "scheduler_step_limit_utc": "2026-11-08T09:20:25Z",
+    "local_watcher_hard_expiry_utc": "2026-11-08T09:21:25Z",
+    "original_allocation_end_utc": "2026-11-08T11:12:38Z",
+    "warning": "Nominal command wall bound and scheduler limit are distinct; source, guard, network or host failures can end the candidate earlier. No sustained or unattended-availability guarantee."
+  },
+  "cleanup": {
+    "bounded_local_watcher_pid": 67946,
+    "hard_expiry_utc": "2026-11-08T09:21:25Z",
+    "owned_step_only": "176075.4",
+    "owned_reverse_forward_only": "127.0.0.1:53251 -> 127.0.0.1:3151",
+    "candidate_child_grace_s": 90,
+    "original_ssh_master_preserved": true,
+    "local_token_and_transport_bundle_copies_removed": true,
+    "remote_token_copy": "Removed by owned step cleanup; bounded watcher has an expiry fallback."
+  },
+  "acceptance": {
+    "backend_current_evidence_reload_csv": "PASS reported by separate backend owner/root",
+    "actual_browser_current_data": "PASS reported by frontend owner/root",
+    "queue_examples": "Observed provisional lower bounds include222>=1 and223>=2/3; subsequent unknown latest values remain null and do not reuse older observations."
+  },
+  "limitations": [
+    "Both queues are provisional visible-approach stationary-vehicle image observations, not physical queue length or engine-running evidence.",
+    "Actual startup reader drops222=201 and223=22 stayed unchanged during observed follow-up. No loss-free or sustained-operation claim.",
+    "Runtime/source progress is not verified source capture UTC or capture-to-dashboard latency.",
+    "Class/weather/calibration and stopped-motion portability limitations remain; no measured air quality, field accuracy or real-world benefit is claimed.",
+    "The nominal worker wall end, scheduler step limit and local watcher expiry are distinct; source, host, guard or transport failures can end operation earlier.",
+    "Existing176075/176255 jobs and3138/3139/3150 services remain untouched; original all-four previews stay on3150."
+  ]
+}

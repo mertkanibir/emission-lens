@@ -1,7 +1,7 @@
 # Opt-in runtime measurement delivery
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 02:05 America/New_York / 07:05 UTC
+**Updated:** 8 November 2026, 02:23 America/New_York / 07:23 UTC
 **Status:** Independent per-camera runtime/config/publisher wiring and conservative image-queue availability are tested on controlled inputs. Existing 222/223 scientific approvals and bounded execution evidence remain separately scoped; this implementation does not activate a new configuration.
 
 The runtime connects `worker.traversal.TraversalProducer` through the [versioned bridge](./MEASUREMENTS.md) to [measurement ingestion v1.0](../backend/MEASUREMENT-INGESTION.md). It does not change detector/tracker selection, legacy worker contract 1.1, or the reviewed camera files. The default is disabled.
@@ -144,3 +144,6 @@ These controlled tests are software integration evidence. Real camera calibratio
 **Queue portability (7 November 2026, 21:37 America/New_York / 8 November 2026, 02:37 UTC):** Fixed Windows CRT directory-open incompatibility in queue/checkpoint publication while retaining POSIX directory flushes and all file flushes. Windows uses native write-through moves and an acknowledged marker for safe cleanup/restart ordering. All real file/rename/access failures remain errors. macOS focused and broader regression selections pass; native CI results are tracked in [QUEUE-PORTABILITY.md](./QUEUE-PORTABILITY.md). Detector/tracker, camera geometry, contracts and binary provenance hashing are unchanged.
 
 **Native queue acceptance (7 November 2026, 21:40 America/New_York / 8 November 2026, 02:40 UTC):** Published fix `845ce3c` passes [Windows Server 2025 and Linux CI](https://github.com/mertkanibir/emission-lens/actions/runs/42439373791), each with 53 tests plus 15 subtests and no skips. Local macOS checks also pass. [Platform notes](./QUEUE-PORTABILITY.md) record exact Python/runner versions and remaining power-loss/network-share limits. Scientific readiness and the actual configured GPU/replay demonstration are unchanged.
+
+
+**Accepted LIVE startup (8 November 2026, 02:23 America/New_York / 07:23 UTC):** The new combined685dc72 runtime is genuinely processing only reviewed222/223 on existing-allocation step176075.4 into3151, with both provisionally approved approach ROIs and exact stopped policies. Separate backend/current-browser acceptance passes; the sealed735/60 history is preserved and producer/server overlap refusals remain active. Initial reader drops201/22 stayed unchanged during observed follow-up; no sustained/loss-free/field-accuracy claim is made. The bounded child/step/watcher and untouched original resources are documented in [the runtime handoff](./LIVE-3151-176075-4.md) and its public-safe scalar receipt. The earlier692d739 replays remain separate immutable evidence.
