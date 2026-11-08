@@ -1,6 +1,6 @@
 # Independent visual crossing review
 
-**Owner:** Mert. **Updated:** 7 November 2026, 22:55 America/New_York / 8 November 2026, 03:55 UTC.
+**Owner:** Mert. **Updated:** 8 November 2026, 00:12 America/New_York / 8 November 2026, 05:12 UTC.
 
 This package keeps assisted visual review separate from Carter's human reference and pretrained detector/tracker output. It does not run inference. An assisted ledger always records `review_method=assisted_visual_sequence_review` and `human_confirmed=false`. A frozen assisted ledger alone cannot enable a camera, physical speed, calibration or estimated emissions.
 
@@ -76,3 +76,5 @@ See [current status](./report.md) for completed review coverage and limitations.
 **Resolution-only checkpoint (7 November 2026, 22:46 America/New_York / 8 November 2026, 03:46 UTC):** Mert verified n/1280 against the original tracker and unchanged practice inputs. It retains or recovers the six predeclared positive anchors but fails both assisted count bounds overall (76 model versus108–138 assisted). Keep it unapproved, retain partial candidate-screening status and preserve the unopened fresh interval. One final pretrained s/1280 baseline-only comparator is separately authorized; see the report for provenance and limits.
 
 **Final comparator/handoff note (7 November 2026, 22:55 America/New_York / 8 November 2026, 03:55 UTC):** Mert completed the frozen s/1280 baseline-only comparison:77 passages fails both assisted practice count bounds. The CLI wrote its report before a wrapper post-run argument assertion failed; exact resolved-argument/persistence/sample-equality proof is incomplete and explicitly retained, not inferred. No physical-identity assessment is possible from its timestamp-only output. Stop model experiments, keep228 unapproved and preserve the untouched fresh interval. Human adjudication or a separately scoped negative-direction tracking proposal is the next dependency. Nineteen focused harness tests remain passing; see the report for full provenance and bounded coverage.
+
+**Queued 220 handoff (8 November 2026, 00:12 America/New_York / 8 November 2026, 05:12 UTC):** Mert queued the [camera-220 blind-review plan](./220-review-plan.md) behind the camera-222 live restart and camera-228 new-gate alignment. Practice `[60,180)` and held-out `[360,480)` use original n/640 at requested15 FPS; geometry must freeze before held-out access and the assisted ledger before reference release. Acquisition, rendering and execution remain pending Mert’s coordinated handoff; Carter’s model count stays unopened and Carter owns distance calibration.
