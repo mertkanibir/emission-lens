@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:34 America/New_York / 8 November 2026, 14:34 UTC
+
+- **Who:** Mert
+- **Done:** Corrected the pacing feedback loop exposed by real reader drops and added opt-in CUDA warmup before starting live readers. Retained failed-run evidence rather than accepting the poor cadence.
+- **Completed:** 17 focused and56 broader scoped runtime tests pass in the allocated environment. New tests cover large missing-media jumps, initial overflow and independent source/session clocks. Original media and receipt times are unchanged.
+- **Still open:** One controlled two-MIG job replacement and actual fresh-preview/drop/delivery acceptance remain pending. Local broader tests had missing environment dependencies; their allocated-environment passes are separately recorded.
+
 ### 8 November 2026, 09:32 America/New_York / 8 November 2026, 14:32 UTC
 
 - **Who:** Mert

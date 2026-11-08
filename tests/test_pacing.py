@@ -16,6 +16,18 @@ class PacingTests(unittest.TestCase):
         self.assertEqual(p.delay("222", 2, 0, 30), 4)
         self.assertAlmostEqual(p.delay("223", 1, .2, 20.1), 4.1)
 
+    def test_discarded_media_and_reader_overflow_never_create_a_long_freeze(self):
+        p = LiveMediaPacer(4)
+        self.assertEqual(p.delay("223", 1, 0, 100), 4)
+        self.assertEqual(p.delay("223", 1, 37.9, 104), 0)
+        self.assertAlmostEqual(p.delay("223", 1, 37.966, 104.01), .056)
+        self.assertEqual(p.delay("223", 1, 38.1, 104.02, discontinuity=True), 0)
+        self.assertAlmostEqual(p.delay("223", 1, 38.166, 104.03), .056)
+
+    def test_initial_overflow_uses_existing_queue_without_another_buffer_wait(self):
+        p = LiveMediaPacer(4)
+        self.assertEqual(p.delay("222", 1, 10, 100, discontinuity=True), 0)
+
     def test_late_processing_catches_up_without_negative_wait_or_fake_frames(self):
         p = LiveMediaPacer(4)
         p.delay("222", 1, 0, 0)

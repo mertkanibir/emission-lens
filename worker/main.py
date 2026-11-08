@@ -234,6 +234,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--fps", type=float, default=5)
     result.add_argument("--device", default="0", help="Ultralytics device, e.g. 0 or cpu.")
     result.add_argument("--require-cuda", action="store_true")
+    result.add_argument("--warmup", action="store_true", help="Warm the live CUDA detector before connecting camera readers; no observations are generated.")
     result.add_argument("--pace-live", action="store_true", help="Pace live processing by original media time with a four-second initial buffer; replay unchanged.")
     result.add_argument("--require-delivery", action="store_true", help="Fail if publishing is disabled or final batches remain queued.")
     result.add_argument("--publish-every", type=float, default=5)
@@ -365,6 +366,19 @@ def run(args, stop_requested=None) -> dict:
     }
     progress = {camera.id: CameraProgress(camera.id) for camera in cameras}
     models = {camera.id: DeviceModel(load_model(args.weights), args.device) for camera in cameras}
+    warmup_wall_s = None
+    if getattr(args, "warmup", False) and mode == "live":
+        import numpy as np
+        before_warmup = time.perf_counter()
+        image = np.zeros((args.image_size, args.image_size, 3), dtype=np.uint8)
+        for adapter in models.values():
+            adapter.model.predict(image, device=args.device, imgsz=args.image_size, verbose=False, save=False)
+            backend_device = next(adapter.model.predictor.model.model.parameters()).device
+            if args.require_cuda and backend_device.type != "cuda":
+                raise RuntimeError("Detector warmup did not execute on CUDA.")
+            if backend_device.type == "cuda":
+                torch.cuda.synchronize(backend_device)
+        warmup_wall_s = time.perf_counter() - before_warmup
     vehicle_labels = frozenset({"car", "tesla", "pickup", "truck", "box_truck", "tractor_trailer", "bus", "motorcycle", "unknown"})
     trackers = {camera.id: CameraTracker(weights=args.weights, labels=vehicle_labels, image_size=args.image_size, model=models[camera.id]) for camera in cameras}
     from worker.aggregate import MinuteAggregator
@@ -440,6 +454,7 @@ def run(args, stop_requested=None) -> dict:
     deadline = time.monotonic() + args.seconds
     next_publish = time.monotonic()
     verified_devices = set()
+    pacing_drop_counts = {camera.id: 0 for camera in cameras}
     failure = None
     delivery = BackgroundDelivery(outbox, measurement_outboxes) if outbox else None
 
@@ -476,7 +491,9 @@ def run(args, stop_requested=None) -> dict:
                     continue
                 found_frame = True
                 if pacer is not None:
-                    delay = pacer.delay(camera.id, frame.session, frame.media_time_s, time.monotonic())
+                    dropped = readers[camera.id].frames.dropped
+                    delay = pacer.delay(camera.id, frame.session, frame.media_time_s, time.monotonic(), discontinuity=dropped > pacing_drop_counts[camera.id])
+                    pacing_drop_counts[camera.id] = dropped
                     if delay and stop_requested.wait(delay):
                         break
                 before = time.perf_counter()
@@ -544,7 +561,7 @@ def run(args, stop_requested=None) -> dict:
                 "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                 "weights_sha256": hashlib.sha256(args.weights.read_bytes()).hexdigest(),
                 "runtime_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-                "settings": {"target_sampling_fps": args.fps, "image_size": args.image_size, "duration_s": args.seconds, "device": args.device, "live_playback_buffer_s": pacer.buffer_s if pacer else 0},
+                "settings": {"target_sampling_fps": args.fps, "image_size": args.image_size, "duration_s": args.seconds, "device": args.device, "live_playback_buffer_s": pacer.buffer_s if pacer else 0, "warmup_wall_s": warmup_wall_s},
                 "packages": {name: version(name) for name in ("torch", "ultralytics", "opencv-python")},
                 "cuda_runtime": torch.version.cuda,
                 "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
