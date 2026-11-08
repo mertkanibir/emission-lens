@@ -45,6 +45,7 @@ export interface TrafficWindow {
     state: "observed" | "unavailable" | "ambiguous";
     minute: string | null;
     reason: string;
+    scope?: "visible_stationary_lower_bound";
   };
   note: string;
 }
@@ -100,7 +101,11 @@ export function latestQueueObservation(rows: TrafficMinute[]): {
   return {
     queue_count: observed[0].queue_count,
     queue_length_m: observed[0].queue_length_m,
-    queue_observation: { state: "observed", minute, reason: "One image-based queue observation is retained for the latest traffic minute; this is not a reporting-window total." },
+    queue_observation: observed[0].queue_count! > 0
+      ? { state: "observed", minute, scope: "visible_stationary_lower_bound",
+          reason: `At least ${observed[0].queue_count} visible stopped vehicles in the latest traffic-minute image observation. This provisional image-area/motion count is a lower bound, not a physical queue total or reporting-window total.` }
+      : { state: "observed", minute,
+          reason: "A supported zero is retained for the latest traffic-minute image observation; this is not a physical queue total or reporting-window total." },
   };
 }
 

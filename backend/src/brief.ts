@@ -4,6 +4,7 @@ import {
   get_context,
   get_emissions_window,
   get_traffic_window,
+  type TrafficWindow,
 } from "./queries.ts";
 import { compare_scenario } from "./scenario.ts";
 import { loadRegistry, registryStatus } from "./registry.ts";
@@ -39,6 +40,17 @@ export const ASSISTANT_TOOLS = [
   "rank_investigation_priorities",
   "draft_brief",
 ] as const;
+
+function queueEvidence(traffic: TrafficWindow): string {
+  const minute = traffic.queue_observation?.minute;
+  const when = minute === null || minute === undefined
+    ? "with observation minute unavailable"
+    : `for ${minute} (UTC)`;
+  const length = `Queue length in metres: ${traffic.queue_length_m === null ? "unavailable" : traffic.queue_length_m}.`;
+  if (traffic.queue_count === null) return `Queue observation unavailable ${when}. ${traffic.queue_observation?.reason ?? "No supported latest-minute observation is available."} ${length}`;
+  if (traffic.queue_count > 0) return `At least ${traffic.queue_count} visible stopped vehicles in the latest image observation ${when}. Provisional image-area/motion observation: a visible stationary lower bound, not a physical queue total or reporting-hour total. Engine state is unavailable. ${length}`;
+  return `Observed 0 visible stopped vehicles in the supported latest image observation ${when}. This scoped zero is not a physical queue total or reporting-hour total. Engine state is unavailable. ${length}`;
+}
 
 export function rank_investigation_priorities(input: {
   cameraId: string | null;
@@ -77,10 +89,6 @@ export function rank_investigation_priorities(input: {
     registry.state === "configured" && registry.physical_calibration_approved &&
     registry.calibration_version !== null;
   const context = get_context(cameraId, input.mode);
-  const queueEvidence =
-    traffic.queue_count === null
-      ? "No queue count in this window."
-      : `Image-based queue count is ${traffic.queue_count}. Queue length in metres is ${traffic.queue_length_m === null ? "unavailable" : traffic.queue_length_m}.`;
   return {
     mode: input.mode,
     camera_id: cameraId,
@@ -88,7 +96,7 @@ export function rank_investigation_priorities(input: {
     dimensions: [
       {
         dimension: "queues",
-        evidence: queueEvidence,
+        evidence: queueEvidence(traffic),
         suggested_step:
           traffic.queue_count === null
             ? emptyApprovedWindow
@@ -167,7 +175,7 @@ export function draft_brief(input: {
     `Window: ${traffic.from} to ${traffic.to} (UTC).`,
     `Crossings: ${traffic.totals.count === null ? "unavailable" : traffic.totals.count}.`,
     `Stopped time: ${traffic.totals.stopped_vehicle_seconds === null ? "unavailable for the full mix" : `${traffic.totals.stopped_vehicle_seconds} vehicle-seconds`}.`,
-    `Queue count: ${traffic.queue_count === null ? "unavailable" : traffic.queue_count}. Queue length in metres: ${traffic.queue_length_m === null ? "unavailable" : traffic.queue_length_m}.`,
+    queueEvidence(traffic),
     `${emissions.note} These are modeled estimates when present, not a measured concentration and not an air-quality index.`,
     `Shorter-stop scenario at ${scenario.assumptions.stopped_time_reduction_pct}%: ${scenario.limitations[0]}`,
     ...(["co2", "nox"] as const).map((pollutant) => {

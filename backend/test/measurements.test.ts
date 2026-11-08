@@ -693,6 +693,43 @@ test("explicit selection rejects partial, future, overlong, expired and malforme
     assert.equal(read_measurement_window(valid).scenario.pollutants.co2.scenario_g, null);
     assert.deepEqual(readFileSync(path), before);
   }));
+
+test("public minute linked stopped aggregates use only that ready completed cohort and preserve zero, unknown, empty and mode scope", () =>
+  isolated(async ({ path, install }) => {
+    const source = batch();
+    source.traversals[0].stopped_time_s = 0;
+    await ingest_measurement_batch(source, NOW);
+    assert.equal(read().minutes[0].traffic[0].stopped_vehicle_seconds, 900);
+    assert.deepEqual(read().minutes[0].completed_cohort, { count: 1, stopped_time_s: 0 });
+    const response = await handleMeasurementGet(new Request("http://localhost/api/measurements?camera=222&mode=synthetic"));
+    const value = await response.json();
+    assert.deepEqual(value.minutes[0].completed_cohort, { count: 1, stopped_time_s: 0 });
+    assert.doesNotMatch(JSON.stringify(value), /"session_id"|"traversal_id"/);
+    assert.equal(read_measurement_window({ cameraId: "222", mode: "live", now: NOW }).minutes.length, 0);
+    assert.equal(read_measurement_window({ cameraId: "223", mode: "synthetic", now: NOW }).minutes.length, 0);
+
+    const pending = registry();
+    pending.calibrations[0].approval.status = "pending";
+    install(pending);
+    assert.deepEqual(read().minutes[0].completed_cohort, { count: null, stopped_time_s: null });
+    install(registry());
+    source.revision++;
+    source.traversals[0].stopped_time_s = null;
+    await ingest_measurement_batch(source, NOW);
+    assert.deepEqual(read().minutes[0].completed_cohort, { count: 1, stopped_time_s: null });
+    assert.equal(read().scenario.pollutants.co2.scenario_g, null);
+    source.revision++;
+    source.traversals[0].vehicle_class = "unknown";
+    await ingest_measurement_batch(source, NOW);
+    assert.deepEqual(read().minutes[0].completed_cohort, { count: null, stopped_time_s: null });
+    source.revision++;
+    source.traversals = [];
+    await ingest_measurement_batch(source, NOW);
+    const before = readFileSync(path);
+    assert.deepEqual(read().minutes[0].completed_cohort, { count: null, stopped_time_s: null });
+    assert.equal(read().minutes[0].traffic[0].stopped_vehicle_seconds, 900);
+    assert.deepEqual(readFileSync(path), before);
+  }));
 test("unknown classes, movements and empty cohorts never become partial or zero grams", () =>
   isolated(async () => {
     const source = batch();

@@ -49,6 +49,10 @@ export interface MeasurementMinuteView {
   calibration_version: string | null;
   mapping_version: string | null;
   evidence_ref: string;
+  completed_cohort?: {
+    count: number | null;
+    stopped_time_s: number | null;
+  };
   traffic: TrafficMinute[];
   emissions: EmissionsMinute[];
 }

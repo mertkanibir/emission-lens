@@ -396,6 +396,10 @@ export function read_measurement_window(input: {
     calibration_version: entry.source.calibration_version,
     mapping_version: entry.source.mapping_version,
     evidence_ref: derived[i].evidence_ref,
+    completed_cohort: derived[i].state === "ready" && derived[i].input && entry.source.traversals.length
+      ? { count: entry.source.traversals.length,
+          stopped_time_s: sumStrict(entry.source.traversals.map((traversal) => traversal.stopped_time_s)) }
+      : { count: null, stopped_time_s: null },
     traffic: store.traffic.filter(
       (row) =>
         row.camera_id === input.cameraId &&

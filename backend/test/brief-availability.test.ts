@@ -8,7 +8,7 @@ import { calibrationFor } from "../../contracts/src/cameras.ts";
 import type { WorkerBatch } from "../../contracts/src/ingest.ts";
 import { draft_brief, rank_investigation_priorities } from "../src/brief.ts";
 import { ingestWorkerBatch } from "../src/ingest.ts";
-import { get_emissions_window } from "../src/queries.ts";
+import { get_emissions_window, get_traffic_window } from "../src/queries.ts";
 import { loadRegistry, registryStatus, type RegistryDocument } from "../src/registry.ts";
 
 const NOW = new Date("2026-11-08T05:36:00Z");
@@ -135,5 +135,46 @@ test("registry approval does not override an in-window calibration-invalid obser
     assert.equal(emissions.quality_state, "calibration_invalid");
     assert.match(emissions.note, /Camera calibration is not valid/);
     assert.deepEqual(emissions.estimate_g_by_pollutant, { co2: null, nox: null });
+  });
+});
+
+test("positive queue metadata and draft exports disclose a scoped visible lower bound without changing zero or null", () => {
+  isolated(null, path => {
+    const older = observation("2026-11-08T05:34:00Z");
+    older.traffic[0].queue_count = 9;
+    ingestWorkerBatch(older, NOW);
+    const latest = observation("2026-11-08T05:35:00Z");
+    latest.traffic[0].queue_count = 3;
+    ingestWorkerBatch(latest, NOW);
+    const before = readFileSync(path);
+    const traffic = get_traffic_window(input);
+    assert.equal(traffic.queue_count, 3);
+    assert.equal(traffic.queue_observation?.scope, "visible_stationary_lower_bound");
+    const brief = draft_brief(input);
+    assert.match(brief.text, /At least 3 visible stopped vehicles/);
+    assert.match(brief.text, /2026-11-08T05:35:00.000Z \(UTC\)/);
+    assert.match(brief.text, /Provisional image-area\/motion observation/);
+    assert.match(brief.text, /not a physical queue total or reporting-hour total/);
+    assert.match(brief.text, /Engine state is unavailable/);
+    assert.doesNotMatch(brief.text, /At least 9|Queue count: 3/);
+    assert.match(rank_investigation_priorities(input).dimensions[0].evidence, /At least 3 visible stopped vehicles/);
+    assert.doesNotMatch(draft_brief({ ...input, mode: "live" }).text, /At least 3/);
+    const publicText = JSON.stringify([traffic, brief]);
+    assert.ok(!publicText.includes(path));
+    assert.doesNotMatch(publicText, /"session_id"|"traversal_id"/);
+    assert.deepEqual(readFileSync(path), before);
+
+    latest.revision++;
+    latest.traffic[0].queue_count = 0;
+    ingestWorkerBatch(latest, NOW);
+    assert.equal(get_traffic_window(input).queue_observation?.scope, undefined);
+    assert.match(draft_brief(input).text, /Observed 0 visible stopped vehicles/);
+    assert.doesNotMatch(draft_brief(input).text, /At least 0/);
+    latest.revision++;
+    latest.traffic[0].queue_count = null;
+    ingestWorkerBatch(latest, NOW);
+    assert.match(draft_brief(input).text, /Queue observation unavailable/);
+    assert.match(draft_brief(input).text, /older observations are not substituted/);
+    assert.doesNotMatch(draft_brief(input).text, /At least 9|Observed 0 visible/);
   });
 });
