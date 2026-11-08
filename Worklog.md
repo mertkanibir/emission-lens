@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 08:28 America/New_York / 8 November 2026, 13:28 UTC
+
+- **Who:** Mert
+- **Done:** Restored fresh two-camera live GPU job176773 with verified frozen runtime, retained/pending-minute overlap guard, new outboxes and bounded owned relay/token cleanup. Updated operating status and retained scalar startup evidence.
+- **Completed:** Public3152 shows live222/223, advancing heartbeat/preview snapshots and new cuda:0 run; scheduler RUNNING until15:30:55UTC. Worker progress exceeds2000 processed frames per camera. Existing source/profile/weights hashes verified; no executable tracked changes.
+- **Still open:** Prior failed-run pending envelopes remain preserved/unrecovered; sustained reliability, scientific acceptance,220/228 exclusions and final rehearsal remain open. Usage95% consumed reaches requested5% reserve; further development stopped.
+
 ### 8 November 2026, 08:23 America/New_York / 8 November 2026, 13:23 UTC
 
 - **Who:** Mert

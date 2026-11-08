@@ -1,0 +1,89 @@
+{
+  "owner": "Mert",
+  "verified_at_utc": "2026-11-08T13:28:29.755968+00:00",
+  "job_id": 176773,
+  "worker_source": "3b15e3a8c644a0f6d60b1b6f0ed9f18775ae86a9",
+  "app_source": "4051e98424d1822164ede63cc19e9d3df8cfee42",
+  "allocation_end_utc": "2026-11-08T15:30:55+00:00",
+  "worker_start_utc": "2026-11-08T13:25:30.660720+00:00",
+  "worker_wall_limit_seconds": 7200,
+  "cuda_device": "cuda:0",
+  "snapshots": [
+    {
+      "at_utc": "2026-11-08T13:28:23.383Z",
+      "cameras": [
+        {
+          "camera_id": "222",
+          "state": "live",
+          "heartbeat": "2026-11-08T13:28:22.134690+00:00",
+          "preview": {
+            "sequence": 2723,
+            "processed_at": "2026-11-08T13:28:21.657088+00:00",
+            "run_id": "73720203-f18c-4f01-a360-5d67ea58e463"
+          }
+        },
+        {
+          "camera_id": "223",
+          "state": "live",
+          "heartbeat": "2026-11-08T13:28:22.139817+00:00",
+          "preview": {
+            "sequence": 2769,
+            "processed_at": "2026-11-08T13:28:21.391148+00:00",
+            "run_id": "73720203-f18c-4f01-a360-5d67ea58e463"
+          }
+        },
+        {
+          "camera_id": "228",
+          "state": "degraded",
+          "heartbeat": "2026-11-08T06:43:33.220614+00:00"
+        },
+        {
+          "camera_id": "220",
+          "state": "degraded",
+          "heartbeat": "2026-11-08T06:43:29.600465+00:00"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-11-08T13:28:29.571Z",
+      "cameras": [
+        {
+          "camera_id": "222",
+          "state": "live",
+          "heartbeat": "2026-11-08T13:28:27.181335+00:00",
+          "preview": {
+            "sequence": 2942,
+            "processed_at": "2026-11-08T13:28:27.688029+00:00",
+            "run_id": "73720203-f18c-4f01-a360-5d67ea58e463"
+          }
+        },
+        {
+          "camera_id": "223",
+          "state": "live",
+          "heartbeat": "2026-11-08T13:28:22.967108+00:00",
+          "preview": {
+            "sequence": 2769,
+            "processed_at": "2026-11-08T13:28:21.391148+00:00",
+            "run_id": "73720203-f18c-4f01-a360-5d67ea58e463"
+          }
+        },
+        {
+          "camera_id": "228",
+          "state": "degraded",
+          "heartbeat": "2026-11-08T06:43:33.220614+00:00"
+        },
+        {
+          "camera_id": "220",
+          "state": "degraded",
+          "heartbeat": "2026-11-08T06:43:29.600465+00:00"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Short startup acceptance only; no sustained or loss-free throughput claim.",
+    "Prior failed-run pending envelopes preserved, not replayed.",
+    "220 and 228 remain excluded.",
+    "Usage reserve reached: 95 percent consumed, 5 percent remaining."
+  ]
+}

@@ -107,3 +107,5 @@ Camera feeds and metadata are from Caltrans / CWWP public traveler-information s
 ## Disclaimer
 
 This repository defines the intended hackathon implementation. It does not certify that the application, models, GPU deployment, or environmental estimates have already been validated.
+
+**Operating status (8 November 2026, 08:28 America/New_York / 8 November 2026, 13:28 UTC) — Mert:** Fresh GPU job176773 is running on cuda:0 with cameras222/223; advancing heartbeats and previews reach the technical workspace on local3152. The worker has a two-hour wall bound from08:25:30 New York; scheduler allocation ends10:30:55 New York (15:30:55 UTC). Cameras220/228 remain excluded. Old pending envelopes remain preserved and unrecovered. At95% account usage consumed, Mert stops at the requested5% reserve. See [restart evidence](./evaluation/live-restart-176773.json).
