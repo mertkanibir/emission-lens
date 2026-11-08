@@ -1,8 +1,10 @@
 # Camera 223 isolated integration and activation plan
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:32 America/New_York / 05:32 UTC
-**Status:** Prepared and checked on private cloned records. No production cutover or inference submission executed.
+**Updated:** 8 November 2026, 00:55 America/New_York / 05:55 UTC
+**Status:** Isolated refresh/rollback and actual bounded replay acceptance complete. Production cutover remains unexecuted.
+
+**Execution note (8 November 2026, 00:55 America/New_York / 05:55 UTC):** The selected independent run was job 176174, using the original TS plus the verified source-window adapter, 100 s wall / allowed `[60,180)` input. The derivative was rejected for changed decoder timing/sampling. [Actual evidence](./223-REPLAY-176174.md) records 93 crossings/26 completed candidates, original-CARB arithmetic, reload and retained-222 invariance. The 3138 service remains unchanged; future production steps below are still a plan, not executed operations.
 
 ## Ready isolated replay target
 
@@ -10,7 +12,7 @@ Use private `runs/223-replay-runtime/ready.json` as the exact handoff. It points
 
 UI profile support is published in `87b7dd6`; the durable 3139 build includes it. Worker/measurement ingestion and preview POST/GET belong to the same Node process as the dashboard. The GPU operator must use one separately owned loopback SSH reverse forward to 3139 and route all three writer URLs through that same forwarded base. Use only this app's private token from its handoff path; never put it in a command argument, shared prompt, Git or log.
 
-Mert's root coordination releases the single bounded 223 replay only after resource limits and the earlier reliability allocation are resolved. The prepared command uses existing verified pretrained weights, camera 223, CUDA, 640 pixels, 15 requested FPS, count-1, exact `223-image-v2` geometry and supplied mapping-linked traversal config, 90 seconds, transient previews and fresh replay outboxes. It selects only the reviewed practice extraction documented in [223-HANDOFF.md](./223-HANDOFF.md). This plan submits no job or live 223 run.
+Mert's delegated operational coordinator released the single bounded 223 replay after resource/transport checks. The selected invocation uses the existing verified original-file adapter and pretrained weights, camera 223, CUDA, 640 pixels, 15 requested FPS, count-1, exact `223-image-v2` geometry and supplied mapping-linked traversal config, **100 s wall**, transient previews and fresh replay outboxes. The adapter permits original source `[60,180)` with unchanged timestamps; actual processed bounds come from the runtime report. The initial 90-second derivative command is superseded and must not be dispatched. No live 223 run or production cutover is implied.
 
 ## Replay acceptance
 
