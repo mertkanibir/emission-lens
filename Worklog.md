@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:51 America/New_York / 8 November 2026, 03:51 UTC
+
+- **Who:** Mert
+- **Done:** Independently checked completed native-resolution GPU job 175965 and audited its actual configuration, sampler/control provenance and frozen assisted comparison. Recorded the failed practice decision, bounded physical review, owner-approved mapping assumptions, final existing-pretrained comparator and sequenced camera-222 integration authorization.
+- **Completed:** Native resolution retains original tracker fusion/settings and identical 1,392 samples; 76 crossings fail both the 108-clear and 138-inclusive assisted count screens. No technical provenance mismatch or basis for promotion was found. All 33 current review/observer/practice-helper tests pass in the existing application environment. Staged public API independently reports the supplied approved registry and empty real replay/live windows. Frontend scope disclosure is published separately in 5714110. Scoped whitespace checks pass; other owners' source/backend work stays excluded.
+- **Still open:** Final pretrained comparison, camera-228 count acceptance and untouched fresh validation; camera-223 human adjudication; actual camera-222 replay/live delivery after the isolated controlled checks; shared hosting and submission. Camera 228 stays unapproved, training/labels are unchanged and no physical whole-intersection estimate or continuous GPU worker is claimed.
+
 ### 7 November 2026, 22:41 America/New_York / 8 November 2026, 03:41 UTC
 
 - **Who:** Mert
