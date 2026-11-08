@@ -1,7 +1,7 @@
 # Camera 220 blind review status
 
-**Owner:** Mert. **Updated:** 8 November 2026, 00:56 America/New_York / 8 November 2026, 05:56 UTC.
-**Status:** Practice ledger frozen; held-out candidate/boundary reconciliation in progress. All model/manual references remain unopened.
+**Owner:** Mert. **Updated:** 8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC.
+**Status:** Both declared blind ledgers frozen before any reference access; scoped reference handoff/comparison pending.
 
 ## Practice `[60,180)`
 
@@ -28,8 +28,28 @@ An initial shared context crop used the wrong coordinate scale; original960×540
 
 The93–111 sensitivity is an ambiguity bound, not a confidence interval. This is assisted partial practice evidence, not human accuracy, a model score or camera acceptance. No model/manual reference has been used to correct or compare this freeze.
 
-## Held-out `[360,480)` and next step
+## Held-out `[360,480)`
 
-The fixed-policy sequence has594selected frames/50sheets. Independent halves `[360,420)` and `[420,480)` have completed their ordered pass and are checking corrected context, lane pairs, endpoint candidates and boundary slivers. A held-out count is not final or frozen in this checkpoint. Record actual native revisits/uncertainty, reconcile420/480 and freeze the assisted ledger before any reference release. All220model/manual answers remain withheld, including practice results, while that held-out blind boundary is open.
+| Evidence | Frozen result |
+|---|---|
+|Assisted passages|106:63positive,43negative|
+|Ambiguity-excluded sensitivity|106 (no ambiguous_crossing labels retained after checks)|
+|Selected sequence actually inspected|594frames/50ordered sheets|
+|Supplementary native-cadence candidate frames inspected|148 (63firsthalf+85secondhalf; may overlap selected source frames)|
+|Native source frames in window|1762|
+|Coverage/method|Partial/sampled; assisted_visual_sequence_review; human_confirmed=false|
+|Freeze time|8November2026,01:01:30America/New_York /06:01:30UTC|
 
-This review covers only the two declared windows; source timing inventory and a separately executed full-recording baseline do not establish full-recording visual completion. Offline model execution/custody is coordinated outside this stream. Production220 geometry/enablement and physical calibration/accuracy are unchanged; Carter owns distance calibration. Healthy222/app3138 and reserved228 `[720,840)` remain untouched. No contract change.
+- Ledger semantic SHA`a455b1df0707335b88395f5b1e475e41ad230bce8f9e6b46c70454198a3c55e6`.
+- Original frozen-file SHA`ea4e6d373672a77daf37cb02ce088ec42b7801691c36a560b4ac9887ddd12541`.
+- Private merge/coverage notes SHA`63491a0ea93b842bb0581587f3a38dfa69bfb1b6a330823730d71b1cd13d0008`.
+
+Both independent halves completed all ordered source frames and corrected-context sheets, with candidate native revisits. The original tighter shared crop had clipped upstream context; the wider rescan explicitly adds one gray approaching sedan inside the finite left endpoint before freeze. The following white SUV stops above the gate and is excluded. Event-order refinements from native evidence are recorded privately; root concatenation only remaps local IDs, with no sorting, deduplication or event changes.
+
+The420s boundary is reconciled: the silver right-turn vehicle remains below/positive gate at420.025 and crosses later in the second half, distinct from the last first-half away car. The final pre480 away crossing is supported by native evidence; the next approaching vehicles remain above the line through the last native frame479.952. First selected360.031/last479.886 and unobserved boundary slivers remain explicit. All side changes are reviewer-labeled clear, but timestamps are approximate/framebounded and this does not establish measured certainty. One van remains unknown visual class; appearance does not establish regulatory weight/fuel.
+
+All220model/manual results remained unopened through both freezes. The operational coordinator received exact immutable hashes/times/coverage and may now release only the two matching window reports, actual configurations and recipes. Remaining full-recording events/counts stay withheld. Verify exact initialization60/360, source/gate/geometry, sampling and runtime provenance before fixed-policy comparison. Missing human references remain pending/null; assisted agreement is not human accuracy or camera acceptance.
+
+This review covers only the two declared windows. Source timing inventory and separately executed full-recording inference do not establish full-recording visual completion. Production220 geometry/enablement and physical approval are unchanged; Carter owns distance calibration. Healthy222/app3138 and reserved228 `[720,840)` remain untouched. No contract/runtime/model change by this stream.
+
+**Held-out freeze (8 November 2026, 01:02 America/New_York / 8 November 2026, 06:02 UTC):** The actual combined ledger is frozen before reference access with106assisted passages. Boundaries, native evidence, uncertainty/coverage and source/gate policy are preserved. Both declared windows are ready for a separately coordinated scoped comparison.

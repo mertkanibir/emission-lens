@@ -815,7 +815,24 @@
             360.0,
             480.0
           ],
-          "status": "rendered_only_review_in_progress"
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "e97f3c6c72b263df1a7a4d6f99dfec32bde22fb495ade7ad012c5fbe0d5e8a26",
+              "window": [
+                360,
+                480
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "6c6bdcf9ab0cfdcd3f83b94a686d6e8d0681a63e89494fe4ecfd3d520d8a78ae",
+              "ledger_sha256": "a455b1df0707335b88395f5b1e475e41ad230bce8f9e6b46c70454198a3c55e6",
+              "coverage_status": "partial",
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
+            }
+          ]
         },
         {
           "window": [
@@ -877,6 +894,21 @@
           "gate": "count-1",
           "geometry_sha256": "6c6bdcf9ab0cfdcd3f83b94a686d6e8d0681a63e89494fe4ecfd3d520d8a78ae",
           "ledger_sha256": "1cf5964cbea731919d416f8403e2de804cd8f2b890801933ef18a0b4ccf578d4",
+          "coverage_status": "partial",
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
+        },
+        {
+          "key": "e97f3c6c72b263df1a7a4d6f99dfec32bde22fb495ade7ad012c5fbe0d5e8a26",
+          "window": [
+            360,
+            480
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "6c6bdcf9ab0cfdcd3f83b94a686d6e8d0681a63e89494fe4ecfd3d520d8a78ae",
+          "ledger_sha256": "a455b1df0707335b88395f5b1e475e41ad230bce8f9e6b46c70454198a3c55e6",
           "coverage_status": "partial",
           "human_confirmed": false,
           "reference_independent": true,
