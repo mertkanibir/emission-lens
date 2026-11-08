@@ -30,7 +30,7 @@ export function AppShell({ mode, section, modeHref, cameraId = "222", workspaceP
   section: Section;
   modeHref: (mode: Mode) => string;
   cameraId?: string;
-  workspaceParams?: { reduce?: string | number; from?: string; to?: string; view?: string };
+  workspaceParams?: { reduce?: string | number; from?: string; to?: string; view?: string; window?: string };
   children: React.ReactNode;
 }) {
   const source = sourceLinks(process.env.EMISSION_LENS_WEB_SOURCE_REVISION);

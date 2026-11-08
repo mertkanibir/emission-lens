@@ -3,6 +3,7 @@ import test from "node:test";
 import { inflateSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { buildBriefPdf } from "../src/lib/brief-pdf.ts";
+import { briefSourceHash,sealBriefReport,openBriefReport,buildBriefReport,type BriefReport } from "../src/lib/brief-report.ts";
 import { POST } from "../src/app/api/brief/pdf/route.ts";
 
 function streams(pdf: Buffer) {
@@ -30,10 +31,10 @@ test("PDF export preserves exact reviewed UTF-8 content as an attachment, includ
   assert.ok(pdf.toString("latin1").includes("/EmbeddedFile"));
 });
 
-test("long drafts paginate without truncating the exact source or long evidence references", async () => {
+test("long drafts stay a concise two-page report while attaching the complete exact source", async () => {
   const long = draft + "\n" + Array.from({ length: 100 }, (_, i) => `Evidence ${i}: ${"abcdef0123456789".repeat(10)} - missing values remain unavailable.`).join("\n");
   const pdf = await buildBriefPdf(long, "emission-lens-brief-223-replay.pdf", new Date("2026-11-08T13:55:00Z"));
-  assert.ok((pdf.toString("latin1").match(/\/Type \/Page\b/g) ?? []).length > 2);
+  assert.equal((pdf.toString("latin1").match(/\/Type \/Page\b/g) ?? []).length,2);
   assert.ok(streams(pdf).some((stream) => stream.equals(Buffer.from(long))));
 });
 
@@ -43,3 +44,9 @@ test("PDF route rejects malformed, empty, oversized and injected export names", 
   }
   assert.equal((await POST(new Request("http://localhost/api/brief/pdf", { method: "POST", body: "invalid" }))).status, 400);
 });
+
+function report():BriefReport {
+ return {version:1,camera_id:"222",camera_name:"Carson Boulevard",mode:"live",from:"2026-11-08T13:25:00Z",to:"2026-11-08T13:26:00Z",generated_at:"2026-11-08T13:27:00Z",reduction_pct:20,source_sha256:briefSourceHash(draft),crossings:{value:2,complete:false},requested_minutes:1,recorded_minutes:1,supported_minutes:1,supported_co2_g:4.2,completed_vehicles:2,cohort_minutes:1,linked_stopped_s:0,minutes:[{minute:"2026-11-08T13:25:00Z",crossings:2,partial:true,supported:true}],classes:[{label:"car",count:2},{label:"unknown",count:null}],pollutants:[{key:"co2",baseline_g:4.2,scenario_g:4.4,change_g:.2,change_pct:4.7619},{key:"nox",baseline_g:null,scenario_g:null,change_g:null,change_pct:null}],assumptions:{calibration:"test-camera-calibration",mappings:["test-mapping"],meteorology:"70 F / 60% RH",timing:"estimated_hls_media_utc",factor:"CARB EMFAC2025 / RUNEX"},regional:{state:"unavailable",valid_at:null,retrieved_at:null,values:null},evidence_refs:["fixture-only"]};
+}
+test("signed report snapshot is bound to exact reviewed text, scope and export identity",()=>{const sealed=sealBriefReport(report(),draft);assert.deepEqual(openBriefReport(sealed.payload,sealed.signature,draft,"emission-lens-brief-222-live.pdf"),report());assert.throws(()=>openBriefReport(sealed.payload.replace('4.2','44.2'),sealed.signature,draft,"emission-lens-brief-222-live.pdf"));assert.throws(()=>openBriefReport(sealed.payload,sealed.signature,draft+"changed","emission-lens-brief-222-live.pdf"));assert.throws(()=>openBriefReport(sealed.payload,sealed.signature,draft,"emission-lens-brief-223-live.pdf"));});
+test("structured PDF route freezes the reviewed chart snapshot with signed increases and pending values",async()=>{const sealed=sealBriefReport(report(),draft);const form=new FormData();form.set('text',draft);form.set('filename','emission-lens-brief-222-live.pdf');form.set('report',sealed.payload);form.set('signature',sealed.signature);const response=await POST(new Request('http://localhost/api/brief/pdf',{method:'POST',body:form}));assert.equal(response.status,200);const pdf=Buffer.from(await response.arrayBuffer());assert.equal((pdf.toString('latin1').match(/\/Type \/Page\b/g)??[]).length,2);assert.ok(streams(pdf).some(v=>v.equals(Buffer.from(draft))));assert.ok(streams(pdf).some(v=>v.toString().includes('"scenario_g": 4.4')));form.set('text',draft+'tampered');assert.equal((await POST(new Request('http://localhost/api/brief/pdf',{method:'POST',body:form}))).status,400);});

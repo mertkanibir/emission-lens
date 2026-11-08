@@ -5,6 +5,8 @@ import {
   listCameras,
   read_measurement_window,
 } from "@emission-lens/backend";
+import { preferredInvestigationWindow } from "@/lib/preferred-window";
+import { WorkspaceDisclosure } from "@/components/WorkspaceDisclosure";
 import { Suspense } from "react";
 import { ContextPanel } from "@/components/ContextPanel";
 import { ReviewPanel } from "@/components/ReviewPanel";
@@ -23,12 +25,16 @@ export default async function OverviewPage({
 }: {
   searchParams: Promise<{ mode?: string; camera?: string; view?: string; reduce?: string; from?: string; to?: string; window?: string }>;
 }) {
-  const query = workspaceQuery(await searchParams);
+  let query = workspaceQuery(await searchParams);
   const mode = parseMode(query.mode);
   const view = parseView(query.view);
   const now = new Date();
-  const cameras = listCameras().map((camera) => {
+  const configured = listCameras();
+  const selectedId = configured.some(camera => camera.id === query.camera) ? query.camera! : configured[0].id;
+  let selectedMeasurement: ReturnType<typeof read_measurement_window> | undefined;
+  const cameras = configured.map((camera) => {
     const measurement = read_measurement_window({ cameraId: camera.id, mode, now });
+    if (camera.id === selectedId) selectedMeasurement = measurement;
     const mapEstimate = latestSupportedMapEstimate(measurement);
     return {
       camera,
@@ -41,15 +47,13 @@ export default async function OverviewPage({
       measurementSupport: measurementSupport(measurement.registry, mapEstimate),
     };
   });
-  const selectedId = cameras.some((item) => item.camera.id === query.camera)
-    ? query.camera!
-    : cameras[0].camera.id;
+  if (selectedMeasurement) query = preferredInvestigationWindow(query, selectedMeasurement);
   return (
     <AppShell
       mode={mode}
       section="overview"
       cameraId={selectedId}
-      workspaceParams={{ reduce: query.reduce, from: query.from, to: query.to, view: query.view }}
+      workspaceParams={{ reduce: query.reduce, from: query.from, to: query.to, view: query.view, window: query.window }}
       modeHref={(option) =>
         hrefWith("/", {
           mode: option,
@@ -66,14 +70,12 @@ export default async function OverviewPage({
         view={view}
       />
       <section id="selected-camera" className="workspace-section"><CameraDetail id={selectedId} query={query} now={now} embedded /></section>
-      <section id="context" className="workspace-section workspace-module">
-        <header className="workspace-module-heading"><span>03 / External inputs</span><h2>Source context and model assumptions</h2><p>Timestamped contextual records remain separate from the fixed meteorology and fleet assumptions used in each emissions calculation.</p></header>
+      <WorkspaceDisclosure id="context" className="workspace-section workspace-module" eyebrow="03 / External inputs" title="Regional context and model inputs" summary="Weather, regional atmospheric models and the assumptions behind each estimate.">
         <Suspense fallback={<p className="context-note" role="status">Loading timestamped external context…</p>}><ContextPanel cameraId={selectedId} mode={mode} from={query.from} to={query.to} now={now} /></Suspense>
-      </section>
-      <section id="review" className="workspace-section workspace-module">
-        <header className="workspace-module-heading"><span>04 / Evidence review</span><h2>Review records and preserve provenance</h2><p>Annotate uncertainty, track investigation state and retain the original camera evidence. A review does not itself approve calibration or alter observations.</p></header>
+      </WorkspaceDisclosure>
+      <WorkspaceDisclosure id="review" className="workspace-section workspace-module" eyebrow="04 / Evidence review" title="Review the evidence" summary="Record an investigation note, inspect provenance and retain the original observations.">
         <ReviewPanel cameraId={selectedId} mode={mode} from={query.from} to={query.to} now={now} />
-      </section>
+      </WorkspaceDisclosure>
       <section id="planning" className="workspace-section workspace-module">
         <header className="workspace-module-heading"><span>05 / Planning brief</span><h2>Scoped investigation draft</h2><p>Use the selected camera, data mode and dated interval. Review the calculations and limitations before exporting the exact local draft.</p></header>
         <Suspense fallback={<p className="context-note" role="status">Preparing scoped evidence and draft…</p>}><PlanningPanel key={`${selectedId}-${mode}-${query.reduce}-${query.from}-${query.to}`} cameraId={selectedId} mode={mode} reduction={parseReduction(query.reduce)} from={query.from} to={query.to} now={now} /></Suspense>

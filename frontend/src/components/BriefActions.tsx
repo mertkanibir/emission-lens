@@ -5,9 +5,11 @@ import { useState } from "react";
 export function BriefActions({
   text,
   filename,
+  reportSnapshot,
 }: {
   text: string;
   filename: string;
+  reportSnapshot?: {payload:string;signature:string};
 }) {
   const [feedback, setFeedback] = useState<{ text: string; message: string } | null>(null);
 
@@ -30,6 +32,7 @@ export function BriefActions({
       <div className="button-row">
         <form action="/api/brief/pdf" method="post">
           <input type="hidden" name="text" value={text} />
+          {reportSnapshot ? <><input type="hidden" name="report" value={reportSnapshot.payload}/><input type="hidden" name="signature" value={reportSnapshot.signature}/></> : null}
           <input type="hidden" name="filename" value={filename.replace(/\.txt$/, ".pdf")} />
           <button className="button button-primary" type="submit">Download PDF brief</button>
         </form>

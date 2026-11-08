@@ -20,6 +20,8 @@ import { ReductionInput } from "@/components/ReductionInput";
 import { ScenarioWindowControls } from "@/components/ScenarioWindowControls";
 import { latestCompleteScenarioMinute } from "@/lib/scenario-window";
 import { RetainedWindowControls } from "@/components/RetainedWindowControls";
+import { WorkspaceDisclosure } from "@/components/WorkspaceDisclosure";
+import { crossingSummary } from "@/lib/crossing-summary";
 import { EvidenceAnalytics } from "@/components/EvidenceAnalytics";
 import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
@@ -137,6 +139,10 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
     }
   }
   const explicitScenarioWindow = scenarioMeasurement.scope === "explicit_window";
+  const sampleCo2 = emissions.estimate_g_by_pollutant.co2;
+  const activeEstimate = mode === "synthetic" && sampleCo2 !== null ? {minute:traffic.from,co2_g:sampleCo2,nox_g:emissions.estimate_g_by_pollutant.nox} : id === "222" || id === "223" ? latestSupportedMapEstimate(scenarioMeasurement) : null;
+  const activeCohort = latestSupportedMinuteCohort(scenarioMeasurement);
+  const crossings = crossingSummary(traffic.rows);
   const completeMinute = latestCompleteScenarioMinute(measurement, status.as_of);
   const scenario = validReduction
     ? compare_scenario({
@@ -225,7 +231,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
             <span>{modeLabel(mode)}</span>
           </div>
         </header>
-        <RetainedWindowControls cameraId={id} mode={mode} reduction={validReduction ? reduction : 20} from={query.from} to={query.to} now={now} embedded={embedded} />
+        <WorkspaceDisclosure id="interval-selection" title="Evidence interval" summary={explicitScenarioWindow ? `${formatInstant(scenarioMeasurement.from, PACIFIC)} · selected interval` : "Current reporting hour · choose a supported minute for a complete comparison"}><RetainedWindowControls cameraId={id} mode={mode} reduction={validReduction ? reduction : 20} from={query.from} to={query.to} now={now} embedded={embedded} /></WorkspaceDisclosure>
         <nav className="camera-switcher" aria-label="Choose intersection">
           {listCameras().map((item) => (
             <Link
@@ -239,52 +245,13 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
           ))}
         </nav>
         {id === "220" || id === "228" ? <p className="camera-exclusion" role="note"><strong>Metric camera excluded.</strong> Camera {id} failed the current assisted count screen. Video availability does not approve counts, queues or physical estimates. Retained historical status is shown separately.</p> : null}
-        <div className="metric-grid">
-          <article className="summary-card summary-card--crossings">
-            <span className="section-kicker">Line crossings</span>
-            <strong>
-              <Quantity value={traffic.totals.count} digits={0} />
-            </strong>
-            <p>Unique crossings, never frame detections.</p>
-          </article>
-          <article className="summary-card summary-card--traversals">
-            <span className="section-kicker">Completed traversals</span>
-            <strong>
-              <Quantity
-                value={traffic.totals.completed_traversals}
-                digits={0}
-              />
-            </strong>
-            <p>Vehicles that completed the observed segment.</p>
-          </article>
-          <article className="summary-card summary-card--queue">
-            <span className="section-kicker">Latest queue observation</span>
-            <strong>
-              <QueueQuantity
-                value={queue.value}
-                unavailable={queue.label}
-              />
-            </strong>
-            <p>{queue.value !== null && queue.minute ? <>{queueValueDescription(queue.value)} · <time dateTime={queue.minute}>{formatInstant(queue.minute, PACIFIC)}</time>. {queueScopeDescription(queue.value)}</> : queue.detail}</p>
-          </article>
-          <article className="summary-card summary-card--coverage">
-            <span className="section-kicker">Recorded-minute coverage</span>
-            <strong>
-              {traffic.totals.coverage === null ? (
-                <Quantity value={null} />
-              ) : (
-                formatPercent(traffic.totals.coverage)
-              )}
-            </strong>
-            <p>Applies to recorded minutes, not the full reporting hour.</p>
-          </article>
-        </div>
         <nav className="section-nav" aria-label="Camera sections">
           <a href="#observation">Observation</a>
-          <a href="#traffic">Traffic & history</a>
+          <a href="#analytics">Analytics</a>
+          <a href="#traffic">Detailed records</a>
           <a href="#emissions">Estimated emissions</a>
           <a href="#scenario">Counterfactual</a>
-          <a href="#evidence">Evidence & calibration</a>
+          <a href="#evidence">Method & calibration</a>
         </nav>
         <div className="camera-analysis">
           <div className="camera-analysis-pair">
@@ -300,6 +267,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                   mode={mode}
                   inferenceFps={status.fps}
                 />
+                <details className="observation-diagnostics disclosure"><summary>Processing diagnostics & source timing</summary>
                 <div className="panel-body">
                   <dl className="readouts readouts-2">
                     <Readout
@@ -370,9 +338,23 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                     </p>
                   </details>
                 </div>
+                </details>
               </Panel>
             </section>
-            <section id="emissions">
+            <section id="emissions" className="movement-snapshot">
+              <Panel title={mode === "synthetic" ? "Labeled sample estimates" : "Supported movement snapshot"} meta={activeEstimate ? <time dateTime={activeEstimate.minute}>{formatInstant(activeEstimate.minute,PACIFIC)}</time> : <span className="chip">Collecting evidence</span>}>
+                {activeEstimate ? <>
+                  <p className="snapshot-scope">{mode === "synthetic" ? "Synthetic reporting-window fixture · no field observations" : `Supported minute snapshot · ${modeLabel(mode)} records · feed ${status.displayed_state}`}</p>
+                  <dl className="snapshot-values">
+                    <div><dt>Estimated CO₂</dt><dd><EmissionQuantity value={activeEstimate.co2_g}/></dd></div>
+                    {activeEstimate.nox_g!==null ? <div><dt>Estimated NOₓ</dt><dd><EmissionQuantity value={activeEstimate.nox_g}/></dd></div> : null}
+                    {activeCohort ? <><div><dt>Completed movements</dt><dd><Quantity value={activeCohort.count} digits={0}/></dd></div>{activeCohort.stopped_time_s!==null?<div><dt>Linked stopped time</dt><dd><Quantity value={activeCohort.stopped_time_s} unit="vehicle-s"/></dd></div>:null}</> : null}
+                  </dl>
+                  <p className="fine">{mode === "synthetic" ? "Labeled test values remain separate from live and replay records." : "These values describe the dated completed movement, not every crossing or the full intersection. Baseline and scenario use the same vehicles."}</p>
+                </> : <div className="snapshot-awaiting"><h3>{id==="220"||id==="228"?"Preview station":"Collecting the next supported movement"}</h3><p>{id==="220"||id==="228"?"Quantitative processing remains excluded pending count validation.":"Counts and imagery remain available while completed movement evidence accumulates. No missing estimate is replaced with zero."}</p></div>}
+                {mode === "synthetic" || id === "222" || id === "223" ? <div className="snapshot-observation-line"><span>{crossings.count===null?"Awaiting crossing records":<><strong>{crossings.count.toLocaleString()}</strong> {crossings.partial?"known-class":"line"} crossings · reporting hour</>}</span>{queue.value!==null?<span><QueueQuantity value={queue.value}/> · latest visible queue</span>:null}</div> : null}
+                <details className="disclosure snapshot-method"><summary>Full-hour estimates, assumptions & calculation method</summary>
+            <section id="emissions-method">
               <Panel
                 title="Estimated tailpipe emissions"
                 meta={<QualityChip state={emissions.quality_state} />}
@@ -452,9 +434,13 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                 </details>
               </Panel>
             </section>
+                </details>
+              </Panel>
+            </section>
           </div>
+          <WorkspaceDisclosure id="traffic" title="Class counts and minute records" summary="Inspect the full reporting-hour observations and missing-record details.">
           <div className="camera-analysis-pair camera-traffic-pair">
-            <section id="traffic">
+            <section id="traffic-records">
               <Panel title="Traffic by vehicle class" meta={windowLabel} flush>
                 <div className="table-scroll">
                   <table className="data-table">
@@ -620,6 +606,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
               )}
             </Panel></section>
           </div>
+          </WorkspaceDisclosure>
           <EvidenceAnalytics measurement={scenarioMeasurement} reduction={reduction} />
           <section id="scenario">
               <Panel
@@ -779,9 +766,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                     ) : (
                       <details
                         className="disclosure"
-                        open={
-                          scenario.baseline.stopped_vehicle_seconds === null
-                        }
+
                       >
                         <summary>Observation-minute stopped time by class</summary>
                         <p className="fine">
@@ -847,7 +832,8 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                 </div>
               </Panel>
             </section>
-          <section id="evidence">
+          <WorkspaceDisclosure id="evidence" title="Method, calibration and provenance" summary="Review the inputs and evidence gates behind these estimates.">
+          <section id="evidence-records">
               <Panel
                 title="Scientific inputs and evidence gates"
                 meta={
@@ -885,7 +871,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                   Calibration version: {measurement.registry.calibration_version ?? "Unavailable"}. Timestamped external weather context is reported separately under External inputs; availability and source time remain explicit. It does not replace retained factor meteorology. School and community layers remain unconnected.
                 </p>
               </Panel>
-            </section>
+            </section>          </WorkspaceDisclosure>
         </div>
       </div>
   );

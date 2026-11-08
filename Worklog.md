@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:21 America/New_York / 8 November 2026, 14:21 UTC
+
+- **Who:** Mert
+- **Done:** Replaced the text-dump PDF with a signed two-page visual report and redesigned the workspace around recent supported evidence, aligned network cards and progressive disclosure. Preserved exact source attachments, explicit scope and camera exclusions.
+- **Completed:** 93 combined frontend checks and nonincremental TypeScript pass. Real two-page223 sample rendered and visually inspected; integer counts and independent support/cohort wording verified.
+- **Still open:** Final immutable build, desktop/phone interactions, actual signed PDF download and source comparison remain pending before consumer cutover; new GPU handoff is proceeding independently on pinned bc80aad.
+
 ### 8 November 2026, 09:20 America/New_York / 8 November 2026, 14:20 UTC
 
 - **Who:** Mert

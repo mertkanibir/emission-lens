@@ -1,5 +1,6 @@
 "use client";
 
+import { crossingSummary } from "@/lib/crossing-summary";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -67,6 +68,7 @@ export function OverviewBoard({
   const [sort, setSort] = useState("location");
   const selected =
     cameras.find((item) => item.camera.id === selectedId) ?? cameras[0];
+  const quantitative = (id: string) => mode === "synthetic" || id === "222" || id === "223";
   const traffic = selected.traffic;
   const queue = queueObservation(traffic);
   const observedMinutes = new Set(traffic.rows.map((row) => new Date(row.minute).toISOString())).size;
@@ -98,7 +100,7 @@ export function OverviewBoard({
     });
   }, [cameras, search, filter, sort]);
 
-  const crossings = traffic.totals.count;
+  const crossings = quantitative(selectedId) ? crossingSummary(traffic.rows) : {count:null,partial:false,label:"Preview-only station"};
   const stationGroups = ["SR-107", "SR-1"].map((road) => ({
     road,
     stations: cameras
@@ -145,30 +147,18 @@ export function OverviewBoard({
       >
         <section className="summary-card summary-featured summary-card--crossings">
           <div className="summary-label">
-            <span>Line crossings</span>
+            <span>{crossings.label}</span>
             <Car size={19} />
           </div>
           <strong>
-            <Quantity value={crossings} digits={0} />
+            <Quantity value={crossings.count} digits={0} unavailable="Collecting records" />
           </strong>
           <span className="metric-caption">
             Camera {selectedId} ·{" "}
-            {mode === "synthetic" ? "synthetic sample" : "reporting hour"}
+            {mode === "synthetic" ? "synthetic sample" : "reporting hour"}{crossings.partial ? " · partial class coverage" : ""}
           </span>
         </section>
-        <section className="summary-card summary-card--queue">
-          <div className="summary-label">
-            <span>Latest queue observation</span>
-            <VideoCamera size={19} />
-          </div>
-          <strong>
-            <QueueQuantity value={queue.value} unavailable={queue.label} />
-          </strong>
-          <span className="metric-caption">
-            {queue.value !== null && queue.minute ? <>{queueValueDescription(queue.value)} · <time dateTime={queue.minute}>{formatInstant(queue.minute, PACIFIC)}</time><br />{queueScopeDescription(queue.value)}</> : queue.detail}
-          </span>
-        </section>
-        <SelectedEmissionMetric estimate={selected.mapEstimate} windowCo2={selected.emissions.estimate_g_by_pollutant.co2} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} support={selected.measurementSupport} />
+        <SelectedEmissionMetric estimate={quantitative(selectedId) ? selected.mapEstimate : null} windowCo2={quantitative(selectedId) ? selected.emissions.estimate_g_by_pollutant.co2 : null} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} support={quantitative(selectedId) ? selected.measurementSupport : {label:"Preview only",detail:"This station is excluded from quantitative processing pending count validation."}} />
         <section className="summary-card summary-card--coverage">
           <div className="summary-label">
             <span>Recorded minutes</span>
@@ -223,7 +213,7 @@ export function OverviewBoard({
                   state: item.status.displayed_state,
                   stateLabel: stateLabel(item.status.displayed_state),
                   valueLabel:
-                    view === "emissions"
+                    !quantitative(item.camera.id) ? "Preview only · counts excluded" : view === "emissions"
                       ? item.mapEstimate === null
                         ? "CO₂ unavailable"
                         : `${scenarioValue(item.mapEstimate.co2_g, "g", false, item.mapEstimate.co2_g >= 1 ? 1 : 6)} CO₂ · snapshot`
@@ -231,8 +221,8 @@ export function OverviewBoard({
                         ? "Counts unavailable"
                         : `${item.traffic.totals.count} crossings`,
                   href: cameraHref(item.camera.id),
-                  emissions: item.mapEstimate,
-                  secondaryValueLabel: view === "emissions" && item.mapEstimate
+                  emissions: quantitative(item.camera.id) ? item.mapEstimate : null,
+                  secondaryValueLabel: quantitative(item.camera.id) && view === "emissions" && item.mapEstimate
                     ? `NOₓ ${scenarioValue(item.mapEstimate.nox_g, "g")} · same snapshot`
                     : null,
                 }))}
@@ -363,6 +353,7 @@ export function OverviewBoard({
                 <tbody>
                   {visible.map((item) => {
                     const rowQueue = queueObservation(item.traffic);
+                    const rowCrossings = crossingSummary(item.traffic.rows);
                     return (
                     <tr
                       key={item.camera.id}
@@ -394,22 +385,23 @@ export function OverviewBoard({
                       </td>
                       <td>
                         <StateChip state={item.status.displayed_state} />
-                        <small className="camera-support" title={item.measurementSupport.detail}>{mode === "synthetic" ? "Labeled sample" : item.measurementSupport.label}</small>
+                        <small className="camera-support" title={item.measurementSupport.detail}>{!quantitative(item.camera.id) ? "Metric camera excluded" : mode === "synthetic" ? "Labeled sample" : item.measurementSupport.label}</small>
                       </td>
                       <td className="num">
                         <Quantity
-                          value={item.traffic.totals.count}
+                          value={quantitative(item.camera.id) ? rowCrossings.count : null}
+                          unavailable={item.camera.id==="220"||item.camera.id==="228"?"Excluded":"Collecting"}
                           digits={0}
-                        />
+                        />{quantitative(item.camera.id)&&rowCrossings.partial&&rowCrossings.count!==null?<small className="camera-support">Known classes</small>:null}
                       </td>
                       <td className="num">
-                        <QueueQuantity value={rowQueue.value} unavailable={rowQueue.label} />
-                        {rowQueue.value !== null && rowQueue.minute ? <small className="camera-support"><time dateTime={rowQueue.minute}>{formatInstant(rowQueue.minute, PACIFIC)}</time></small> : null}
-                        {rowQueue.value !== null ? <small className="camera-support" title={queueScopeDescription(rowQueue.value)}>{rowQueue.value > 0 ? "Visible stopped · provisional lower bound" : "Observed image-area zero"}</small> : null}
+                        <QueueQuantity value={quantitative(item.camera.id) ? rowQueue.value : null} unavailable={item.camera.id==="220"||item.camera.id==="228"?"Preview only":"No latest observation"} />
+                        {quantitative(item.camera.id) && rowQueue.value !== null && rowQueue.minute ? <small className="camera-support"><time dateTime={rowQueue.minute}>{formatInstant(rowQueue.minute, PACIFIC)}</time></small> : null}
+                        {quantitative(item.camera.id) && rowQueue.value !== null ? <small className="camera-support" title={queueScopeDescription(rowQueue.value)}>{rowQueue.value > 0 ? "Visible stopped · provisional lower bound" : "Observed image-area zero"}</small> : null}
                       </td>
                       <td>
-                        {mode !== "synthetic" && item.mapEstimate === null ? <Quantity value={null} unavailable={item.measurementSupport.label} /> : <EmissionQuantity value={mode === "synthetic" ? item.emissions.estimate_g_by_pollutant.co2 : item.mapEstimate?.co2_g ?? null} />}
-                        {item.mapEstimate ? <small className="camera-support"><time dateTime={item.mapEstimate.minute}>{formatInstant(item.mapEstimate.minute, PACIFIC)}</time></small> : null}
+                        {!quantitative(item.camera.id) ? <span className="camera-support">Count validation pending</span> : mode !== "synthetic" && item.mapEstimate === null ? <Quantity value={null} unavailable={item.measurementSupport.label} /> : <EmissionQuantity value={mode === "synthetic" ? item.emissions.estimate_g_by_pollutant.co2 : item.mapEstimate?.co2_g ?? null} />}
+                        {quantitative(item.camera.id) && item.mapEstimate ? <small className="camera-support"><time dateTime={item.mapEstimate.minute}>{formatInstant(item.mapEstimate.minute, PACIFIC)}</time></small> : null}
                       </td>
                       <td>
                         <Link
@@ -451,7 +443,7 @@ export function OverviewBoard({
 
 
       </div>
-      <section className="operational-matrix" aria-label="Operational and acceptance matrix">
+      <details className="operational-matrix network-gates" aria-label="Operational and acceptance matrix"><summary>Processing and evidence gates <span>Counts, estimates and feed health are evaluated separately</span></summary>
         <header><h2>Processing and evidence gates</h2><p>Runtime freshness, declared count eligibility and scientific input authority are independent.</p></header>
         <div className="table-scroll"><table className="data-table">
           <thead><tr><th>Station</th><th>Processing</th><th>Declared count policy</th><th>Measurement registry</th><th>Supported estimate</th><th>Scope / limitation</th></tr></thead>
@@ -464,7 +456,7 @@ export function OverviewBoard({
           </tr>)}</tbody>
         </table></div>
         <p className="table-caption">Declared project eligibility is separate from the current registry and does not certify human field accuracy. Missing records, source capture UTC and unobserved roads remain unavailable. Live/replay/synthetic records never share totals.</p>
-      </section>
+      </details>
       <p className="network-method-note"><strong>Metric scope:</strong> 222 eastbound / 20 m and 223 southbound / 15 m use approved model assumptions. Cameras <strong>220 and 228 are excluded from quantitative processing after failed count screens</strong>; a video preview does not remove that exclusion. Estimates describe completed movements, not the full intersection. Select a camera below to inspect source timing, queues, calibration and calculations.</p>
 
     </section>
