@@ -480,6 +480,8 @@ Agree on schemas before parallel implementation. Typed contracts and migrations 
 
 ## 15. Repository and agent work packages
 
+**Coordination note (7 November 2026, 19:29 America/New_York / 8 November 2026, 00:29 UTC):** Mert authorized centralized direction of the existing project work streams. [Coordination.md](./Coordination.md) records disjoint implementation ownership, dependencies, review gates and the next acceptance milestone. Training/labeling remains with Carter; no new training run, model promotion, scientific calibration approval or production class mixture is implied. The next milestone is one camera with reviewed crossings, independently supported calibration, completed traversals, traceable estimates and a scenario comparison before expansion.
+
 **Scope note (7 November 2026, 18:12 America/New_York / 23:12 UTC):** Mert directed completion of all remaining work that can proceed independently, including worker orchestration, validated ingestion, persistence, evaluation, and integration. Carter's in-progress labeling and training data are preserved. Mert coordinates these integration changes. The additive worker transport uses the existing 1.1 records; no scientific calibration or live class mapping is assumed.
 
 Suggested layout:

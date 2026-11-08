@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 19:29 America/New_York (8 November 2026, 00:29 UTC)
+
+- **Who:** Mert
+- **Done:** Read the recent completed work and user constraints for the three existing implementation work streams. Established centralized direction in `Coordination.md` and linked it from the master plan. Defined disjoint engineering, scientific-evidence and dashboard ownership, protected Carter's training/labeling work, and set one verified camera-to-emissions/scenario flow as the next milestone. Defined shared-checkout safeguards, contract proposal gates and report requirements.
+- **Completed:** The existing work streams are identified and their last assignments are complete. Written coordination scope and review gates are ready for the authorized task dispatch. This changes project coordination documentation only; no runtime, schema, model, calibration or class mixture is changed.
+- **Still open:** Dispatch and obtain initial progress from the implementation work streams; review their evidence and resolve handoffs. Physical calibration, approved mappings, complete traffic/emissions/scenario integration, longer reliability checks, hosted deployment and final demo/submission remain open. No new accuracy, live-emissions or environmental-impact claim is made.
+
 ### 7 November 2026, 18:55 America/New_York (23:55 UTC)
 
 - **Who:** Mert
