@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 20:48 America/New_York / 8 November 2026, 01:48 UTC
+
+- **Who:** Mert
+- **Done:** Published the exact worker.measurement bridge API before implementation in worker/MEASUREMENTS.md, aligned with the separate authorized measurement v1 envelope. Scoped work to the new module, focused tests and its document.
+- **Completed:** Proposed complete minute snapshots, no worker-supplied distance/approval/grams, stable UUID/revisions, ordered clock-rebin retractions, nullable linked stops, explicit observation references, bounded fail-closed retention and prepare/commit checkpoint ordering for the unchanged dedicated Outbox/HttpSender. Reviewed current ingestion/parser and runtime delivery APIs.
+- **Still open:** Implement and test the bridge, including actual TypeScript parser conformance and retry/restart behavior. Engineering retains runtime call sites and server work; model/count/calibration acceptance and camera enablement remain separate. No public schema or runtime file changed.
+
 ### 7 November 2026, 20:39 America/New_York / 8 November 2026, 01:39 UTC
 
 - **Who:** Mert
