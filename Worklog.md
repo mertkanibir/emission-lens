@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:44 America/New_York / 8 November 2026, 08:44 UTC
+
+- **Who:** Mert
+- **Done:** Corrected repeated in-page section navigation to use native document anchors while preserving the current query scope.
+- **Completed:** Seven workspace/scenario navigation checks and frontend TypeScript pass. The browser-observed concatenated-hash behavior is retained in the acceptance history.
+- **Still open:** Final rebuilt repeated-anchor/browser acceptance and phone/export checks; no source observations or models change.
+
 ### 8 November 2026, 03:39 America/New_York / 8 November 2026, 08:39 UTC
 
 - **Who:** Mert

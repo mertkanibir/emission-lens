@@ -52,10 +52,10 @@ export function AppShell({ mode, section, modeHref, cameraId = "222", workspaceP
       <WorkspaceMenus />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <header className="instrument-header">
-        <Link className="instrument-brand" href={workspaceHref("network")} aria-label="Emission Lens workspace">
+        <a className="instrument-brand" href={workspaceHref("network")} aria-label="Emission Lens workspace">
           <img src="/brand/mark.svg" width={34} height={34} alt="" />
           <span><strong>Emission Lens</strong><small>Traffic observation · emissions modeling</small></span>
-        </Link>
+        </a>
         <div className="instrument-controls">
           <Clock />
           <MotionControl />
@@ -76,7 +76,7 @@ export function AppShell({ mode, section, modeHref, cameraId = "222", workspaceP
       </header>
       <div className="workspace-navigation">
         <nav aria-label="Workspace sections">
-          {SECTIONS.map((item, index) => <Link key={item.anchor} href={workspaceHref(item.anchor)} aria-current={section === "overview" && index === 0 ? "page" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</Link>)}
+          {SECTIONS.map((item, index) => <a key={item.anchor} href={workspaceHref(item.anchor)} aria-current={section === "overview" && index === 0 ? "page" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</a>)}
         </nav>
         <nav className="mode-switch" aria-label="Data mode">
           {MODES.map((option) => <Link key={option} href={modeHref(option)} aria-current={option === mode ? "page" : undefined}><span className={`swatch swatch-${option}`} />{modeLabel(option)}</Link>)}
