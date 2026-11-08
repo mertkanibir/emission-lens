@@ -1,14 +1,14 @@
 # Internal completed-traversal producer
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 20:29 America/New_York / 8 November 2026, 01:29 UTC
-**Status:** API proposal published before implementation; synthetic verification pending.
+**Updated:** 7 November 2026, 20:39 America/New_York / 8 November 2026, 01:39 UTC
+**Status:** Pure producer implemented and verified with synthetic trajectories; runtime wiring and real measurement acceptance remain open.
 
 This is an internal producer for the accepted traversal/scenario handoff in [Coordination.md](../Coordination.md). Engineering owns runtime wiring, registry approval, persistence and minute composition. This document introduces no public contract fields, accepted camera geometry or physical measurements.
 
-## Exact proposed Python API
+## Exact Python API
 
-New module: `worker.traversal`. All input/output dataclasses are frozen. Times below are source-media seconds; points are normalized image ground-contact points, with x right and y down.
+New module: [`worker.traversal`](./traversal.py). This API was published before implementation in checkpoint `031ec04`. All input/output dataclasses are frozen. Times below are source-media seconds; points are normalized image ground-contact points, with x right and y down.
 
 ```python
 TraversalGate(gate_id: str, start: tuple[float, float],
@@ -73,7 +73,7 @@ event.to_record(clock: TraversalClock) -> dict
 - Sessions are monotonically increasing integers, matching the current frame session shape. Reconnect resets unfinished tracks, gate states and the per-session completion ledger; old sessions cannot affect new ones. Source overlap after reconnect is not deduplicated across sessions and must be excluded or disclosed by the integration owner.
 - Adjacent source times must advance and be within the explicitly chosen `max_gap_s`. Excessive gaps/backwards time discard open tracks. Identical repeated frames are idempotent; conflicting repeats discard open tracks. No disappearance, lost track or unfinished entry produces a completion. An explicit maximum traversal duration bounds unresolved attempts.
 - Each versioned movement names finite entry and exit gates and one allowed direction for each. A finite segment intersection supplies an interpolated crossing timestamp. Confirmation requires the opposite hysteresis side and minimum track hits; its later timestamp is retained separately. A touch/return, endpoint bypass or reversal is not a traversal. Gate events in the same frame are processed in crossing-time order.
-- One completion at most per track/movement/session. Reentry, reversal or an extra entry during an open attempt invalidates that attempt rather than creating an extra vehicle. Failed attempts cannot rearm in that session. This deliberately undercounts ambiguous loops and tracker ID reuse.
+- One selected-segment completion at most per track/session, also deduplicated per movement. If multiple definitions complete on the same observation, withhold all as ambiguous; after one accepted completion, close the other movement attempts for that identity. Reentry, reversal or an extra entry during an open attempt invalidates that attempt rather than creating an extra vehicle. Failed attempts cannot rearm in that session. This deliberately undercounts ambiguous loops and tracker ID reuse. Policy version: `observed-every-frame-one-segment-v1`.
 - Accepted distance is the explicitly supplied calibrated directed segment/path length between these gates, with source and acceptance evidence for the same view. No lane-width assumption, box-motion sum or inferred scale is available. Missing/unaccepted movement, calibration or distance yields no physical completion, with a reason. An empty movement list is explicitly unavailable.
 - Bump `context_version` for any movement/calibration/policy revision; supply the observed `view_version` on every update. A context/view mismatch latches this instance unavailable and discards open tracks. Rebuild only after accepted context and a fresh tracker session; never join across a view/calibration change.
 - Stops are clipped to the original entry-to-exit media interval for that vehicle. All intervals must have known states under one stop method to support a total, including supported zero; otherwise `stopped_time_s` is null. Partial known stopped intervals remain evidence. Scene-wide minute stopped seconds are never an input. Unknown or conflicting track classes remain `unknown`.
@@ -81,4 +81,20 @@ event.to_record(clock: TraversalClock) -> dict
 
 `to_record` provenance retains camera/run/mode, producer and context/policy versions, movement/gate definitions and versions, calibration/version/acceptance reference, distance source, crossing/confirmation times, stop method and clock basis/version/evidence. It excludes raw tracker IDs. Engineering can pass `to_completed_traversal` directly to the existing calculation adapter after approved context validation, while retaining private provenance separately. It must not put these additional fields in `WorkerBatch` without an approved persistence/transport proposal.
 
-No real geometry will be enabled, and no labels, model settings, training, manual-count review or GPU allocation are part of this checkpoint. Synthetic tests will establish state-machine mechanics only. Real calibration, direction/continuity thresholds, road observations, stopped-time classification and held-out acceptance remain separate dependencies.
+## Verification and remaining handoff
+
+```bash
+python -m pytest tests/test_traversal.py tests/test_metrics.py tests/test_calibration.py tests/test_timing.py -q
+# Standalone traversal checks, with no third-party packages:
+python -m unittest discover -s tests -p test_traversal.py -q
+```
+
+The combined suite passed **90 tests plus 97 subtests**. All **43 traversal test cases** also passed under the system Python with the standard-library runner.
+
+The focused suite covers finite gates and endpoint bypass, both directions and reversed gate roles, entry/exit in one sample interval, touches and jitter, interpolated versus confirmed timestamps, minimum hits, timeout, reentry, overlapping movements, missing/duplicate IDs, source gaps, conflicting/repeated/backwards frames, reconnect and old-session isolation, view/calibration-context invalidation, per-vehicle clipped stops, supported zero versus null, mixed stop methods, unknown classes, UTC normalization/overflow and same-identity clock rebins. Inputs and the producer use only the Python standard library and the existing pure metrics/timing modules; no model import, footage or GPU is needed.
+
+Engineering must construct observations from actual tracker detections, select accepted movement/calibration/path evidence, supply independently justified stop interval classification and map each event with the current same-session media clock. Default observations intentionally leave stops unavailable. The adapter exposes exactly the existing seven calculation fields (the six `CompletedTraversal` fields plus `stopped_time_s`); `to_record` adds private provenance separately. Neither method writes or ingests records.
+
+The code cannot discover camera movement from pixels, prove upstream identity continuity, repair false tracker merges, deduplicate source overlap across sessions/runs or establish physical accuracy. Context/version changes must be signaled by the caller. Engineering owns retention and any invalidation/retraction of previously emitted records if later source or calibration review rejects their evidence. The producer discards affected open attempts and does not silently revise historical output.
+
+No real geometry was enabled, and no labels, model settings, training, manual-count review or GPU allocation changed. Synthetic tests establish state-machine mechanics only. Real calibration, direction/continuity thresholds, road observations, stopped-time classification and held-out acceptance remain separate dependencies. There is no public contract or runtime-wiring change in this checkpoint.

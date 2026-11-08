@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 20:39 America/New_York / 8 November 2026, 01:39 UTC
+
+- **Who:** Mert
+- **Done:** Implemented the internal completed-traversal producer in worker/traversal.py, its focused synthetic trajectory tests and worker/TRAVERSALS.md handoff. Published the exact API first in 031ec04. The pure state machine links ordered finite entry/exit crossings to explicit accepted path distance, preserves estimated crossing and confirmation times, clips per-vehicle stopped intervals and maps completion UTC only through an explicit same-session clock.
+- **Completed:** Combined traversal/metrics/calibration/timing checks pass: 90 tests plus 97 subtests; all 43 traversal cases also pass under the system standard-library runner. Verified missing/invalid calibration or distance stays unavailable, unknown classes stay unknown, unsupported stops stay null, duplicate IDs/frames and overlapping movements do not inflate completions, and loss/gaps/reconnect/view changes cannot join unfinished tracks. Clock rebins retain identities and durations; no raw tracker ID is exported. Scoped whitespace and approved Mert author/push identity checks pass.
+- **Still open:** Engineering owns runtime observation/clock wiring, accepted registries, private evidence persistence and transactional minute composition. Real scaled road references, direction/continuity acceptance, independent stop classification and held-out count/tracking validation remain required. This is tested mechanics, not enabled live physical measurement. No camera drawing, detector/tracker/training setting, labels, manual review, GPU job, backend/public contract or other stream file was changed; contract 1.1 remains unchanged by this work.
+
 ### 7 November 2026, 20:33 America/New_York / 8 November 2026, 01:33 UTC
 
 - **Who:** Mert
