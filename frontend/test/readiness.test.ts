@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { measurementReadiness } from "../src/lib/readiness.ts";
+import { supportedWindow } from "./fixtures/supported-window.ts";
 
 function input(): Parameters<typeof measurementReadiness>[0] {
   return {
@@ -162,5 +163,22 @@ test("unsupported numeric fields do not claim readiness, while supported polluta
   const fact = measurementReadiness(value).at(-1)!;
   assert.equal(fact.status, "Partial estimates");
   assert.match(fact.detail, /CO₂: recorded; NOₓ: unavailable/);
+  assert.equal(fact.missing, true);
+});
+
+test("readiness reports a supported minute separately from unsupported reporting-hour totals", () => {
+  const value = input();
+  value.mode = "replay"; value.measurement = supportedWindow();
+  const before = structuredClone(value.measurement);
+  let fact = measurementReadiness(value).at(-1)!;
+  assert.equal(fact.status, "Supported minute retained");
+  assert.match(fact.detail, /2026-11-08T03:58:00Z/);
+  assert.match(fact.detail, /separate from the reporting-hour total and feed freshness/);
+  assert.match(fact.detail, /Reporting-hour CO₂: unavailable; NOₓ: unavailable/);
+  assert.equal(fact.missing, false);
+  assert.deepEqual(value.measurement, before);
+  value.measurement.minutes[0].emissions[1].estimate_g = null;
+  fact = measurementReadiness(value).at(-1)!;
+  assert.equal(fact.status, "Supported minute retained");
   assert.equal(fact.missing, true);
 });

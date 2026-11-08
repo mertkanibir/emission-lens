@@ -7,7 +7,6 @@ import {
   ArrowUpRight,
   Car,
   Clock,
-  Cloud,
   Info,
   Leaf,
   MagnifyingGlass,
@@ -23,8 +22,11 @@ import type {
 import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
 import { MeasurementScope } from "@/components/MeasurementScope";
+import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
+import { SelectedEmissionMetric } from "@/components/SelectedEmissionMetric";
 import type { measurementScope } from "@/lib/measurement-scope";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
+import { queueObservation, type measurementSupport } from "@/lib/observation-presentation";
 import { scenarioValue } from "@/lib/scenario-presentation";
 import { Quantity, StateChip, EmissionQuantity } from "@/components/ui";
 import {
@@ -44,6 +46,7 @@ type CameraCard = {
   emissions: ReturnType<typeof get_emissions_window>;
   calibration: "missing" | "invalid" | "valid";
   mapEstimate: MapEmissionEstimate | null;
+  measurementSupport: ReturnType<typeof measurementSupport>;
 };
 const filters = [
   { key: "all", label: "All cameras" },
@@ -71,6 +74,7 @@ export function OverviewBoard({
   const selected =
     cameras.find((item) => item.camera.id === selectedId) ?? cameras[0];
   const traffic = selected.traffic;
+  const queue = queueObservation(traffic);
   const observedMinutes = new Set(traffic.rows.map((row) => new Date(row.minute).toISOString())).size;
   const expectedMinutes = Math.round(
     (Date.parse(traffic.to) - Date.parse(traffic.from)) / 60000,
@@ -173,32 +177,17 @@ export function OverviewBoard({
         </section>
         <section className="summary-card summary-card--queue">
           <div className="summary-label">
-            <span>Queue count</span>
+            <span>Latest queue observation</span>
             <VideoCamera size={19} />
           </div>
           <strong>
-            <Quantity value={traffic.queue_count} digits={0} unit="vehicles" />
+            <Quantity value={queue.value} digits={0} unit="vehicles" unavailable={queue.label} />
           </strong>
           <span className="metric-caption">
-            An image-based observation, not length
+            {queue.value !== null && queue.minute ? <>Image count · {formatInstant(queue.minute, PACIFIC)}; not queue length</> : queue.detail}
           </span>
         </section>
-        <section className="summary-card summary-card--emissions">
-          <div className="summary-label">
-            <span>Estimated CO₂</span>
-            <Cloud size={19} />
-          </div>
-          <strong>
-            <EmissionQuantity value={selected.emissions.estimate_g_by_pollutant.co2} />
-          </strong>
-          <span className="metric-caption">
-            {selected.emissions.estimate_g_by_pollutant.co2 !== null
-              ? "Completed movement estimate · inspect scope"
-              : selected.calibration === "valid"
-                ? "Estimate unavailable · inspect evidence"
-                : "Awaiting valid road calibration"}
-          </span>
-        </section>
+        <SelectedEmissionMetric estimate={selected.mapEstimate} windowCo2={selected.emissions.estimate_g_by_pollutant.co2} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} support={selected.measurementSupport} />
         <section className="summary-card summary-card--coverage">
           <div className="summary-label">
             <span>Recorded minutes</span>
@@ -384,14 +373,16 @@ export function OverviewBoard({
                     <th>Feed status</th>
                     <th className="num">Crossings</th>
                     <th className="num">Queue</th>
-                    <th>Estimated CO₂</th>
+                    <th>Estimated CO₂ · {mode === "synthetic" ? "sample window" : "supported minute"}</th>
                     <th>
                       <span className="visually-hidden">Select camera</span>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {visible.map((item) => (
+                  {visible.map((item) => {
+                    const rowQueue = queueObservation(item.traffic);
+                    return (
                     <tr
                       key={item.camera.id}
                       data-selected={item.camera.id === selectedId}
@@ -422,6 +413,7 @@ export function OverviewBoard({
                       </td>
                       <td>
                         <StateChip state={item.status.displayed_state} />
+                        <small className="camera-support" title={item.measurementSupport.detail}>{mode === "synthetic" ? "Labeled sample" : item.measurementSupport.label}</small>
                       </td>
                       <td className="num">
                         <Quantity
@@ -430,10 +422,12 @@ export function OverviewBoard({
                         />
                       </td>
                       <td className="num">
-                        <Quantity value={item.traffic.queue_count} digits={0} />
+                        <Quantity value={rowQueue.value} digits={0} unavailable={rowQueue.label} />
+                        {rowQueue.value !== null && rowQueue.minute ? <small className="camera-support"><time dateTime={rowQueue.minute}>{formatInstant(rowQueue.minute, PACIFIC)}</time></small> : null}
                       </td>
                       <td>
-                        <EmissionQuantity value={item.emissions.estimate_g_by_pollutant.co2} />
+                        {mode !== "synthetic" && item.mapEstimate === null ? <Quantity value={null} unavailable={item.measurementSupport.label} /> : <EmissionQuantity value={mode === "synthetic" ? item.emissions.estimate_g_by_pollutant.co2 : item.mapEstimate?.co2_g ?? null} />}
+                        {item.mapEstimate ? <small className="camera-support"><time dateTime={item.mapEstimate.minute}>{formatInstant(item.mapEstimate.minute, PACIFIC)}</time></small> : null}
                       </td>
                       <td>
                         <Link
@@ -447,7 +441,8 @@ export function OverviewBoard({
                         </Link>
                       </td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -469,7 +464,7 @@ export function OverviewBoard({
             ) : null}
             <p className="table-caption">
               <Info size={13} /> Counts are unique line crossings. Unavailable
-              means no supported value, not zero.
+              means no supported value, not zero. Queue counts are latest recorded observations; estimated emissions are completed-movement minute snapshots, separate from whole-hour totals.
             </p>
           </section>
         </div>
@@ -493,6 +488,7 @@ export function OverviewBoard({
                 : `${formatAge(selected.status.heartbeat_at, selected.status.as_of)} since heartbeat at the data clock${mode === "synthetic" ? " (synthetic sample)" : ""}.`}
             </p>
             <MeasurementScope scope={scope} compact />
+            {selected.mapEstimate ? <SupportedMinuteEstimate estimate={selected.mapEstimate} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} /> : mode !== "synthetic" ? <p className="context-note"><strong>{selected.measurementSupport.label}.</strong> {selected.measurementSupport.detail}</p> : null}
             <dl className="mini-facts">
               <div>
                 <dt>Completed traversals</dt>
@@ -504,11 +500,9 @@ export function OverviewBoard({
                 </dd>
               </div>
               <div>
-                <dt>Estimated NOₓ · {view === "emissions" ? "snapshot" : "reporting window"}</dt>
+                <dt>Estimated NOₓ · reporting hour</dt>
                 <dd>
-                  <EmissionQuantity value={view === "emissions"
-                    ? selected.mapEstimate?.nox_g ?? null
-                    : selected.emissions.estimate_g_by_pollutant.nox} />
+                  <EmissionQuantity value={selected.emissions.estimate_g_by_pollutant.nox} />
                 </dd>
               </div>
               <div>
@@ -518,9 +512,7 @@ export function OverviewBoard({
                 </dd>
               </div>
             </dl>
-            {view === "emissions" && selected.mapEstimate ? (
-              <p className="fine">Snapshot: {formatInstant(selected.mapEstimate.minute, PACIFIC)}.</p>
-            ) : null}
+            <p className="fine">Reporting-hour totals retain unavailable minutes. A supported minute above does not fill those gaps.</p>
             <Link
               className="button button-primary"
               href={hrefWith(`/cameras/${selectedId}`, { mode })}

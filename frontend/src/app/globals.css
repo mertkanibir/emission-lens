@@ -704,6 +704,38 @@ button:disabled {
 .overview-metrics .metric-caption {
   max-width: 27ch;
 }
+.camera-support {
+  display: block;
+  margin-top: 7px;
+  max-width: 25ch;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--paint-faint);
+}
+.supported-minute {
+  margin-block: 16px;
+  padding: 16px;
+  border: 1px solid var(--seam);
+  border-radius: 10px;
+  background: var(--asphalt-2);
+}
+.supported-minute h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.supported-minute .readouts {
+  margin-block: 12px;
+}
+.selection-card .supported-minute {
+  padding: 12px;
+}
+.selection-card .supported-minute .readouts {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+.selection-card .supported-minute .q {
+  font-size: 24px;
+}
 
 .overview-layout {
   display: grid;

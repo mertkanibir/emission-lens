@@ -1,5 +1,6 @@
 import type { EmissionsWindow, TrafficWindow, MeasurementWindowView } from "@emission-lens/backend";
 import type { Camera, CameraCalibration, Mode } from "@emission-lens/contracts";
+import { latestSupportedMapEstimate } from "./map-emissions";
 
 export interface ReadinessFact {
   label: string;
@@ -49,6 +50,7 @@ export function measurementReadiness({
   const noxPresent = supported("nox");
   const estimatesPresent = co2Present && noxPresent;
   const registry = measurement?.registry;
+  const minuteEstimate = measurement ? latestSupportedMapEstimate(measurement) : null;
   return [
     {
       label: "Image geometry & review",
@@ -111,9 +113,9 @@ export function measurementReadiness({
     },
     {
       label: "Estimated CO₂ & NOₓ",
-      status: estimatesPresent ? "Estimates recorded" : co2Present || noxPresent ? "Partial estimates" : "Unavailable",
-      detail: `CO₂: ${co2Present ? "recorded" : "unavailable"}; NOₓ: ${noxPresent ? "recorded" : "unavailable"}. Record quality: ${emissions.quality_state.replaceAll("_", " ")}. Each pollutant retains its own support; missing estimates remain unavailable, never zero.`,
-      missing: !estimatesPresent,
+      status: minuteEstimate ? "Supported minute retained" : estimatesPresent ? "Estimates recorded" : co2Present || noxPresent ? "Partial estimates" : "Unavailable",
+      detail: `${minuteEstimate ? `A completed-movement CO₂${minuteEstimate.nox_g === null ? "" : " / NOₓ"} estimate is retained for ${minuteEstimate.minute}. This minute is separate from the reporting-hour total and feed freshness. ` : ""}Reporting-hour CO₂: ${co2Present ? "recorded" : "unavailable"}; NOₓ: ${noxPresent ? "recorded" : "unavailable"}. Record quality: ${emissions.quality_state.replaceAll("_", " ")}. Each pollutant retains its own support; missing estimates remain unavailable, never zero.`,
+      missing: !estimatesPresent && (minuteEstimate === null || minuteEstimate.nox_g === null),
     },
   ];
 }

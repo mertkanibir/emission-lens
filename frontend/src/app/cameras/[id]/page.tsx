@@ -21,6 +21,9 @@ import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
 import { MeasurementScope } from "@/components/MeasurementScope";
+import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
+import { latestSupportedMapEstimate } from "@/lib/map-emissions";
+import { measurementSupport, queueObservation } from "@/lib/observation-presentation";
 import { measurementScope } from "@/lib/measurement-scope";
 import { ScenarioPollutants } from "@/components/ScenarioPollutants";
 import { registryCalibrationState, scenarioPollutantRows, observationStoppedRows } from "@/lib/measurement";
@@ -135,6 +138,9 @@ export default async function CameraPage({
   });
   const calibrationState = registryCalibrationState(measurement.registry);
   const calibrationValid = calibrationState === "valid";
+  const minuteEstimate = latestSupportedMapEstimate(measurement);
+  const support = measurementSupport(measurement.registry, minuteEstimate);
+  const queue = queueObservation(traffic);
   const scenario = validReduction
     ? compare_scenario({
         cameraId: id,
@@ -264,15 +270,16 @@ export default async function CameraPage({
             <p>Vehicles that completed the observed segment.</p>
           </article>
           <article className="summary-card summary-card--queue">
-            <span className="section-kicker">Queue count</span>
+            <span className="section-kicker">Latest queue observation</span>
             <strong>
               <Quantity
-                value={traffic.queue_count}
+                value={queue.value}
                 digits={0}
                 unit="vehicles"
+                unavailable={queue.label}
               />
             </strong>
-            <p>Image-based observation; distance is separate.</p>
+            <p>{queue.value !== null && queue.minute ? <>Latest observation · {formatInstant(queue.minute, PACIFIC)}. Image count, not length.</> : queue.detail}</p>
           </article>
           <article className="summary-card summary-card--coverage">
             <span className="section-kicker">Recorded-minute coverage</span>
@@ -475,15 +482,16 @@ export default async function CameraPage({
                     cannot establish whether an engine is running.
                   </p>
                   <dl className="readouts readouts-2">
-                    <Readout label="Queue count">
+                    <Readout label="Latest queue observation" detail={queue.value !== null && queue.minute ? formatInstant(queue.minute, PACIFIC) : queue.detail}>
                       <Quantity
-                        value={traffic.queue_count}
+                        value={queue.value}
                         unit="vehicles"
                         digits={0}
+                        unavailable={queue.label}
                       />
                     </Readout>
                     <Readout label="Queue length">
-                      <Quantity value={traffic.queue_length_m} unit="m" />
+                      <Quantity value={traffic.queue_length_m} unit="m" unavailable="No length observation" />
                     </Readout>
                   </dl>
                 </div>
@@ -551,13 +559,20 @@ export default async function CameraPage({
                 title="Estimated emissions"
                 meta={<QualityChip state={emissions.quality_state} />}
               >
-                <p className="context-note">{emissions.note}</p>
                 <MeasurementScope scope={measurementScope(measurement)} />
+                {minuteEstimate ? (
+                  <SupportedMinuteEstimate estimate={minuteEstimate} cameraId={id} mode={mode} state={status.displayed_state} />
+                ) : mode !== "synthetic" ? (
+                  <p className="context-note"><strong>{support.label}.</strong> {support.detail}</p>
+                ) : null}
+                <h3>Reporting-hour totals</h3>
+                <p className="fine">{windowLabel}. Each total requires support from every included record. A supported minute does not replace unavailable minutes with zero.</p>
+                <p className="context-note">{emissions.note}</p>
                 {ranges.map((range) => (
                   <div className="pollutant" key={range.pollutant}>
                     <dl className="readouts readouts-2">
                       <Readout
-                        label={`${POLLUTANT_LABEL[range.pollutant]} · central estimate`}
+                        label={`${POLLUTANT_LABEL[range.pollutant]} · reporting hour`}
                         large
                       >
                         <EmissionQuantity value={range.estimate} />
