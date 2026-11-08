@@ -93,6 +93,15 @@ def per_camera(value, camera):
     return value.get("by_camera", {}).get(camera, value)
 
 
+def queue_observation(rows):
+    values = [row["queue_count"] for row in rows if row["queue_count"] is not None]
+    if not values:
+        return {"state": "unavailable", "value": None}
+    if len(values) > 1:
+        return {"state": "ambiguous", "value": None}
+    return {"state": "zero" if values[0] == 0 else "positive", "value": values[0]}
+
+
 def acceptance_exercises(summary, provenance):
     checks = {"actual_completed_candidates": summary["completed_candidates"] > 0,
               "all_completed_stops_numeric": summary["unknown_stop_count"] == 0,
@@ -117,13 +126,15 @@ RELOAD = """
 import {readFileSync} from 'node:fs';
 import {readSnapshot} from './backend/src/persistence.ts';
 import {read_measurement_evidence,read_measurement_window} from './backend/src/measurements.ts';
+import {get_traffic_window} from './backend/src/queries.ts';
 import {compare_completed_traversal_scenario} from './emissions/src/scenario.ts';
 const m=JSON.parse(readFileSync(process.argv[1],'utf8'));
 readSnapshot(process.env.EMISSION_LENS_STORE_PATH);
 const evidence=m.references.map(reference=>read_measurement_evidence(reference));
 const scenarios=evidence.map(e=>e.approved_input?compare_completed_traversal_scenario({...e.approved_input,stopped_time_reduction_pct:20}):null);
 const views=m.queries.map(q=>read_measurement_window({...q,now:new Date(q.now),stoppedTimeReductionPct:20}));
-console.log(JSON.stringify({evidence,scenarios,views}));
+const traffic=['222','223'].map(cameraId=>get_traffic_window({cameraId,mode:'replay',now:new Date(m.cameras_as_of)}));
+console.log(JSON.stringify({evidence,scenarios,views,traffic}));
 """
 
 
@@ -191,6 +202,7 @@ def main():
         run_id = runtime["run"]["run_id"]
         runs[run_id] = {"item": item, "runtime": runtime, "policy": policy, "camera": camera}
         provenance[camera] = {"runtime_report_sha256": digest(runtime_data), "policy_sha256": digest(policy_data), "geometry_sha256": digest(geometry_data),
+                              "runtime_reported_git_commit": runtime.get("git_commit"), "executed_main_sha256": runtime["runtime_sha256"],
                               "source_sha256": item["source_sha256"], "weights_sha256": runtime["weights_sha256"], "literal_threshold": THRESHOLDS[camera], "configured_wall_duration_s": 300, "source_window_s": window,
                               "actual_first_media_s": first, "actual_last_media_s": last, "actual_media_span_s": last - first,
                               "requested_source_endpoints_covered_within_1s": None if window is None else first <= window[0] + 1 and last >= window[1] - 1,
@@ -265,17 +277,21 @@ def main():
                             views.append(selected); labels.append({"camera": camera, "mode": mode, "scope": "explicit_window", "minute": minute})
                             queries.append({"cameraId": camera, "mode": mode, "from": minute, "to": end, "now": view["to"]})
             reload_manifest = directory / "reload-manifest.json"
-            save(reload_manifest, {"references": [e["derived"]["evidence_ref"] for e in entries], "queries": queries})
+            status, cameras_view = get("/api/cameras?mode=replay")
+            assert status == 200 and cameras_view["mode"] == "replay"
+            traffic = [next(c["traffic"] for c in cameras_view["cameras"] if c["camera"]["id"] == camera) for camera in THRESHOLDS]
+            save(reload_manifest, {"references": [e["derived"]["evidence_ref"] for e in entries], "queries": queries, "cameras_as_of": cameras_view["as_of"]})
             environment = {k: v for k, v in os.environ.items() if "TOKEN" not in k and "SECRET" not in k}
             environment.update(EMISSION_LENS_STORE_PATH=str((directory / "snapshot.json").resolve()), EMISSION_LENS_REGISTRY_PATH=str((args.output / "registry.json").resolve()))
             loaded = json.loads(subprocess.check_output([ready.get("node_executable", "node"), "--import", "tsx", "--input-type=module", "-e", RELOAD, str(reload_manifest.resolve())], cwd=source_root, env=environment, text=True))
-            if loaded["evidence"] != responses or loaded["views"] != views:
+            if loaded["evidence"] != responses or loaded["views"] != views or loaded["traffic"] != traffic:
                 _, after = snapshot()
                 old_refs = {e["source"]["batch_id"]: e["derived"]["evidence_ref"] for e in measurements.values()}
                 assert any(old_refs.get(e["source"]["batch_id"]) != e["derived"]["evidence_ref"] for e in after["measurement_batches"])
                 raise GenerationChanged()
             save(directory / "http-evidence.json", responses)
             save(directory / "public-views.json", {"labels": labels, "views": views})
+            save(directory / "cameras-response.json", cameras_view)
             save(directory / "fresh-process.json", loaded)
             break
         except GenerationChanged:
@@ -283,7 +299,8 @@ def main():
     else:
         raise RuntimeError("Three concurrent replacements prevented a generation-bound read; no acceptance claimed.")
 
-    summaries = {camera: {"completed_candidates": 0, "positive_stop_count": 0, "zero_stop_count": 0, "unknown_stop_count": 0, "max_stopped_time_s": None, "selected_gate_crossings": 0, "minutes": []} for camera in THRESHOLDS}
+    summaries = {camera: {"completed_candidates": 0, "positive_stop_count": 0, "zero_stop_count": 0, "unknown_stop_count": 0, "max_stopped_time_s": None, "selected_gate_crossings": 0,
+                         "queue_minute_states": {"zero": 0, "positive": 0, "unavailable": 0, "ambiguous": 0}, "minutes": []} for camera in THRESHOLDS}
     identities = set()
     for entry, evidence, scenario in zip(entries, responses, loaded["scenarios"]):
         source = entry["source"]; run = runs[source["run"]["run_id"]]; camera = run["camera"]
@@ -302,7 +319,10 @@ def main():
         anchors = {s["session_id"]: instant(s["anchor_utc"]) for s in source["timing"]["sessions"]}
         assert len(approved["traversals"]) == len(source["traversals"])
         summary = summaries[camera]
-        summary["selected_gate_crossings"] += sum(row["count"] for row in linked["traffic"] if row["camera_id"] == camera and row["mode"] == "replay" and instant(row["minute"]) == instant(source["minute"]) and row["count"] is not None)
+        observation_rows = [row for row in linked["traffic"] if row["camera_id"] == camera and row["mode"] == "replay" and instant(row["minute"]) == instant(source["minute"])]
+        summary["selected_gate_crossings"] += sum(row["count"] for row in observation_rows if row["count"] is not None)
+        queue = queue_observation(observation_rows)
+        summary["queue_minute_states"][queue["state"]] += 1
         for raw, traversal in zip(source["traversals"], approved["traversals"]):
             assert raw["movement_id"] == {"222": "222-eastbound-through", "223": "223-southbound-through"}[camera]
             identity = (source["run"]["run_id"], raw["session_id"], raw["traversal_id"])
@@ -336,8 +356,8 @@ def main():
             near(result["scenario_g"], next(r["estimate_g"] for r in scenario["scenario"]["rows"] if r["pollutant"] == pollutant))
             near(result["change_g"], scenario["change_g_by_pollutant"][pollutant])
             pollutants[pollutant] = result
-        summary["minutes"].append({"minute": source["minute"], "completed_candidates": len(source["traversals"]), "pollutants": pollutants})
-    public_text = json.dumps(views)
+        summary["minutes"].append({"minute": source["minute"], "completed_candidates": len(source["traversals"]), "queue_observation": queue, "pollutants": pollutants})
+    public_text = json.dumps([views, cameras_view])
     assert '"session_id"' not in public_text and '"traversal_id"' not in public_text and token not in public_text
     assert all(str(item["source_recording_path"]) not in public_text for item in manifest["runs"])
     new_refs = {e["derived"]["evidence_ref"] for e in entries}
@@ -366,9 +386,12 @@ def main():
             assert all(p["baseline_g"] is None for p in whole["scenario"]["pollutants"].values())
         summary["whole_window_scenario_available"] = whole["scenario"]["available"]
         summary["incomplete_whole_window_preserved"] = not incomplete or not whole["scenario"]["available"]
+        actual_traffic = next(t for t in traffic if t["camera_id"] == camera)
+        summary["latest_queue"] = {"queue_count": actual_traffic["queue_count"], "queue_length_m": actual_traffic["queue_length_m"], "queue_observation": actual_traffic.get("queue_observation")}
     exercises = {camera: acceptance_exercises(summary, provenance[camera]) for camera, summary in summaries.items()}
     complete = all(all(values.values()) for values in exercises.values())
     result = {"state": "PASS_backend_actual_stop_replays" if complete else "PARTIAL_actual_replays_verified_with_unexercised_conditions", "checked_at": datetime.now(timezone.utc).isoformat(),
+              "acceptance_driver_sha256": digest(Path(__file__).read_bytes()), "application_source_commit": ready.get("source_commit"),
               "registry_sha256": digest(registry_data), "snapshot_sha256": digest(data), "current_authenticated_reads": len(responses), "generation_races_reacquired": races,
               "fresh_process_private_and_public_equal": True, "original_CARB_baseline_and20_oracle": True, "mode_and_public_identity_boundary": True,
               "provenance": provenance, "cameras": summaries, "exercises": exercises,

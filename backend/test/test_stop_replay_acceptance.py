@@ -82,6 +82,12 @@ class StopReplayAcceptanceTests(unittest.TestCase):
         summary["unknown_stop_count"] = 1
         self.assertFalse(CHECK.acceptance_exercises(summary, provenance)["all_completed_stops_numeric"])
 
+    def test_queue_reporting_does_not_turn_unknown_or_class_ambiguity_into_zero(self):
+        self.assertEqual(CHECK.queue_observation([{"queue_count": None}]), {"state": "unavailable", "value": None})
+        self.assertEqual(CHECK.queue_observation([{"queue_count": 0}, {"queue_count": None}]), {"state": "zero", "value": 0})
+        self.assertEqual(CHECK.queue_observation([{"queue_count": 3}]), {"state": "positive", "value": 3})
+        self.assertEqual(CHECK.queue_observation([{"queue_count": 3}, {"queue_count": 3}]), {"state": "ambiguous", "value": None})
+
 
 if __name__ == "__main__":
     unittest.main()
