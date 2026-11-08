@@ -1179,3 +1179,11 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Completed Mert's requested contributor-cache branch operation through the authenticated branch rename API. Recorded approval/result in Plan.md/Coordination.md, a dedicated release report and the release checklist update. Preserved concurrent Devpost work by fast-forward before publication.
 - **Completed:** Exact remote SHA d2ff173 was unchanged across main→temporary→main; default main, local/upstream/originHEAD and prior protection state are restored, temporary ref absent. API names only Mert/Carter and actual authenticated sidebar visually shows their two profiles without the unwanted cached profiles. Private before/after evidence and screenshot retained; no existing history rewrite, force push, permissions/visibility change, live app/job action or outgoing message. Documentation/JSON/whitespace checks pass.
 - **Open:** GitHub's numeric contributor badge still displays 4 while the visible list has two profiles; full cache invalidation is not claimed. No new recurring check, repeated rename or support contact was created. Existing scientific/operational/submission limits remain unchanged.
+
+
+### 8 November 2026, 03:25 America/New_York / 8 November 2026, 08:25 UTC
+
+- **Who:** Mert
+- **Done:** Published `backend/CONTEXT-REVIEW.md` before implementation, defining additive context/review 1.0 and strict selected-window brief interfaces, durable annotation-only audit, local operator session/CSRF boundaries and timestamped weather provenance.
+- **Completed:** Current plan/coordination and official Open-Meteo API documentation reviewed; interface/privacy/null and original-evidence rules documented. Patch whitespace passes.
+- **Still open:** Implement and verify durable reviews, external context, scoped drafts and their reusable panels. No runtime, worker, scientific approval or original measurement changed.
