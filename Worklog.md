@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 08:49 America/New_York / 8 November 2026, 13:49 UTC
+
+- **Who:** Mert
+- **Done:** Published and installed satellite camera mapping, visible supported-minute emissions glyphs, reliable native map tabs and aligned full-width comparisons/evidence on3152. Added final acceptance and current operating notes.
+- **Completed:** Final immutable source252aee3 build, frontend TypeScript and all70 frontend checks pass. Actual desktop/phone map, labels, controls, mode transitions, comparison and reflow pass; source footer and fresh222/223 data verified. Existing store/registry/private review paths and3151/GPU producer preserved. Acceptance server stopped.
+- **Still open:** Prior pending envelopes,220/228 exclusions, independent scientific validation, long operation and hosting remain unchanged. Heat is scoped camera-estimate symbolism; network imagery availability remains external. No contract change.
+
 ### 8 November 2026, 08:28 America/New_York / 8 November 2026, 13:28 UTC
 
 - **Who:** Mert
