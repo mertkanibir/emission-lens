@@ -45,7 +45,10 @@
               "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
               "ledger_sha256": "3d04669f010716cc3b777e82de14051f54d8f138f27edf1dc02c6b22ec88a6bb",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -80,7 +83,10 @@
               "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
               "ledger_sha256": "67539abce4928b4e9acd856327344a06eec5c0f42f0d5ffc9842ef8e0b22db44",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -145,7 +151,10 @@
           "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
           "ledger_sha256": "3d04669f010716cc3b777e82de14051f54d8f138f27edf1dc02c6b22ec88a6bb",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         },
         {
           "key": "7f5a2f7bcb5bea1b365624b7b5acb2f512c746f917288ac0fbe6f2ab3122f74a",
@@ -157,7 +166,10 @@
           "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
           "ledger_sha256": "67539abce4928b4e9acd856327344a06eec5c0f42f0d5ffc9842ef8e0b22db44",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         }
       ],
       "source_filename": "222_20261107T220646Z.ts"
@@ -210,9 +222,12 @@
               ],
               "gate": "count-1",
               "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
-              "ledger_sha256": "c3de13f2c92bb034835bf41d85a0e647c0c76c5b3e4ca07d024f0249545c1a8e",
+              "ledger_sha256": "f4a020ca2897d4ec0b1745182f2cff925512b48e3b97bda9c09cdb9ec028cc83",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": false,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -247,7 +262,25 @@
               "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
               "ledger_sha256": "406a7f828f7f053da0bbe213413bf2e83b370d1e02285bd33a6694729094e7ca",
               "coverage_status": "uncertain",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
+            },
+            {
+              "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
+              "window": [
+                360.0,
+                480.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+              "ledger_sha256": "d7f3231f1300e2de318c72882275ae0e939cd06d341bc853adf82986bbba2719",
+              "coverage_status": "uncertain",
+              "human_confirmed": false,
+              "reference_independent": false,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -310,9 +343,41 @@
           ],
           "gate": "count-1",
           "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+          "ledger_sha256": "36326f704acee6179c606adba3f8467742522e3b73f1c980d6f28e7f5d2ec2af",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false,
+          "reference_independent": false,
+          "supersession": {
+            "superseded_ledger_sha256": "36326f704acee6179c606adba3f8467742522e3b73f1c980d6f28e7f5d2ec2af",
+            "corrected_ledger_sha256": "f4a020ca2897d4ec0b1745182f2cff925512b48e3b97bda9c09cdb9ec028cc83",
+            "key": "38515d32bbbcff4d76b5c3cf3a0b8b970d2c3841e6c76b1dc0279df407084458",
+            "reason": "Explicit chronological array-order correction only: move e0016(106.65) aftere0014 and movee0122(160.15) aftere0120. All137 original eventobjects/IDs/times/evidence retained. Exact permutation and source reinspection recorded in adjudication.",
+            "author": "Mert",
+            "status": "superseded_do_not_use"
+          },
+          "status": "superseded_do_not_use"
+        },
+        {
+          "key": "38515d32bbbcff4d76b5c3cf3a0b8b970d2c3841e6c76b1dc0279df407084458",
+          "window": [
+            60.0,
+            180.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
           "ledger_sha256": "c3de13f2c92bb034835bf41d85a0e647c0c76c5b3e4ca07d024f0249545c1a8e",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": {
+            "superseded_ledger_sha256": "c3de13f2c92bb034835bf41d85a0e647c0c76c5b3e4ca07d024f0249545c1a8e",
+            "corrected_ledger_sha256": "36326f704acee6179c606adba3f8467742522e3b73f1c980d6f28e7f5d2ec2af",
+            "key": "38515d32bbbcff4d76b5c3cf3a0b8b970d2c3841e6c76b1dc0279df407084458",
+            "reason": "Invalid exact repeated21-row transcription tail; explicit evidence retained in223-practice-transcription-correction-39c555...; no automatic simultaneous-event deduplication.",
+            "author": "Mert",
+            "status": "superseded_do_not_use"
+          },
+          "status": "superseded_do_not_use"
         },
         {
           "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
@@ -324,7 +389,62 @@
           "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
           "ledger_sha256": "406a7f828f7f053da0bbe213413bf2e83b370d1e02285bd33a6694729094e7ca",
           "coverage_status": "uncertain",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
+        },
+        {
+          "key": "38515d32bbbcff4d76b5c3cf3a0b8b970d2c3841e6c76b1dc0279df407084458",
+          "window": [
+            60.0,
+            180.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+          "ledger_sha256": "f4a020ca2897d4ec0b1745182f2cff925512b48e3b97bda9c09cdb9ec028cc83",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false,
+          "reference_independent": false,
+          "supersession": null,
+          "status": "current"
+        },
+        {
+          "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
+          "window": [
+            360.0,
+            480.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+          "ledger_sha256": "84b75173c5a702a2019e75c4ef69d2b0101094ba07e4e3fc89663a495dbc5b5b",
+          "coverage_status": "uncertain",
+          "human_confirmed": false,
+          "reference_independent": false,
+          "supersession": {
+            "superseded_ledger_sha256": "84b75173c5a702a2019e75c4ef69d2b0101094ba07e4e3fc89663a495dbc5b5b",
+            "corrected_ledger_sha256": "d7f3231f1300e2de318c72882275ae0e939cd06d341bc853adf82986bbba2719",
+            "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
+            "reason": "Explicit insertion aftere0117 makes revised event order chronological; no visual event/time/count change.",
+            "author": "Mert",
+            "status": "superseded_do_not_use"
+          },
+          "status": "superseded_do_not_use"
+        },
+        {
+          "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
+          "window": [
+            360.0,
+            480.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+          "ledger_sha256": "d7f3231f1300e2de318c72882275ae0e939cd06d341bc853adf82986bbba2719",
+          "coverage_status": "uncertain",
+          "human_confirmed": false,
+          "reference_independent": false,
+          "supersession": null,
+          "status": "current"
         }
       ],
       "source_filename": "223_20261107T220646Z.ts"
@@ -363,7 +483,10 @@
               "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
               "ledger_sha256": "1c76f4b0b0344f560a26601e883dc5d0e8f7d68f49dbfcd6ae7044fb6b3d2cbb",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -384,7 +507,10 @@
               "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
               "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -405,7 +531,10 @@
               "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
               "ledger_sha256": "549bf443721738bc202ca145462ecf407ca8757f4e9aee58d43b474e78a47a6f",
               "coverage_status": "partial",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -433,7 +562,10 @@
               "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
               "ledger_sha256": "6a25b8549579906ec64bbb70ad99f7da754df9b0b951df352fd86895d207cfb5",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             },
             {
               "key": "1fd9ea8f7049dc7ee5907897938890ca3e999cf4f274b7e8a9a59aca27558faa",
@@ -445,7 +577,10 @@
               "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
               "ledger_sha256": "8eeb54e9d0b09c896e4680ed60f13ee5b737a08f8000e06dea6c594af4c3bead",
               "coverage_status": "complete_assisted_sequence",
-              "human_confirmed": false
+              "human_confirmed": false,
+              "reference_independent": true,
+              "supersession": null,
+              "status": "current"
             }
           ]
         },
@@ -514,7 +649,10 @@
           "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
           "ledger_sha256": "6a25b8549579906ec64bbb70ad99f7da754df9b0b951df352fd86895d207cfb5",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         },
         {
           "key": "1fd9ea8f7049dc7ee5907897938890ca3e999cf4f274b7e8a9a59aca27558faa",
@@ -526,7 +664,10 @@
           "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
           "ledger_sha256": "8eeb54e9d0b09c896e4680ed60f13ee5b737a08f8000e06dea6c594af4c3bead",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         },
         {
           "key": "9c3330dc97dd84cc3014f4229e3685ec7dd28054a53b4cb216e5805f94ba0e14",
@@ -538,7 +679,10 @@
           "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
           "ledger_sha256": "1c76f4b0b0344f560a26601e883dc5d0e8f7d68f49dbfcd6ae7044fb6b3d2cbb",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         },
         {
           "key": "e6bd7d6e6dc6bda52c507909a22375624243933332511b419f3e8fd46b31c05e",
@@ -550,7 +694,10 @@
           "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
           "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
           "coverage_status": "complete_assisted_sequence",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         },
         {
           "key": "fdc95ab5d18a2fe90b07df6c2a3529706513e2f94011fa5ea933db234b6c0110",
@@ -562,7 +709,10 @@
           "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
           "ledger_sha256": "549bf443721738bc202ca145462ecf407ca8757f4e9aee58d43b474e78a47a6f",
           "coverage_status": "partial",
-          "human_confirmed": false
+          "human_confirmed": false,
+          "reference_independent": true,
+          "supersession": null,
+          "status": "current"
         }
       ],
       "source_filename": "228_20261107T220646Z.ts"

@@ -132,6 +132,64 @@ class VideoValidationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'modified'):
                 r.compare(frozen,Path(tmp)/'missing-reference',Path(tmp)/'missing-model')
 
+    def test_post_reference_revision_preserves_original_and_cannot_claim_blind(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(r,'PRIVATE',Path(tmp)):
+            original,ledger,_=self.fixture(tmp)
+            before=r.file_sha(original)
+            evidence=Path(tmp)/'adjudication.json';r.write_private(evidence,{'reason':'independently inspected adjacent frames'})
+            change={'original_ledger_sha256':r.digest(ledger),'adjudication_path':str(evidence),
+                    'remove_ids':['e0000'],'add_events':[{**events([1.1])[0],'id':'e0001'}],'reason':'Replace explicitly unsupported candidate with supported passage'}
+            cp=Path(tmp)/'changes.json';r.write_private(cp,change)
+            revised=r.revise(original,cp)
+            self.assertEqual(before,r.file_sha(original))
+            self.assertTrue(r.verify_freeze(revised)['references_opened_before_freeze'])
+            model={k:ledger[k] for k in ('camera_id','clip_sha256','geometry_sha256','window','gate')}
+            model.update(source='model',events=events([1.1]),total=1)
+            mp=Path(tmp)/'model.json';r.write_private(mp,model)
+            result=json.loads(r.compare(revised,None,mp).read_text())
+            self.assertFalse(result['reference_independent'])
+            self.assertEqual(result['review_phase'],'post_reference_adjudication')
+            self.assertFalse(result['human_confirmed'])
+
+    def test_superseded_ledger_is_retained_but_blocked_from_comparison(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(r,'PRIVATE',Path(tmp)):
+            original,ledger,_=self.fixture(tmp)
+            corrected=json.loads(original.read_text())
+            corrected['ledger']['limitations']=['Explicit transcription correction']
+            corrected['ledger_sha256']=r.digest(corrected['ledger'])
+            cp=Path(tmp)/'corrected.json';r.write_private(cp,corrected)
+            r.register_supersession(original,cp,'Unsupported exact copied tail block')
+            self.assertTrue(original.exists())
+            with self.assertRaisesRegex(ValueError,'superseded'):
+                r.compare(original,Path(tmp)/'unopened-key',Path(tmp)/'unopened-model')
+            self.assertEqual(r.require_current_freeze(cp)['ledger_sha256'],corrected['ledger_sha256'])
+
+    def test_real_error_shape_repeated_21_event_tail_is_flagged(self):
+        first=events([1+i*.01 for i in range(21)])
+        copied=[{**event,'id':f'e{i+21:04}'} for i,event in enumerate(first)]
+        audit=r.audit_event_order_and_repeats(first+copied)
+        self.assertFalse(audit['chronological'])
+        self.assertEqual(audit['suspicious_repeated_blocks'][0]['length'],21)
+        # Equal timestamps by themselves remain distinct observations.
+        self.assertTrue(r.audit_event_order_and_repeats(events([1,1]))['chronological'])
+        self.assertEqual(r.audit_event_order_and_repeats(events([1,1]))['suspicious_repeated_blocks'],[])
+
+    def test_freeze_rejects_unordered_input_and_requires_explicit_repeat_review(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(r,'PRIVATE',Path(tmp)):
+            _,ledger,seq=self.fixture(tmp)
+            lp,sp=Path(tmp)/'new-ledger.json',Path(tmp)/'sequence.json'
+            ledger['events']=events([1.2,.8]);r.write_private(lp,ledger)
+            with self.assertRaisesRegex(ValueError,'chronological'):r.freeze(lp,sp)
+            ledger['events']=events([1,1,1,1]);r.write_private(lp,ledger)
+            with self.assertRaisesRegex(ValueError,'repeated'):r.freeze(lp,sp)
+            audit=r.audit_event_order_and_repeats(ledger['events'])
+            review={'ledger_sha256':r.digest(ledger),'repeat_audit_sha256':r.digest(audit),
+                    'reason':'Explicit review supports four distinct simultaneous vehicles in this frame','author':'Mert'}
+            rp=Path(tmp)/'repeat-review.json';r.write_private(rp,review)
+            frozen=r.verify_freeze(r.freeze(lp,sp,rp))
+            self.assertEqual(len(frozen['ledger']['events']),4)
+            self.assertEqual(frozen['repeat_review_sha256'],r.file_sha(rp))
+
     @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'),'video tools unavailable')
     def test_real_decode_uses_nonzero_source_pts_without_duplicate_frames(self):
         import subprocess

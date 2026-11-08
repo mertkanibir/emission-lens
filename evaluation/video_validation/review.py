@@ -96,6 +96,11 @@ def reservations():
     return [json.loads(p.read_text()) for p in sorted((PRIVATE/'reservations').glob('*.json'))]
 
 
+def supersessions():
+    return {row['superseded_ledger_sha256']:row for p in sorted((PRIVATE/'supersessions').glob('*.json'))
+            for row in [json.loads(p.read_text())]}
+
+
 def ensure_unreserved(camera,clip_sha,bounds):
     start,end=window(bounds)
     for row in reservations():
@@ -164,15 +169,19 @@ def inventory():
                     a = stop
             config = json.loads(geometry.read_text()) if geometry.exists() else None
             freezes = []
-            for path in sorted((PRIVATE / "frozen").glob("*.json")):
+            review_paths=sorted((PRIVATE/'frozen').glob('*.json'))+sorted((PRIVATE/'revisions').glob('*.json'))
+            for path in review_paths:
                 frozen = verify_freeze(path)
                 ledger = frozen["ledger"]
                 if ledger["camera_id"] == camera and ledger["clip_sha256"] == sha:
                     freezes.append({"key":ledger["key"], "window":ledger["window"], "gate":ledger["gate"],
                         "geometry_sha256":ledger["geometry_sha256"], "ledger_sha256":frozen["ledger_sha256"],
-                        "coverage_status":ledger["coverage_status"], "human_confirmed":False})
+                        "coverage_status":ledger["coverage_status"], "human_confirmed":False,
+                        "reference_independent":frozen.get('references_opened_before_freeze') is False,
+                        "supersession":supersessions().get(frozen['ledger_sha256']),
+                        "status":"superseded_do_not_use" if frozen['ledger_sha256'] in supersessions() else 'current'})
             for item in windows:
-                matches = [f for f in freezes if f["window"] == item["window"]]
+                matches = [f for f in freezes if f["window"] == item["window"] and f['status']=='current']
                 if matches:
                     item["status"] = ("partial_assisted_review" if all(f['coverage_status']=='partial' for f in matches)
                                       else "frozen_assisted_review")
@@ -312,7 +321,27 @@ def validate_events(events, bounds, gate, require_evidence=True):
             raise ValueError("Evidence must reference positive sequence-frame indices")
 
 
-def freeze(ledger_path, sequence_path):
+def audit_event_order_and_repeats(events):
+    """Flag transcription blocks; never silently sort or deduplicate vehicles."""
+    order=[{'previous_id':a['id'],'id':b['id']} for a,b in zip(events,events[1:]) if b['clip_time_s']<a['clip_time_s']]
+    signatures=[digest({k:v for k,v in e.items() if k!='id'}) for e in events]
+    pairs={}
+    repeats=[]
+    for j in range(len(events)-1):
+        key=tuple(signatures[j:j+2])
+        for i in pairs.get(key,[]):
+            if j<i+2:continue
+            length=2
+            while j+length<len(events) and i+length<j and signatures[i+length]==signatures[j+length]:length+=1
+            repeats.append({'first_ids':[e['id'] for e in events[i:i+length]],
+                            'repeated_ids':[e['id'] for e in events[j:j+length]],'length':length})
+        pairs.setdefault(key,[]).append(j)
+    # Keep maximal blocks instead of reporting every shifted suffix.
+    repeats=[r for r in repeats if not any(set(r['first_ids'])<set(other['first_ids']) and set(r['repeated_ids'])<set(other['repeated_ids']) for other in repeats)]
+    return {'chronological':not order,'out_of_order':order,'suspicious_repeated_blocks':repeats}
+
+
+def freeze(ledger_path, sequence_path, repeat_review_path=None):
     ledger = json.loads(Path(ledger_path).read_text())
     sequence = json.loads(Path(sequence_path).read_text())
     required = {"key", "camera_id", "clip_sha256", "geometry_sha256", "window", "gate", "review_version",
@@ -340,11 +369,25 @@ def freeze(ledger_path, sequence_path):
         if any(g["start_s"] < ledger["window"][1] and g["end_s"] > ledger["window"][0] for g in sequence["source_gaps"]):
             raise ValueError("Source gaps prevent complete coverage")
     validate_events(ledger["events"], ledger["window"], ledger["gate"])
+    audit=audit_event_order_and_repeats(ledger['events'])
+    if not audit['chronological']:
+        raise ValueError('Ledger must be chronological/nondecreasing; equal-time distinct vehicles remain valid. Do not silently sort.')
+    review_sha=None
+    if audit['suspicious_repeated_blocks']:
+        if repeat_review_path is None:
+            raise ValueError('Suspicious exact repeated event/evidence block requires explicit review; do not deduplicate timestamps')
+        review=json.loads(Path(repeat_review_path).read_text())
+        if (set(review)!={'ledger_sha256','repeat_audit_sha256','reason','author'} or
+            review['ledger_sha256']!=digest(ledger) or review['repeat_audit_sha256']!=digest(audit) or
+            review['author'] not in ('Mert','Carter') or not isinstance(review['reason'],str) or not review['reason'].strip()):
+            raise ValueError('Explicit repeated-block review does not bind this ledger/audit')
+        review_sha=file_sha(repeat_review_path)
     for e in ledger["events"]:
         if max(e["evidence"]) > len(sequence["frames"]):
             raise ValueError("Evidence frame does not exist")
     frozen = {"ledger": ledger, "ledger_sha256": digest(ledger), "sequence_sha256": file_sha(sequence_path),
-              "frozen_at_utc": datetime.now(timezone.utc).isoformat(), "references_opened_before_freeze": False}
+              "frozen_at_utc": datetime.now(timezone.utc).isoformat(), "references_opened_before_freeze": False,
+              'event_audit':audit,'repeat_review_sha256':review_sha}
     target = PRIVATE / "frozen" / f"{ledger['key']}-{frozen['ledger_sha256']}.json"
     # Existing immutable ledger remains untouched on an identical rerun.
     if target.exists():
@@ -361,6 +404,60 @@ def verify_freeze(path):
     if digest(frozen["ledger"]) != frozen["ledger_sha256"]:
         raise ValueError("Frozen ledger was modified")
     return frozen
+
+
+def require_current_freeze(path):
+    frozen=verify_freeze(path)
+    if frozen['ledger_sha256'] in supersessions():
+        raise ValueError('Frozen ledger is superseded; retain original but do not use it for comparison')
+    return frozen
+
+
+def register_supersession(original_path, corrected_path, reason):
+    original,corrected=verify_freeze(original_path),verify_freeze(corrected_path)
+    if original['ledger']['key']!=corrected['ledger']['key'] or original['ledger_sha256']==corrected['ledger_sha256']:
+        raise ValueError('Supersession must link distinct ledgers for identical review inputs')
+    row={'superseded_ledger_sha256':original['ledger_sha256'],'corrected_ledger_sha256':corrected['ledger_sha256'],
+         'key':original['ledger']['key'],'reason':reason,'author':'Mert','status':'superseded_do_not_use'}
+    path=PRIVATE/'supersessions'/f"{original['ledger_sha256']}.json"
+    write_private(path,row,immutable=True)
+    return path
+
+
+def revise(original_path, changes_path):
+    """Explicit post-reference adjudication; original blind ledger stays immutable."""
+    original=require_current_freeze(original_path)
+    changes=json.loads(Path(changes_path).read_text())
+    required={'original_ledger_sha256','adjudication_path','remove_ids','add_events','reason'}
+    if not required<=set(changes) or not set(changes)<=required|{'insertion_points'}:
+        raise ValueError('Revision requires explicit changes and evidence provenance')
+    if changes['original_ledger_sha256']!=original['ledger_sha256']:
+        raise ValueError('Revision original hash mismatch')
+    evidence=private_path(changes['adjudication_path'])
+    ledger=json.loads(json.dumps(original['ledger']))
+    removed=changes['remove_ids']
+    if len(set(removed))!=len(removed) or not set(removed)<={e['id'] for e in ledger['events']}:
+        raise ValueError('Revision removal IDs must identify original events exactly once')
+    ledger['events']=[e for e in ledger['events'] if e['id'] not in removed]
+    for event in changes['add_events']:
+        after=changes.get('insertion_points',{}).get(event['id'])
+        if after is None:ledger['events'].append(event)
+        else:
+            indices=[i for i,e in enumerate(ledger['events']) if e['id']==after]
+            if len(indices)!=1:raise ValueError('Explicit insertion point does not exist')
+            ledger['events'].insert(indices[0]+1,event)
+    validate_events(ledger['events'],ledger['window'],ledger['gate'])
+    if not audit_event_order_and_repeats(ledger['events'])['chronological']:
+        raise ValueError('Revision must preserve explicit chronological order; supply insertion_points rather than silently sorting')
+    ledger['limitations'].append('Post-reference adjudication; not new independent blind evidence. '+changes['reason'])
+    revised={'ledger':ledger,'ledger_sha256':digest(ledger),'sequence_sha256':original['sequence_sha256'],
+             'frozen_at_utc':datetime.now(timezone.utc).isoformat(),'references_opened_before_freeze':True,
+             'human_confirmed':False,'original_ledger_sha256':original['ledger_sha256'],
+             'changes_sha256':file_sha(changes_path),'adjudication_sha256':file_sha(evidence)}
+    target=PRIVATE/'revisions'/f"{ledger['key']}-{revised['ledger_sha256']}.json"
+    if target.exists():return target
+    write_private(target,revised,immutable=True)
+    return target
 
 
 def legacy_match_count(reference, observed, tolerance):
@@ -414,7 +511,7 @@ def match(reference, observed, bounds, gate, tolerance=1.5):
 
 
 def compare(frozen_path, reference_path, model_path):
-    frozen = verify_freeze(frozen_path)  # before opening either reference
+    frozen = require_current_freeze(frozen_path)  # before opening either reference
     ledger = frozen["ledger"]
     sources = {"independent_assisted":ledger}
     for name, path in (("carter_human",reference_path),("model",model_path)):
@@ -436,6 +533,8 @@ def compare(frozen_path, reference_path, model_path):
             raise ValueError("Missing reference event ledger and total")
         sources[name] = row
     result = {"ledger_sha256":frozen["ledger_sha256"], "human_confirmed":False,
+              "reference_independent":frozen.get('references_opened_before_freeze') is False,
+              "review_phase":"post_reference_adjudication" if frozen.get('references_opened_before_freeze') else 'blind_frozen_review',
               "human_reference_status":"supplied" if reference_path else "pending_not_supplied",
               "source_file_sha256":{name:file_sha(path) for name,path in (("carter_human",reference_path),("model",model_path)) if path},
               "automatic_camera_enablement":False,"comparisons":{}}
@@ -471,7 +570,7 @@ def adapt_model(frozen_path, model_path, clip, geometry):
     Any out-of-window legacy endpoint is reported as an error, never discarded.
     The original report is retained and its raw SHA recorded in a sidecar.
     """
-    frozen=verify_freeze(frozen_path)
+    frozen=require_current_freeze(frozen_path)
     ledger=frozen["ledger"]
     config=json.loads(Path(geometry).read_text())
     if file_sha(clip)!=ledger["clip_sha256"] or geometry_fingerprint(config,ledger["gate"])!=ledger["geometry_sha256"]:
@@ -533,7 +632,7 @@ def parse_manual_annotations(text, bounds, gate):
 
 
 def adapt_human(frozen_path, reference_path):
-    frozen=verify_freeze(frozen_path)
+    frozen=require_current_freeze(frozen_path)
     ledger=frozen['ledger']
     interior,flagged,legacy=parse_manual_annotations(Path(reference_path).read_text(),ledger['window'],ledger['gate'])
     normalized={k:ledger[k] for k in ('camera_id','clip_sha256','geometry_sha256','window','gate')}
@@ -569,6 +668,7 @@ def main():
     f = commands.add_parser("freeze")
     f.add_argument("ledger",type=Path)
     f.add_argument("sequence",type=Path)
+    f.add_argument('--repeat-review',type=Path)
     c = commands.add_parser("compare")
     c.add_argument("frozen",type=Path)
     c.add_argument("model",type=Path)
@@ -581,6 +681,9 @@ def main():
     h=commands.add_parser("adapt-human")
     h.add_argument("frozen",type=Path)
     h.add_argument("reference",type=Path)
+    v=commands.add_parser('revise')
+    v.add_argument('frozen',type=Path)
+    v.add_argument('changes',type=Path)
     args = parser.parse_args()
     if args.command == "inventory":
         manifest=inventory()
@@ -592,13 +695,15 @@ def main():
     elif args.command == "render":
         print(render(args.camera,args.clip,args.geometry,args.gate,[args.start,args.end],args.fps))
     elif args.command == "freeze":
-        print(freeze(args.ledger,args.sequence))
+        print(freeze(args.ledger,args.sequence,args.repeat_review))
     elif args.command == "compare":
         print(compare(args.frozen,args.reference,args.model))
     elif args.command == "adapt-model":
         print(adapt_model(args.frozen,args.model,args.clip,args.geometry))
-    else:
+    elif args.command=='adapt-human':
         print(adapt_human(args.frozen,args.reference))
+    else:
+        print(revise(args.frozen,args.changes))
 
 
 if __name__ == "__main__":
