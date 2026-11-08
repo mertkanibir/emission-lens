@@ -1221,3 +1221,9 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Added worker/delivery.py with one bounded background sender, coalesced notifications, core-before-measurement dependency order, retained exact-byte retries, private fatal-error propagation and bounded shutdown. Added tests/test_delivery.py and dated runtime documentation. Existing runtime integration is unchanged at this helper checkpoint.
 - **Completed:** Five helper tests plus nineteen publisher/portability tests pass; slow delivery does not block enqueue, transient/fatal failures preserve bodies and incomplete measurement plans remain withheld. Scoped diff checks pass. An initial test incorrectly expected a blocked plan to drain before its grace deadline; it now checks the intended bounded stop and retained plan, then recovery, and passes.
 - **Open:** Actual main-loop integration, controlled performance evidence, native Windows/new GPU acceptance; existing healthy processes, settings and private outboxes remain untouched.
+
+## 8 November 2026, 03:27 America/New_York / 08:27 UTC — Mert
+
+- **Done:** Extracted the reusable CameraDetail server view and composed network/camera evidence on one scrolling workspace; tightened technical network hierarchy and made 220/228 count exclusions explicit.
+- **Completed:** Camera deep links and embedded scenario selection preserve camera/mode/UTC bounds; all 67 current frontend checks and nonincremental TypeScript pass. Existing scientific unavailable/support semantics remain unchanged.
+- **Open:** External context, durable review, scoped planning panels and final isolated production/browser acceptance remain in progress. No live service, worker, source data or calibration changed.

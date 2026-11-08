@@ -61,3 +61,14 @@ test("an invalid selection and a missing complete minute remain explicit without
   assert.match(html, /No complete supported minute is available/);
   assert.doesNotMatch(html, /Use latest complete supported minute|from=/);
 });
+
+test("embedded workspace selection preserves the selected camera and interval through native navigation", () => {
+  const candidate = { from: "2026-11-08T03:58:00.000Z", to: "2026-11-08T03:59:00.000Z" };
+  const html = renderToStaticMarkup(createElement(ScenarioWindowControls, { workspace: true, cameraId: "223", mode: "replay", reduction: 20, ...candidate, explicit: true, candidate, error: null }));
+  const links = [...html.matchAll(/href="([^"]+)"/g)].map((match) => new URL(match[1].replaceAll("&amp;", "&"), "http://localhost"));
+  assert.equal(links.length, 2);
+  for (const link of links) { assert.equal(link.pathname, "/"); assert.equal(link.searchParams.get("camera"), "223"); assert.equal(link.searchParams.get("mode"), "replay"); assert.equal(link.hash, "#scenario"); }
+  assert.equal(links[0].searchParams.has("from"), false);
+  assert.equal(links[1].searchParams.get("from"), candidate.from);
+  assert.equal(links[1].searchParams.get("to"), candidate.to);
+});

@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { Mode } from "@emission-lens/contracts";
 import { formatInstant, formatWindow, hrefWith, modeLabel, PACIFIC } from "@/lib/format";
 
-export function ScenarioWindowControls({ cameraId, mode, reduction, from, to, explicit, candidate, error }: {
+export function ScenarioWindowControls({ cameraId, mode, reduction, from, to, explicit, candidate, error, workspace = false }: {
+  workspace?: boolean;
   cameraId: string;
   mode: Mode;
   reduction: number;
@@ -22,8 +23,8 @@ export function ScenarioWindowControls({ cameraId, mode, reduction, from, to, ex
         ? "Only this interval's original completed-movement cohort is compared. Every included minute must be supported; gaps stay unavailable. The reporting-hour totals and brief retain their own scope."
         : "The hour includes all retained minutes, including insufficient evidence. A completed supported minute can be inspected separately without filling gaps in the hour."}</p>
       <nav className="scenario-window-actions" aria-label="Choose scenario comparison window">
-        <Link className="button" aria-current={!explicit ? "true" : undefined} href={`${hrefWith(`/cameras/${cameraId}`, { mode, reduce: reduction })}#scenario`}>Use reporting hour</Link>
-        {candidate ? <Link className="button" aria-current={explicit && Date.parse(from) === Date.parse(candidate.from) && Date.parse(to) === Date.parse(candidate.to) ? "true" : undefined} href={`${hrefWith(`/cameras/${cameraId}`, { mode, reduce: reduction, from: candidate.from, to: candidate.to })}#scenario`}>Use latest complete supported minute · {formatWindow(candidate.from, candidate.to, PACIFIC)}</Link> : <span className="fine">No complete supported minute is available in this reporting hour.</span>}
+        <Link className="button" aria-current={!explicit ? "true" : undefined} href={`${hrefWith(workspace ? "/" : `/cameras/${cameraId}`, { mode, camera: workspace ? cameraId : undefined, reduce: reduction })}#scenario`}>Use reporting hour</Link>
+        {candidate ? <Link className="button" aria-current={explicit && Date.parse(from) === Date.parse(candidate.from) && Date.parse(to) === Date.parse(candidate.to) ? "true" : undefined} href={`${hrefWith(workspace ? "/" : `/cameras/${cameraId}`, { mode, camera: workspace ? cameraId : undefined, reduce: reduction, from: candidate.from, to: candidate.to })}#scenario`}>Use latest complete supported minute · {formatWindow(candidate.from, candidate.to, PACIFIC)}</Link> : <span className="fine">No complete supported minute is available in this reporting hour.</span>}
       </nav>
     </div>
   );

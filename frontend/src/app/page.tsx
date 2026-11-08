@@ -7,8 +7,8 @@ import {
 } from "@emission-lens/backend";
 import { AppShell } from "@/components/AppShell";
 import { OverviewBoard } from "@/components/OverviewBoard";
+import { CameraDetail } from "@/components/CameraDetail";
 import { registryCalibrationState } from "@/lib/measurement";
-import { measurementScope } from "@/lib/measurement-scope";
 import { latestSupportedMapEstimate } from "@/lib/map-emissions";
 import { latestSupportedMinuteCohort, measurementSupport } from "@/lib/observation-presentation";
 import { hrefWith, parseMode, parseView } from "@/lib/format";
@@ -16,7 +16,7 @@ import { hrefWith, parseMode, parseView } from "@/lib/format";
 export default async function OverviewPage({
   searchParams,
 }: {
-  searchParams: Promise<{ mode?: string; camera?: string; view?: string }>;
+  searchParams: Promise<{ mode?: string; camera?: string; view?: string; reduce?: string; from?: string; to?: string }>;
 }) {
   const query = await searchParams;
   const mode = parseMode(query.mode);
@@ -43,6 +43,7 @@ export default async function OverviewPage({
     <AppShell
       mode={mode}
       section="overview"
+      cameraId={selectedId}
       modeHref={(option) =>
         hrefWith("/", {
           mode: option,
@@ -51,13 +52,15 @@ export default async function OverviewPage({
         })
       }
     >
+      <div className="single-workspace">
       <OverviewBoard
         cameras={cameras}
-        scope={measurementScope(read_measurement_window({ cameraId: selectedId, mode, now }))}
         selectedId={selectedId}
         mode={mode}
         view={view}
       />
+      <section id="selected-camera" className="workspace-section"><CameraDetail id={selectedId} query={query} now={now} embedded /></section>
+      </div>
     </AppShell>
   );
 }

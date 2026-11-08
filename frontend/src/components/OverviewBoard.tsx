@@ -21,10 +21,7 @@ import type {
 } from "@emission-lens/backend";
 import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
-import { MeasurementScope } from "@/components/MeasurementScope";
-import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
 import { SelectedEmissionMetric } from "@/components/SelectedEmissionMetric";
-import type { measurementScope } from "@/lib/measurement-scope";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
 import { queueObservation, queueValueDescription, queueScopeDescription, type latestSupportedMinuteCohort, type measurementSupport } from "@/lib/observation-presentation";
 import { scenarioValue } from "@/lib/scenario-presentation";
@@ -58,13 +55,11 @@ const filters = [
 
 export function OverviewBoard({
   cameras,
-  scope,
   selectedId,
   mode,
   view,
 }: {
   cameras: CameraCard[];
-  scope: ReturnType<typeof measurementScope>;
   selectedId: string;
   mode: Mode;
   view: MapView;
@@ -105,19 +100,6 @@ export function OverviewBoard({
     });
   }, [cameras, search, filter, sort]);
 
-  const classCounts = useMemo(() => {
-    const classes = new Map<string, number | null>();
-    for (const row of traffic.rows) {
-      const previous = classes.get(row.vehicle_class);
-      classes.set(
-        row.vehicle_class,
-        row.count === null || previous === null
-          ? null
-          : (previous ?? 0) + row.count,
-      );
-    }
-    return [...classes].sort((a, b) => (b[1] ?? -1) - (a[1] ?? -1));
-  }, [traffic.rows]);
   const crossings = traffic.totals.count;
   const stationGroups = ["SR-107", "SR-1"].map((road) => ({
     road,
@@ -127,14 +109,14 @@ export function OverviewBoard({
   }));
 
   return (
-    <div className="overview-page">
+    <section id="network" className="overview-page technical-network">
       <header className="overview-heading">
         <div>
           <h1>
-            Torrance, in focus<span>.</span>
+            Network monitor<span> / Torrance</span>
           </h1>
           <p>
-            Pick an intersection. Follow the traffic. Get to know the evidence.
+            Four configured intersections. Camera-scoped observations with separate processing and estimate support.
           </p>
         </div>
         <details suppressHydrationWarning data-menu className="period-menu">
@@ -208,10 +190,10 @@ export function OverviewBoard({
 
       <div className="overview-layout">
         <div className="overview-main">
-          <section className="map-card" aria-label="Intersection map">
+          <section className="map-card" aria-label="Camera network map">
             <header className="map-card-head">
               <div>
-                <h2>Observation map</h2>
+                <h2>Camera network</h2>
                 <span>
                   <MapPin size={13} /> Torrance · 4 configured intersections
                 </span>
@@ -318,9 +300,9 @@ export function OverviewBoard({
             <div className="table-heading">
               <div>
                 <h2>
-                  Intersection register <span>{cameras.length}</span>
+                  Station register <span>{cameras.length}</span>
                 </h2>
-                <p>Four intersections. What will you look into first?</p>
+                <p>Independent camera records · current reporting hour</p>
               </div>
               <label className="search-field">
                 <MagnifyingGlass size={17} />
@@ -328,7 +310,7 @@ export function OverviewBoard({
                   aria-label="Search intersections"
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Find your intersection…"
+                  placeholder="Filter by camera or location"
                 />
               </label>
             </div>
@@ -434,9 +416,7 @@ export function OverviewBoard({
                       <td>
                         <Link
                           className="row-action"
-                          href={hrefWith(`/cameras/${item.camera.id}`, {
-                            mode,
-                          })}
+                          href={`${hrefWith("/", { mode, camera: item.camera.id })}#selected-camera`}
                           aria-label={`Inspect camera ${item.camera.id}`}
                         >
                           <ArrowUpRight size={18} />
@@ -471,135 +451,10 @@ export function OverviewBoard({
           </section>
         </div>
 
-        <aside className="overview-aside" aria-label="Selected camera context">
-          <section className="selection-card" key={`evidence-${selectedId}`}>
-            <header>
-              <span className="camera-focus-id">
-                <VideoCamera size={14} /> Camera {selectedId}
-              </span>
-              <StateChip state={selected.status.displayed_state} />
-            </header>
-            <h2>{selected.camera.name}</h2>
-            <p className="station-coordinate">
-              {selected.camera.latitude.toFixed(4)}° N /{" "}
-              {Math.abs(selected.camera.longitude).toFixed(4)}° W
-            </p>
-            <p>
-              {selected.status.heartbeat_at === null
-                ? "No heartbeat received. The camera is configured, but its worker is not connected."
-                : `${formatAge(selected.status.heartbeat_at, selected.status.as_of)} since heartbeat at the data clock${mode === "synthetic" ? " (synthetic sample)" : ""}.`}
-            </p>
-            <MeasurementScope scope={scope} compact />
-            {selected.mapEstimate ? <SupportedMinuteEstimate estimate={selected.mapEstimate} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} cohort={selected.minuteCohort} /> : mode !== "synthetic" ? <p className="context-note"><strong>{selected.measurementSupport.label}.</strong> {selected.measurementSupport.detail}</p> : null}
-            <dl className="mini-facts">
-              <div>
-                <dt>Completed traversals</dt>
-                <dd>
-                  <Quantity
-                    value={traffic.totals.completed_traversals}
-                    digits={0}
-                  />
-                </dd>
-              </div>
-              <div>
-                <dt>Estimated NOₓ · reporting hour</dt>
-                <dd>
-                  <EmissionQuantity value={selected.emissions.estimate_g_by_pollutant.nox} />
-                </dd>
-              </div>
-              <div>
-                <dt>Calibration</dt>
-                <dd>
-                  {selected.calibration === "valid" ? "Valid" : "Not ready"}
-                </dd>
-              </div>
-            </dl>
-            <p className="fine">Reporting-hour totals retain unavailable minutes. A supported minute above does not fill those gaps.</p>
-            <Link
-              className="button button-primary"
-              href={hrefWith(`/cameras/${selectedId}`, { mode })}
-            >
-              Take a closer look <ArrowRight size={16} />
-            </Link>
-          </section>
-          <section className="class-card" key={`classes-${selectedId}`}>
-            <header>
-              <h2>Vehicle mix</h2>
-              <Car size={17} />
-            </header>
-            <p>Camera {selectedId} · recorded crossings</p>
-            {classCounts.length === 0 ? (
-              <div className="small-empty">
-                No class observations yet. A breakdown will appear when records
-                arrive.
-              </div>
-            ) : (
-              <>
-                <div className="class-bars">
-                  {classCounts.map(([name, count]) => (
-                    <div key={name}>
-                      <div>
-                        <span>{name.replaceAll("_", " ")}</span>
-                        <strong>
-                          {count === null ? "Unavailable" : count}
-                        </strong>
-                      </div>
-                      {count === null ? null : (
-                        <meter
-                          aria-label={`${name} crossings`}
-                          min={0}
-                          max={Math.max(
-                            1,
-                            crossings ??
-                              Math.max(
-                                ...classCounts.map((item) => item[1] ?? 0),
-                              ),
-                          )}
-                          value={count}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <small>
-                  Only {observedMinutes} recorded{" "}
-                  {observedMinutes === 1 ? "minute" : "minutes"}; not an
-                  hour-long trend.
-                </small>
-              </>
-            )}
-          </section>
-        </aside>
+
       </div>
-      <section className="evidence-path">
-        <div className="evidence-path-title">
-          <Leaf size={23} />
-          <div>
-            <h2>From a crossing to an estimate</h2>
-            <p>Each step matters. Missing evidence stays visible.</p>
-          </div>
-        </div>
-        <div>
-          <span className="step-number">1</span>
-          <strong>Observe traffic</strong>
-          <p>Crossings, queues, stopped time</p>
-        </div>
-        <ArrowRight size={16} />
-        <div>
-          <span className="step-number">2</span>
-          <strong>Validate the road</strong>
-          <p>Calibrated distances &amp; traversals</p>
-        </div>
-        <ArrowRight size={16} />
-        <div>
-          <span className="step-number">3</span>
-          <strong>Estimate emissions</strong>
-          <p>Regional factors, explicit assumptions</p>
-        </div>
-        <Link href={hrefWith("/brief", { mode, camera: selectedId })}>
-          Create a planning brief <ArrowUpRight size={16} />
-        </Link>
-      </section>
-    </div>
+      <p className="network-method-note"><strong>Metric scope:</strong> 222 eastbound / 20 m and 223 southbound / 15 m use approved model assumptions. Cameras <strong>220 and 228 are excluded from quantitative processing after failed count screens</strong>; a video preview does not remove that exclusion. Estimates describe completed movements, not the full intersection. Select a camera below to inspect source timing, queues, calibration and calculations.</p>
+
+    </section>
   );
 }

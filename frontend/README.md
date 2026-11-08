@@ -132,3 +132,7 @@ Verification: all **65 frontend tests**, root `npm run typecheck` and owned-file
 ## Technical workspace navigation
 
 **8 November 2026, 03:25 America/New_York / 08:25 UTC — Mert.** Replaced sidebar navigation with a compact technical header and five workspace anchors, retaining independent mode selection, data-clock/freshness status, motion controls and immutable source links. Existing deep routes remain available. All 65 frontend tests and nonincremental frontend TypeScript pass. Single-page camera/context/review/planning composition and actual responsive browser acceptance remain in progress; no running application or scientific inputs changed.
+
+## Shared camera evidence workspace
+
+**8 November 2026, 03:27 America/New_York / 08:27 UTC — Mert.** The root workspace now joins the technical network map/register and a reusable camera evidence section. Dedicated camera URLs use the same server component. Native camera/scenario links retain camera, mode and exact selected bounds; a focused regression covers embedded navigation. Cameras 220/228 explicitly disclose their failed-count exclusions. Existing queue lower bounds, supported-minute versus hour-null rules, linked stops and private evidence boundaries remain intact. All 67 current frontend checks and nonincremental TypeScript pass. External context, durable review and scoped planning panels plus final production browser acceptance remain in progress. No existing service or scientific configuration changed.
