@@ -22,6 +22,7 @@ CAMERAS = ("222", "223", "228", "220")
 VERSION = "visual-review-v1"
 COUNTING_RULE = "bottom-center ground contact proxy changes stable side across finite gate segment; once per physical passage per direction; positive=(end-start)x(point-start)>0; finite endpoints included only with actual side change; tangencies excluded"
 MATCH_POLICY = "maximum_cardinality_then_minimum_total_absolute_time_gap_same_direction_v1"
+COMPARISON_VERSION = "visual-comparison-v2-recipe-provenance"
 
 
 def geometry_fingerprint(config, gate_id):
@@ -521,8 +522,11 @@ def compare(frozen_path, reference_path, model_path):
         for field in ("camera_id", "clip_sha256", "geometry_sha256", "window", "gate"):
             if row[field] != ledger[field]:
                 raise ValueError(f"Reference mismatch: {name} {field}")
-        if set(row) != {"camera_id","clip_sha256","geometry_sha256","window","gate","source","events","total"}:
+        required={"camera_id","clip_sha256","geometry_sha256","window","gate","source","events","total"}
+        if not required<=set(row) or not set(row)<=required|{'pipeline_recipe_sha256'}:
             raise ValueError("Reference needs explicit provenance, source, events or total")
+        if 'pipeline_recipe_sha256' in row and not re.fullmatch(r'[0-9a-f]{64}',row['pipeline_recipe_sha256']):
+            raise ValueError('Pipeline recipe provenance must be a SHA256')
         if row["source"] != name:
             raise ValueError("Reference source mislabeled")
         if row["events"] is not None:
@@ -532,11 +536,12 @@ def compare(frozen_path, reference_path, model_path):
         elif type(row["total"]) is not int or row["total"] < 0:
             raise ValueError("Missing reference event ledger and total")
         sources[name] = row
-    result = {"ledger_sha256":frozen["ledger_sha256"], "human_confirmed":False,
+    result = {"comparison_version":COMPARISON_VERSION,"ledger_sha256":frozen["ledger_sha256"], "human_confirmed":False,
               "reference_independent":frozen.get('references_opened_before_freeze') is False,
               "review_phase":"post_reference_adjudication" if frozen.get('references_opened_before_freeze') else 'blind_frozen_review',
               "human_reference_status":"supplied" if reference_path else "pending_not_supplied",
               "source_file_sha256":{name:file_sha(path) for name,path in (("carter_human",reference_path),("model",model_path)) if path},
+              "pipeline_recipe_sha256":sources.get('model',{}).get('pipeline_recipe_sha256'),
               "automatic_camera_enablement":False,"comparisons":{}}
     for a,b in (("carter_human","independent_assisted"),("carter_human","model"),("independent_assisted","model")):
         if a not in sources or b not in sources:
@@ -558,13 +563,13 @@ def compare(frozen_path, reference_path, model_path):
         if a == "carter_human" and value["recall"] is not None:
             error=value["relative_total_error"]
             value["provisional_count_criteria_met"] = value["recall"] >= .85 and error is not None and abs(error) <= .15
-    input_sha=digest(result['source_file_sha256'])
+    input_sha=digest({'source_file_sha256':result['source_file_sha256'],'comparison_version':COMPARISON_VERSION})
     target = PRIVATE/"comparisons"/f"{ledger['key']}-{frozen['ledger_sha256']}-{input_sha}.json"
     write_private(target,result,immutable=True)
     return target
 
 
-def adapt_model(frozen_path, model_path, clip, geometry):
+def adapt_model(frozen_path, model_path, clip, geometry, pipeline_recipe=None):
     """Post-freeze adapter for existing check_counts reports, with explicit hashes.
 
     Any out-of-window legacy endpoint is reported as an error, never discarded.
@@ -589,13 +594,23 @@ def adapt_model(frozen_path, model_path, clip, geometry):
         raise ValueError("Model events and total disagree")
     normalized={k:ledger[k] for k in ("camera_id","clip_sha256","geometry_sha256","window","gate")}
     normalized.update(source="model",events=events,total=len(events))
-    target=PRIVATE/"references"/f"{ledger['key']}-model-{file_sha(model_path)}.json"
+    recipe_sha=None
+    if pipeline_recipe is not None:
+        # Bind the actual frozen experiment recipe even if event JSON happens
+        # to be byte-identical to another run. The caller verifies its settings.
+        json.loads(Path(pipeline_recipe).read_text())
+        recipe_sha=file_sha(pipeline_recipe)
+        normalized['pipeline_recipe_sha256']=recipe_sha
+    suffix=f'-recipe-{recipe_sha}' if recipe_sha else ''
+    target=PRIVATE/"references"/f"{ledger['key']}-model-{file_sha(model_path)}{suffix}.json"
     write_private(target,normalized,immutable=True)
-    write_private(target.with_suffix(".provenance.json"),{"original_file_sha256":file_sha(model_path),
+    provenance={"original_file_sha256":file_sha(model_path),
         "geometry_raw_sha256":file_sha(geometry),"clip_sha256":file_sha(clip),
         "recipe":{k:raw[k] for k in ("weights","image_size","sample_fps")},
         "time_basis":"clip_relative_seconds_requires_acquisition_owner_pts_verification",
-        "adapter_limitation":"Existing report filenames/versions alone cannot establish remote run input bytes; acquisition owner must attest pinned hash provenance."},immutable=True)
+        "adapter_limitation":"Existing report filenames/versions alone cannot establish remote run input bytes; acquisition owner must attest pinned hash provenance."}
+    if recipe_sha is not None:provenance['pipeline_recipe_sha256']=recipe_sha
+    write_private(target.with_suffix('.provenance.json'),provenance,immutable=True)
     return target
 
 
@@ -678,6 +693,7 @@ def main():
     a.add_argument("model",type=Path)
     a.add_argument("clip",type=Path)
     a.add_argument("geometry",type=Path)
+    a.add_argument('--pipeline-recipe',type=Path)
     h=commands.add_parser("adapt-human")
     h.add_argument("frozen",type=Path)
     h.add_argument("reference",type=Path)
@@ -699,7 +715,7 @@ def main():
     elif args.command == "compare":
         print(compare(args.frozen,args.reference,args.model))
     elif args.command == "adapt-model":
-        print(adapt_model(args.frozen,args.model,args.clip,args.geometry))
+        print(adapt_model(args.frozen,args.model,args.clip,args.geometry,args.pipeline_recipe))
     elif args.command=='adapt-human':
         print(adapt_human(args.frozen,args.reference))
     else:

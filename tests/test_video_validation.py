@@ -125,6 +125,20 @@ class VideoValidationTests(unittest.TestCase):
             model['geometry_sha256']='changed';r.write_private(mp,model)
             with self.assertRaises(ValueError):r.compare(frozen,None,mp)
 
+    def test_identical_events_with_different_pipeline_recipes_remain_distinct_comparisons(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(r,'PRIVATE',Path(tmp)):
+            frozen,ledger,_=self.fixture(tmp)
+            model={k:ledger[k] for k in ('camera_id','clip_sha256','geometry_sha256','window','gate')}
+            model.update(source='model',events=events([1]),total=1,pipeline_recipe_sha256='a'*64)
+            one,two=Path(tmp)/'baseline.json',Path(tmp)/'candidate.json'
+            r.write_private(one,model)
+            model['pipeline_recipe_sha256']='b'*64;r.write_private(two,model)
+            first,second=r.compare(frozen,None,one),r.compare(frozen,None,two)
+            self.assertNotEqual(first,second)
+            a,b=json.loads(first.read_text()),json.loads(second.read_text())
+            self.assertEqual(a['comparisons'],b['comparisons'])
+            self.assertNotEqual(a['pipeline_recipe_sha256'],b['pipeline_recipe_sha256'])
+
     def test_invalid_freeze_blocks_reference_open(self):
         with tempfile.TemporaryDirectory() as tmp, patch.object(r,"PRIVATE",Path(tmp)):
             frozen,_,_=self.fixture(tmp)
