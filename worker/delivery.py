@@ -127,3 +127,39 @@ class BackgroundDelivery:
                     "failure_type": self._error, "passes": self._passes,
                     "delivery_wall_s": self._http_wall_s,
                     "retry_interval_s": self.retry_interval_s}
+
+
+def finish_delivery(delivery, publish_terminal, *, timeout_s=30.0):
+    """Drain open-run evidence before publishing irreversible terminal metadata.
+
+    The caller has already persisted its final observations with the run open.
+    One shared wall deadline bounds both drains. Failure leaves every pending
+    immutable body intact and never invokes the terminal publisher early.
+    """
+    if not math.isfinite(timeout_s) or timeout_s < 0:
+        raise ValueError("Delivery shutdown timeout must be finite and nonnegative.")
+    deadline = time.monotonic() + timeout_s
+
+    def remaining():
+        return max(0.0, deadline - time.monotonic())
+
+    stopped = delivery.close(remaining())
+    delivery.raise_if_failed()
+    if not stopped or delivery._pending():
+        raise PublishError("Open-run delivery is incomplete; terminal metadata withheld and queued evidence retained.")
+    if remaining() <= 0:
+        raise PublishError("Delivery shutdown bound reached; terminal metadata withheld.")
+    terminal = BackgroundDelivery(delivery.core, delivery.measurements,
+                                  retry_interval_s=delivery.retry_interval_s)
+    with terminal._lock:
+        terminal._deadline = deadline
+    try:
+        publish_terminal(terminal)
+        stopped = terminal.close(remaining())
+        terminal.raise_if_failed()
+        if not stopped or terminal._pending():
+            raise PublishError("Terminal delivery is incomplete; queued evidence retained.")
+        return terminal
+    finally:
+        # A failing publisher or expired drain must never start later leases.
+        terminal.close(0)

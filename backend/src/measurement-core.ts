@@ -304,71 +304,86 @@ export function visibleDerived(
     })),
   };
 }
+/** Overlay measurements through canonical camera-minute indexes without rescanning unrelated rows. */
 export function composeMeasurements(
   store: WorkerStore,
   snapshot: WorkerSnapshot,
   registry: LoadedRegistry,
 ): WorkerStore {
-  for (const entry of [...(snapshot.measurement_batches ?? [])].sort(
-    (a, b) => a.sequence - b.sequence,
-  )) {
+  const groupKey = (row: { camera_id: string; minute: string; mode: string }) =>
+    `${row.camera_id}|${row.mode}|${Date.parse(row.minute)}`;
+  const runIndexes = new Map<string, number>();
+  store.runs.forEach((run, index) => { if (!runIndexes.has(run.run_id)) runIndexes.set(run.run_id, index); });
+  type TrafficGroup = { indexes: Set<number>; classes: Map<string, number> };
+  const trafficGroups = new Map<string, TrafficGroup>();
+  let traffic = store.traffic;
+  let copiedTraffic = false;
+  const addTrafficIndex = (key: string, index: number, vehicleClass: string) => {
+    let group = trafficGroups.get(key);
+    if (!group) { group = { indexes: new Set(), classes: new Map() }; trafficGroups.set(key, group); }
+    group.indexes.add(index);
+    const first = group.classes.get(vehicleClass);
+    if (first === undefined || index < first) group.classes.set(vehicleClass, index);
+  };
+  traffic.forEach((row, index) => addTrafficIndex(groupKey(row), index, row.vehicle_class));
+  type EmissionSlot = { value: EmissionsMinute; alive: boolean };
+  const emissionSlots: EmissionSlot[] = [];
+  const emissionGroups = new Map<string, Set<EmissionSlot>>();
+  const appendEmission = (value: EmissionsMinute) => {
+    const slot = { value, alive: true };
+    emissionSlots.push(slot);
+    const key = groupKey(value), group = emissionGroups.get(key) ?? new Set<EmissionSlot>();
+    group.add(slot); emissionGroups.set(key, group);
+  };
+  store.emissions.forEach(appendEmission);
+  let changed = false;
+  for (const entry of [...(snapshot.measurement_batches ?? [])].sort((a, b) => a.sequence - b.sequence)) {
     const source = entry.source;
-    const prior = store.runs.find((r) => r.run_id === source.run.run_id);
-    if (!prior) store.runs.push(source.run);
-    else {
-      const index = store.runs.indexOf(prior);
-      store.runs[index] = {
-        ...source.run,
-        device: prior.device ?? source.run.device,
-        ended_at: source.run.ended_at ?? prior.ended_at,
-      };
+    const runIndex = runIndexes.get(source.run.run_id);
+    if (runIndex === undefined) {
+      runIndexes.set(source.run.run_id, store.runs.length);
+      store.runs.push(source.run);
+    } else {
+      const prior = store.runs[runIndex];
+      store.runs[runIndex] = { ...source.run, device: prior.device ?? source.run.device, ended_at: source.run.ended_at ?? prior.ended_at };
     }
     if (source.retract) continue;
+    changed = true;
     const derived = visibleDerived(entry, snapshot, registry);
-    const matches = (r: { camera_id: string; minute: string; mode: string }) =>
-      r.camera_id === source.camera_id &&
-      r.mode === source.mode &&
-      Date.parse(r.minute) === Date.parse(source.minute);
-    // Measurement owns traversal/physical columns; independent observation columns survive.
-    store.traffic = store.traffic.map((row) =>
-      matches(row)
-        ? {
-            ...row,
-            completed_traversals: null,
-            traversal_time_s: null,
-            distance_m: null,
-            queue_length_m: null,
-          }
-        : row,
-    );
+    const sourceKey = groupKey(source);
+    if (!copiedTraffic) { traffic = [...traffic]; store.traffic = traffic; copiedTraffic = true; }
+    // Clear physical fields only for this source minute; observation columns remain intact.
+    for (const index of trafficGroups.get(sourceKey)?.indexes ?? []) {
+      traffic[index] = { ...traffic[index], completed_traversals: null, traversal_time_s: null, distance_m: null, queue_length_m: null };
+    }
     for (const row of derived.traffic) {
-      const index = store.traffic.findIndex(
-        (r) => matches(r) && r.vehicle_class === row.vehicle_class,
-      );
-      if (index < 0) store.traffic.push(row);
-      else {
-        const old = store.traffic[index];
-        store.traffic[index] = {
-          ...row,
-          count: row.count ?? old.count,
-          stopped_vehicle_seconds:
-            row.stopped_vehicle_seconds ?? old.stopped_vehicle_seconds,
-          queue_count: row.queue_count ?? old.queue_count,
-          coverage: row.coverage ?? old.coverage,
-        };
+      const group = trafficGroups.get(sourceKey);
+      const index = group?.classes.get(row.vehicle_class);
+      const rowKey = groupKey(row);
+      if (index === undefined) {
+        addTrafficIndex(rowKey, traffic.length, row.vehicle_class);
+        traffic.push(row);
+      } else {
+        const old = traffic[index];
+        traffic[index] = { ...row, count: row.count ?? old.count, stopped_vehicle_seconds: row.stopped_vehicle_seconds ?? old.stopped_vehicle_seconds, queue_count: row.queue_count ?? old.queue_count, coverage: row.coverage ?? old.coverage };
+        // Validated derived rows share the source minute. Keep exact legacy behavior
+        // even for an in-memory caller supplying a row with a different group.
+        if (rowKey !== sourceKey && group) {
+          group.indexes.delete(index);
+          const remaining = [...group.indexes].filter(i => traffic[i].vehicle_class === row.vehicle_class);
+          if (remaining.length) group.classes.set(row.vehicle_class, Math.min(...remaining));
+          else group.classes.delete(row.vehicle_class);
+          addTrafficIndex(rowKey, index, row.vehicle_class);
+        }
       }
     }
-    store.emissions = store.emissions
-      .filter((row) => !matches(row))
-      .concat(derived.emissions);
+    // Tombstones reproduce filter-then-concat order, including repeated replacements
+    // and interleaved camera/mode groups, with one final linear compaction.
+    for (const slot of emissionGroups.get(sourceKey) ?? []) slot.alive = false;
+    emissionGroups.delete(sourceKey);
+    derived.emissions.forEach(appendEmission);
   }
-  store.measurement_batches = (snapshot.measurement_batches ?? []).map(
-    ({ source, accepted_at }) => ({
-      batch_id: source.batch_id,
-      revision: source.revision,
-      mode: source.mode,
-      accepted_at,
-    }),
-  );
+  if (changed) store.emissions = emissionSlots.filter(slot => slot.alive).map(slot => slot.value);
+  store.measurement_batches = (snapshot.measurement_batches ?? []).map(({ source, accepted_at }) => ({ batch_id: source.batch_id, revision: source.revision, mode: source.mode, accepted_at }));
   return store;
 }

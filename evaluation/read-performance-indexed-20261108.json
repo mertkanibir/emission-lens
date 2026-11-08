@@ -1,0 +1,32 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T14:52:32.388Z",
+  "scope": "Local fixed captured-ledger measurement composition benchmark; complete materialized JSON comparison against the prior linear implementation.",
+  "core_batches": 3263,
+  "measurement_batches": 459,
+  "baseline_iterations": 6,
+  "indexed_iterations": 30,
+  "results": [
+    {
+      "case": "normal",
+      "identical_complete_json": true,
+      "sha256": "c96701cb8e5cd8cd6ce33afb7de839b8ccb32482c0f5e3ffc797ae8b70c7c0c6",
+      "bytes": 1256415,
+      "legacy_ms": 226.63531250000003,
+      "candidate_ms": 20.507654166666672
+    },
+    {
+      "case": "revoked",
+      "identical_complete_json": true,
+      "sha256": "6784a98333e2784beaee8079ad468b983246bd67b46760e1dac21d34beff4e76",
+      "bytes": 1249955,
+      "legacy_ms": 212.67595833333334,
+      "candidate_ms": 4.979480533333344
+    }
+  ],
+  "limitations": [
+    "Single local captured aggregate ledger; no raw camera frames or private identifiers included.",
+    "Wall-clock per-call averages include process and host conditions; these are not GPU inference, browser frame rate, sustained network latency or accuracy measurements.",
+    "Core validation, fresh writer reads, scientific calculations, receipt ordering, retraction handling and registry revocation semantics are unchanged."
+  ]
+}

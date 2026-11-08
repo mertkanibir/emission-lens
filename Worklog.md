@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:54 America/New_York / 8 November 2026, 14:54 UTC
+
+- **Who:** Mert
+- **Done:** Indexed camera-minute measurement composition while preserving exact results and ordered overlays; added a two-stage bounded shutdown barrier so terminal metadata cannot overtake older open-run evidence.
+- **Completed:** 137 backend tests, backend TypeScript, 27 local and 66 allocated-runtime focused worker tests pass; normal and revoked-registry real-ledger outputs match byte-for-byte. Indexed normal composition averages20.51ms versus226.64ms.
+- **Still open:** Install the immutable application build, measure actual post-install native playback and reconcile final worker source/expiry and recovery receipts.
+
 ### 8 November 2026, 09:48 America/New_York / 8 November 2026, 14:48 UTC
 
 - **Who:** Mert

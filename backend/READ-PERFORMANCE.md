@@ -1,7 +1,7 @@
 # Query responsiveness
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 09:20 America/New_York / 8 November 2026, 14:20 UTC
+**Updated:** 8 November 2026, 09:54 America/New_York / 8 November 2026, 14:54 UTC
 
 Repeated measurement reads previously parsed/validated the full retained ledger and materialized all measurements on every call. Query-only reads now share a deeply immutable validated snapshot keyed by device/inode/size/nanosecond modification and change times. Atomic replacements, corruption, disappearance and recreation invalidate it. Writer transactions still call the original fresh mutable read. Immutable materialization is reused only while the snapshot identity and current registry digest match; registry revocations are not hidden by the cache.
 
@@ -10,3 +10,7 @@ The isolated four-camera benchmark retains identical complete output hashes acro
 All130 existing backend tests plus four targeted view/writer/invalidation tests pass, as does backend TypeScript. Frontend link canonicalization preserves explicit reporting-hour resets. Per-number global observers/subscriptions were removed; changed visible numbers retain brief motion without changing their values. Final web/browser acceptance is separate.
 
 **Two-producer receipt capacity (8 November 2026, 09:32 America/New_York / 8 November 2026, 14:32 UTC) — Mert:** Increased the bounded core ledger from5000 to10000 receipts while retaining the32MiB file and24-hour limits, to preserve existing receipts during the authorized two-worker run. A regression accepts5001 valid receipts and rejects10001. The authoritative3151 service needs this source installed before relying on the higher limit; its store/registry/token must remain unchanged. No transport schema, scientific metric or estimate changed.
+
+**Indexed measurement composition (8 November 2026, 09:54 America/New_York / 8 November 2026, 14:54 UTC) — Mert:** Replaced repeated scans of every traffic/emissions row with canonical camera/mode/minute indexes, first-run and vehicle-class indexes, and ordered emissions replacement. Only the matching minute's physical fields are cleared. Independent observation null fallback, supported zero, interleaved row order, retractions, UTC-equivalent minute spellings and registry revocations retain the prior behavior. Fresh writer validation and existing query cache invalidation remain unchanged.
+
+A fixed ledger containing3263 core receipts and459 measurement receipts produces byte-identical complete JSON before and after the change for both the normal registry and a revoked-calibration registry. Normal composition averaged226.64ms before versus20.51ms indexed; revoked composition averaged212.68ms versus4.98ms. Complete output SHA256 hashes and sanitized benchmark details are in the [scalar receipt](../evaluation/read-performance-indexed-20261108.json). These local per-call averages are not GPU inference, sustained network latency or field accuracy. The existing135 backend tests plus two focused composition regressions pass, with backend TypeScript checked separately.

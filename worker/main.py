@@ -25,7 +25,7 @@ from urllib.parse import urlsplit, urlunsplit
 
 from worker.publish import HttpSender, PreviewHttpSender, Outbox, TraversalBridge, measurement_url, recover_measurement_outbox
 from worker.pacing import LiveMediaPacer
-from worker.delivery import BackgroundDelivery
+from worker.delivery import BackgroundDelivery, finish_delivery
 
 
 def utc_now() -> datetime:
@@ -528,19 +528,37 @@ def run(args, stop_requested=None) -> dict:
         failure = type(error).__name__
         raise
     finally:
-        run_record["ended_at"] = utc_now().isoformat()
+        ended_at = utc_now().isoformat()
         for reader in readers.values():
             reader.stop()
         shutdown_error = None
         try:
-            publish(ended=True)
+            if delivery:
+                # Persist the final tracked observations while older queued
+                # evidence still carries open-run metadata. Closing core first
+                # would make those immutable measurement bodies unrecoverable.
+                publish()
+
+                def publish_terminal(replacement):
+                    nonlocal delivery
+                    delivery = replacement
+                    run_record["ended_at"] = ended_at
+                    publish(ended=True)
+
+                delivery = finish_delivery(delivery, publish_terminal)
+            else:
+                run_record["ended_at"] = ended_at
+                publish(ended=True)
         except Exception as error:
             if failure is None:
                 shutdown_error = error
                 failure = type(error).__name__
         finally:
+            # The report records the actual end even if terminal publication
+            # was withheld to preserve recoverable open-run evidence.
+            run_record["ended_at"] = ended_at
             if delivery:
-                delivery_stopped = delivery.close()
+                delivery_stopped = delivery.close(0)
                 try:
                     delivery.raise_if_failed()
                     if not delivery_stopped:
