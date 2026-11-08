@@ -23,6 +23,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
 from worker.publish import HttpSender, Outbox, TraversalBridge, measurement_url, recover_measurement_outbox
+from worker.delivery import BackgroundDelivery
 
 
 def utc_now() -> datetime:
@@ -432,6 +433,7 @@ def run(args, stop_requested=None) -> dict:
     next_publish = time.monotonic()
     verified_devices = set()
     failure = None
+    delivery = BackgroundDelivery(outbox, measurement_outboxes) if outbox else None
 
     def publish(ended=False):
         now = utc_now()
@@ -445,19 +447,20 @@ def run(args, stop_requested=None) -> dict:
             for batches in observation_batches.values():
                 for batch in batches:
                     outbox.enqueue(batch)
-            outbox.flush()
         for camera_id, bridge in traversal_bridges.items():
             measurement_outbox = measurement_outboxes.get(camera_id)
             bridge.publish(run_record, observation_batches[camera_id], measurement_outbox)
-            # Publish linked legacy observations before dependent calculations.
-            # The bridge checkpoint is committed before this outbox can flush.
-            if measurement_outbox and (not outbox or not outbox.pending()):
-                measurement_outbox.flush()
+        if delivery:
+            # Disk publication remains synchronous/durable. HTTP runs separately,
+            # with core observations delivered before their dependent evidence.
+            delivery.notify()
 
     for reader in readers.values():
         reader.start()
     try:
         while not stop_requested.is_set() and time.monotonic() < deadline:
+            if delivery:
+                delivery.raise_if_failed()
             found_frame = False
             for camera in cameras:
                 frame = readers[camera.id].frames.get(timeout_s=0.01)
@@ -500,13 +503,22 @@ def run(args, stop_requested=None) -> dict:
         shutdown_error = None
         try:
             publish(ended=True)
-            if args.require_delivery and (outbox.pending() or any(box.pending() for box in measurement_outboxes.values())):
-                raise RuntimeError("Required worker delivery is incomplete; queued batches retained.")
         except Exception as error:
             if failure is None:
                 shutdown_error = error
                 failure = type(error).__name__
         finally:
+            if delivery:
+                delivery_stopped = delivery.close()
+                try:
+                    delivery.raise_if_failed()
+                    if not delivery_stopped:
+                        raise RuntimeError("Background delivery exceeded its shutdown bound; queued evidence retained.")
+                    if args.require_delivery and (outbox.pending() or any(box.pending() for box in measurement_outboxes.values())):
+                        raise RuntimeError("Required worker delivery is incomplete; queued batches retained.")
+                except Exception as error:
+                    if failure is None:
+                        shutdown_error, failure = error, type(error).__name__
             if previews:
                 previews.close()
             # All threads stop concurrently; one shared deadline bounds shutdown.
@@ -527,6 +539,7 @@ def run(args, stop_requested=None) -> dict:
                 "peak_torch_allocated_mib": torch.cuda.max_memory_allocated() / 1024**2 if torch.cuda.is_available() else None,
                 "cameras": {c.id: progress[c.id].diagnostic(readers[c.id].status()) for c in cameras},
                 "delivery": {"enabled": bool(outbox), "delivered_batches": outbox.delivered if outbox else 0, "attempts": outbox.attempts if outbox else 0, "pending_batches": len(outbox.pending()) if outbox else 0},
+                "background_delivery": delivery.diagnostic() if delivery else {"enabled": False},
                 "previews": {"enabled": bool(previews), **(previews.diagnostic() if previews else {})},
                 "measurements": _by_camera_report({camera_id: {**aggregate.diagnostic(), **measurement_provenance[camera_id]} for camera_id, aggregate in aggregates.items()}),
                 "completed_traversals": _by_camera_report({camera_id: bridge.diagnostic() for camera_id, bridge in traversal_bridges.items()}),

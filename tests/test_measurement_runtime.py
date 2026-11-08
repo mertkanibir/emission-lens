@@ -504,6 +504,7 @@ class RuntimeMeasurementTests(unittest.TestCase):
 
         raw, metrics, _ = settings()
         stopped = threading.Event()
+        http_entered, http_release, processed_during_http = (threading.Event() for _ in range(3))
         payloads = []
         points = [0.2, 0.4, 0.5, 0.5, 0.8, 0.9]
         source = []
@@ -514,6 +515,8 @@ class RuntimeMeasurementTests(unittest.TestCase):
 
         class Queue:
             def get(self, timeout_s):
+                if len(source) == len(points) - 1:
+                    self_test.assertTrue(http_entered.wait(1))
                 current = source.pop(0) if source else None
                 if not source:
                     stopped.set()
@@ -555,6 +558,10 @@ class RuntimeMeasurementTests(unittest.TestCase):
                 pass
 
             def update(self, current):
+                if current.sequence == 1 and http_entered.is_set() and not http_release.is_set():
+                    processed_during_http.set()
+                if current.sequence == len(points) - 1:
+                    http_release.set()
                 return [vehicle(points[current.sequence])]
 
         fake_torch = SimpleNamespace(
@@ -564,8 +571,15 @@ class RuntimeMeasurementTests(unittest.TestCase):
         )
 
         def sender(url, _token, **_kwargs):
-            return lambda body: payloads.append((url, json.loads(body))) or True
+            def send(body):
+                if url.endswith("/worker") and not http_entered.is_set():
+                    http_entered.set()
+                    http_release.wait(2)
+                payloads.append((url, json.loads(body)))
+                return True
+            return send
 
+        self_test = self
         with tempfile.TemporaryDirectory() as folder:
             directory = Path(folder)
             geometry = directory / "geometry.json"
@@ -625,6 +639,9 @@ class RuntimeMeasurementTests(unittest.TestCase):
             self.assertEqual(report["completed_traversals"]["completed_traversals"], 1)
             self.assertEqual(report["measurement_delivery"]["pending_batches"], 0)
             self.assertEqual(report["delivery"]["pending_batches"], 0)
+            self.assertTrue(processed_during_http.is_set(), "Tracking waited for a slow core HTTP request")
+            self.assertFalse(report["background_delivery"]["thread_alive"])
+            self.assertIsNone(report["background_delivery"]["failure_type"])
             self.assertIn("|v:", report["run"]["model_version"])
             worker = [payload for url, payload in payloads if url.endswith("/worker")]
             measurements = [
