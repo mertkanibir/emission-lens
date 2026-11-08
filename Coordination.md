@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 21:31 America/New_York / 8 November 2026, 02:31 UTC
+**Updated:** 7 November 2026, 21:54 America/New_York / 8 November 2026, 02:54 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -125,3 +125,23 @@ Mert read the latest completed project-chat outputs and Carter's 21:16–21:25 A
 The 223 and 228 videos and companion recording JSONs are downloaded into their ignored camera clip directories and hash-verified. Existing 222 media is available. Camera 220 media/reference availability and Carter's additional human keys remain pending discovery/sharing. The four-video/full-recording queue is assigned, **not completed or verified**. Mert requested a shared folder link if one exists while independent work proceeds on available files. Raw video, frames, temporary review sheets and private download capabilities stay out of Git.
 
 The numerical [222 audit](./evaluation/calibration/222-count-audit.md) reproduces Carter's original results and records the boundary/direction sensitivity. It is not an additional visual annotation or a reason to overwrite the original key. The other project chats' completed software outputs remain valid at their documented synthetic/local scope; contributor-display setting changes remain on hold.
+
+## First review results and priority clarification
+
+**Updated:** 7 November 2026, 21:54 America/New_York / 8 November 2026, 02:54 UTC
+
+Mert clarified that additional recordings/references will come **after 223 and 228 are successful**. Resolve those two first. Broad full-file/four-camera expansion is deferred; the queue retains its unreviewed intervals rather than claiming completion. No further media request is required for the current two-camera diagnosis.
+
+- The independent review harness/report is published in `410a46f`; all 14 focused tests pass, independently rerun by Mert. Three initial held-out ledgers froze before corresponding reference access. A separate read-only min-cost max-flow audit reproduced all comparison counts and minimum timing gaps and checked source/freeze/geometry/reference hashes. See the [review report](./evaluation/video_validation/report.md).
+- Camera 222's assisted ledger matches 62 of Carter's 64 literal interior annotations, with four assisted extras and two misses; the two original end annotations remain separately unresolved. Original-compatible comparison is also preserved. This is one-window agreement, not a new human annotation or a general accuracy guarantee.
+- Camera 223 has 129 model passages versus 125–136 assisted passages. Candidate-inclusive agreement recall is 91.91%, precision 96.90%, and total difference −5.15%; excluding endpoint ambiguity also passes the provisional aggregate screen. Endpoint/directional adjudication and final count-only acceptance remain open.
+- Camera 228 has 69 model passages versus 105–120 assisted passages. Its deficit remains 34.29–42.50% under both ambiguity bounds, so it is not successful on this screen. No geometry/model/policy is changed or camera enabled on the basis of the score. Actual disputed footage supports several finite-gate passages inside the road and outside exclusions; the pipeline root cause is not yet established.
+- GPU job 175884 completed all four original baseline runs on CUDA in 1m28s, passed 30 tests plus 12 subtests and released its allocation. Private outputs and safe provenance are published in `a07b13d`; new-camera human-reference metrics remain unavailable. The existing inclusive-end checker sampled no exact end frames, so the actual frame sets also satisfy the declared half-open windows.
+- Carter's reported queue portability issue is fixed in `845ce3c` with native verification in `8915278`: Windows and Linux each pass 53 tests plus 15 subtests; macOS checks also pass. See [platform evidence](./worker/QUEUE-PORTABILITY.md). This is normal-operation/restart evidence, not a power-loss proof.
+- The dashboard consumer check preserves unavailable physical outputs and mode separation. The public read model does not yet expose Carter's count-review decision, so its conservative count-review-not-reported wording remains a known display gap; no scientific flag or design change was inferred.
+
+### Authorized next diagnostic
+
+The GPU/data stream may run one short, at most three-minute job tracing camera 228's **practice** dense release at 83–110s with unchanged n/640, requested 15 FPS and frozen geometry. Tracker/sampler initialization starts at 60s to match the existing practice recipe. Retain source PTS, sample decisions, detection/track ground points, road/exclusion eligibility, hit/gap/gate-state and crossing decisions privately. Do not alter worker decisions or treat instrumentation as a throughput benchmark. Source PTS replay reproduces the extra sampler omissions, but most rejected frames are 0.333–0.667ms before the sampling threshold; a tiny floating-point epsilon is not an established explanation for the count deficit.
+
+After identifying a concrete cause, propose the smallest practice-selected repair, freeze it and evaluate separately on camera 228's reserved **unviewed `[720,840)`** interval. The earlier 900–1020 suggestion is superseded. The renderer enforces that reservation; no original failed held-out score is reclassified as fresh evidence after tuning. Physical calibration/emissions and contributor-setting changes remain outside this count-diagnostic checkpoint.
