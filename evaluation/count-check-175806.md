@@ -1,7 +1,7 @@
 # Camera 222: GPU count checks at requested 15 FPS
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 
 Job **175806** completed `0:0` on one H100 MIG `1g.10gb` slice, account `rpicourse`, QOS `normal`, reservation `binghamton_hackathon`. It took **4m33s**, including the four count runs and a two-minute four-camera benchmark. The allocation is released. [Scalar execution evidence and checksums](./count-check-175806.json) record source revision, clip/geometry/model hashes, actual CUDA devices, settings and results.
 
@@ -24,4 +24,6 @@ Verification: **38 tests plus 17 subtests passed** on compute for `tests/test_ch
 
 The original count invocations use the supplied clip, `--seconds 120 --fps 15`, starts 60 and 360, and weights/sizes `weights/yolo11s.pt / 1280` and `weights/yolo11n.pt / 640`. Benchmark command: `python -m evaluation.benchmark --seconds 120 --weights weights/yolo11s.pt --image-size 1280 --fps 15 --threads 1 --output <private-result.json>`.
 
-Carter's manual totals and held-out crossing answer key were not among the shared files found. Accepted count/tracking error remains unavailable pending that comparison. Similar model totals alone do not establish accuracy. No model was promoted, no actual geometry enabled, and no physical calibration, contract or production setting changed. Raw footage and weights remain private and ignored, retained for the pending manual comparison.
+At the original GPU execution checkpoint, Carter's manual totals and held-out crossing answer key were not among the shared files found; accepted count/tracking error was then unavailable pending comparison. Similar model totals alone do not establish accuracy. No model was promoted, no actual geometry enabled, and no physical calibration, contract or production setting changed. Raw footage and weights remain private and ignored, retained for ongoing review and boundary adjudication.
+
+**Subsequent review (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Carter later committed the [original count-1 human key and acceptance record](./calibration/222-count-acceptance.json) and enabled only camera 222/count-1. The [numerical audit](./calibration/222-count-audit.md) reproduces both model results, explains geometry byte/canonical hashes and retains endpoint/direction sensitivity. The [independent assisted review](./video_validation/report.md) now adds separate frozen comparisons; it is not new human ground truth. This run's JSON/checksums and its original no-approval scope remain unchanged. No additional model selection, camera activation or physical approval is made here.

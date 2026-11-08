@@ -2,9 +2,9 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 21:31 America/New_York / 8 November 2026, 02:31 UTC
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 
-This is a numerical/provenance audit of Carter's published evidence in `b1a5edf`, not a second visual annotation. It preserves the [original acceptance record](./222-count-acceptance.json) and [original crossing key](./222-count-1-manual-clip-6m00-8m00.txt). An independent assisted visual review is a separate work stream and has not yet completed.
+This is a numerical/provenance audit of Carter's published evidence in `b1a5edf`, not a second visual annotation. It preserves the [original acceptance record](./222-count-acceptance.json) and [original crossing key](./222-count-1-manual-clip-6m00-8m00.txt). The separate [independent assisted review](../video_validation/report.md) has now completed selected practice/held-out windows and frozen comparisons. Its ledgers retain `human_confirmed=false`; the boundary/direction disputes below still require human adjudication.
 
 ## Reproduction and boundary sensitivity
 
@@ -32,3 +32,5 @@ The acceptance record's pre-enable geometry hash starts `2f53d91…`, while the 
 Carter enabled only camera 222's designated `count-1` image-space crossing path. The evidence covers one two-minute daytime held-out interval, one human annotator, pretrained models and requested sampling at 15 FPS. `count-2` is unaccepted. Physical road calibration, distance, speed, engine-running inference and emissions are not authorized by this count result.
 
 Keep Carter's count-only decision and original evidence visible while independently reviewing the boundary/disagreement intervals. Use the proposed 85%/15% criteria as a clearly labeled screening result for upcoming cameras; final activation still requires Mert or Carter's reviewed decision, including directional failures and uncertain visual evidence. Assisted visual ledgers have `human_confirmed=false` until a human actually reviews them. Do not tune geometry using the held-out score.
+
+**Status reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Mert linked the completed separate assisted review while preserving this audit's original key, matching results, boundary sensitivity and count-only scope. No annotation was retimed, removed or accepted by this documentation update.

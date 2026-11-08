@@ -1,11 +1,11 @@
 # Completed-traversal calculation report
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 19:39 America/New_York / 8 November 2026, 00:39 UTC
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 
 `build_completed_traversal_report` is a pure server-side calculation adapter in `src/traversal-report.ts`. It combines a supplied completed-traversal cohort, existing contract-1.1 traffic/emissions records, the retained CARB RUNEX estimator, and an optional per-traversal shorter-stop scenario. Its result is explicitly `stage: calculation_only`.
 
-It does not create observations, approve calibration or class mappings, alter the camera registry, write a worker batch, or publish live totals. The live measurement-to-storage path still requires producer, approved-registry, evidence-persistence and transactional-publication code as well as physical evidence. It is not only configuration work.
+It does not create observations, approve calibration or class mappings, alter the camera registry, write a worker batch, or publish live totals. The separate [measurement ingestion path](./MEASUREMENT-INGESTION.md) now implements the producer/bridge handoff, server-approved registry resolution, evidence persistence and transactional minute composition, with [opt-in worker runtime wiring](../worker/RUNTIME-MEASUREMENTS.md). Those components do not approve real physical inputs. This helper itself remains `calculation_only`.
 
 ## Supplied context
 
@@ -43,4 +43,6 @@ npx tsc -p backend/tsconfig.json
 
 Eleven focused tests pass, including explicit synthetic estimates, unsupported calibration/mappings, empty/unknown cohorts, per-traversal scenario timing, UTC normalization, mode/camera mismatches, identity duplication, malformed values even without calibration, input immutability, and incidental-field exclusion. No camera, GPU, label, model weight or server build is needed for these checks.
 
-The next integration decision is an approved shared measurement/calibration/mapping handoff and the transactional writer that persists the resulting evidence and aggregates. Existing statically missing camera calibration must not be bypassed to make a live total appear. Crossing accuracy, physical calibration, source capture UTC, observed coverage and environmental impact remain unverified by this adapter.
+The transactional writer and separately versioned handoff are implemented. The remaining dependency is reviewed real calibration/movement/class/stopped evidence and configured end-to-end acceptance. Existing statically missing camera calibration must not be bypassed to make a live total appear. Crossing accuracy, physical calibration, source capture UTC, observed coverage and environmental impact remain unverified by this adapter.
+
+**Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Mert replaced the obsolete producer/persistence-code blocker with links to the implemented runtime/server path. Pure calculation semantics, missing-data behavior and core contract 1.1 are unchanged; no physical camera approval follows from this update.

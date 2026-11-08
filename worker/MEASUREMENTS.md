@@ -1,8 +1,8 @@
 # Traversal-to-measurement bridge
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 20:58 America/New_York / 8 November 2026, 01:58 UTC
-**Status:** Bridge implemented and deterministically verified; runtime binding remains with engineering. The exact API was published before implementation in `e945492`.
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
+**Status:** Bridge and opt-in runtime binding are implemented and deterministically verified; real physical acceptance remains open. The exact API was published before implementation in `e945492`.
 
 New module `worker.measurement` bridges [completed traversal evidence](./TRAVERSALS.md) to the exact separate [measurement v1 envelope](../backend/MEASUREMENT-INGESTION.md). Engineering owns the runtime call sites. It does not change `WorkerBatch` 1.1 or infer physical approval.
 
@@ -69,4 +69,6 @@ python -m pytest tests/test_measurement.py tests/test_traversal.py tests/test_me
 
 The bridge makes no HTTP requests or disk writes itself. Runtime binding must retain pending checkpoints before enqueue, commit/persist before flush, update matching legacy observation references and supply current clocks. Existing runtime snapshot helpers must delegate this bookkeeping to `MeasurementBridge` to benefit from these tested rules. Do not run two independently revisioning producers for the same camera/run/minute.
 
-No GPU run, media collection, model/tracker/configuration change, manual-count review or camera enablement occurred. Runtime ingestion/storage remains engineering's work. Physical calibration, class mapping, stopped-time classification and count acceptance remain independent requirements; this bridge neither approves them nor invents values.
+The bridge-only implementation checkpoint ran no GPU, collected no media and changed no model/tracker/configuration, manual review or camera enablement. Runtime ingestion/storage is implemented separately by engineering. Physical calibration, class mapping, stopped-time classification and count acceptance remain independent requirements; this bridge neither approves them nor invents values.
+
+**Runtime handoff reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Engineering's [runtime adapter](./RUNTIME-MEASUREMENTS.md) now implements the call sites, separate endpoints/outboxes and durable plan ordering described above. [Queue portability evidence](./QUEUE-PORTABILITY.md) records the later native platform checks. Server storage/read/scenario integration is also implemented. These changes supersede the earlier code-handoff dependency; reviewed physical inputs, human count acceptance for remaining cameras and configured field/replay/outage verification are still required.

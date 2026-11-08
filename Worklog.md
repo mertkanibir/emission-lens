@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 22:03 America/New_York / 8 November 2026, 03:03 UTC
+
+- **Who:** Mert
+- **Done:** Reconciled 14 Markdown status/setup/evaluation documents with completed GPU jobs 175806/175884, Carter's scoped 222/count-1 activation and existing human-key audit, current frozen assisted reviews, implemented traversal/measurement runtime/server integration and native queue portability evidence. Updated README.md, Plan.md, Agents.md, worker documentation, the evaluation index/readiness/run reports, backend/TRAVERSAL-REPORT.md and emissions/SCENARIOS.md. Added dated follow-ups instead of rewriting historical numeric evidence.
+- **Completed:** All 116 relative documentation links resolve; scoped whitespace checks pass. Confirmed the documented 59.94 aggregate FPS / 780 drops against the stored benchmark and checked current image config flags. The count-only setup explicitly requests 15 FPS and count-1 rather than silently relying on the 5 FPS default. Removed obsolete all-geometries-disabled, missing-human-key and unwired-producer/persistence claims at their correct scope. Preserved original human/boundary evidence, practice-ledger supersession and the reserved unviewed 228 segment. This was documentation-only; existing code test/build results retain their original dates and were not rerun.
+- **Still open:** Human adjudication and count-only acceptance for 223/228, the unresolved 228 deficit and related practice diagnosis, 220 media/review locally, independently supported physical calibration and class/stopped assumptions, configured real delivery/replay/outage acceptance and hosted persistence. No executable source, camera/model setting, raw media, numeric evidence, acceptance threshold or contract changed. Concurrent diagnostic/review work was excluded from this commit.
+
 ### 7 November 2026, 21:43 America/New_York / 8 November 2026, 02:43 UTC
 
 - **Who:** Mert

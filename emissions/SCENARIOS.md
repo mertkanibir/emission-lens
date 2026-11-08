@@ -1,7 +1,7 @@
 # Completed-traversal stopped-time scenarios
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 19:37 America/New_York / 8 November 2026, 00:37 UTC
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 
 `compare_completed_traversal_scenario` in `src/scenario.ts` is a pure calculation interface for a supplied, completed-traversal cohort. It does not configure a camera, approve a regulatory class mapping, collect traversal measurements, or enable live emissions. See the [factor package](./README.md) for the retained CARB factors and their region/year/process limitations.
 
@@ -46,4 +46,6 @@ node --import tsx --test backend/test/traversal-scenario.test.ts
 npx tsc -p backend/tsconfig.json
 ```
 
-A live path still requires reviewed geometry, independently supported physical calibration and its provenance, completed entry/exit traversals with per-traversal stopped time, documented visual-to-CARB VMT assumptions, persistence and read/scenario integration. A valid calibration flag supplied to this pure function is trusted; the function does not independently establish road distances. Current aggregate minute totals are insufficient to reconstruct nonlinear per-traversal scenario emissions. This engine supplies the supported calculation component, not a completed live emissions pipeline.
+The [measurement server path](../backend/MEASUREMENT-INGESTION.md) and [opt-in runtime](../worker/RUNTIME-MEASUREMENTS.md) now implement persistence and read/scenario integration. Real live acceptance still requires reviewed geometry, independently supported physical calibration/provenance, observed entry/exit traversals with per-traversal stopped time and documented visual-to-CARB VMT assumptions. A valid calibration flag supplied to this pure function is trusted; the function does not independently establish road distances. Current aggregate minute totals are insufficient to reconstruct nonlinear per-traversal scenario emissions. This engine supplies the supported calculation component, not a completed live emissions pipeline.
+
+**Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Persistence/read/scenario software is complete at its documented synthetic/local acceptance scope. Physical calibration and valid real completed cohorts remain unavailable; the pure engine's arithmetic, signed changes and separate scenario-versus-observation meanings are unchanged.

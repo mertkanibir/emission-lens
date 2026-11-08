@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. The separate measurement path persists reviewed-input calculations, per-pollutant scenarios and traceable briefs; independent synthetic HTTP checks cover restart, export, revocation and retraction. Carter has enabled camera 222's reviewed count-1 image crossing path; its original result reproduces, with boundary/direction limitations recorded. Independent assisted review is starting for all four clips, prioritizing 223/228; Carter handles 220. Physical road calibration, class mappings, live calibrated traversals and hosted shared persistence remain open. The tuned candidate was not promoted.
+**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. The separate measurement path persists reviewed-input calculations, per-pollutant scenarios and traceable briefs; independent synthetic HTTP checks cover restart, export, revocation and retraction. Carter has enabled camera 222's reviewed count-1 image crossing path; its original result reproduces, with boundary/direction limitations recorded. Frozen assisted review covers selected practice/held-out windows for 222/223/228; human adjudication of 223/228 is prioritized, with a substantial 228 deficit unresolved. Full-file expansion is deferred; Carter handles 220, whose media is unavailable in the local review inventory. Physical road calibration, class mappings, live calibrated traversals and hosted shared persistence remain open. The tuned candidate was not promoted.
 
 ---
 
@@ -535,6 +535,8 @@ Each coding agent must:
 Agent messages are proposals, not automatic changes to project scope.
 
 ## 16. Validation
+
+**Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Mert synchronized this status with [GPU job 175806](./evaluation/count-check-175806.md), [223/228 frozen baselines](./evaluation/count-validation-223-228.md), the [222 audit](./evaluation/calibration/222-count-audit.md) and [current assisted review](./evaluation/video_validation/report.md). The 59.94 aggregate FPS four-camera check had 780 buffer drops. Only 222/count-1 is enabled for image counts; assisted ledgers are not human truth or new camera approval. Keep original human/boundary evidence, supersession records and the reserved unviewed 228 `[720,840)` segment intact. Traversal/measurement runtime software is implemented; real physical calibration, class/stopped evidence and configured end-to-end acceptance remain open. No scope, acceptance threshold or core contract changes are made by this reconciliation.
 
 Use short manually reviewed clips from each camera, including different traffic conditions where available.
 

@@ -1,8 +1,8 @@
 # Internal completed-traversal producer
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 20:39 America/New_York / 8 November 2026, 01:39 UTC
-**Status:** Pure producer implemented and verified with synthetic trajectories; runtime wiring and real measurement acceptance remain open.
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
+**Status:** Pure producer and opt-in runtime wiring are implemented/tested; real physical measurement acceptance remains open.
 
 This is an internal producer for the accepted traversal/scenario handoff in [Coordination.md](../Coordination.md). Engineering owns runtime wiring, registry approval, persistence and minute composition. This document introduces no public contract fields, accepted camera geometry or physical measurements.
 
@@ -97,4 +97,6 @@ Engineering must construct observations from actual tracker detections, select a
 
 The code cannot discover camera movement from pixels, prove upstream identity continuity, repair false tracker merges, deduplicate source overlap across sessions/runs or establish physical accuracy. Context/version changes must be signaled by the caller. Engineering owns retention and any invalidation/retraction of previously emitted records if later source or calibration review rejects their evidence. The producer discards affected open attempts and does not silently revise historical output.
 
-No real geometry was enabled, and no labels, model settings, training, manual-count review or GPU allocation changed. Synthetic tests establish state-machine mechanics only. Real calibration, direction/continuity thresholds, road observations, stopped-time classification and held-out acceptance remain separate dependencies. There is no public contract or runtime-wiring change in this checkpoint.
+No real geometry was enabled, and no labels, model settings, training, manual-count review or GPU allocation changed. Synthetic tests establish state-machine mechanics only. Real calibration, direction/continuity thresholds, road observations, stopped-time classification and held-out acceptance remain separate dependencies. The original producer-only checkpoint made no public-contract or runtime-call-site change.
+
+**Runtime handoff reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** The [runtime adapter](./RUNTIME-MEASUREMENTS.md) constructs observations and supplies same-session clocks through the [measurement bridge](./MEASUREMENTS.md); server persistence/scenario composition is implemented separately. This supersedes the earlier wiring dependency, not any physical evidence requirement. Carter's 222/count-1 image-count decision does not approve movement distances or traversal-linked stopped policies.

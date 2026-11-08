@@ -1,7 +1,7 @@
 # Engineering integration readiness
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 **Status:** Persistent server measurement/scenario and opt-in runtime software path complete; real scientific acceptance remains open.
 **Authority:** [Plan.md](../Plan.md), [Coordination.md](../Coordination.md), core contract 1.1 and the separately versioned [measurement interface](../backend/MEASUREMENT-INGESTION.md).
 
@@ -52,12 +52,12 @@ The additive public scenario fields name CO₂ and NOₓ separately. The legacy 
 
 The preceding 82-test checkpoint includes pure estimator/report/scenario arithmetic and independent atomic reader, failed commit, lost acknowledgement and stale-lock recovery checks. An abandoned recovery claim fails closed rather than being recursively reaped. These tests do not constitute a forced live HLS outage or measured crossing accuracy.
 
-Engineering does not run the production web build during this shared wave; UI owns it and coordination runs independent final HTTP acceptance. No new GPU training, model promotion, hosting, public port, physical calibration or production class mapping is activated here.
+At the 21:04 engineering checkpoint, the shared production build remained with UI/coordination. Their subsequent build/type checks and independent HTTP acceptance are recorded in Coordination.md; this dated engineering test count is not a claim of a new rerun. No new GPU training, model promotion, hosting, public port, physical calibration or production class mapping is activated here.
 
 ## Remaining acceptance
 
-1. Runtime wiring and [private configuration/setup](../worker/RUNTIME-MEASUREMENTS.md) are complete. Install reviewed inputs when available; default camera/physical approvals remain disabled/missing.
-2. UI/coordination finish combined route/render/export and HTTP restart/revocation checks on a stable published revision.
+1. Runtime wiring and [private configuration/setup](../worker/RUNTIME-MEASUREMENTS.md) are complete. Carter enabled only 222/count-1 image counts; the opt-in physical path and real server approvals remain unconfigured. Other image-measurement configurations remain disabled/unvalidated.
+2. Combined route/render/export, build/type checks and the nine production HTTP restart/revocation checks passed at the documented [coordination checkpoint](../Coordination.md). Repeat them when later implementation changes justify it; this does not substitute for real configured acceptance.
 3. Install independently supported calibration and accepted movement/class/stopped evidence privately after Mert/Carter count review; demonstrate one camera end to end before expansion.
 4. Run the actual configured pipeline through bounded source outage/reconnect/restart and replay acceptance, then rehearse the demonstration and retain its limitations.
 5. Provision shared hosted storage only if moving beyond the persistent single-host topology. Promise-based ingestion transactions are ready for an adapter; synchronous compatibility reads still require deliberate migration.
@@ -67,3 +67,5 @@ Missing physical references and held-out validation can block live acceptance re
 **Runtime verification (7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC):** Nine focused adapter/orchestration tests cover actual main-loop sender binding with simulated frames, linked stops, source-clock rebins, legacy reference updates, cross-session rejection and forced partial enqueue/restart. Outbox/checkpoint ordering persists the complete plan before any dependent delivery. Existing producer/bridge tests independently validate actual TypeScript parser and server ingestion compatibility. This checkpoint starts no detector, GPU job, training, source-media collection or real calibration activation.
 
 **Final engineering checks (7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC):** 99 backend tests and backend/contract type checks pass. The focused worker suite passes 172 tests plus 112 subtests with isolated pinned Python dependencies, including nine adapter/main-loop checks and the committed producer/bridge's TypeScript parser/server compatibility checks. Measurement-only runs now retain established device and final end metadata across multiple minute snapshots, preserving restart/provenance denial. The three reviewed window/timestamp/identity boundaries have focused regressions. Scientific evidence and the real configured delivery/replay/outage checkpoint remain open.
+
+**Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Runtime/server wiring is implemented, and prior combined synthetic/local acceptance is recorded. Current [count review](./video_validation/report.md) keeps assisted ledgers distinct from human acceptance; only 222/count-1 has Carter's image-count activation. [Job 175806](./count-check-175806.md) is a separate bounded count/benchmark run with drops, not configured physical delivery. Real calibration, movement/class/stopped approvals and a live/replay/outage demonstration remain required.

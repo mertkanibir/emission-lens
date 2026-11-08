@@ -1,7 +1,7 @@
 # Camera worker
 
 **Owner:** Mert, runtime integration; Carter, detection, tracking and labeling.
-**Updated:** 7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC.
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 
 From the repository root, inside the verified compute-node Python environment:
 
@@ -28,7 +28,9 @@ The worker publishes contract 1.1 run/status envelopes with empty traffic/emissi
 
 ## Optional reviewed image measurements
 
-`--measurement-config /private/path/reviewed-camera.json` enables the separate image-measurement path only when its configuration says `enabled: true` and `image_geometry_status: reviewed`. No real camera geometry is enabled in the repository. `config/cameras/measurement.example.json` is a disabled, unvalidated structural example, not usable calibration. Geometry needs review against the actual camera before activation.
+`--measurement-config /private/path/reviewed-camera.json` enables the separate image-measurement path only when its configuration says `enabled: true` and `image_geometry_status: reviewed`. Carter has enabled/reviewed `config/cameras/222.measurement.json` (`222-image-v3`) for the designated `count-1` path only. `count-2` is unaccepted; the 220/223/228 image configurations remain disabled/unvalidated. `config/cameras/measurement.example.json` is a disabled, unvalidated structural example, not usable calibration. Geometry needs review against the actual camera before activation.
+
+**Count-profile reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** The documented camera-222 count checks used pretrained YOLO11n/640 at requested **15 FPS**, not the default 5 FPS. To use that count-only profile with the bounded CUDA command above, add `--camera 222 --fps 15 --measurement-config config/cameras/222.measurement.json --count-gate-id count-1`. This does not enable physical traversal measurement or validate other sampling settings. Preserve the [222 audit](../evaluation/calibration/222-count-audit.md) and its unresolved endpoint/direction issues. [Current 223/228 review](../evaluation/video_validation/report.md) does not authorize their activation. The [four-camera benchmark](../evaluation/count-check-175806.md) is bounded performance evidence with drops; [queue portability](./QUEUE-PORTABILITY.md) records native platform checks.
 
 When a configuration has multiple gates, `--count-gate-id` must choose one explicitly; crossing counts are never summed across entry/exit gates. The worker aggregates actual crossing events into **estimated HLS media UTC minutes**, with the model's supported vehicle classes only. A zero requires an advancing observed frame under the enabled reviewed gate. Pretrained weights do not produce supported Tesla/pickup/etc. zeros. The optional image-space queue observation is stored on one class row so it cannot be summed per class. Stopped time, physical distance, traversal time, completed traversals, coverage and emissions remain null in these rows.
 

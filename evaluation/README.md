@@ -1,10 +1,18 @@
 # Evaluation
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 18:55 America/New_York (23:55 UTC)
+**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
 
-## Current evidence index — 7 November 2026, 18:55 America/New_York / 23:55 UTC
+## Current evidence index
 
+**Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Current count/readiness evidence is listed first. Original dated run records below retain their original model, sampler, software and acceptance scope.
+
+- [Camera-222 GPU checks and 15 FPS four-camera benchmark](./count-check-175806.md): four requested count JSONs delivered to Carter; job 175806 completed. Four-camera YOLO11s/1280 processing reached 59.94 aggregate FPS with 780 reader-buffer drops over 120 seconds, not loss-free sustained operation.
+- [222 human-reference audit](./calibration/222-count-audit.md): original result reproduced, image count-1 enabled by Carter, count-2 unaccepted; endpoint/direction sensitivity and pending human adjudication remain visible.
+- [223/228 acquisition and frozen baseline](./count-validation-223-228.md): job 175884, unchanged pretrained n/640 at requested 15 FPS; all four result hashes/CUDA devices verified. These are execution checks, not additional camera approvals.
+- [Independent assisted review](./video_validation/report.md) and [protocol](./video_validation/README.md): selected practice/held-out windows for 222/223/228, immutable ledgers and separately labeled human/model comparisons. 223/228 still need human adjudication; 228 has a substantial unresolved deficit. Follow the current supersession record for any corrected practice ledger. Full-file expansion is deferred; the unviewed 228 `[720,840)` segment remains reserved and 220 media pending locally.
+- [Software integration readiness](./integration-readiness.md), [runtime setup](../worker/RUNTIME-MEASUREMENTS.md) and [measurement interface](../backend/MEASUREMENT-INGESTION.md): producer, bridge, persistence, per-pollutant scenarios and exact brief export are implemented/tested on controlled inputs; physical field acceptance remains separate.
+- [Native queue portability](../worker/QUEUE-PORTABILITY.md): Windows/Linux normal-operation and restart evidence, with platform-specific durability limits.
 - [HLS media-clock alignment](./timing-alignment.md): per-session minimum-offset clock, earlier-observation rebins, ordered retractions, and the [204-frame live timing check](./hls-clock-20261107.json). A 25.060645-second anchor improvement is not a capture-latency measurement. [Timing CI](https://github.com/mertkanibir/emission-lens/actions/runs/42427132206) passed; capture UTC remains unavailable.
 - [Four-camera CUDA benchmark](./empire-ai-175627-benchmark.json) and [local delivery](./empire-ai-175627-delivery.json): bounded performance, persisted status and matching previews; frame drops and limits are recorded.
 - [Fine-tuning comparison](./empire-ai-175644-comparison.md) and [training provenance](./empire-ai-175644-training.json): completed training, underperforming candidate, no model promotion.
@@ -110,7 +118,7 @@ The [final runtime check](./empire-ai-175627-final-runtime.json) additionally ex
 
 The [source manifest](./empire-ai-175627-source.json) ties the checks to tested script hashes. The benchmark/delivery/replay used a source-only snapshot on a detached worktree at `7e87aea`; their tested implementation files match published commit `ac09714`. The final runtime extends that source with the optional aggregation wiring and records matching follow-up hashes. This avoids presenting a worktree's base commit as the entire tested source.
 
-These records establish bounded GPU execution, status delivery, exact-frame previews, graceful shutdown and replay isolation. They do **not** establish held-out accuracy, validated crossing counts, stopped-time accuracy, physical calibration, emissions, environmental savings or a hosted deployment. See [the calibration guide](./calibration-guide.md) before enabling geometry. Real camera configurations remain disabled/unreviewed; no regulatory class mapping is silently activated.
+These records establish bounded GPU execution, status delivery, exact-frame previews, graceful shutdown and replay isolation. They do **not** establish held-out accuracy, validated crossing counts, stopped-time accuracy, physical calibration, emissions, environmental savings or a hosted deployment. See [the calibration guide](./calibration-guide.md) before enabling geometry. At this job-175627 checkpoint, real image configurations were disabled/unreviewed. Carter later enabled only 222/count-1, as described in the current evidence index; no physical calibration or regulatory mixture follows from that decision.
 
 ## Fine-tuning dataset and GPU preflight
 
