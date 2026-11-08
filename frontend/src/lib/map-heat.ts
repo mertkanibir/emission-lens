@@ -1,11 +1,18 @@
 import type { FeatureCollection, Point } from "geojson";
-import type { CircleLayerSpecification, HeatmapLayerSpecification } from "maplibre-gl";
+import type { CircleLayerSpecification, HeatmapLayerSpecification, ExpressionSpecification } from "maplibre-gl";
 import type { MapEmissionEstimate } from "./map-emissions";
 
 export const EMISSIONS_SOURCE = "supported-camera-emissions";
 export const EMISSIONS_LAYER = "supported-camera-emissions-heat";
 export const EMISSIONS_RING_LAYER = "supported-camera-emissions-ring";
 export const EMISSIONS_CORE_LAYER = "supported-camera-emissions-core";
+/** Shared by the point layer and legend; fixed display scale, not a risk scale. */
+export const EMISSIONS_COLOR_SCALE = [
+  { value: 0, color: "#c8e1d0" },
+  { value: 25, color: "#91b18d" },
+  { value: 50, color: "#899260" },
+  { value: 100, color: "#8f653f" },
+] as const;
 
 export function cameraHeatData(cameras: readonly {
   id: string;
@@ -37,12 +44,12 @@ export const emissionsHeatLayer: HeatmapLayerSpecification = {
   layout: { visibility: "none" },
   paint: {
     "heatmap-weight": ["interpolate", ["linear"], ["get", "co2_g"], 0, 0, 0.001, 0.22, 10, 0.4, 50, 0.75, 100, 1],
-    "heatmap-intensity": 1.8,
-    "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 9, 50, 13, 96, 16, 130],
+    "heatmap-intensity": 1.4,
+    "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 9, 38, 13, 68, 16, 96],
     "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"],
-      0, "rgba(40,210,165,0)", 0.12, "rgba(40,210,165,0.22)",
-      0.3, "rgba(105,225,143,0.65)", 0.5, "#e8e777", 0.75, "#ffb451", 1, "#f37042"],
-    "heatmap-opacity": 0.9,
+      0, "rgba(128,182,151,0)", 0.2, "rgba(128,182,151,0.18)",
+      0.5, "rgba(170,192,141,0.38)", 0.75, "rgba(211,196,145,0.5)", 1, "rgba(173,135,83,0.65)"],
+    "heatmap-opacity": 0.78,
   },
 };
 
@@ -53,10 +60,10 @@ export const emissionsRingLayer: CircleLayerSpecification = {
   filter: [">", ["get", "co2_g"], 0],
   layout: { visibility: "none" },
   paint: {
-    "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 22, 13, 38, 16, 52],
-    "circle-color": "rgba(21,54,41,0.12)",
-    "circle-stroke-color": "rgba(236,255,226,0.8)",
-    "circle-stroke-width": 1.5,
+    "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 21, 13, 30, 16, 42],
+    "circle-color": "rgba(21,54,41,0.06)",
+    "circle-stroke-color": "rgba(235,243,221,0.65)",
+    "circle-stroke-width": 1,
   },
 };
 
@@ -67,8 +74,8 @@ export const emissionsCoreLayer: CircleLayerSpecification = {
   filter: [">", ["get", "co2_g"], 0],
   layout: { visibility: "none" },
   paint: {
-    "circle-radius": 20,
-    "circle-color": ["interpolate", ["linear"], ["get", "co2_g"], 0, "#40d6a4", 25, "#ddeb81", 50, "#ffbd61", 100, "#f37042"],
+    "circle-radius": 19,
+    "circle-color": ["interpolate", ["linear"], ["get", "co2_g"], ...EMISSIONS_COLOR_SCALE.flatMap(({ value, color }) => [value, color])] as ExpressionSpecification,
     "circle-stroke-color": "#fffce9",
     "circle-stroke-width": 2,
     "circle-opacity": 0.95,

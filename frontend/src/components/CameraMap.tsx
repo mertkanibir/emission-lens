@@ -10,6 +10,7 @@ import { ArrowsOut } from "@phosphor-icons/react";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
 import { cameraHeatData, EMISSIONS_SOURCE, emissionsHeatLayer, emissionsCoreLayer, emissionsRingLayer } from "@/lib/map-heat";
 import { formatInstant, PACIFIC, type MapView } from "@/lib/format";
+import { scenarioValue } from "@/lib/scenario-presentation";
 
 export interface MapCamera {
   id: string;
@@ -226,11 +227,14 @@ export function CameraMap({
       if (view === "emissions" && camera.emissions) {
         const badge = document.createElement("span");
         badge.className = "mm-emission-reading";
+        const label = document.createElement("span");
+        label.className = "mm-emission-label";
+        label.textContent = "Estimated CO₂";
         const amount = document.createElement("strong");
-        amount.textContent = camera.valueLabel.replace(/ · snapshot$/, "");
+        amount.textContent = scenarioValue(camera.emissions.co2_g, "g", false, camera.emissions.co2_g >= 1 ? 1 : 6);
         const scope = document.createElement("small");
-        scope.textContent = `Supported minute · ${formatInstant(camera.emissions.minute, PACIFIC)}`;
-        badge.append(amount, scope);
+        scope.textContent = formatInstant(camera.emissions.minute, PACIFIC);
+        badge.append(label, amount, scope);
         anchor.append(badge);
       }
       anchor.addEventListener("click", (event) => {
@@ -294,8 +298,8 @@ export function CameraMap({
       {view === "emissions" ? (
         <div className="map-heat-status" role="status">
           <span className="map-heat-status-dot" aria-hidden="true" />
-          <strong>{cameraHeatData(cameras).features.length} / {cameras.length} cameras with supported estimates</strong>
-          <small>Camera points · estimated CO₂ · no dispersion inference</small>
+          <strong>{cameraHeatData(cameras).features.length} / {cameras.length} supported stations</strong>
+          <small>Completed movements · dated minute records</small>
         </div>
       ) : null}
       <button

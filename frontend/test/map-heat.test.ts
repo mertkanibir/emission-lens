@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cameraHeatData, emissionsCoreLayer, emissionsRingLayer } from "../src/lib/map-heat.ts";
+import { cameraHeatData, emissionsCoreLayer, emissionsRingLayer, EMISSIONS_COLOR_SCALE } from "../src/lib/map-heat.ts";
 
 const camera = {
   id: "222", longitude: -118.35286, latitude: 33.83135,
@@ -22,4 +22,12 @@ test("map points preserve supported values including zero, while missing or inva
   assert.equal(data.features[0].properties?.minute, camera.emissions.minute);
   assert.deepEqual(emissionsCoreLayer.filter, [">", ["get", "co2_g"], 0]);
   assert.deepEqual(emissionsRingLayer.filter, [">", ["get", "co2_g"], 0]);
+});
+
+test("the visible gram legend uses the same fixed stops as the camera-point color layer", () => {
+  assert.deepEqual(EMISSIONS_COLOR_SCALE.map(stop => stop.value), [0, 25, 50, 100]);
+  assert.deepEqual(emissionsCoreLayer.paint?.["circle-color"], [
+    "interpolate", ["linear"], ["get", "co2_g"],
+    ...EMISSIONS_COLOR_SCALE.flatMap(({ value, color }) => [value, color]),
+  ]);
 });

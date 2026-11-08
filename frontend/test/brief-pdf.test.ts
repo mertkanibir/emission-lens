@@ -3,7 +3,7 @@ import test from "node:test";
 import { inflateSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { buildBriefPdf } from "../src/lib/brief-pdf.ts";
-import { briefSourceHash,sealBriefReport,openBriefReport,buildBriefReport,type BriefReport } from "../src/lib/brief-report.ts";
+import { briefSourceHash,sealBriefReport,openBriefReport,buildBriefReport,reportRecommendation,plainBriefSummary,type BriefReport } from "../src/lib/brief-report.ts";
 import { POST } from "../src/app/api/brief/pdf/route.ts";
 
 function streams(pdf: Buffer) {
@@ -50,3 +50,13 @@ function report():BriefReport {
 }
 test("signed report snapshot is bound to exact reviewed text, scope and export identity",()=>{const sealed=sealBriefReport(report(),draft);assert.deepEqual(openBriefReport(sealed.payload,sealed.signature,draft,"emission-lens-brief-222-live.pdf"),report());assert.throws(()=>openBriefReport(sealed.payload.replace('4.2','44.2'),sealed.signature,draft,"emission-lens-brief-222-live.pdf"));assert.throws(()=>openBriefReport(sealed.payload,sealed.signature,draft+"changed","emission-lens-brief-222-live.pdf"));assert.throws(()=>openBriefReport(sealed.payload,sealed.signature,draft,"emission-lens-brief-223-live.pdf"));});
 test("structured PDF route freezes the reviewed chart snapshot with signed increases and pending values",async()=>{const sealed=sealBriefReport(report(),draft);const form=new FormData();form.set('text',draft);form.set('filename','emission-lens-brief-222-live.pdf');form.set('report',sealed.payload);form.set('signature',sealed.signature);const response=await POST(new Request('http://localhost/api/brief/pdf',{method:'POST',body:form}));assert.equal(response.status,200);const pdf=Buffer.from(await response.arrayBuffer());assert.equal((pdf.toString('latin1').match(/\/Type \/Page\b/g)??[]).length,2);assert.ok(streams(pdf).some(v=>v.equals(Buffer.from(draft))));assert.ok(streams(pdf).some(v=>v.toString().includes('"scenario_g": 4.4')));form.set('text',draft+'tampered');assert.equal((await POST(new Request('http://localhost/api/brief/pdf',{method:'POST',body:form}))).status,400);});
+
+test("plain-language recommendations respond to evidence rather than promising traffic benefits",()=>{
+ const base=report();
+ const missing={...base,supported_minutes:0};assert.match(reportRecommendation(missing).text,/five-minute sample/);assert.match(reportRecommendation(missing).steps[0],/marked road section/);
+ assert.match(reportRecommendation(base).text,/no recorded stopped time/);assert.match(reportRecommendation(base).steps.join(" "),/busy period/);
+ const stopped={...base,linked_stopped_s:12};assert.match(reportRecommendation(stopped).text,/higher CO2/);assert.match(reportRecommendation(stopped).steps.join(" "),/do not|before considering/i);
+ const lower={...stopped,pollutants:stopped.pollutants.map(p=>p.key==="co2"?{...p,scenario_g:4,change_g:-.2,change_pct:-4.76}:p)};const advice=reportRecommendation(lower);assert.match(advice.steps.join(" "),/red-light waiting|blocked exits/);assert.match(advice.steps.join(" "),/traffic engineer/);assert.doesNotMatch(advice.text,/will reduce|guaranteed|savings achieved/);
+ const partial={...lower,requested_minutes:5,supported_minutes:1};assert.match(reportRecommendation(partial).text,/Only 1 of 5 minutes/);
+ const demo=plainBriefSummary({...lower,mode:"synthetic"});assert.match(demo,/invented for demonstration/);assert.match(demo,/Location: Carson Boulevard/);assert.match(demo,/Recommended follow-up/);
+});

@@ -70,7 +70,7 @@ export default async function OverviewPage({
         view={view}
       />
       <section id="selected-camera" className="workspace-section"><CameraDetail id={selectedId} query={query} now={now} embedded /></section>
-      <WorkspaceDisclosure id="context" className="workspace-section workspace-module" eyebrow="03 / External inputs" title="Regional context and model inputs" summary="Weather, regional atmospheric models and the assumptions behind each estimate.">
+      <WorkspaceDisclosure id="context" className="workspace-section workspace-module method-context-disclosure" eyebrow="03 / External inputs" title="Weather and regional context" summary="Timestamped external sources, kept separate from camera estimates.">
         <Suspense fallback={<p className="context-note" role="status">Loading timestamped external context…</p>}><ContextPanel cameraId={selectedId} mode={mode} from={query.from} to={query.to} now={now} /></Suspense>
       </WorkspaceDisclosure>
       <WorkspaceDisclosure id="review" className="workspace-section workspace-module" eyebrow="04 / Evidence review" title="Review the evidence" summary="Record an investigation note, inspect provenance and retain the original observations.">

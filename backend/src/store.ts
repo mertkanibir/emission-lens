@@ -9,6 +9,7 @@ import {
   type TrafficMinute,
 } from "@emission-lens/contracts";
 import { readWorkerStore } from "./persistence.ts";
+import { richSyntheticDemo, richSyntheticEnabled } from "./synthetic-demo.ts";
 
 export function statusesFor(mode: Mode): CameraStatus[] {
   if (mode === "synthetic") return SYNTHETIC_STATUS;
@@ -18,12 +19,12 @@ export function statusesFor(mode: Mode): CameraStatus[] {
 
 export function trafficFor(mode: Mode): TrafficMinute[] {
   const store = readWorkerStore();
-  if (mode === "synthetic" && !store.measurement_batches.some(row => row.mode === mode)) return SYNTHETIC_TRAFFIC;
+  if (mode === "synthetic" && !store.measurement_batches.some(row => row.mode === mode)) return richSyntheticEnabled(mode) ? richSyntheticDemo().store.traffic : SYNTHETIC_TRAFFIC;
   return store.traffic.filter((row) => row.mode === mode);
 }
 
 export function emissionsFor(mode: Mode): EmissionsMinute[] {
   const store = readWorkerStore();
-  if (mode === "synthetic" && !store.measurement_batches.some(row => row.mode === mode)) return SYNTHETIC_EMISSIONS;
+  if (mode === "synthetic" && !store.measurement_batches.some(row => row.mode === mode)) return richSyntheticEnabled(mode) ? richSyntheticDemo().store.emissions : SYNTHETIC_EMISSIONS;
   return store.emissions.filter((row) => row.mode === mode);
 }

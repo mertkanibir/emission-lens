@@ -139,9 +139,13 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
     }
   }
   const explicitScenarioWindow = scenarioMeasurement.scope === "explicit_window";
-  const sampleCo2 = emissions.estimate_g_by_pollutant.co2;
-  const activeEstimate = mode === "synthetic" && sampleCo2 !== null ? {minute:traffic.from,co2_g:sampleCo2,nox_g:emissions.estimate_g_by_pollutant.nox} : id === "222" || id === "223" ? latestSupportedMapEstimate(scenarioMeasurement) : null;
-  const activeCohort = latestSupportedMinuteCohort(scenarioMeasurement);
+  const sampleCo2 = scenarioMeasurement.scenario.pollutants.co2.baseline_g;
+  const metricCamera = id === "222" || id === "223";
+  const activeEstimate = !metricCamera ? null : mode === "synthetic" && sampleCo2 !== null ? {minute:scenarioMeasurement.from,co2_g:sampleCo2,nox_g:scenarioMeasurement.scenario.pollutants.nox.baseline_g} : latestSupportedMapEstimate(scenarioMeasurement);
+  const syntheticCohort = scenarioMeasurement.scenario.completed_cohort;
+  const activeCohort = mode === "synthetic" && syntheticCohort.count !== null && syntheticCohort.count > 0
+    ? {count:syntheticCohort.count,stopped_time_s:syntheticCohort.baseline.stopped_time_s}
+    : latestSupportedMinuteCohort(scenarioMeasurement);
   const crossings = crossingSummary(traffic.rows);
   const completeMinute = latestCompleteScenarioMinute(measurement, status.as_of);
   const scenario = validReduction
@@ -352,7 +356,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                   </dl>
                   <p className="fine">{mode === "synthetic" ? "Labeled test values remain separate from live and replay records." : "These values describe the dated completed movement, not every crossing or the full intersection. Baseline and scenario use the same vehicles."}</p>
                 </> : <div className="snapshot-awaiting"><h3>{id==="220"||id==="228"?"Preview station":"Collecting the next supported movement"}</h3><p>{id==="220"||id==="228"?"Quantitative processing remains excluded pending count validation.":"Counts and imagery remain available while completed movement evidence accumulates. No missing estimate is replaced with zero."}</p></div>}
-                {mode === "synthetic" || id === "222" || id === "223" ? <div className="snapshot-observation-line"><span>{crossings.count===null?"Awaiting crossing records":<><strong>{crossings.count.toLocaleString()}</strong> {crossings.partial?"known-class":"line"} crossings · reporting hour</>}</span>{queue.value!==null?<span><QueueQuantity value={queue.value}/> · latest visible queue</span>:null}</div> : null}
+                {metricCamera ? <div className="snapshot-observation-line"><span>{crossings.count===null?"Awaiting crossing records":<><strong>{crossings.count.toLocaleString()}</strong> {crossings.partial?"known-class":"line"} crossings · reporting hour</>}</span>{queue.value!==null?<span><QueueQuantity value={queue.value}/> · latest visible queue</span>:null}</div> : null}
                 <details className="disclosure snapshot-method"><summary>Full-hour estimates, assumptions & calculation method</summary>
             <section id="emissions-method">
               <Panel
@@ -832,7 +836,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                 </div>
               </Panel>
             </section>
-          <WorkspaceDisclosure id="evidence" title="Method, calibration and provenance" summary="Review the inputs and evidence gates behind these estimates.">
+          <WorkspaceDisclosure id="evidence" className="method-context-disclosure" title="Model inputs and provenance" summary="Calibration, factor sources and the limits of this camera's estimates.">
           <section id="evidence-records">
               <Panel
                 title="Scientific inputs and evidence gates"

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:25 America/New_York / 8 November 2026, 15:25 UTC
+
+- **Who:** Mert
+- **Done:** Added an opt-in in-memory synthetic hour for222/223 through the validated calculation pipeline, without live writes; refined technical map colors/labels, softer surfaces and coherent disclosures; made planning/PDF language and conditional next steps understandable; clarified that synthetic examples have no camera video.
+- **Completed:** 142 backend/99 frontend checks, contracts/backend/frontend TypeScript and whitespace pass. Exact cohort/window isolation and synthetic-only registry rules are covered.
+- **Still open:** Immutable build, rich-demo/browser/PDF visual acceptance and final expanded GPU allocation cadence/preservation receipt.
+
 ### 8 November 2026, 10:08 America/New_York / 8 November 2026, 15:08 UTC
 
 - **Who:** Mert

@@ -8,19 +8,20 @@
 .map-marker[data-view="emissions"][data-supported="false"] { opacity: .8; }
 .mm-emission-reading {
   display: grid;
-  gap: 3px;
+  gap: 2px;
   position: absolute;
   left: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
   padding: 8px 11px;
-  border: 1px solid #dbedcbbd;
-  border-radius: 8px;
+  border: 1px solid #c7d5bca8;
+  border-radius: 10px;
   color: #fffbe7;
-  background: #123e30ed;
-  box-shadow: 0 3px 14px #0e241d66;
+  background: #183b2ff2;
+  box-shadow: 0 3px 12px #0e241d4d;
 }
-.mm-emission-reading strong { color: #e9f9bd; font-size: 14px; font-variant-numeric: tabular-nums; }
+.mm-emission-label { color: #d2dfc9; font: 550 9px var(--font-data); letter-spacing: .02em; }
+.mm-emission-reading strong { color: #fff9e9; font: 600 16px var(--font-data); font-variant-numeric: tabular-nums; }
 .mm-emission-reading small { font-size: 10px; color: #e1e9d7; }
 .map-heat-status {
   position: absolute;
@@ -41,7 +42,7 @@
 }
 .map-heat-status strong { font-size: 11px; }
 .map-heat-status small { grid-column: 2; font-size: 10px; color: #d8e5d3; }
-.map-heat-status-dot { height: 7px; width: 7px; border-radius: 50%; background: #ddeb81; box-shadow: 0 0 10px #bddb6c; }
+.map-heat-status-dot { height: 7px; width: 7px; border-radius: 50%; background: #b7d0aa; box-shadow: 0 0 0 3px #b7d0aa24; }
 @media (max-width: 600px) {
   .map-heat-status { left: 10px; bottom: 68px; max-width: calc(100% - 20px); }
   .mm-emission-reading { padding: 6px 8px; }
@@ -49,7 +50,7 @@
   .mm-emission-reading small { max-width: 145px; white-space: normal; font-size: 9px; }
 }
 
-.map-heat-ramp { background: linear-gradient(90deg, #40d6a4, #ddeb81, #ffbd61, #f37042); }
+.map-heat-ramp { background: linear-gradient(90deg, #c8e1d0, #91b18d 25%, #899260 50%, #8f653f); }
 
 /* Badges are out of flow so the pin remains centered on its camera coordinate. */
 .map-marker[data-label-position="above"] .mm-emission-reading { top: auto; bottom: calc(100% + 8px); transform: none; }

@@ -22,6 +22,7 @@ import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
 import { SelectedEmissionMetric } from "@/components/SelectedEmissionMetric";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
+import { EMISSIONS_COLOR_SCALE } from "@/lib/map-heat";
 import { queueObservation, queueValueDescription, queueScopeDescription, type latestSupportedMinuteCohort, type measurementSupport } from "@/lib/observation-presentation";
 import { scenarioValue } from "@/lib/scenario-presentation";
 import { Quantity, QueueQuantity, StateChip, EmissionQuantity } from "@/components/ui";
@@ -68,7 +69,7 @@ export function OverviewBoard({
   const [sort, setSort] = useState("location");
   const selected =
     cameras.find((item) => item.camera.id === selectedId) ?? cameras[0];
-  const quantitative = (id: string) => mode === "synthetic" || id === "222" || id === "223";
+  const quantitative = (id: string) => id === "222" || id === "223";
   const traffic = selected.traffic;
   const queue = queueObservation(traffic);
   const observedMinutes = new Set(traffic.rows.map((row) => new Date(row.minute).toISOString())).size;
@@ -116,7 +117,7 @@ export function OverviewBoard({
             Network monitor<span> / Torrance</span>
           </h1>
           <p>
-            Four configured intersections. Camera-scoped observations with separate processing and estimate support.
+            Four intersections. Select a station to inspect traffic, completed movements and estimated emissions.
           </p>
         </div>
         <details suppressHydrationWarning data-menu className="period-menu">
@@ -197,7 +198,7 @@ export function OverviewBoard({
                   href={`${cameraHref(selectedId, "emissions")}#network`}
                   aria-current={view === "emissions" ? "page" : undefined}
                 >
-                  Emissions heat map
+                  Emissions
                 </a>
               </nav>
             </header>
@@ -231,11 +232,15 @@ export function OverviewBoard({
             </div>
             {view === "emissions" ? (
               <div className="map-heat-legend" aria-label="Emissions heat map legend">
-                <div><span className="map-heat-ramp" aria-hidden="true" /><strong>Center color · estimated CO₂ · 0 → 100+ g per supported minute</strong></div>
-                <p>Each camera uses its latest supported minute; dates and coverage can differ. Center color saturates at 100 g; halo marks supported camera points. Rings and glow are screen-space camera symbols, not pollution spread or exposure.</p>
-                <p>{selected.mapEstimate
-                  ? `Camera ${selectedId}: ${formatInstant(selected.mapEstimate.minute, PACIFIC)} · ${stateLabel(selected.status.displayed_state)}. Other minutes may be unavailable.`
-                  : `Camera ${selectedId}: no supported emissions snapshot in this window.`} {cameras.filter((item) => item.mapEstimate !== null).length} of {cameras.length} cameras have supported estimates.</p>
+                <div className="map-heat-legend-heading"><strong>Estimated CO₂</strong><span>g / supported minute</span><span className="map-heat-coverage">{cameras.filter((item) => item.mapEstimate !== null).length}/{cameras.length} stations</span></div>
+                <div className="map-heat-scale" role="img" aria-label="Point color scale: 0, 25, 50 and 100 or more grams of estimated carbon dioxide">
+                  <span className="map-heat-ramp" style={{ background: `linear-gradient(90deg, ${EMISSIONS_COLOR_SCALE.map(({ value, color }) => `${color} ${value}%`).join(", ")})` }} aria-hidden="true" />
+                  <div className="map-heat-ticks" aria-hidden="true">{EMISSIONS_COLOR_SCALE.map(({ value }) => <span key={value} style={{ left: `${value}%` }}>{value}{value === 100 ? "+" : ""}</span>)}</div>
+                </div>
+                <p>Point color shows the dated completed-movement estimate. Unobserved roads have no estimate.</p>
+                <details className="map-heat-method"><summary>Timing and display method</summary><p>{selected.mapEstimate
+                  ? `Camera ${selectedId}: ${formatInstant(selected.mapEstimate.minute, PACIFIC)} · processing ${stateLabel(selected.status.displayed_state).toLowerCase()}.`
+                  : `Camera ${selectedId}: no supported minute in this reporting hour.`} Each station uses its latest supported minute, so times and coverage may differ. Point color caps at 100 g. Halos locate cameras; their size and overlap do not model pollution spread, exposure or health risk.</p></details>
               </div>
             ) : null}
             <nav
@@ -453,9 +458,8 @@ export function OverviewBoard({
             <td>{item.camera.id === "222" ? "Eastbound · fixed 20 m assumption" : item.camera.id === "223" ? "Southbound · fixed 15 m assumption" : "No new quantitative processing"}</td>
           </tr>)}</tbody>
         </table></div>
-        <p className="table-caption">Declared project eligibility is separate from the current registry and does not certify human field accuracy. Missing records, source capture UTC and unobserved roads remain unavailable. Live/replay/synthetic records never share totals.</p>
+        <p className="table-caption">Estimates cover completed movements under the listed distance assumptions. Camera previews do not change count exclusions. Declared eligibility and registry approval do not certify field accuracy. Live, replay and synthetic records remain separate.</p>
       </details>
-      <p className="network-method-note"><strong>Metric scope:</strong> 222 eastbound / 20 m and 223 southbound / 15 m use approved model assumptions. Cameras <strong>220 and 228 are excluded from quantitative processing after failed count screens</strong>; a video preview does not remove that exclusion. Estimates describe completed movements, not the full intersection. Select a camera below to inspect source timing, queues, calibration and calculations.</p>
 
     </section>
   );

@@ -83,14 +83,15 @@ export function CameraPreview({ cameraId, mode, inferenceFps }: { cameraId: stri
             alt={`Camera ${cameraId}, ${mode} processed playback with matching vehicle overlays. Capture time unavailable.`} />
         ) : null}
         <span className="burn-in burn-in-tl">Camera {cameraId} · {mode.toUpperCase()}</span>
-        <span className="burn-in burn-in-tr">{retained ? current ? streamActive ? "Buffered processed video" : "Processed snapshot" : "Delayed playback" : "Waiting for frame"}</span>
+        <span className="burn-in burn-in-tr">{mode === "synthetic" ? "Example data · no video" : retained ? current ? streamActive ? "Buffered processed video" : "Processed snapshot" : "Delayed playback" : "Waiting for frame"}</span>
         {retained ? (
           <span className="preview-timestamp">Latest receipt {new Date(frame.received_at).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour12: false })} Pacific · capture UTC unavailable</span>
         ) : (
           <div className="viewport-msg">
             <span className="section-kicker">Evidence first</span>
-            <strong>Waiting for camera frames</strong>
-            <span>{mode === "synthetic" ? "Synthetic records have no camera footage." : "Processed video appears when source frames arrive. Old frames expire automatically."}</span>
+            <strong>{mode === "synthetic" ? "Example data has no camera video" : "Waiting for camera frames"}</strong>
+            <span>{mode === "synthetic" ? "The charts below use labeled example records. Choose Live to see the camera feed." : "Processed video appears when source frames arrive. Old frames expire automatically."}</span>
+            {mode === "synthetic" ? <a className="button" href={`/?camera=${cameraId}#selected-camera`}>View live camera</a> : null}
           </div>
         )}
       </div>

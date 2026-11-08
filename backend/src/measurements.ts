@@ -34,6 +34,7 @@ import {
   type WorkerSnapshot,
 } from "./persistence.ts";
 import { fingerprint, loadRegistry, registryStatus } from "./registry.ts";
+import { richSyntheticDemo, richSyntheticEnabled } from "./synthetic-demo.ts";
 
 /** Async transaction boundary; the local compatibility reads remain synchronous. */
 export interface MeasurementRepository {
@@ -372,8 +373,10 @@ export function read_measurement_window(input: {
     from = new Date(start).toISOString();
     to = new Date(end).toISOString();
   }
-  const snapshot = localSnapshot(),
-    registry = loadRegistry();
+  const persisted = localSnapshot();
+  const demo = richSyntheticEnabled(input.mode) && !(persisted.measurement_batches ?? []).some(e => e.source.mode === "synthetic") ? richSyntheticDemo() : null;
+  const snapshot = demo?.snapshot ?? persisted,
+    registry = demo?.registry ?? loadRegistry();
   const entries = (snapshot.measurement_batches ?? [])
     .filter(
       (e) =>
@@ -385,7 +388,7 @@ export function read_measurement_window(input: {
     )
     .sort((a, b) => Date.parse(a.source.minute) - Date.parse(b.source.minute));
   const derived = entries.map((e) => visibleDerived(e, snapshot, registry));
-  const store = materialize(snapshot);
+  const store = demo?.store ?? materialize(snapshot);
   const minutes = entries.map((entry, i) => ({
     minute: entry.source.minute,
     batch_id: entry.source.batch_id,
@@ -540,8 +543,10 @@ export function read_measurement_window(input: {
 export function read_measurement_evidence(reference: string): unknown {
   if (!/^[a-f0-9]{64}$/.test(reference))
     throw new IngestError("Invalid evidence reference.", 400);
-  const snapshot = localSnapshot(),
-    registry = loadRegistry();
+  const persisted = localSnapshot();
+  const demo = richSyntheticEnabled("synthetic") && !persisted.measurement_batches?.some(e => e.derived.evidence_ref === reference) ? richSyntheticDemo() : null;
+  const snapshot = demo?.snapshot ?? persisted,
+    registry = demo?.registry ?? loadRegistry();
   const entry = snapshot.measurement_batches?.find(
     (e) => e.derived.evidence_ref === reference,
   );

@@ -26,7 +26,10 @@ function supportedGrams(
 /** A retained supported minute, never a sum or a replacement for the window total. */
 export function latestSupportedMapEstimate(window: MeasurementWindowView): MapEmissionEstimate | null {
   const { registry } = window;
-  if ((window.mode !== "live" && window.mode !== "replay")
+  const labeledDemo = window.mode === "synthetic"
+    && registry.revision === "synthetic-rich-demo-v1"
+    && registry.calibration_version === `synthetic-demo-${window.camera_id}`;
+  if ((window.mode !== "live" && window.mode !== "replay" && !labeledDemo)
     || registry.state !== "configured"
     || !registry.physical_calibration_approved
     || registry.calibration_version === null
