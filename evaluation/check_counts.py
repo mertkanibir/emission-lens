@@ -86,9 +86,9 @@ def draw_gates(image, config: MetricsConfig, t: float, label: str):
     return image
 
 
-def export_video(camera_id: str, start_s: float, seconds: float) -> Path:
+def export_video(camera_id: str, start_s: float, seconds: float, clip: Path | None = None) -> Path:
     config = load_config(camera_id)
-    clip = clip_for(camera_id)
+    clip = clip or clip_for(camera_id)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUTPUT_DIR / f"{camera_id}_{int(start_s)}s_{int(seconds)}s.avi"
     fps = cv2.VideoCapture(str(clip)).get(cv2.CAP_PROP_FPS) or 15
@@ -107,23 +107,76 @@ def export_video(camera_id: str, start_s: float, seconds: float) -> Path:
 def summarize(crossings: list[dict]) -> dict:
     by_gate = {}
     for c in crossings:
-        gate = by_gate.setdefault(c["gate"], {"total": 0, "by_direction": Counter(), "by_class": Counter(), "times": []})
+        gate = by_gate.setdefault(c["gate"], {"total": 0, "by_direction": Counter(), "by_class": Counter(),
+                                              "times": [], "events": []})
         gate["total"] += 1
         gate["by_direction"][c["direction"]] += 1
         gate["by_class"][c["class"]] += 1
         gate["times"].append(clock(c["clip_time_s"]))
+        gate["events"].append({"clip_time_s": round(c["clip_time_s"], 3), "direction": c["direction"]})
     return {g: {**v, "by_direction": dict(v["by_direction"]), "by_class": dict(v["by_class"])}
             for g, v in sorted(by_gate.items())}
 
 
-def count(camera_id: str, start_s: float, seconds: float, weights: Path = WEIGHTS) -> dict:
+def read_manual(path: Path) -> list[dict]:
+    """Read hand-recorded crossings: one per line as 'm:ss.s +' or 'm:ss.s -'; '#' starts a comment."""
+    events = []
+    for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        line = raw.split("#", 1)[0].strip()
+        if not line:
+            continue
+        parts = line.split()
+        if len(parts) != 2 or parts[1] not in ("+", "-"):
+            raise ValueError(f"line {number}: expected 'm:ss.s +' or 'm:ss.s -', got {raw!r}")
+        minutes, seconds = parts[0].split(":")
+        events.append({"clip_time_s": int(minutes) * 60 + float(seconds),
+                       "direction": "positive" if parts[1] == "+" else "negative"})
+    return events
+
+
+def match_events(manual: list[dict], model: list[dict], tolerance_s: float) -> dict:
+    """Pair each model crossing with one manual crossing of the same direction within the tolerance.
+
+    Pairs are made closest-in-time first, so one early pairing cannot steal a better match.
+    """
+    candidates = sorted(
+        (abs(m["clip_time_s"] - p["clip_time_s"]), i, j)
+        for i, m in enumerate(manual) for j, p in enumerate(model)
+        if m["direction"] == p["direction"] and abs(m["clip_time_s"] - p["clip_time_s"]) <= tolerance_s
+    )
+    used_manual, used_model, pairs = set(), set(), []
+    for gap, i, j in candidates:
+        if i not in used_manual and j not in used_model:
+            used_manual.add(i)
+            used_model.add(j)
+            pairs.append(gap)
+    matched = len(pairs)
+    return {
+        "manual": len(manual),
+        "model": len(model),
+        "matched": matched,
+        "missed": [clock(m["clip_time_s"]) + (" +" if m["direction"] == "positive" else " -")
+                   for i, m in enumerate(manual) if i not in used_manual],
+        "extra": [clock(p["clip_time_s"]) + (" +" if p["direction"] == "positive" else " -")
+                  for j, p in enumerate(model) if j not in used_model],
+        "recall": matched / len(manual) if manual else None,
+        "precision": matched / len(model) if model else None,
+        "count_error": (len(model) - len(manual)) / len(manual) if manual else None,
+        "median_time_gap_s": sorted(pairs)[len(pairs) // 2] if pairs else None,
+        "tolerance_s": tolerance_s,
+    }
+
+
+def count(camera_id: str, start_s: float, seconds: float, weights: Path = WEIGHTS,
+          image_size: int = IMAGE_SIZE, sample_fps: float = SAMPLE_FPS, clip: Path | None = None) -> dict:
     config = reviewed_copy(load_config(camera_id))
     camera = next(c for c in load_cameras() if c.id == camera_id)
-    tracker = CameraTracker(labels=PRETRAINED_VEHICLE_LABELS, image_size=IMAGE_SIZE, model=load_model(weights))
+    tracker = CameraTracker(labels=PRETRAINED_VEHICLE_LABELS, image_size=image_size, model=load_model(weights))
     metrics = CameraMetrics(config)
-    sampler = MediaTimeSampler(SAMPLE_FPS)
+    sampler = MediaTimeSampler(sample_fps)
     crossings, processed = [], 0
-    for t, image in frames_between(clip_for(camera.id), start_s, seconds):
+    clip = clip or clip_for(camera.id)
+    for t, image in frames_between(clip, start_s, seconds):
         if not sampler.should_keep(t):
             continue
         processed += 1
@@ -132,23 +185,44 @@ def count(camera_id: str, start_s: float, seconds: float, weights: Path = WEIGHT
             crossings.append({"gate": event.gate_id, "direction": event.direction,
                               "class": event.vehicle_class, "clip_time_s": event.media_time_s})
     return {"camera_id": camera_id, "geometry_version": config.version, "start_s": start_s,
-            "seconds": seconds, "frames_processed": processed, "weights": weights.name,
-            "image_size": IMAGE_SIZE, "sample_fps": SAMPLE_FPS, "gates": summarize(crossings)}
+            "seconds": seconds, "clip": clip.name, "frames_processed": processed, "weights": weights.name,
+            "image_size": image_size, "sample_fps": sample_fps, "gates": summarize(crossings)}
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Check gate counts against a manual count.")
-    parser.add_argument("command", choices=["video", "count"])
+    parser.add_argument("command", choices=["video", "count", "match"])
     parser.add_argument("camera_id")
     parser.add_argument("--start", type=float, default=60)
     parser.add_argument("--seconds", type=float, default=120)
+    parser.add_argument("--weights", type=Path, default=WEIGHTS)
+    parser.add_argument("--image-size", type=int, default=IMAGE_SIZE)
+    parser.add_argument("--fps", type=float, default=SAMPLE_FPS)
+    parser.add_argument("--clip", type=Path, help="recorded clip; default is the newest for the camera")
+    parser.add_argument("--manual", type=Path, help="match: hand-recorded crossings file")
+    parser.add_argument("--model", type=Path, help="match: counts JSON written by the count command")
+    parser.add_argument("--gate", help="match: the counting gate the manual file is for")
+    parser.add_argument("--tolerance", type=float, default=1.5, help="match: seconds")
     args = parser.parse_args()
     if args.command == "video":
-        print(f"wrote {export_video(args.camera_id, args.start, args.seconds)}")
+        print(f"wrote {export_video(args.camera_id, args.start, args.seconds, args.clip)}")
+    elif args.command == "match":
+        model = json.loads(args.model.read_text(encoding="utf-8"))
+        result = {"camera_id": args.camera_id, "gate": args.gate,
+                  "geometry_version": model["geometry_version"], "weights": model["weights"],
+                  "image_size": model["image_size"], "sample_fps": model["sample_fps"],
+                  "window": [clock(model["start_s"]), clock(model["start_s"] + model["seconds"])],
+                  **match_events(read_manual(args.manual), model["gates"].get(args.gate, {}).get("events", []),
+                                 args.tolerance)}
+        out = args.manual.with_name(args.manual.stem + "_match.json")
+        out.write_text(json.dumps(result, indent=1), encoding="utf-8")
+        print(json.dumps({k: v for k, v in result.items() if k not in ("missed", "extra")}, indent=1))
+        print(f"wrote {out}")
     else:
-        result = count(args.camera_id, args.start, args.seconds)
+        result = count(args.camera_id, args.start, args.seconds, args.weights, args.image_size, args.fps, args.clip)
         OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-        out = OUTPUT_DIR / f"{args.camera_id}_{int(args.start)}s_{int(args.seconds)}s_counts.json"
+        out = OUTPUT_DIR / (f"{args.camera_id}_{int(args.start)}s_{int(args.seconds)}s_"
+                            f"{args.weights.stem}_{args.image_size}_{args.fps:g}fps_counts.json")
         out.write_text(json.dumps(result, indent=1), encoding="utf-8")
         print(f"wrote {out}")
 
