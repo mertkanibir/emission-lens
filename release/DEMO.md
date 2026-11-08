@@ -1,7 +1,7 @@
 # Emission Lens demo and replay runbook
 
 **Owner:** Mert; presentation by Mert and Carter
-**Updated:** 8 November 2026, 00:19 America/New_York / 05:19 UTC
+**Updated:** 8 November 2026, 00:24 America/New_York / 05:24 UTC
 **Status:** Reviewable three-minute script and operator checklist. Final rehearsal, public demo recording and submission are still open.
 
 This demonstration shows camera observations, conditional **estimated emissions**, explicit missing evidence and a locally exported investigation brief. It does not establish measured air quality, pollutant concentration, health effects or environmental savings. [Plan.md](../Plan.md) remains the authority; the current operational handoff is [backend/222-HANDOFF.md](../backend/222-HANDOFF.md).
@@ -19,6 +19,9 @@ This demonstration shows camera observations, conditional **estimated emissions*
 
 Mert checks this list with Carter before the 09:00 America/New_York feature-freeze target, rehearses before the 10:00 materials-ready target and completes submission before **11:00 America/New_York / 16:00 UTC on 8 November**. These are targets from [Plan.md §18–20](../Plan.md), not completed steps.
 
+**Morning scheduling decision — 8 November, 00:24 America/New_York / 05:24 UTC:** Job **176075** is capped at **06:12:38 America/New_York / 11:12:38 UTC**, before the 09:00 preparation checkpoint and 11:30 judging start. Its final usable minute will age out of the rolling hour by roughly **07:12 New York / 12:12 UTC**, potentially earlier if processing ends sooner or the estimated media clock lags. Retained disk evidence does not keep an old minute visible in the current reporting hour. The present job therefore does **not** cover judging. See the [recorded allocation schedule](../Coordination.md) and [startup evidence](../evaluation/222-live-restart-176075.md).
+
+- [ ] Before morning preparation, explicitly choose and rehearse either a **later authorized bounded live/replay run** covering the intended demonstration, or a reviewed artifact labeled **Recorded demonstration**. Record the chosen run/mode/window or artifact and its source date. A later run needs its own authorization and fresh delivery/preview/estimate checks; this runbook starts no job. A recorded artifact must not be presented as current live processing or as a currently running replay pipeline.
 - [ ] Confirm the one application on port 3138 is the intended reviewed build and reads the authoritative store. Use the existing private ready handoff; do not rebuild, restart or reconfigure an active service during the pitch.
 - [ ] Have Mert confirm the current job/run, model/settings, run mode, active relay, recent advancing processing heartbeats, genuine matching frame/overlay previews and persisted rows. A visible old frame or selected Live mode alone is insufficient. If no fresh worker exists, start the presentation in the clearly labeled fallback below.
 - [ ] Confirm a supported camera-222 minute is inside the rolling reporting hour, and note its actual timestamp, CO₂, NOₓ and disclosed assumptions. Observe a later refresh and confirm mode separation. Keep actual values on screen rather than reciting a historical sample.
@@ -75,6 +78,7 @@ If a real supported minute is absent at 1:20, Mert says: “The current reportin
 | Item | State at preparation | Required final confirmation |
 |---|---|---|
 | Three-minute narrative and mode-specific URLs | Draft above | Rehearse with Mert and Carter; record elapsed time and any shortened steps |
+| Morning demonstration source | Job 176075 ends by 06:12:38 New York; its final usable minute ages out by roughly 07:12 | Choose a later authorized bounded live/replay run or a reviewed Recorded demonstration artifact before preparation; the current allocation does not cover judging |
 | Current live process and job 176075 | Mert verified camera-222 Live status and a recent heartbeat at 05:18:30 UTC; scheduler job supplied by coordination | Capture reviewed scalar job/receipt, advancing processing/preview and accepted write evidence; distinguish running from completed |
 | Current supported minute | Historical job-175979 example verified | Record the actual rehearsal minute/mode and values; retain missing-window limitations |
 | Same-pipeline replay | Historical bounded check verified | Confirm retained private media and fresh scheduled replay, or explicitly use dated recorded-demo evidence |

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 00:24 America/New_York / 8 November 2026, 05:24 UTC
+
+- **Who:** Mert
+- **Done:** Updated release/DEMO.md with job176075's06:12:38 New York /11:12:38 UTC allocation cap, approximate07:12 New York rolling-hour expiry and an explicit morning choice between a later authorized bounded live/replay run and a reviewed Recorded demonstration artifact.
+- **Completed:** Existing coordination/startup evidence supports the schedule; UTC conversion, relative links, unchanged180-second script and scoped whitespace checks pass. The runbook now states that this allocation does not cover09:00 preparation or11:30 judging. Only the runbook and this entry are published.
+- **Still open:** Mert/Carter must select and rehearse the later run or recorded artifact; no job, media artifact or authorization is created by this update. Final submission/licensing/media and scientific/operational acceptance limits remain in the release checklist. Contributor/settings changes stay on hold; parallel root/infrastructure/reliability work is preserved.
+
 ### 8 November 2026, 00:21 America/New_York / 8 November 2026, 05:21 UTC
 
 - **Who:** Mert
