@@ -1,8 +1,8 @@
 # Queue publication across operating systems
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 21:37 America/New_York / 8 November 2026, 02:37 UTC
-**Status:** macOS regression checks pass. Native Windows/Linux CI is prepared; its result is pending publication.
+**Updated:** 7 November 2026, 21:40 America/New_York / 8 November 2026, 02:40 UTC
+**Status:** Native Windows Server 2025 and Linux CI pass; local macOS regression checks pass.
 
 ## Report and diagnosis
 
@@ -30,4 +30,21 @@ A write-through request is not a tested power-loss proof for every filesystem/co
 
 On macOS ARM64 with Python 3.12, the four queue/measurement files pass **53 tests plus 15 subtests**; the broader publish/runtime/aggregation/timing selection passes **87 tests plus 20 subtests**. Seven new portability regressions cover Windows-style directory denial while retaining file flush, closed complete-file publication, unchanged POSIX errors, denied file flush, old-checkpoint preservation before enqueue, denied acknowledgement retirement, marker cleanup/restart, and native error propagation. Existing tests retain exact retry bytes, FIFO revision ordering, bounded storage, real loopback HTTP, private payload boundaries, partial plan recovery and actual TypeScript conformance.
 
-The read-only [queue portability workflow](../.github/workflows/queue-portability.yml) runs the focused four files on Windows and Linux with Python 3.12, pytest/PyYAML and only the contract/backend Node test dependencies. It downloads no detector, media or GPU runtime and requires no service credentials. A preflight requires the TypeScript parser runtime so conformance cannot silently skip. Native results will be recorded here once the published run finishes.
+The read-only [queue portability workflow](../.github/workflows/queue-portability.yml) runs the focused four files on Windows and Linux with Python 3.12, pytest/PyYAML and only the contract/backend Node test dependencies. It downloads no detector, media or GPU runtime and requires no service credentials. A preflight requires the TypeScript parser runtime so conformance cannot silently skip. Native run `42439373791` completed successfully on published code `845ce3c`; both jobs ran the actual TypeScript conformance test with no skips. See [the successful run](https://github.com/mertkanibir/emission-lens/actions/runs/42439373791).
+
+
+**Native verification completed (7 November 2026, 21:40 America/New_York / 8 November 2026, 02:40 UTC):**
+
+| Platform | Python / Node | Focused result | Evidence |
+|---|---|---|---|
+| Windows Server 2025, build 26100 | Python 3.12.10 / Node 24.22.2 | 53 passed + 15 subtests, no skips | [Native Windows job](https://github.com/mertkanibir/emission-lens/actions/runs/42439373791/job/128605099059) |
+| Linux x86_64, kernel 7.0.0-1019-azure, glibc 2.43 | Python 3.12.16 / Node 24.22.2 | 53 passed + 15 subtests, no skips | [Native Linux job](https://github.com/mertkanibir/emission-lens/actions/runs/42439373791/job/128605099341) |
+| macOS ARM64 | Python 3.12.16 | 53 passed + 15 subtests; broader selection 87 passed + 20 subtests | Local commands recorded above |
+
+This closes the reported normal-operation queue/checkpoint portability defect with actual Windows evidence, including native write-through publication and acknowledgement, private pending-plan recovery, loopback HTTP and exact-byte retries. It does not certify physical power-loss behavior, every filesystem/share or Carter's individual workstation configuration. No live camera, model, dataset, geometry/hash or scientific contract changed.
+
+Rerun the focused acceptance on a developer workstation with the same test runtime:
+
+```bash
+python -m pytest tests/test_publish.py tests/test_publish_portability.py tests/test_measurement.py tests/test_measurement_runtime.py -q -ra
+```
