@@ -1,0 +1,40 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T00:36:29.517598+00:00",
+  "camera_id": "222",
+  "mode": "replay",
+  "source": "Caltrans CWWP",
+  "source_url": "https://wzmedia.dot.ca.gov/D7/CCTV-222.stream/playlist.m3u8",
+  "clip_relative_private_path": "data/raw/measurement-review-clips/222/222_20261108T003312Z.ts",
+  "clip_sha256": "e6db50f024cd61dc13140f24d60dbaa2070d962fda1bde6f2da52f10475401d3",
+  "clip_size_bytes": 10831996,
+  "recording_started_at_utc": "2026-11-08T00:33:12+00:00",
+  "first_segment_received_at_utc": "2026-11-08T00:33:16+00:00",
+  "last_segment_received_at_utc": "2026-11-08T00:35:06+00:00",
+  "receipt_time_is_capture_time": false,
+  "segment_count": 14,
+  "first_sequence": 26424,
+  "last_sequence": 26437,
+  "sum_segment_duration_s": 140.519,
+  "recorder_reported_gaps": 0,
+  "recorder_errors": 1,
+  "decoded_frames": 2108,
+  "decoded_image_sizes": [
+    [
+      1280,
+      720
+    ]
+  ],
+  "decoder_time_first_s": 0.0,
+  "decoder_time_last_s": 140.452,
+  "nonadvancing_decoder_timestamps": 0,
+  "manual_crossing_review": null,
+  "runtime_model_crossing_check": null,
+  "physical_calibration": "missing",
+  "retention": "Temporary ignored source footage for the manual/runtime gate review; remove when review/demo purpose ends. No raw media is committed.",
+  "limitations": [
+    "One recording poll/retrieval error occurred; zero reported HLS sequence gaps is not proof of complete footage coverage.",
+    "Decoder times and segment durations do not establish capture UTC.",
+    "Successful decoding does not establish crossing, tracking or physical accuracy."
+  ]
+}

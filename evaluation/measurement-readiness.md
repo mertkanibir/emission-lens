@@ -1,18 +1,18 @@
 # Measurement readiness and producer handoff
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 19:34 America/New_York / 8 November 2026, 00:34 UTC
+**Updated:** 7 November 2026, 19:37 America/New_York / 8 November 2026, 00:37 UTC
 **Status:** Readiness inventory and interface proposal; no camera is physically calibrated or enabled by this work.
 
 ## Evidence available at this checkpoint
 
 `contracts/src/cameras.ts` sets all four road regions to null and all four `CameraCalibration` records to `missing`, version `unconfigured`. The four YAML files enable stream ingestion only. The local checkout has **no** `config/cameras/<id>.measurement.json`; only the arbitrary disabled/unvalidated `measurement.example.json` exists. Carter's 18:40 worklog entry reports recorded clips and a drawing tool on his environment; those clips/drawings are not present in this checkout and are not assumed lost or overwritten.
 
-The local `data/raw/` inventory contains labeling material and the fine-tuning dataset (400 still frames), not continuous traffic recordings. No retained `data/raw/clips/`, manual crossing-event file, stopped-interval annotation, measured ground-control table or physical-calibration evidence was found in `config/`, `evaluation/` or the local private data roots (environment/cache directories excluded). The prior GPU replay diagnostic documents a six-second real-source replay whose temporary clip was removed; that diagnostic is not a reusable manual crossing answer key. A bounded fresh camera-222 recording is being prepared under ignored `data/raw/measurement-review-clips/`; its usable intervals and checksum must be recorded before any manual check is claimed.
+At initial inventory, local `data/raw/` contained labeling material and the fine-tuning dataset (400 still frames), without continuous traffic recordings. No retained `data/raw/clips/`, manual crossing-event file, stopped-interval annotation, measured ground-control table or physical-calibration evidence was found in `config/`, `evaluation/` or the local private data roots (environment/cache directories excluded). The prior GPU replay diagnostic documents a six-second real-source replay whose temporary clip was removed; that diagnostic is not a reusable manual crossing answer key. A new bounded camera-222 recording is now available under ignored `data/raw/measurement-review-clips/`. Its [scalar provenance](./calibration/222-recording-20261108T003312Z.json) records 14 HLS segments (sequences 26424–26437), 140.519 summed segment-seconds, 2,108 decoded 1280 × 720 frames and decoder time 0–140.452 s, with no nonadvancing decoded timestamps. Recording receipts span 00:33:16–00:35:06 UTC on 8 November (19:33:16–19:35:06 America/New_York on 7 November). There were zero recorder-reported sequence gaps and one retrieval/poll error. Neither successful decoding nor no reported sequence gap proves complete footage coverage or capture UTC. Manual/runtime crossing checks remain unperformed; the private clip is retained only for that pending review/demo purpose and must be removed when it ends.
 
 | Camera | Available stills | Saved real measurement JSON locally | Reviewed selected-gate crossings | Independent scaled references / physical transform | Current readiness |
 |---|---|---|---|---|---|
-| 222, Carson | 100 dataset stills; 15 held-out | None; separate proposal below | None | None / missing | First review candidate; image counts and physical quantities unavailable |
+| 222, Carson | 100 dataset stills; 15 held-out; new 140.519 s local recording | None; separate proposal below | None | None / missing | First review candidate; image counts and physical quantities unavailable |
 | 223, Torrance | 100 dataset stills; 15 held-out | None | None | None / missing | Await Carter drawing and clip review |
 | 228, 182nd | 100 dataset stills; 15 held-out | None | None | None / missing | Await Carter drawing and clip review |
 | 220, Crenshaw | 100 dataset stills; 15 held-out | None | None | None / missing | Await Carter drawing and clip review |
@@ -73,9 +73,17 @@ Current `CameraMetrics` has no physical transform, traversal state or stopped-in
 
 A defensible visual-to-CARB mixture requires a versioned external regional/year fleet or VMT source, explicit visual/regulatory inclusion rules and normalized **VMT-based** weights with uncertainty/scenario bounds. Car includes SUVs, so a proposed LDA/LDT blend cannot be chosen by guessed counts. Broad truck categories require documented alternatives or unavailable output. Fuel-aggregated factors already include their fleet mixture; subtracting observed/assumed EVs again double-counts the adjustment. No numeric regional mixture is activated by this checkpoint.
 
+## Bounded calibration mathematics, without camera approval
+
+`worker/calibration.py` adds standalone pure-Python checks: finite nonsingular 3 × 3 homography validation, image-pixel → caller-defined ground-metre projection with a projective-horizon guard, and measured-distance residuals. `DistanceReference.reference_id` must resolve to independently retained measurement evidence; code cannot certify independence or source quality. No transform is fitted, no real reference invented, no camera registry/config edited, and no runtime producer is enabled by this module.
+
+`check_reference_distances(matrix, references, absolute_tolerance_m=..., relative_tolerance=...)` requires a nonempty reference set, unique evidence IDs, distinct finite image endpoints, positive finite measured distances and explicit finite nonnegative tolerances. Each distance passes the mathematical check only when `absolute_error_m ≤ absolute_tolerance_m + relative_tolerance × measured_distance_m`. No numeric physical-acceptance tolerance is supplied by default. Nonsingularity is not good conditioning; arithmetic results do not establish road-plane validity, appropriate reference layout, image resolution/ROI support, viewpoint stability or measurement accuracy. Callers must enforce those separate evidence gates and reject unsupported/horizon regions.
+
+Verification: `python3 -m unittest discover -s tests -p test_calibration.py -v` passed **19 tests** using known synthetic affine/projective matrices, scale changes, invalid/singular/nonfinite data, horizon cases, explicit residual failures, empty references and tolerance boundaries. `/private/tmp/emission-lens-tests/bin/python -m pytest tests/test_metrics.py tests/test_draw_geometry.py tests/test_record_clips.py tests/test_calibration.py -q` passed **58 tests and 47 subtests**. These are mathematical/logic tests, not field validation. The camera-222 proposal separately passes the existing geometry parser while disabled/unvalidated. Its private visual overlay is an aid for review, not a published source image or accepted calibration.
+
 ## Next dependencies
 
-- Carter's actual drawings/recorded clips and review notes, or a new bounded local clip with provenance, followed by the selected-gate manual/runtime comparison.
+- Carter's actual drawings/review notes and the selected-gate manual/runtime comparison. A bounded local camera-222 clip with provenance is now available; it has no crossing answer key yet.
 - Independently scaled ground references and held-out validation landmarks for camera 222 first.
 - Coordination decision on traversal-linked stopped evidence and completion-minute attribution before Senior Engineer wires scenarios.
 - Held-out evaluation of the actual runtime model/settings. No retraining, label edits, model promotion, GPU allocation or external communication is part of this checkpoint.
