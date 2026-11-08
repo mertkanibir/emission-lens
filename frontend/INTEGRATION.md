@@ -1,8 +1,18 @@
 # Measurement integration — frontend consumers
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 21:05 America/New_York / 8 November 2026, 02:05 UTC
+**Updated:** 7 November 2026, 22:50 America/New_York / 8 November 2026, 03:50 UTC
 **State:** ready-to-connect binding and controlled consumer acceptance completed.
+
+## Bounded 222 profile disclosure — 7 November 2026, 22:50 America/New_York / 8 November 2026, 03:50 UTC
+
+Mert added a frontend-only scope disclosure using the existing public camera/mode, registry revision, physical-approval status, calibration version and mapping versions. The eastern 20 m description requires the exact reviewed profile tuple, live/replay mode, and matching calibration/mapping references on every retained minute. Unknown, revoked, synthetic or mixed-version windows retain generic scope-not-reported copy. A changed registry revision requires another explicit presentation review; recognized copy never grants approval or changes calculations. No new public API field or private registry read is introduced.
+
+Camera emissions now distinguish completed eastbound movement vehicles from every crossing and whole-intersection coverage, state fixed distance/fleet-mixture assumptions and the longer curved-turn-path limitation, and label actual retained temperature/humidity as model inputs rather than observed weather. The eastbound scope does not imply that every accepted path is straight through. Missing and mixed weather do not inherit an invented 70 °F assumption. Missing traversal-linked stops remain unavailable and are called out beside scenario controls; the unrelated observation-minute empty state no longer claims that the completed cohort is empty. The overview gets only derived disclosure strings, not another serialized measurement window. Cream/green styling and the existing layout are preserved with no CSS change.
+
+Verification: all **28 frontend tests**, frontend TypeScript without incremental output, an isolated production build and scoped whitespace checks pass. Four focused presentation tests exercise the exact profile, eleven mismatched/mixed identity or approval cases, weather absence/variation, supported zero, privacy, and unavailable scenario grams. These use an in-memory display fixture and install no real registry or traversal record. Actual localhost camera/overview replay pages show the generic fallback, unavailable physical values and explicit replay provenance without horizontal overflow or new browser warnings/errors. The temporary check tab is closed; original localhost PID 46237 remains running. The first isolated build could not resolve dependencies symlinked outside its root; copying the already installed dependencies into that temporary root resolved it. The passing build used the same source/configuration and left shared generated output untouched. No inference run, active environment or scientific input was changed.
+
+The existing backend interface remains sufficient for this strictly recognized profile; a general movement/mapping disclosure would need backend-owned public scope data or safe strings. Backend brief text and its exact export are unchanged. The previously reported backend brief linked-stop wording remains with engineering; this frontend change does not silently rewrite exported evidence.
 
 This work preserves the completed tan/green design. Frontend owns thin adapters, server-page bindings, presentation guards and acceptance. Backend owns authentication, validation, approved registries, private persistence, composition, calculations and brief text. Core contract 1.1 is unchanged; the separately versioned measurement envelope is documented in [the backend interface](../backend/MEASUREMENT-INGESTION.md). No real camera configuration or scientific approval is enabled here.
 

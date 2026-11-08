@@ -22,6 +22,8 @@ import type {
 } from "@emission-lens/backend";
 import type { Mode } from "@emission-lens/contracts";
 import { CameraMap } from "@/components/CameraMap";
+import { MeasurementScope } from "@/components/MeasurementScope";
+import type { measurementScope } from "@/lib/measurement-scope";
 import { scenarioValue } from "@/lib/scenario-presentation";
 import { Quantity, StateChip, EmissionQuantity } from "@/components/ui";
 import {
@@ -49,11 +51,13 @@ const filters = [
 
 export function OverviewBoard({
   cameras,
+  scope,
   selectedId,
   mode,
   view,
 }: {
   cameras: CameraCard[];
+  scope: ReturnType<typeof measurementScope>;
   selectedId: string;
   mode: Mode;
   view: MapView;
@@ -186,7 +190,7 @@ export function OverviewBoard({
           </strong>
           <span className="metric-caption">
             {selected.emissions.estimate_g_by_pollutant.co2 !== null
-              ? "Tailpipe estimate · never measured AQI"
+              ? "Completed movement estimate · inspect scope"
               : selected.calibration === "valid"
                 ? "Estimate unavailable · inspect evidence"
                 : "Awaiting valid road calibration"}
@@ -471,6 +475,7 @@ export function OverviewBoard({
                 ? "No heartbeat received. The camera is configured, but its worker is not connected."
                 : `${formatAge(selected.status.heartbeat_at, selected.status.as_of)} since heartbeat at the data clock${mode === "synthetic" ? " (synthetic sample)" : ""}.`}
             </p>
+            <MeasurementScope scope={scope} compact />
             <dl className="mini-facts">
               <div>
                 <dt>Completed traversals</dt>

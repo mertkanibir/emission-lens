@@ -4,10 +4,12 @@ import {
   get_traffic_window,
   get_measurement_registry_status,
   listCameras,
+  read_measurement_window,
 } from "@emission-lens/backend";
 import { AppShell } from "@/components/AppShell";
 import { OverviewBoard } from "@/components/OverviewBoard";
 import { registryCalibrationState } from "@/lib/measurement";
+import { measurementScope } from "@/lib/measurement-scope";
 import { hrefWith, parseMode, parseView } from "@/lib/format";
 
 export default async function OverviewPage({
@@ -43,6 +45,7 @@ export default async function OverviewPage({
     >
       <OverviewBoard
         cameras={cameras}
+        scope={measurementScope(read_measurement_window({ cameraId: selectedId, mode, now }))}
         selectedId={selectedId}
         mode={mode}
         view={view}

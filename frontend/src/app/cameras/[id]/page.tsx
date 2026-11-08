@@ -20,6 +20,8 @@ import { ReductionInput } from "@/components/ReductionInput";
 import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
+import { MeasurementScope } from "@/components/MeasurementScope";
+import { measurementScope } from "@/lib/measurement-scope";
 import { ScenarioPollutants } from "@/components/ScenarioPollutants";
 import { registryCalibrationState, scenarioPollutantRows, observationStoppedRows } from "@/lib/measurement";
 import {
@@ -563,6 +565,7 @@ export default async function CameraPage({
                 meta={<QualityChip state={emissions.quality_state} />}
               >
                 <p className="context-note">{emissions.note}</p>
+                <MeasurementScope scope={measurementScope(measurement)} />
                 {ranges.map((range) => (
                   <div className="pollutant" key={range.pollutant}>
                     <dl className="readouts readouts-2">
@@ -639,6 +642,14 @@ export default async function CameraPage({
                   sample. This does not predict what a signal adjustment would
                   achieve.
                 </p>
+                {measurement.scenario.completed_cohort.count !== null
+                  && measurement.scenario.completed_cohort.count > 0
+                  && measurement.scenario.completed_cohort.baseline.stopped_time_s === null ? (
+                    <p className="context-note">
+                      Traversal-linked stopped time is unavailable. Nonzero
+                      stopped-time reduction results remain unavailable.
+                    </p>
+                  ) : null}
                 <form
                   action={`/cameras/${id}`}
                   method="get"
@@ -766,8 +777,8 @@ export default async function CameraPage({
                     </details>
                     {observationStops.length === 0 ? (
                       <p className="context-note">
-                        There are no traversals to compare. The result is
-                        insufficient evidence, not zero.
+                        No observation-minute stopped-time records are available.
+                        These records are separate from the completed movement cohort.
                       </p>
                     ) : (
                       <details
