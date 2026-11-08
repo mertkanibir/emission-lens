@@ -1,10 +1,12 @@
 # Project licence and source availability
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:36 America/New_York / 05:36 UTC
+**Updated:** 8 November 2026, 02:27 America/New_York / 07:27 UTC
 **Status:** Approved AGPL route implemented for first-party covered source. Version-specific source offers, deployment links and remaining third-party/model/binary checks require verification.
 
 Copyright (C) 2026 Mert and Carter. Emission Lens first-party covered source code is licensed under the **GNU Affero General Public License, version 3 only (AGPL-3.0-only)**. Read the full [LICENSE](../LICENSE), [project NOTICE](../NOTICE) and [third-party notices](./THIRD-PARTY-NOTICES.md). The licence grants code rights and includes warranty/liability terms; it does not certify scientific accuracy or relicense upstream data, weights, fonts or media.
+
+**Exact-version application verification (8 November 2026, 02:17 America/New_York / 07:17 UTC):** The final local 3151 application serves frozen public source `685dc72e2dab3c8be437f467ae96d2957daa99ba`, with the visible licence/source link verified in actual production browser checks and matching passing CI. Its worker bytes include the published positive visible-queue lower-bound behavior; private configuration/credentials/media remain excluded. This closes that exact application source-link verification only. It does not certify model, transitive-package, binary redistribution or all corresponding-source obligations; the remaining checklist below stays open. Earlier pre-link deployment statements below describe the historical preparation boundary.
 
 ## Obtain the source
 
@@ -24,7 +26,7 @@ Application credentials, private identities, raw footage and private operational
 
 Mert approved the AGPL route after the current production build was frozen. Adding these documents does not update that running build or automatically add a visible source link to it. The application owner must review and add a readily accessible **Licence and source** link using the deployed version's exact source reference and these notices, with the applicable licence/no-warranty information. A modified covered version offered over a network must satisfy the AGPL source-offer provisions for that version. A generic link to a later branch revision must not substitute for the required corresponding source of the running version. See [AGPL §§1, 4–6 and 13](../LICENSE).
 
-Requests to the Project Manager/application owner cover the visible link, exact-version mapping and workspace manifest licence metadata. This lane changes no app component, manifest, active process, GPU job or deployment. No source offer is claimed to have been visually verified in production yet.
+Requests to the Project Manager/application owner cover the visible link, exact-version mapping and workspace manifest licence metadata. This lane changes no app component, manifest, active process, GPU job or deployment. The exact final application source-link verification is recorded above; remaining corresponding-source/model/binary checks remain open.
 
 ## Release completion checks
 

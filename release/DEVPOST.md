@@ -1,12 +1,14 @@
 # Emission Lens Devpost draft
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 00:36 America/New_York / 05:36 UTC
+**Updated:** 8 November 2026, 02:27 America/New_York / 07:27 UTC
 **Status:** Reviewable draft; not submitted. Mert and Carter confirm the final form, disclosure and attachments before submission.
 
 **Scope note (8 November 2026, 01:10 America/New_York / 06:10 UTC, Carter):** Cameras 222 and 223 are accepted for counting and calibrated for emissions. Cameras 220 and 228 are excluded: both failed the held-out count screen (−29% and −42%). Ground calibration, movement distances and fitted stopped-time thresholds are added below, each linked to its evidence.
 
 **Evidence refresh (8 November 2026, 01:53 America/New_York / 06:53 UTC, Mert):** Original configured223replay 176174 and current-generation 222 stopped-policy audit 176255 now pass their scoped integration checks. New complete-minute scenario and queue software is in isolated acceptance; no new live deployment or field accuracy is implied. Preserve signed hypothetical changes, including supported 0 g, rather than claiming demonstrated savings.
+
+**Accepted local deployment (8 November 2026, 02:27 America/New_York / 07:27 UTC, Mert):** Both camera 222/223 LIVE paths are verified on the final 685dc72 local application, with supported-minute pollutants/linked stopped evidence, provisional visible queue lower bounds, mode separation and current authenticated evidence/fresh-process/original-factor acceptance. The user browser is on 3151. This is bounded local integration acceptance; no public hosted destination, field accuracy, real-world savings or Devpost submission is inferred.
 
 The copy below describes the demonstrated camera-222 path and the accepted camera-223 configuration. It does not extend acceptance to 220 or 228. Use the [readiness and claims record](./README.md) and [three-minute demonstration](./DEMO.md) when assembling the submission.
 
@@ -83,7 +85,7 @@ The most useful environmental output is one someone can question. Source timing,
 
 Independently validate physical scale, movement eligibility and completed traversals; extend human crossing review and longer outage/restart tests. Bring cameras 220 and 228 back through a fresh practice-and-held-out cycle with relocated gates; their calibrations, movements and stopped-time thresholds are already prepared. Replace the assumed sedan/SUV split with regional VMT shares. Add shared hosting and contextual layers after the core evidence path is reliable.
 
-Shorter-stop comparisons are implemented and fitted stopped-time thresholds are configured for both cameras; verification on recorded video is in progress. Vehicles rarely stop inside the measured 15–20 m segments, so expected scenario changes there are small. We do not claim measured air quality, health benefits or demonstrated environmental savings.
+Shorter-stop comparisons are implemented and fitted stopped-time thresholds are configured for both cameras; the new two-camera recorded-video integration check passed on step 176075.2. Its 79 completed traversals had supported zero linked stopped time, preserving valid zero scenario changes and unavailable empty minutes. Vehicles rarely stop inside the measured 15–20 m segments, so expected scenario changes there are small. We do not claim measured air quality, health benefits or demonstrated environmental savings.
 
 ## Built with
 
@@ -102,7 +104,7 @@ Before pasting, Mert and Carter should confirm this describes their actual assis
 ## Attachments and evidence to bind before submission
 
 - Use the [primary wordmark](../frontend/public/brand/wordmark.svg) or [512 px icon](../frontend/public/brand/icon-512.png), retaining the [identity-kit guidance](../branding/README.md).
-- Capture the actual demonstrated revision: overview with timestamp/mode/status, camera-222 assumptions and precise pollutant values, unavailable whole-window/scenario state, and brief/export. Review incidental identifiers and retain map attribution. Screenshots and a completed demo recording are still pending.
+- Capture the actual demonstrated revision: overview with timestamp/mode/status, camera-222 assumptions and precise pollutant values, unavailable whole-window totals and explicitly scoped complete-minute scenarios, and brief/export. Review incidental identifiers and retain map attribution. Screenshots and a completed demo recording are still pending.
 - Link [camera-222 delivery evidence](../evaluation/222-integration-175979.md), [count audit](../evaluation/calibration/222-count-audit.md), [current assisted-review status](../evaluation/video_validation/report.md), [factor provenance](../emissions/data/la-2026/receipt.json) and [heat-map semantics](../frontend/HEATMAP.md).
 - State only the runtime status observed at rehearsal. A running job is not a completed benchmark, and historical output is not a currently live scene.
 - First-party covered code now uses [AGPL-3.0-only](../LICENSE), with Mert's approved decision recorded [here](./LICENSING-DECISION.md). Verify remaining exact-source, model/binary and third-party notice checks in the [release checklist](./README.md) before marking compliance complete. No public submission or deployment is performed by this draft update.
