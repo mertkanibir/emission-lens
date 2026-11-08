@@ -1,7 +1,7 @@
 # Frontend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 21:01 America/New_York / 8 November 2026, 02:01 UTC
+**Updated:** 8 November 2026, 01:05 America/New_York / 8 November 2026, 06:05 UTC
 
 The four-camera Torrance dashboard reads the shared backend contract and the separately versioned measurement read model. The server reads worker status, retained observations and accepted measurement snapshots from the protected local store. Dated history and processing freshness are independent: retained records do not make an offline worker live. Live, replay and labeled synthetic records remain separate.
 
@@ -78,3 +78,9 @@ The approved compact mark and favicon/apple metadata are applied from `public/br
 Verification: all **24 frontend tests** and the combined production build pass. Controlled loopback production checks cover route → private fixture store → reads → camera/scenario/brief rendering → exact 2,126-character downloaded draft, plus desktop/354 px phone menus, four cameras, modes, scenario bounds, disclosures and reduced motion. Actual live grams remain unavailable without approved physical inputs. Temporary test resources were removed and the user's port-3000 process was preserved. Exact results, fixture boundaries and remaining physical-calibration/mapping/hosting inputs are recorded in `INTEGRATION.md`.
 
 **Generated-type cleanup (7 November 2026, 21:01 America/New_York / 8 November 2026, 02:01 UTC):** Production type regeneration cleared the reported stale duplicate route declaration; root `npm run typecheck` passes. No tracked declaration or user server was removed. Final build verification remains owned by this frontend stream.
+
+## Narrow-phone header follow-up
+
+**8 November 2026, 01:05 America/New_York / 8 November 2026, 06:05 UTC — Mert.** Reconfirmed the requested photo-card, sidebar-message and team-footer removals, darker cream and larger bold copy in the current design. On a 322 CSS-pixel phone viewport, the breadcrumb and header actions could exceed one row and clip Data status. The mobile header now wraps as needed, keeping the clock, motion and status controls right aligned with their existing touch targets. Desktop presentation is unchanged.
+
+Verification: all 47 frontend tests and the isolated production build pass. Desktop and phone browser checks covered the four workspace menus, Escape/outside/exclusive dismissal, focus restoration, six camera disclosures, all four brief camera options and copy feedback. Every phone menu panel fits within the viewport; camera, brief and review headers retain a reachable status control. No browser warnings/errors were captured. The current synthetic UI preview is running on loopback port 3000; its sample data is separate from the existing live/replay services. No calculation, contract, registry or deployment scope changed.

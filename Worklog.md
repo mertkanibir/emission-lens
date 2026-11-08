@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 01:05 America/New_York / 8 November 2026, 06:05 UTC
+
+- **Who:** Mert
+- **Done:** Reconfirmed the three requested UI block removals, larger/heavier text, playful overview copy and darker cream already published in the design. Fixed the remaining narrow-phone header alignment in `frontend/src/app/globals.css` by allowing the mobile header to wrap and right-aligning bounded action controls. Updated `frontend/README.md` and restored a separate current synthetic design preview on port 3000.
+- **Completed:** All 47 frontend tests and the isolated production build pass. Actual desktop/322 CSS-pixel phone checks cover all four workspace menus, Escape/outside/exclusive dismissal, keyboard focus restoration, six detail disclosures, all four brief choices, copy feedback, review navigation and status-control containment. All seven overview/camera/review/brief routes returned HTTP 200; no browser warnings/errors or preview-server errors were captured. Local desktop/phone screenshots are retained outside source control. The initial copied-build package-symlink resolution issue was resolved with the webpack production build.
+- **Still open:** The port-3000 design preview uses visibly labeled synthetic records; existing live/replay applications, worker and stores were preserved. No new scientific claim, contract/registry change or hosted deployment is included.
+
 ### 8 November 2026, 00:54 America/New_York / 8 November 2026, 05:54 UTC
 
 - **Who:** Mert

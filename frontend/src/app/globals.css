@@ -2355,6 +2355,7 @@ html[data-motion="off"] *::after {
     min-height: 59px;
     padding: 12px 16px;
     gap: 8px;
+    flex-wrap: wrap;
   }
   .workspace-crumb {
     font-size: 13px;
@@ -2362,6 +2363,8 @@ html[data-motion="off"] *::after {
   }
   .topbar-actions {
     gap: 4px;
+    margin-left: auto;
+    max-width: 100%;
   }
   .clock {
     font-size: 12px;
