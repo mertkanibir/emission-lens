@@ -1,8 +1,8 @@
 # Traversal-to-measurement bridge
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 20:48 America/New_York / 8 November 2026, 01:48 UTC
-**Status:** Exact API published before implementation; deterministic verification pending.
+**Updated:** 7 November 2026, 20:58 America/New_York / 8 November 2026, 01:58 UTC
+**Status:** Bridge implemented and deterministically verified; runtime binding remains with engineering. The exact API was published before implementation in `e945492`.
 
 New module `worker.measurement` bridges [completed traversal evidence](./TRAVERSALS.md) to the exact separate [measurement v1 envelope](../backend/MEASUREMENT-INGESTION.md). Engineering owns the runtime call sites. It does not change `WorkerBatch` 1.1 or infer physical approval.
 
@@ -51,10 +51,22 @@ An outstanding plan blocks new prepares. `pending()` returns its exact envelopes
 3. After every envelope is durably queued, `commit(plan.plan_id)` and atomically persist the committed checkpoint. Only then flush that outbox. Never flush a pending plan: after a crash, retrying an already superseded earlier revision could otherwise conflict.
 4. On restart, restore the private checkpoint first. Finish a retained pending plan before flushing; otherwise flush the committed outbox normally. A lost HTTP acknowledgement retries identical bytes through the unchanged FIFO sender.
 
+Drain previous committed work before starting a new plan, and configure enough bounded outbox capacity for the entire plan (`sum(len(serialize_measurement_batch(b)) for b in plan.batches)`). If partial enqueue reaches capacity, retain the pending checkpoint and queued files, then reopen the outbox with sufficient bounded capacity to finish. Do not flush partially queued pending-plan revisions to make room. A private checkpoint write failure must also prevent flushing.
+
 Use `HttpSender("https://<server>/api/measurements", token)` (or the existing loopback tunnel), and an outbox directory separate from `/api/worker` delivery. Obtain the token from existing private runtime configuration; no credential is retained in bridge state. Never send this envelope to `/api/worker`.
 
 Retention is explicitly bounded and fails closed rather than dropping old cohort members: at most `max_events`, `max_minutes` distinct batch/revision keys and 32 session mappings per envelope. V1 allows at most 1000 traversals per minute and a 1 MiB serialized body, including the outbox newline. A full minute is not split into competing snapshots. Limits reject the entire preparation without advancing revisions or losing input events. Runtime must choose a bounded run/retention window and resolve old ownership explicitly; there is no automatic cross-run overlap merge or silent historical eviction.
 
 The checkpoint is a private integrity-checked JSON object with committed retained media facts, published snapshots/revisions and optional pending next state. Persist it atomically with restrictive permissions alongside the separate outbox. This is producer continuity state, not a public contract or registry approval record.
 
-No GPU run, media collection, model/tracker/configuration change, manual-count review or camera enablement belongs to this checkpoint. Python fixtures will be checked against the actual TypeScript `parseMeasurementBatch`; runtime ingestion/storage remains engineering's work.
+## Verified checkpoint
+
+```bash
+python -m pytest tests/test_measurement.py tests/test_traversal.py tests/test_metrics.py tests/test_calibration.py tests/test_timing.py tests/test_publish.py -q
+```
+
+**127 tests plus 112 subtests passed**, including 28 new bridge cases. The tests check Python JSON through the actual TypeScript `parseMeasurementBatch` and an isolated in-memory server repository, including partial cohort rebins, retraction-before-replacement, exact server retry and an empty registry that yields no physical estimates. A separate bounded loopback HTTP test uses the existing `HttpSender`/`Outbox` to verify dedicated endpoint/authentication, temporary HTTP failure and identical retry bytes. Pending/committed checkpoint restore, partial outbox enqueue/restart, mutable caller copies, 1000-traversal and 32-session boundaries, 1 MiB ASCII expansion, capacity rollback and source/run/mode separation are covered.
+
+The bridge makes no HTTP requests or disk writes itself. Runtime binding must retain pending checkpoints before enqueue, commit/persist before flush, update matching legacy observation references and supply current clocks. Existing runtime snapshot helpers must delegate this bookkeeping to `MeasurementBridge` to benefit from these tested rules. Do not run two independently revisioning producers for the same camera/run/minute.
+
+No GPU run, media collection, model/tracker/configuration change, manual-count review or camera enablement occurred. Runtime ingestion/storage remains engineering's work. Physical calibration, class mapping, stopped-time classification and count acceptance remain independent requirements; this bridge neither approves them nor invents values.

@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 20:58 America/New_York / 8 November 2026, 01:58 UTC
+
+- **Who:** Mert
+- **Done:** Added worker/measurement.py as the pure producer-to-measurement-v1 bridge, tests/test_measurement.py and the exact worker/MEASUREMENTS.md integration handoff. The API was published first in e945492. Complete per-minute snapshots use stable scoped UUIDs/increasing revisions; old cohorts retract before replacement, missing clocks retain unavailable media events, and only server-resolved movement/version references cross the wire.
+- **Completed:** All 127 focused traversal/measurement/metrics/calibration/timing/delivery tests plus 112 subtests pass, including 28 bridge cases. Python payloads pass the actual TypeScript parser and isolated in-memory ingestion/retry/rebin transactions; the empty registry produces no physical totals. The bounded local HTTP test verifies the unchanged HttpSender/Outbox on /api/measurements, identical retry bytes, pending/committed checkpoint restore and partial enqueue restart. Checked 1000-traversal, 32-session and 1 MiB ASCII-encoded body limits, fail-closed retention, source-context isolation, nullable per-vehicle stops and no worker-supplied distance/approval/grams.
+- **Still open:** Engineering must bind runtime call sites to MeasurementBridge.prepare/pending/checkpoint/commit, persist pending state before enqueue and committed state before flushing the separate measurement outbox, and update legacy observation references/current session clocks. Do not run independent revisioning helpers for the same camera/run/minute. Physical calibration, mapping/stop-method acceptance and held-out count/model review remain separate. No runtime caller, backend, public contract, model/tracker, geometry config, labels, training, footage or GPU job changed in this bridge checkpoint.
+
 ### 7 November 2026, 20:48 America/New_York / 8 November 2026, 01:48 UTC
 
 - **Who:** Mert
