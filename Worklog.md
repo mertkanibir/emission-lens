@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:27 America/New_York / 8 November 2026, 08:27 UTC
+
+- **Who:** Mert
+- **Done:** Added opt-in fixed-loopback preview reads for an isolated new dashboard without restarting its producer.
+- **Completed:** Bounded no-redirect/no-credential reads project the existing preview contract and reject wrong camera/mode, stale data and unsafe origins. Focused test and frontend TypeScript pass.
+- **Still open:** Actual candidate build, shared-store/two-process preview checks and browser acceptance; producer remains protected.
+
 ### 8 November 2026, 03:25 America/New_York / 8 November 2026, 08:25 UTC
 
 - **Who:** Mert
