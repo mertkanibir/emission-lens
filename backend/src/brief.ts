@@ -6,6 +6,7 @@ import {
   get_traffic_window,
 } from "./queries.ts";
 import { compare_scenario } from "./scenario.ts";
+import { loadRegistry, registryStatus } from "./registry.ts";
 
 export interface Brief {
   camera_id: string | null;
@@ -60,16 +61,21 @@ export function rank_investigation_priorities(input: {
       ],
     };
   }
+  const now = input.now ?? new Date();
   const traffic = get_traffic_window({
     cameraId,
     mode: input.mode,
-    now: input.now,
+    now,
   });
   const emissions = get_emissions_window({
     cameraId,
     mode: input.mode,
-    now: input.now,
+    now,
   });
+  const registry = registryStatus(loadRegistry(), cameraId, input.mode, now);
+  const emptyApprovedWindow = emissions.rows.length === 0 &&
+    registry.state === "configured" && registry.physical_calibration_approved &&
+    registry.calibration_version !== null;
   const context = get_context(cameraId, input.mode);
   const queueEvidence =
     traffic.queue_count === null
@@ -85,14 +91,18 @@ export function rank_investigation_priorities(input: {
         evidence: queueEvidence,
         suggested_step:
           traffic.queue_count === null
-            ? "Collect a calibrated observation window before investigating signal timing."
+            ? emptyApprovedWindow
+              ? "Collect queue observations in this reporting window before investigating signal timing."
+              : "Collect a calibrated observation window before investigating signal timing."
             : "Investigate signal timing and queue causes. This sample does not prove a signal change.",
       },
       {
         dimension: "emissions",
         evidence: emissions.note,
         suggested_step:
-          "Validate camera calibration and visual-class mappings, then collect completed traversals before comparing estimated emissions.",
+          emptyApprovedWindow
+            ? "Collect completed traversals in this reporting window and confirm the visual-class mapping before comparing estimated emissions."
+            : "Validate camera calibration and visual-class mappings, then collect completed traversals before comparing estimated emissions.",
       },
       {
         dimension: "uncertainty",
@@ -119,28 +129,29 @@ export function draft_brief(input: {
   stoppedTimeReductionPct?: number;
   now?: Date;
 }): Brief {
+  const now = input.now ?? new Date();
   const camera = cameraById(input.cameraId);
-  const status = get_camera_status(input.cameraId, input.mode, input.now);
+  const status = get_camera_status(input.cameraId, input.mode, now);
   const traffic = get_traffic_window({
     cameraId: input.cameraId,
     mode: input.mode,
-    now: input.now,
+    now,
   });
   const emissions = get_emissions_window({
     cameraId: input.cameraId,
     mode: input.mode,
-    now: input.now,
+    now,
   });
   const scenario = compare_scenario({
     cameraId: input.cameraId,
     mode: input.mode,
     stoppedTimeReductionPct: input.stoppedTimeReductionPct ?? 20,
-    now: input.now,
+    now,
   });
   const ranking = rank_investigation_priorities({
     cameraId: input.cameraId,
     mode: input.mode,
-    now: input.now,
+    now,
   });
   const modeLine =
     input.mode === "live"

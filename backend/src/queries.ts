@@ -1,5 +1,4 @@
 import {
-  calibrationFor,
   cameraById,
   CAMERAS,
   sumStrict,
@@ -17,6 +16,7 @@ import { asOf, isStale, reportingWindow } from "./clock.ts";
 import { emissionsFor, statusesFor, trafficFor } from "./store.ts";
 import { readWorkerStore } from "./persistence.ts";
 import { get_factor_catalog_status } from "../../emissions/src/index.ts";
+import { loadRegistry, registryStatus } from "./registry.ts";
 
 export interface CameraStatusView extends CameraStatus {
   displayed_state: CameraState;
@@ -164,13 +164,23 @@ export function get_emissions_window(input: {
   const quality_state: QualityState = rows.length === 0
     ? "unavailable"
     : rows.find((row) => row.quality_state !== "ok")?.quality_state ?? "ok";
-  const calibration = calibrationFor(input.cameraId);
+  const registry = rows.length === 0
+    ? registryStatus(loadRegistry(), input.cameraId, input.mode, now)
+    : null;
+  const emptyWindowApproval = registry?.state === "configured" &&
+    registry.physical_calibration_approved && registry.calibration_version !== null
+    ? "Camera calibration is approved for this mode and time; completed traversals and a documented class mapping are still required."
+    : registry?.state === "invalid"
+      ? "The measurement registry is invalid, so camera calibration approval cannot be verified."
+      : "No unique server-approved camera calibration applies to this mode and time.";
   const note =
     quality_state === "ok"
       ? "Estimated emissions use the loaded factor table for this window."
-      : quality_state === "calibration_invalid" || (rows.length === 0 && calibration.validation_status !== "valid")
-        ? `CARB ${get_factor_catalog_status().model_version} factors are validated for Los Angeles (SC), 2026. Camera calibration is not valid, so estimated emissions stay unavailable. This is not a zero.`
-        : "CARB factors are validated. Estimated emissions still require completed traversals and a documented class mapping. This is not a zero.";
+      : rows.length === 0
+        ? `No estimated-emissions records are available in this reporting window. ${emptyWindowApproval} This is not a zero.`
+        : quality_state === "calibration_invalid"
+          ? `CARB ${get_factor_catalog_status().model_version} factors are validated for Los Angeles (SC), 2026. Camera calibration is not valid, so estimated emissions stay unavailable. This is not a zero.`
+          : "CARB factors are validated. Estimated emissions still require completed traversals and a documented class mapping. This is not a zero.";
   return {
     camera_id: input.cameraId,
     mode: input.mode,
