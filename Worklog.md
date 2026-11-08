@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 19:35 America/New_York / 8 November 2026, 00:35 UTC
+
+- **Who:** Mert
+- **Done:** Published the scientific measurement-readiness inventory and a separate disabled camera-222 image-geometry proposal, preserving Carter's drawings, labeling and training ownership. Specified manual selected-gate held-out checks, independent physical-reference requirements, the actual-runtime evaluation gap and a proposed calibrated traversal/stopped-interval handoff for engineering.
+- **Completed:** Local inventory confirms no actual per-camera measurement JSON, no retained recorded source clip, no manual crossing answer key and no independently scaled road references in the inspected roots. All shared physical calibrations remain missing. The proposal records the inspected still's hash, normalized ROI/gate and image direction; it is not loaded by the worker. Geometry syntax validation and all 23 existing metrics tests pass. The report identifies the stopped-time/completed-traversal cohort mismatch before integration; no contract semantics were silently changed.
+- **Still open:** A bounded camera-222 source recording is in progress for a new manual/runtime review. Carter's actual drawings and any private clips remain external dependencies. Physical calibration needs independently scaled references and held-out validation. Runtime YOLO11n/640 crossing accuracy, calibrated traversals, traversal-linked stops and numeric VMT-based mappings remain unproven. No camera was enabled, no model/label altered and no external message or GPU allocation used.
+
 ### 7 November 2026, 19:29 America/New_York (8 November 2026, 00:29 UTC)
 
 - **Who:** Mert

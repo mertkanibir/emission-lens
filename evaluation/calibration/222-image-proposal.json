@@ -1,0 +1,65 @@
+{
+  "owner": "Mert",
+  "recorded_at_utc": "2026-11-08T00:34:26.648291+00:00",
+  "status": "proposal_only_not_loaded_by_worker",
+  "source_frame": {
+    "path": "data/raw/gpu-training/dataset/images/test/222_20261107T211511Z_00154.jpg",
+    "sha256": "b4fda63e81440ab6ef3215f76c1fc3d94789b9c8de6c02a7f4106b4f3602eba2",
+    "width": 1280,
+    "height": 720,
+    "filename_time_utc": "2026-11-07T21:15:11Z",
+    "filename_time_meaning": "collector/file timestamp; not verified capture UTC",
+    "visible_clock": "11/07/26 01:14:53 PM; camera-local timezone not verified from pixels alone"
+  },
+  "scope": "Selected near-centre approach lanes approaching the crosswalk; lane ownership and movement still require clip review. No map cardinal direction inferred.",
+  "coordinate_units": "normalized x/image_width, y/image_height; origin top left, y down",
+  "proposal_config": {
+    "camera_id": "222",
+    "version": "222-proposal-20261107-v1",
+    "enabled": false,
+    "image_geometry_status": "unvalidated",
+    "road_region": [
+      [
+        0.56,
+        0.34
+      ],
+      [
+        0.7,
+        0.34
+      ],
+      [
+        0.75,
+        0.12
+      ],
+      [
+        0.69,
+        0.12
+      ]
+    ],
+    "excluded_regions": [],
+    "gates": [
+      {
+        "id": "approach-toward-camera",
+        "start": [
+          0.59,
+          0.29
+        ],
+        "end": [
+          0.7,
+          0.29
+        ],
+        "direction": "positive"
+      }
+    ]
+  },
+  "positive_direction": "For ordered left-to-right gate, increasing image y crosses negative to positive side. This is image direction, not geographic north/south.",
+  "reviewed_crossing_evidence": null,
+  "independent_ground_references": [],
+  "homography": null,
+  "physical_calibration_status": "missing",
+  "limitations": [
+    "Still image only; no crossing or stopped-time validation.",
+    "No metric distance is inferred from crosswalk paint, assumed lane width, map pin or speed limit.",
+    "Proposal is separate from config/cameras and must not replace Carter drafts."
+  ]
+}
