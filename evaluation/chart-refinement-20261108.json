@@ -1,0 +1,48 @@
+{
+  "updated_at_utc": "2026-11-08T15:43:17.810353+00:00",
+  "owner": "Mert",
+  "web_source": "8f3aeef581b068bfa2553be432950c10e80ea65e",
+  "single_minute": {
+    "camera": "222",
+    "mode": "live",
+    "from": "2026-11-08T15:31:00Z",
+    "to": "2026-11-08T15:32:00Z",
+    "crossings": 9,
+    "column_width_px": 28,
+    "axis_min": 0,
+    "axis_max": 10,
+    "scoped_comparison_link": "verified"
+  },
+  "synthetic_cameras": [
+    "220",
+    "222",
+    "223",
+    "228"
+  ],
+  "minutes_per_camera": 60,
+  "synthetic_measurement_snapshots": 240,
+  "synthetic_class_rows": 960,
+  "synthetic_pollutant_rows": 480,
+  "browser_synthetic_crossings": {
+    "220": 2245,
+    "228": 2362
+  },
+  "long_chart_inspected_bars": 60,
+  "long_chart_max_bar_width_px": 6.49,
+  "keyboard_value_card": "verified",
+  "live_228_exclusion": "verified",
+  "page_overflow_at_inspected_width": false,
+  "inspected_css_width": 1024,
+  "browser_errors": 0,
+  "backend_tests": 142,
+  "frontend_tests": 103,
+  "typescript": "pass",
+  "immutable_build": "pass",
+  "authoritative_demo_writes": 0,
+  "contract_changes": false,
+  "limits": [
+    "Synthetic values are fictional and do not approve real220/228 processing.",
+    "Missing/zero and supported-emissions semantics are unchanged.",
+    "Smaller phone layouts were not rechecked in this bounded acceptance."
+  ]
+}

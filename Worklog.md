@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:43 America/New_York / 8 November 2026, 15:43 UTC
+
+- **Who:** Mert
+- **Done:** Installed and visually verified the compact single-minute chart, scaled longer timelines, keyboard value cards, minute links and all-four-camera synthetic examples; updated master-plan acceptance.
+- **Completed:** 142 backend/103 frontend checks, types/build and actual browser checks pass. Single-minute9-crossing bar is28px; long chart60bars; camera220/228 examples have60/60minutes; live228 remains excluded. No live data, scientific input, contract or GPU change.
+- **Still open:** Synthetic data remain fictional; independent physical/scientific validation and hosted persistence remain open. Smaller phone layouts were not rechecked in this bounded pass.
+
 ### 8 November 2026, 10:37 America/New_York / 8 November 2026, 15:37 UTC
 
 - **Who:** Mert
