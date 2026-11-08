@@ -1,0 +1,170 @@
+{
+  "owner": "Mert",
+  "audited_at_utc": "2026-11-08T06:07:09.185618+00:00",
+  "job_id": "176183",
+  "status": "all_seven_requested_intervals_verified_not_accuracy_or_continuous_coverage",
+  "scheduler": {
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:09:43",
+    "wall_cap": "00:19:00",
+    "mig_slices": 1
+  },
+  "source_commit": "5fa8c05ad746776fdb0345742f01db364155ef03",
+  "hashes": {
+    "recipe": "52acc085d7b1a3c406827f4285a0fe834447023d1fd885d8763b1f227e7d79b2",
+    "driver": "7ad4d520965dbf79a971a799c77be2677a229656148d43dc1cd2a4fc5a201bd8",
+    "archive": "3f465ef79efdd68e90872e4994b7357949470ea1f5c1f07aafdb5c12a263e77e",
+    "batch": "0d2ebebe80c1782c6df44688fb1bc60febe4b704c943020e44c79a4d8bf3947a",
+    "private_runtime_audit": "40bd3655cbd6319cef135517785e503edeb823bbf7da0b96f4593d9fe9da07b2",
+    "scheduler_receipt": "b9a75b0066451be8c5cd2162cf1063eaa5073d93806740784029c73f53e70968"
+  },
+  "frozen_source_files_verified": 28,
+  "intervals": [
+    {
+      "name": "220-practice-fresh-60-180",
+      "camera_id": "220",
+      "state": "completed_interval",
+      "processed_frames": 1714,
+      "retrieved_frames": 1749,
+      "first_media_s": 60.061,
+      "last_media_s": 179.982,
+      "termination": "exclusive_end",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    },
+    {
+      "name": "220-heldout-fresh-360-480",
+      "camera_id": "220",
+      "state": "completed_interval",
+      "processed_frames": 1746,
+      "retrieved_frames": 1762,
+      "first_media_s": 360.031,
+      "last_media_s": 479.952,
+      "termination": "exclusive_end",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    },
+    {
+      "name": "228-prefix-0-720",
+      "camera_id": "228",
+      "state": "completed_interval",
+      "processed_frames": 9048,
+      "retrieved_frames": 9289,
+      "first_media_s": 0.0,
+      "last_media_s": 719.9920000000001,
+      "termination": "exclusive_end",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    },
+    {
+      "name": "228-suffix-fresh-840-eof",
+      "camera_id": "228",
+      "state": "completed_interval",
+      "processed_frames": 4573,
+      "retrieved_frames": 4634,
+      "first_media_s": 840.047,
+      "last_media_s": 1218.075,
+      "termination": "decoder_exhausted",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    },
+    {
+      "name": "222-full-0-eof",
+      "camera_id": "222",
+      "state": "completed_interval",
+      "processed_frames": 17797,
+      "retrieved_frames": 17918,
+      "first_media_s": 0.0,
+      "last_media_s": 1229.747,
+      "termination": "decoder_exhausted",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    },
+    {
+      "name": "223-full-0-eof",
+      "camera_id": "223",
+      "state": "completed_interval",
+      "processed_frames": 17967,
+      "retrieved_frames": 17986,
+      "first_media_s": 0.0,
+      "last_media_s": 1222.354,
+      "termination": "decoder_exhausted",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [
+        [
+          582.88,
+          598.878
+        ],
+        [
+          627.942,
+          631.942
+        ]
+      ],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    },
+    {
+      "name": "220-full-0-eof",
+      "camera_id": "220",
+      "state": "completed_interval",
+      "processed_frames": 17518,
+      "retrieved_frames": 17670,
+      "first_media_s": 0.0,
+      "last_media_s": 1230.944,
+      "termination": "decoder_exhausted",
+      "retrieve_failures": 0,
+      "source_gaps_over_1s": [],
+      "sampler_decisions_and_order_verified": true,
+      "configuration_cuda_hashes_verified": true,
+      "all_gate_count_arithmetic_verified": true,
+      "count_1_receipt_matches_events": true
+    }
+  ],
+  "baseline_sampled_input_frames_excluding_review_overlap": 66903,
+  "all_interval_sampled_input_frames_including_review_overlap": 70363,
+  "protected_228_interval": [
+    720,
+    840
+  ],
+  "protected_pixels_retrieved_or_modelled": false,
+  "fresh_model_tracker_metrics_sampler_per_interval": true,
+  "receipt_namespace": "camera_id + window_name + numeric_session1; fresh model/tracker/metrics/sampler for every window",
+  "count_arithmetic_verified_for_all_intervals": true,
+  "vehicle_totals_published": false,
+  "220_full_answers_withheld": true,
+  "new_228_context_trace": false,
+  "historical_228_miss_cause_proven": false,
+  "repair_proposed": null,
+  "limits": [
+    "Decoder exhaustion covers available decoded input, not missing acquisition footage or continuous coverage.",
+    "Camera223native gaps15.998s/4s and original acquisition retrieval errors remain.",
+    "Camera228omits120seconds and fresh state at840does not bridge missing crossings.",
+    "220freshreviewwindows overlap220full and are excluded from baseline totals.",
+    "Offline sequential decode has no live buffer-drop measurement, reconnect or sustained live acceptance.",
+    "Within-interval ByteTrack state persists across source gaps under unchanged checker behavior while metric history clears.",
+    "No count accuracy, scientific approval, stopped-time acceptance or model/gate promotion is established."
+  ]
+}
