@@ -1,0 +1,327 @@
+{
+  "state": "PASS_backend_actual_stop_replays",
+  "checked_at": "2026-11-08T07:05:57.224265+00:00",
+  "acceptance_driver_sha256": "85fde8007eaf79bb8667894446ad5138987eae729d9d5748e15df9344cf57ed7",
+  "application_source_commit": "0f0b753ee35b1054e85a53bb9f420a4c89cd6b1c",
+  "registry_sha256": "5d0f07f9995c42c97116961958b3f34d077bbfa52756ec715726f8ec8142b638",
+  "snapshot_sha256": "2b6e244efa982ebeaf5545bef95836ee50d834107eb6ad8fca5a959a6b7e49d4",
+  "current_authenticated_reads": 6,
+  "generation_races_reacquired": 0,
+  "fresh_process_private_and_public_equal": true,
+  "original_CARB_baseline_and20_oracle": true,
+  "mode_and_public_identity_boundary": true,
+  "cameras": {
+    "222": {
+      "completed_candidates": 24,
+      "positive_stop_count": 0,
+      "zero_stop_count": 24,
+      "unknown_stop_count": 0,
+      "max_stopped_time_s": 0,
+      "selected_gate_crossings": 45,
+      "queue_minute_states": {
+        "zero": 0,
+        "positive": 0,
+        "unavailable": 3,
+        "ambiguous": 0
+      },
+      "minutes": [
+        {
+          "minute": "2026-11-08T06:53:00.000Z",
+          "completed_candidates": 19,
+          "queue_observation": {
+            "state": "unavailable",
+            "value": null
+          },
+          "pollutants": {
+            "co2": {
+              "baseline_g": 74.83976364315224,
+              "scenario_g": 74.83976364315224,
+              "change_g": 0.0
+            },
+            "nox": {
+              "baseline_g": 0.014134837511052453,
+              "scenario_g": 0.014134837511052453,
+              "change_g": 0.0
+            }
+          }
+        },
+        {
+          "minute": "2026-11-08T06:54:00.000Z",
+          "completed_candidates": 5,
+          "queue_observation": {
+            "state": "unavailable",
+            "value": null
+          },
+          "pollutants": {
+            "co2": {
+              "baseline_g": 26.290678728784364,
+              "scenario_g": 26.290678728784364,
+              "change_g": 0.0
+            },
+            "nox": {
+              "baseline_g": 0.004550868671707808,
+              "scenario_g": 0.004550868671707808,
+              "change_g": 0.0
+            }
+          }
+        },
+        {
+          "minute": "2026-11-08T06:55:00.000Z",
+          "completed_candidates": 0,
+          "queue_observation": {
+            "state": "unavailable",
+            "value": null
+          },
+          "pollutants": {
+            "co2": {
+              "baseline_g": null,
+              "scenario_g": null,
+              "change_g": null
+            },
+            "nox": {
+              "baseline_g": null,
+              "scenario_g": null,
+              "change_g": null
+            }
+          }
+        }
+      ],
+      "complete_minute_queries": 3,
+      "numeric_complete_minute_scenarios": 2,
+      "scenario_increase_minutes": 0,
+      "whole_window_scenario_available": false,
+      "incomplete_whole_window_preserved": true,
+      "latest_queue": {
+        "queue_count": null,
+        "queue_length_m": null,
+        "queue_observation": {
+          "state": "unavailable",
+          "minute": "2026-11-08T06:55:00.000Z",
+          "reason": "The latest traffic minute has no queue observation; older observations are not substituted."
+        }
+      }
+    },
+    "223": {
+      "completed_candidates": 55,
+      "positive_stop_count": 0,
+      "zero_stop_count": 55,
+      "unknown_stop_count": 0,
+      "max_stopped_time_s": 0,
+      "selected_gate_crossings": 128,
+      "queue_minute_states": {
+        "zero": 0,
+        "positive": 0,
+        "unavailable": 3,
+        "ambiguous": 0
+      },
+      "minutes": [
+        {
+          "minute": "2026-11-08T06:58:00.000Z",
+          "completed_candidates": 0,
+          "queue_observation": {
+            "state": "unavailable",
+            "value": null
+          },
+          "pollutants": {
+            "co2": {
+              "baseline_g": null,
+              "scenario_g": null,
+              "change_g": null
+            },
+            "nox": {
+              "baseline_g": null,
+              "scenario_g": null,
+              "change_g": null
+            }
+          }
+        },
+        {
+          "minute": "2026-11-08T06:59:00.000Z",
+          "completed_candidates": 48,
+          "queue_observation": {
+            "state": "unavailable",
+            "value": null
+          },
+          "pollutants": {
+            "co2": {
+              "baseline_g": 133.22666031230213,
+              "scenario_g": 133.22666031230213,
+              "change_g": 0.0
+            },
+            "nox": {
+              "baseline_g": 0.026073926580286663,
+              "scenario_g": 0.026073926580286663,
+              "change_g": 0.0
+            }
+          }
+        },
+        {
+          "minute": "2026-11-08T07:00:00.000Z",
+          "completed_candidates": 7,
+          "queue_observation": {
+            "state": "unavailable",
+            "value": null
+          },
+          "pollutants": {
+            "co2": {
+              "baseline_g": 24.26598034444214,
+              "scenario_g": 24.26598034444214,
+              "change_g": 0.0
+            },
+            "nox": {
+              "baseline_g": 0.004381642132658167,
+              "scenario_g": 0.004381642132658167,
+              "change_g": 0.0
+            }
+          }
+        }
+      ],
+      "complete_minute_queries": 3,
+      "numeric_complete_minute_scenarios": 2,
+      "scenario_increase_minutes": 0,
+      "whole_window_scenario_available": false,
+      "incomplete_whole_window_preserved": true,
+      "latest_queue": {
+        "queue_count": null,
+        "queue_length_m": null,
+        "queue_observation": {
+          "state": "unavailable",
+          "minute": "2026-11-08T07:00:00.000Z",
+          "reason": "The latest traffic minute has no queue observation; older observations are not substituted."
+        }
+      }
+    }
+  },
+  "exercises": {
+    "222": {
+      "actual_completed_candidates": true,
+      "all_completed_stops_numeric": true,
+      "count_gate_observations": true,
+      "numeric_complete_minute_scenario": true,
+      "source_execution_linkage": true,
+      "explicit_source_endpoints_covered": true
+    },
+    "223": {
+      "actual_completed_candidates": true,
+      "all_completed_stops_numeric": true,
+      "count_gate_observations": true,
+      "numeric_complete_minute_scenario": true,
+      "source_execution_linkage": true,
+      "explicit_source_endpoints_covered": true
+    }
+  },
+  "frontend_REPLAY_scenario_check": "Requires the independent frontend/browser receipt; this backend driver makes no browser acceptance claim.",
+  "completion_timestamp_precision": "Raw source microseconds remain authoritative for exit/anchor checks; approved calculation inputs exactly match the existing millisecond Date normalization without moving the reporting minute.",
+  "methodological_correction": "A 20% shorter-stop scenario may increase estimated emissions across nonlinear RUNEX bins. Signed results are preserved; scenario<=baseline is not an acceptance invariant.",
+  "limitations": [
+    "Configured300s is wall duration, not processed source duration; actual first/last PTS, session spans, drops and issue counters are retained. Native intra-session gaps, continuous/loss-free coverage and field accuracy remain unverified.",
+    "The stopped-time reference is calibration-derived, not human annotated; image stopped time does not identify an engine-running state.",
+    "220/228 are excluded from these replay metrics because their held-out count screens failed; registry presence does not approve new count/traversal results.",
+    "223 already has accepted emissions E2E job176174; this is its new stopped-policy check, not its first emissions replay.",
+    "No ordinary-idle process, extra EV discount, statistical interval or claimed real-world savings is added."
+  ],
+  "actual_step": "176075.2",
+  "executed_worker_archive_commit": "692d739bd0083e27bcc501008bdb409a218e5903",
+  "old_source_reloads_exactly": true,
+  "content_identical_runtime_scientific_files": 47,
+  "retained_entries": {
+    "worker": 735,
+    "measurement": 60
+  },
+  "baseline_entries_preserved": {
+    "worker": 617,
+    "measurement": 54
+  },
+  "checker_failure_and_correction": {
+    "state": "FAILED_checker_assertion_exact_microsecond_vs_millisecond_normalization",
+    "checked_at": "2026-11-08T07:05:36.939710+00:00",
+    "assertion_line": 332,
+    "completed_candidates_checked": 79,
+    "nonidentical_microsecond_instants": 79,
+    "max_truncated_fraction_s": 0.000999,
+    "all_match_existing_backend_millisecond_normalization": true,
+    "same_original_source_minutes_preserved": true,
+    "source_precision_retained": true,
+    "services_jobs_profiles_changed": false
+  },
+  "operator_inputs": {
+    "222": {
+      "runtime_report_sha256": "7aeb9c32562cf54eff66eae9cf2ed1c613af6de53c73f21f2a9bd0d130da9159",
+      "policy_sha256": "6ffbac2983c8f2d465b2495a3d2238aaa7fd7c679776277b69f71ac607234b36",
+      "geometry_sha256": "118b60c1afbcd2139da7a6e58c7c6b4eca74e16b497e5f87fe81d0c00a4ea64c",
+      "runtime_reported_git_commit": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+      "executed_main_sha256": "db55400ffc63ee5a01fc4f8cb7c83feb5cea26e8496e93cb581e711e7bf356c4",
+      "source_sha256": "8ef5814c9dd724de1df3785c641651589ab03a61d3b9decd4071dd04402f79e3",
+      "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "literal_threshold": 0.0225,
+      "configured_wall_duration_s": 300,
+      "source_window_s": [
+        60,
+        180
+      ],
+      "actual_first_media_s": 60.061,
+      "actual_last_media_s": 179.982,
+      "actual_media_span_s": 119.92099999999999,
+      "requested_source_endpoints_covered_within_1s": true,
+      "source_execution_receipt_linked": true,
+      "processed_frames": 1712,
+      "reader_frames_dropped": 0,
+      "media_by_session": {
+        "1": {
+          "first_s": 60.061,
+          "last_s": 179.982,
+          "frames": 1712
+        }
+      },
+      "reader_state": "offline",
+      "traversal_issues": {
+        "track_lost": 203,
+        "exit_without_ordered_entry": 8,
+        "wrong_direction": 9
+      },
+      "coverage_limit": "Wall duration is not processed source duration. Native intra-session PTS gaps are not retained by this aggregate report; no continuous/loss-free coverage is claimed."
+    },
+    "223": {
+      "runtime_report_sha256": "1937a39b6e48dbf99d9db7ebc692cdc97c05f35e13c208ff1833ef4e4e8112a3",
+      "policy_sha256": "02619b6b1a3d1bf5610e4d0cbb7b022cdb21a80134bc8c620a5c32580864e869",
+      "geometry_sha256": "e22aead81e8c3c561f8eaaf20ba0460c050b7c7979e46df31a485f27d7251b4c",
+      "runtime_reported_git_commit": "b1a5edf188d06c1af7fc1a29cffd4f24e80734f8",
+      "executed_main_sha256": "db55400ffc63ee5a01fc4f8cb7c83feb5cea26e8496e93cb581e711e7bf356c4",
+      "source_sha256": "808476414ca24d93f3190bb4a315a8fcbefe807c18c5e4f527d115a1ba89d2a0",
+      "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "literal_threshold": 0.0283,
+      "configured_wall_duration_s": 300,
+      "source_window_s": [
+        60,
+        180
+      ],
+      "actual_first_media_s": 60.061,
+      "actual_last_media_s": 179.984,
+      "actual_media_span_s": 119.923,
+      "requested_source_endpoints_covered_within_1s": true,
+      "source_execution_receipt_linked": true,
+      "processed_frames": 1798,
+      "reader_frames_dropped": 0,
+      "media_by_session": {
+        "1": {
+          "first_s": 60.061,
+          "last_s": 179.984,
+          "frames": 1798
+        }
+      },
+      "reader_state": "offline",
+      "traversal_issues": {
+        "track_lost": 232,
+        "wrong_direction": 46,
+        "exit_without_ordered_entry": 8
+      },
+      "coverage_limit": "Wall duration is not processed source duration. Native intra-session PTS gaps are not retained by this aggregate report; no continuous/loss-free coverage is claimed."
+    }
+  },
+  "verification": {
+    "independent_driver_tests": 9,
+    "Python_syntax": true,
+    "backend_runtime_arithmetic_changed": false,
+    "new_queue_lower_bound_policy_applied_to_these_replays": false
+  }
+}

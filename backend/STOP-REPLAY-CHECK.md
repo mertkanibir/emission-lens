@@ -1,8 +1,8 @@
 # Read-only stopped-time replay acceptance
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 01:57 America/New_York / 06:57 UTC
-**Status:** Driver prepared and independently tested; new actual 222/223 execution results are pending. Existing 176075/176255 jobs and 3138/3139/3150 applications are preserved.
+**Updated:** 8 November 2026, 02:06 America/New_York / 07:06 UTC
+**Status:** [Actual 222/223 replay backend acceptance](./STOPPED-REPLAY-222-223-176075-2.md) passes with nine driver regressions. Existing 176075/176255 jobs and 3138/3139/3150 applications are preserved. Browser and later live queue-policy acceptance remain separate.
 
 Run one command after Mert supplies the fresh isolated replay application's ready receipt and both final runtime reports:
 
@@ -73,6 +73,6 @@ The exercise matrix requires completed candidates, numeric stopped values, count
 
 **Methodological correction:** An unconditional `scenario_g <= baseline_g` requirement conflicts with the retained scientific method. Nonlinear upper-edge RUNEX bins can increase estimated emissions after a shorter-stop assumption. The driver preserves signed increases and supported same-bin zero changes. It adds no ordinary-idle process, EV discount, statistical interval, measured air-quality claim, engine-running inference or real-world savings claim.
 
-Eight independent-oracle/policy/reporting tests pass, including original CSV mile arithmetic, missing/unknown/empty nulls, supported zero, a valid entirely zero stopped cohort, exact literal policies, queue state reporting and a positive signed 20% factor-bin change. Python syntax/help and whitespace checks pass. This preparation is not evidence that the new actual replays have run.
+Nine independent-oracle/policy/reporting tests pass, including original CSV mile arithmetic, missing/unknown/empty nulls, supported zero, a valid entirely zero stopped cohort, exact literal policies, queue state reporting, exact approved-input millisecond normalization with retained microsecond source timing and a positive signed 20% factor-bin change. Python syntax/help and whitespace checks pass. The dated actual result above supplies execution evidence separately from these fixtures.
 
 **Checklist reconciliation (8 November 2026, 01:51 America/New_York / 06:51 UTC):** Mert read Carter's complete saved checklist (private source SHA-256 `5fde2de60a99faa948312d121989208b3364b616f9b2352356264400c70f1c5e`). The driver now also checks reviewed/enabled `222-image-v4` / `223-image-v2` geometry, matching policy view versions, count-1 provenance, exact through-movement IDs and numerical scenario percentage fields. Its original positive-stop exercise gate was too strict and has been corrected with a regression: Carter explicitly accepts supported zeros. The checklist's unconditional nonincrease condition is superseded by the methodological correction above. Its description of 223 as the first emissions E2E is historical overstatement; [job 176174](./223-REPLAY-176174.md) is already accepted. The stopped-time reference remains calibration-derived, not human annotated. 220/228 remain excluded from these metrics after failed held-out count screens; registry presence is not new scientific approval.

@@ -88,6 +88,13 @@ class StopReplayAcceptanceTests(unittest.TestCase):
         self.assertEqual(CHECK.queue_observation([{"queue_count": 3}]), {"state": "positive", "value": 3})
         self.assertEqual(CHECK.queue_observation([{"queue_count": 3}, {"queue_count": 3}]), {"state": "ambiguous", "value": None})
 
+    def test_approved_completion_matches_only_exact_existing_millisecond_normalization(self):
+        source = "2026-11-08T06:54:59.999999Z"
+        self.assertTrue(CHECK.normalized_completion_matches(source, "2026-11-08T06:54:59.999+00:00"))
+        self.assertFalse(CHECK.normalized_completion_matches(source, "2026-11-08T06:55:00.000Z"))
+        self.assertFalse(CHECK.normalized_completion_matches(source, "2026-11-08T06:54:59.998Z"))
+        self.assertFalse(CHECK.normalized_completion_matches(source, source))
+
 
 if __name__ == "__main__":
     unittest.main()

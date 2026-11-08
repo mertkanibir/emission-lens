@@ -25,6 +25,13 @@ def instant(value):
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
+def normalized_completion_matches(source_time, approved_time):
+    # measurement-core derives approved inputs through JS Date.toISOString().
+    # The original source still retains microseconds for anchor/exit checks.
+    source = instant(source_time)
+    return instant(approved_time) == source.replace(microsecond=source.microsecond // 1000 * 1000)
+
+
 def digest(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -329,7 +336,7 @@ def main():
             assert identity not in identities
             identities.add(identity)
             assert traversal["session_id"] == raw["session_id"] and traversal["traversal_id"] == raw["traversal_id"]
-            assert instant(traversal["completed_at"]) == instant(raw["completed_at"])
+            assert normalized_completion_matches(raw["completed_at"], traversal["completed_at"])
             assert 0 <= raw["entry_media_s"] < raw["exit_media_s"]
             assert math.isclose(raw["exit_media_s"] - raw["entry_media_s"], raw["traversal_time_s"], rel_tol=1e-12, abs_tol=1e-6)
             assert abs((instant(raw["completed_at"]) - anchors[raw["session_id"]]).total_seconds() - raw["exit_media_s"]) <= 0.000002
@@ -396,6 +403,7 @@ def main():
               "fresh_process_private_and_public_equal": True, "original_CARB_baseline_and20_oracle": True, "mode_and_public_identity_boundary": True,
               "provenance": provenance, "cameras": summaries, "exercises": exercises,
               "frontend_REPLAY_scenario_check": "Requires the independent frontend/browser receipt; this backend driver makes no browser acceptance claim.",
+              "completion_timestamp_precision": "Raw source microseconds remain authoritative for exit/anchor checks; approved calculation inputs exactly match the existing millisecond Date normalization without moving the reporting minute.",
               "methodological_correction": "A 20% shorter-stop scenario may increase estimated emissions across nonlinear RUNEX bins. Signed results are preserved; scenario<=baseline is not an acceptance invariant.",
               "limitations": ["Configured300s is wall duration, not processed source duration; actual first/last PTS, session spans, drops and issue counters are retained. Native intra-session gaps, continuous/loss-free coverage and field accuracy remain unverified.", "The stopped-time reference is calibration-derived, not human annotated; image stopped time does not identify an engine-running state.", "220/228 are excluded from these replay metrics because their held-out count screens failed; registry presence does not approve new count/traversal results.", "223 already has accepted emissions E2E job176174; this is its new stopped-policy check, not its first emissions replay.", "No ordinary-idle process, extra EV discount, statistical interval or claimed real-world savings is added."]}
     save(args.output / "result.json", result)
