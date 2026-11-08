@@ -2,11 +2,11 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 20:33 America/New_York / 8 November 2026, 01:33 UTC
+**Updated:** 7 November 2026, 21:03 America/New_York / 8 November 2026, 02:03 UTC
 
 ## Direction
 
-**Junction Lens** combines four curved intersection corners with a central observation diamond. The open horizontal and vertical spaces suggest crossing roads, while the circular outline suggests a lens. It is an identity mark, not a camera-health indicator, pollution plume, measured air-quality symbol or accuracy badge.
+**Junction Lens** combines four slim curved intersection corners with a central leaf. The open horizontal and vertical spaces suggest crossing roads, while the circular outline suggests a lens. The leaf supplies the environmental cue in the same forest green as the primary mark. It is an identity mark, not a camera-health indicator, pollution plume, measured air-quality symbol or accuracy badge.
 
 The kit keeps the approved cream/forest palette and the application's bold Manrope typography. It introduces no new marketing claims or commercial positioning. Mert and Carter remain the team names.
 
@@ -14,7 +14,7 @@ The kit keeps the approved cream/forest palette and the application's bold Manro
 
 ## Ready-to-use assets
 
-Assets are in [`frontend/public/brand/`](../frontend/public/brand/). They are **not activated** in the application; existing layout, metadata, icons, colors and runtime behavior are untouched.
+Assets are in [`frontend/public/brand/`](../frontend/public/brand/). Mert reviewed the direction and integrated the compact navigation mark and favicon/touch-icon metadata, preserving the existing layout and palette. Production serving and desktop/phone presentation are checked by the dashboard stream.
 
 | Asset | Use |
 |---|---|
@@ -43,7 +43,7 @@ The production SVG wordmarks use outlined glyphs. They need no web-font request,
 | Wordmark | Manrope ExtraBold, 800 | Outlined in the supplied assets. |
 | Interface | Existing Manrope family and weights | Preserve the current product typography. |
 
-Keep at least **8 units** of clear space around the mark on its **64-unit grid**; the SVG includes that padding. Preserve its aspect ratio. Use the standalone mark at **24 px or larger**, the badge favicon at **16 px or larger**, and the horizontal lockup at **168 px or wider**. For a narrow sidebar, the mark with the existing text lockup is preferable to compressing the full SVG. Do not add shadows, bevels, gradients, a leaf, a status dot or a bounding ring. Do not animate the identity as a live-health signal. Keep scientific labels and data-status colors independent of the brand mark.
+Keep at least **8 units** of clear space around the mark on its **64-unit grid**; the SVG includes that padding. The surrounding bars have a nominal **7-unit** thickness, reduced from the original 12 units. Preserve its aspect ratio. Use the standalone mark at **24 px or larger**, the badge favicon at **16 px or larger**, and the horizontal lockup at **168 px or wider**. For a narrow sidebar, the mark with the existing text lockup is preferable to compressing the full SVG. Do not add shadows, bevels, gradients, a status dot or a bounding ring. Keep the leaf and bars the same color within each treatment: forest on light surfaces, cream when reversed, and ink for monochrome. Do not animate the identity as a live-health signal. Keep scientific labels and data-status colors independent of the brand mark.
 
 The lockup is the primary title treatment. Use the compact mark for navigation/favicon contexts; use the primary lockup for a title slide or submission cover. No new tagline is required. The existing phrase “A clearer perspective.” is compatible, but it is not baked into the logo.
 
@@ -61,6 +61,8 @@ DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib \
 python3.12 branding/build_assets.py
 ```
 
-The system Cairo library is required only for regeneration of PNGs. The checked-in SVGs and PNGs need none of these authoring tools at runtime. The builder reads the existing bundled font and writes only this review kit and the new public brand directory. `tokens.json` records the selected values for a later deliberate UI integration.
+The system Cairo library is required only for regeneration of PNGs. The checked-in SVGs and PNGs need none of these authoring tools at runtime. The builder reads the existing bundled font and writes only this review kit and the new public brand directory. `tokens.json` records the selected values and current compact-mark/favicon activation status.
 
-**Remaining:** Mert reviews the direction before the dashboard owner replaces the current leaf or adds favicon metadata. No frontend source, layout, backend, contract, camera, model, dataset or scientific setting was changed by this task.
+**Integration note (7 November 2026, 20:58 America/New_York / 8 November 2026, 01:58 UTC):** The compact application mark and favicon are activated. The full wordmarks and larger icons are available for future demo/submission materials. Branding does not alter scientific settings, camera approval, datasets or runtime measurements.
+
+**Leaf revision (7 November 2026, 21:03 America/New_York / 8 November 2026, 02:03 UTC):** At Mert's request, the central diamond is replaced with a leaf and the curved bars are reduced from 12 to 7 nominal grid units. The primary leaf is forest green; reversed and monochrome treatments retain cream/ink equivalents for contrast. All filenames, canvases, wordmark glyphs, spacing, palette and existing interface integration are preserved. Regenerated and visually checked the complete SVG/PNG/ICO kit and 16–64 px preview.

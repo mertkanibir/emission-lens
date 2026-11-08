@@ -24,11 +24,12 @@ CREAM = "#F1E7D8"
 PANEL = "#FFF9F0"
 WHITE = "#FFFCF6"
 MARK = (
-    "M8 28C9.5 17 17 9.5 28 8V20C23.9 21.1 21.1 23.9 20 28Z "
-    "M36 8C47 9.5 54.5 17 56 28H44C42.9 23.9 40.1 21.1 36 20Z "
-    "M56 36C54.5 47 47 54.5 36 56V44C40.1 42.9 42.9 40.1 44 36Z "
-    "M28 56C17 54.5 9.5 47 8 36H20C21.1 40.1 23.9 42.9 28 44Z "
-    "M32 24L40 32L32 40L24 32Z"
+    "M8 28C9.5 17 17 9.5 28 8V15C20.6 16.3 16.3 20.6 15 28Z "
+    "M36 8C47 9.5 54.5 17 56 28H49C47.7 20.6 43.4 16.3 36 15Z "
+    "M56 36C54.5 47 47 54.5 36 56V49C43.4 47.7 47.7 43.4 49 36Z "
+    "M28 56C17 54.5 9.5 47 8 36H15C16.3 43.4 20.6 47.7 28 49Z "
+    "M24 40C20 27 29 22 42 22C42 35 36 43 24 40Z "
+    "M25 39C27.5 35 30.5 32 35 29L36 30C31.8 33.3 28.8 36.2 26.5 40Z"
 )
 
 
@@ -42,7 +43,7 @@ def svg(body: str, width: float, height: float, description: str) -> str:
 
 
 def mark(color: str) -> str:
-    return f'<path fill="{color}" d="{MARK}"/>'
+    return f'<path fill="{color}" fill-rule="evenodd" d="{MARK}"/>'
 
 
 def badge() -> str:
@@ -117,7 +118,7 @@ def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     pieces, width = wordmark_paths()
     assets = {
-        "mark.svg": svg(mark(GREEN), 64, 64, "Four curved intersection corners frame a central observation diamond."),
+        "mark.svg": svg(mark(GREEN), 64, 64, "Four slim curved intersection corners frame a central green leaf."),
         "mark-cream.svg": svg(mark(WHITE), 64, 64, "Cream Junction Lens mark for dark backgrounds."),
         "mark-mono.svg": svg(mark(INK), 64, 64, "Single-color Junction Lens mark."),
         "wordmark.svg": lockup(pieces, width, "primary"),
@@ -140,9 +141,10 @@ def main() -> None:
         "name": "Junction Lens", "team": ["Mert", "Carter"],
         "colors": {"forest": GREEN, "ink": INK, "cream": CREAM, "panel": PANEL, "reversed": WHITE},
         "wordmark": {"family": "Manrope", "weight": 800, "outlined": True},
+        "mark": {"center": "leaf", "corner_bar_nominal_grid_units": 7, "grid_units": 64},
         "clear_space": "At least 8 units on the 64-unit mark grid; keep its built-in padding.",
         "minimum_sizes": {"standalone_mark_px": 24, "badge_favicon_px": 16, "horizontal_lockup_width_px": 168},
-        "status": "Review kit; not activated in the application."
+        "status": "Compact mark and favicon activated; full wordmarks available for demo and submission materials."
     }, indent=2) + "\n")
     print(f"Built {len(assets)} SVGs, 5 icon PNGs and a 1200 × 960 review sheet.")
 

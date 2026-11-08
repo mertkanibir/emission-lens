@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
 <title id="title">Emission Lens</title>
 <desc id="desc">Single-color Junction Lens mark.</desc>
-<path fill="#24392E" d="M8 28C9.5 17 17 9.5 28 8V20C23.9 21.1 21.1 23.9 20 28Z M36 8C47 9.5 54.5 17 56 28H44C42.9 23.9 40.1 21.1 36 20Z M56 36C54.5 47 47 54.5 36 56V44C40.1 42.9 42.9 40.1 44 36Z M28 56C17 54.5 9.5 47 8 36H20C21.1 40.1 23.9 42.9 28 44Z M32 24L40 32L32 40L24 32Z"/>
+<path fill="#24392E" fill-rule="evenodd" d="M8 28C9.5 17 17 9.5 28 8V15C20.6 16.3 16.3 20.6 15 28Z M36 8C47 9.5 54.5 17 56 28H49C47.7 20.6 43.4 16.3 36 15Z M56 36C54.5 47 47 54.5 36 56V49C43.4 47.7 47.7 43.4 49 36Z M28 56C17 54.5 9.5 47 8 36H15C16.3 43.4 20.6 47.7 28 49Z M24 40C20 27 29 22 42 22C42 35 36 43 24 40Z M25 39C27.5 35 30.5 32 35 29L36 30C31.8 33.3 28.8 36.2 26.5 40Z"/>
 </svg>

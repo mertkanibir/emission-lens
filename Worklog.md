@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 21:03 America/New_York / 8 November 2026, 02:03 UTC
+
+- **Who:** Mert
+- **Done:** Revised the Junction Lens identity at Mert's request: replaced the center diamond with a simple leaf and reduced the surrounding curved bars from 12 to 7 nominal units. Regenerated every primary/reversed/monochrome mark and wordmark, favicon, PNG icon size, token record and review preview at the existing asset paths. Preserved the pending approved branding-activation note in `branding/README.md`.
+- **Completed:** Seven production SVGs parse and remain self-contained; their canvases and outlined wordmark glyphs match the prior versions. Five RGBA PNG sizes, the 16/32 px ICO and the 1200 × 960 review sheet pass checks. Inspected the primary, reversed, monochrome and 16/24/32/48/64 px results. Scope/whitespace checks pass. Existing asset consumers receive the revision without frontend source changes.
+- **Still open:** Parent review of the revised visual kit and the dashboard stream's combined presentation check. No layout, palette, scientific setting, camera, model, dataset, backend or contract was changed by this narrow asset revision. Concurrent implementation/root-document edits are excluded from this publication.
+
 ### 7 November 2026, 20:58 America/New_York / 8 November 2026, 01:58 UTC
 
 - **Who:** Mert
