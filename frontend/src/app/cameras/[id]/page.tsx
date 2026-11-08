@@ -10,7 +10,7 @@ export default async function CameraPage({ params, searchParams }: {
   const [{ id }, original] = await Promise.all([params, searchParams]);
   const query = workspaceQuery(original);
   const mode = parseMode(query.mode);
-  return <AppShell mode={mode} section="camera" cameraId={id} modeHref={(next) => hrefWith(`/cameras/${id}`, { mode: next, reduce: query.reduce })}>
+  return <AppShell mode={mode} section="camera" cameraId={id} workspaceParams={query} modeHref={(next) => hrefWith(`/cameras/${id}`, { mode: next, reduce: query.reduce })}>
     <CameraDetail id={id} query={query} />
   </AppShell>;
 }

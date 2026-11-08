@@ -872,8 +872,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
                     : "Speeds and distance-based emissions are suppressed until calibration is valid. A queue without completed calibrated traversals does not imply zero emissions."}
                 </p>
                 <p className="fine">
-                  Calibration version: {measurement.registry.calibration_version ?? "Unavailable"}. Weather, nearby
-                  schools, and community context are not loaded for this window.
+                  Calibration version: {measurement.registry.calibration_version ?? "Unavailable"}. Timestamped external weather context is reported separately under External inputs; availability and source time remain explicit. It does not replace retained factor meteorology. School and community layers remain unconnected.
                 </p>
               </Panel>
             </section>

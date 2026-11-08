@@ -20,7 +20,7 @@ export function ScenarioWindowControls({ cameraId, mode, reduction, from, to, ex
       <p><strong>{explicit ? "Selected window" : "Reporting hour"}</strong> · Camera {cameraId} · {modeLabel(mode)}<br />
         {formatInstant(from, PACIFIC)} to {formatInstant(to, PACIFIC)}</p>
       <p className="fine">{explicit
-        ? "Only this interval's original completed-movement cohort is compared. Every included minute must be supported; gaps stay unavailable. The reporting-hour totals and brief retain their own scope."
+        ? "Only this interval's original completed-movement cohort is compared. Every included minute must be supported; gaps stay unavailable. Reporting-hour totals stay separate. A planning brief must explicitly identify its selected interval."
         : "The hour includes all retained minutes, including insufficient evidence. A completed supported minute can be inspected separately without filling gaps in the hour."}</p>
       <nav className="scenario-window-actions" aria-label="Choose scenario comparison window">
         <Link className="button" aria-current={!explicit ? "true" : undefined} href={`${hrefWith(workspace ? "/" : `/cameras/${cameraId}`, { mode, camera: workspace ? cameraId : undefined, reduce: reduction })}#scenario`}>Use reporting hour</Link>

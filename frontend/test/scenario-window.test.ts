@@ -39,7 +39,7 @@ test("scenario window links preserve camera, mode, reduction and exact minute bo
   assert.match(html, /Selected window/);
   assert.match(html, /Camera 222 · Replay/);
   assert.match(html, /Every included minute must be supported; gaps stay unavailable/);
-  assert.match(html, /reporting-hour totals and brief retain their own scope/);
+  assert.match(html, /Reporting-hour totals stay separate/);
   const links = [...html.matchAll(/href="([^"]+)"/g)].map((match) => new URL(match[1].replaceAll("&amp;", "&"), "http://localhost"));
   assert.equal(links.length, 2);
   for (const link of links) { assert.equal(link.pathname, "/cameras/222"); assert.equal(link.searchParams.get("mode"), "replay"); assert.equal(link.searchParams.get("reduce"), "100"); assert.equal(link.hash, "#scenario"); }

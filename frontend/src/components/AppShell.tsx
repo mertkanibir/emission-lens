@@ -25,11 +25,12 @@ const SECTIONS = [
 ];
 
 /** One technical workspace. Dedicated routes remain available as deep links. */
-export function AppShell({ mode, section, modeHref, cameraId = "222", children }: {
+export function AppShell({ mode, section, modeHref, cameraId = "222", workspaceParams = {}, children }: {
   mode: Mode;
   section: Section;
   modeHref: (mode: Mode) => string;
   cameraId?: string;
+  workspaceParams?: { reduce?: string | number; from?: string; to?: string; view?: string };
   children: React.ReactNode;
 }) {
   const source = sourceLinks(process.env.EMISSION_LENS_WEB_SOURCE_REVISION);
@@ -44,7 +45,7 @@ export function AppShell({ mode, section, modeHref, cameraId = "222", children }
     : mode === "replay"
       ? hasTraffic ? "Recorded observations. Separate from live totals." : "No replay records in the reporting window."
       : fresh === 0 ? "No fresh processing heartbeat. Retained history remains dated." : "Live processing. Retained estimates and feed freshness are separate.";
-  const workspaceHref = (anchor: string) => `${hrefWith("/", { mode, camera: cameraId })}#${anchor}`;
+  const workspaceHref = (anchor: string) => section === "overview" ? `#${anchor}` : `${hrefWith("/", { ...workspaceParams, mode, camera: cameraId })}#${anchor}`;
   return (
     <div className="app technical-workspace" data-mode={mode}>
       <LiveRefresh mode={mode} />

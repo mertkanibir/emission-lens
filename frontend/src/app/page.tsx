@@ -5,6 +5,10 @@ import {
   listCameras,
   read_measurement_window,
 } from "@emission-lens/backend";
+import { Suspense } from "react";
+import { ContextPanel } from "@/components/ContextPanel";
+import { ReviewPanel } from "@/components/ReviewPanel";
+import { PlanningPanel } from "@/components/PlanningPanel";
 import { AppShell } from "@/components/AppShell";
 import { OverviewBoard } from "@/components/OverviewBoard";
 import { workspaceQuery } from "@/lib/workspace-query";
@@ -12,7 +16,7 @@ import { CameraDetail } from "@/components/CameraDetail";
 import { registryCalibrationState } from "@/lib/measurement";
 import { latestSupportedMapEstimate } from "@/lib/map-emissions";
 import { latestSupportedMinuteCohort, measurementSupport } from "@/lib/observation-presentation";
-import { hrefWith, parseMode, parseView } from "@/lib/format";
+import { hrefWith, parseMode, parseView, parseReduction } from "@/lib/format";
 
 export default async function OverviewPage({
   searchParams,
@@ -61,6 +65,18 @@ export default async function OverviewPage({
         view={view}
       />
       <section id="selected-camera" className="workspace-section"><CameraDetail id={selectedId} query={query} now={now} embedded /></section>
+      <section id="context" className="workspace-section workspace-module">
+        <header className="workspace-module-heading"><span>03 / External inputs</span><h2>Source context and model assumptions</h2><p>Timestamped contextual records remain separate from the fixed meteorology and fleet assumptions used in each emissions calculation.</p></header>
+        <Suspense fallback={<p className="context-note" role="status">Loading timestamped external context…</p>}><ContextPanel cameraId={selectedId} mode={mode} from={query.from} to={query.to} now={now} /></Suspense>
+      </section>
+      <section id="review" className="workspace-section workspace-module">
+        <header className="workspace-module-heading"><span>04 / Evidence review</span><h2>Review records and preserve provenance</h2><p>Annotate uncertainty, track investigation state and retain the original camera evidence. A review does not itself approve calibration or alter observations.</p></header>
+        <ReviewPanel cameraId={selectedId} mode={mode} from={query.from} to={query.to} now={now} />
+      </section>
+      <section id="planning" className="workspace-section workspace-module">
+        <header className="workspace-module-heading"><span>05 / Planning brief</span><h2>Scoped investigation draft</h2><p>Use the selected camera, data mode and dated interval. Review the calculations and limitations before exporting the exact local draft.</p></header>
+        <Suspense fallback={<p className="context-note" role="status">Preparing scoped evidence and draft…</p>}><PlanningPanel key={`${selectedId}-${mode}-${query.reduce}-${query.from}-${query.to}`} cameraId={selectedId} mode={mode} reduction={parseReduction(query.reduce)} from={query.from} to={query.to} now={now} /></Suspense>
+      </section>
       </div>
     </AppShell>
   );

@@ -11,6 +11,9 @@ test("a native retained-minute choice preserves mode/camera and explicit paired 
 test("returning to the reporting hour clears old explicit bounds and malformed choices stay visibly invalid", () => {
   assert.deepEqual(workspaceQuery({ camera: "222", window: "", from: "old", to: "old" }), { camera: "222", window: "" });
   assert.deepEqual(workspaceQuery({ window: "invalid" }), { window: "invalid", from: "invalid", to: "invalid" });
+  assert.deepEqual(workspaceQuery({ window: ["one", "two"] as unknown as string }), { window: ["one", "two"], from: "invalid", to: "invalid" });
+  assert.deepEqual(workspaceQuery({ camera: "222", from: "", to: "" }), { camera: "222" });
+  assert.deepEqual(workspaceQuery({ from: "", to: "2026-11-08T07:19:00Z" }), { from: "", to: "2026-11-08T07:19:00Z" });
   const direct = { from: "2026-11-08T07:18:00Z", to: "2026-11-08T07:19:00Z" };
   assert.equal(workspaceQuery(direct), direct);
 });

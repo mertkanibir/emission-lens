@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:34 America/New_York / 8 November 2026, 08:34 UTC
+
+- **Who:** Mert
+- **Done:** Integrated network, selected camera, external context, durable review and scoped planning into one cream/green technical workspace, preserving direct routes.
+- **Completed:** All 69 frontend tests, nonincremental TypeScript, scoped whitespace and React/accessibility source review pass. Query-preserving anchors and explicit retained UTC windows keep camera/mode/cohort scope consistent; 220/228 exclusions are visible.
+- **Still open:** Final immutable build, actual browser review state/reload/export checks and candidate deployment; original services remain protected.
+
 ### 8 November 2026, 03:29 America/New_York / 8 November 2026, 08:29 UTC
 
 - **Who:** Mert
