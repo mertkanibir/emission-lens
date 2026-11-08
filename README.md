@@ -18,6 +18,9 @@ Outputs are **modeled emissions estimates**, not measured air quality.
 
 ## Status
 
+**Current operating state — 8 November 2026, 04:23 America/New_York / 8 November 2026, 09:23 UTC.** The [new workspace](http://127.0.0.1:3152/?camera=222&view=emissions) remains available. Original GPU allocation176075 failed at04:12 New York; live processing is offline. Dated retained evidence, saved reviews, timestamped context and scoped brief exports remain usable. The prepared continuation was held and its unused relay closed. Pending envelopes are preserved; no complete-delivery claim or automatic recovery is made. See [terminal evidence](./evaluation/runtime-stop-176075-20261108.json). New work stops at6% account allowance remaining, protecting the requested5% floor.
+
+
 **Technical workspace — 8 November 2026, 03:52 America/New_York / 8 November 2026, 08:52 UTC.** [Open the completed local workspace](http://127.0.0.1:3152/?camera=222&view=emissions). Exact web source `4051e98` combines the network/camera views, transparent calculation-input register, timestamped model weather, durable evidence review and scoped planning/export on one scrolling page. Actual annotation/state/restart persistence, exact draft download, excluded-camera/mode behavior and canonical interval-preserving navigation pass. [Acceptance and limits](./frontend/TECHNICAL-ACCEPTANCE.md) record source CI, data preservation and phone checks. The healthy3151 ingestion/preview producer remains protected; this consumer reads its authority. Model/physical/scientific limits remain unchanged; no fine-tune promotion or environmental benefit is claimed. Earlier dated checkpoints below retain their historical scope.
 
 

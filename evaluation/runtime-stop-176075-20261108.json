@@ -1,0 +1,46 @@
+{
+  "owner": "Mert",
+  "checked_at_utc": "2026-11-08T09:23:43.904190+00:00",
+  "original_allocation": {
+    "job_id": "176075",
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "end_local_new_york": "2026-11-08T04:12:29-05:00",
+    "end_utc": "2026-11-08T09:12:29Z",
+    "worker_failure_type": "ValueError",
+    "core_pending_batches": 0,
+    "measurement_pending_batches": 232
+  },
+  "overlap_step": {
+    "step_id": "176075.4",
+    "state": "FAILED",
+    "exit_code": "15:0",
+    "end_utc": "2026-11-08T09:12:43Z",
+    "terminal_receipt_available": false,
+    "copied_credential_removed": true,
+    "guard_reason": "protected_live_guard_read_failed:URLError"
+  },
+  "continuation": {
+    "launched": false,
+    "reason": "Successful old terminal prerequisites not met; parent allocation failed. No bypass or automatic retry.",
+    "prepared_reverse_forward_53253_cancelled": true,
+    "original_ssh_master_preserved": true
+  },
+  "web_application": {
+    "url": "http://127.0.0.1:3152",
+    "source_commit": "4051e98424d1822164ede63cc19e9d3df8cfee42",
+    "retained_evidence_review_and_briefs_available": true,
+    "current_live_processing": false
+  },
+  "account_usage": {
+    "used_percent": 94,
+    "remaining_percent": 6,
+    "requested_remaining_floor_percent": 5,
+    "reset_consumed": false
+  },
+  "limitations": [
+    "Failure type is confirmed; root cause is not independently established.",
+    "Pending original envelopes remain preserved; complete delivery and loss-free operation are not claimed.",
+    "No improved GPU frame rate or promoted replacement runtime is claimed; controlled scheduling evidence remains separate."
+  ]
+}

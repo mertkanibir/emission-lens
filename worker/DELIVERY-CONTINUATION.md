@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 **Updated:** 8 November 2026, 03:36 America/New_York / 08:36 UTC
-**Status:** Prepared for review. No replacement GPU step has started.
+**Status:** Held; original allocation failed and terminal prerequisites were not met. No replacement GPU step started.
 
 The [controlled scheduling evidence](../evaluation/delivery-scheduling.md) supports removing HTTP waits from processing. It does not establish actual replacement GPU throughput or sustained field accuracy. Source `3b15e3a8c644a0f6d60b1b6f0ed9f18775ae86a9` freezes the tested runtime, including background delivery, durable publication gates and per-pass dependency watermarks. The prepared runtime archive SHA-256 is `a2942a75870b1066ead1b2341ed96260118ee1b21f70ba72917ffed814e1b9a5`; executed `worker/main.py` is `23478816d36cc87c72388cf8f9a1088646f79c45221f3ba295cd6609a6e5dc47`.
 
@@ -17,3 +17,5 @@ The continuation must satisfy these conditions before starting:
 5. End the command by 06:06 New York / 11:06 UTC, the scheduler step by 06:10 / 11:10, inside allocation 176075 ending 06:12:38 / 11:12:38. The launcher calculates its remaining bounded duration at start. Keep the original protected-live heartbeat, preview, backlog and MIG-memory guards. Cleanup affects only this child/step, new relay and copied credential.
 
 The inherited six retained-minute guard checks, additional minimum-minute rejection/allowance checks and Python/shell syntax checks pass on this prepared package. The new reverse-forward preparation succeeded without changing old forwards. No private camera imagery, reserved segment or new inference/training job was used. Actual CUDA execution, new deliveries, final drained queues, original-stream health and UI progression require independent observation after a reviewed launch.
+
+**Final disposition (8 November 2026, 04:23 America/New_York / 8 November 2026, 09:23 UTC):** The old parent allocation failed before its nominal end; the overlap has no successful final receipt. The waiting driver was stopped without releasing its recipe or uploading a new credential. Prepared53253 was closed and the original SSH master retained. Pending original envelopes are preserved. See [terminal record](../evaluation/runtime-stop-176075-20261108.json). Account budget stops new engineering/jobs at6% remaining; no allocator or evidence check is bypassed.

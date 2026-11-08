@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 04:23 America/New_York / 8 November 2026, 09:23 UTC
+
+- **Who:** Mert
+- **Done:** Recorded the original GPU allocation failure, preserved232 pending measurement envelopes, held the unsafe continuation and removed only its unused reverse forward. Updated all current operating-status records.
+- **Completed:** 3152/source4051e98 remains available with honest offline status, dated evidence, saved review history, context and exact scoped exports. Original SSH master and all stores/outboxes remain. Source CI and verified application features retain their prior passes. All changes are pushed; no reset or new GPU job was used after the94% usage guard.
+- **Still open:** A reviewed GPU restart/pending-envelope recovery, actual sustained/improved GPU throughput, independent scientific validation, shared hosting and final human rehearsal/Devpost submission. Approximate215-commit aspiration is not filled with empty commits; the finished milestones reach203 total.
+
 ### 8 November 2026, 03:54 America/New_York / 8 November 2026, 08:54 UTC
 
 - **Who:** Mert
