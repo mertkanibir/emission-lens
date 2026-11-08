@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 19:29 America/New_York / 8 November 2026, 00:29 UTC
+**Updated:** 7 November 2026, 19:31 America/New_York / 8 November 2026, 00:31 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -41,3 +41,5 @@ Each stream owns its package documentation and must add its own narrow timestamp
 ## Reporting checkpoint
 
 Every stream reports in its own conversation: completed paths and commit, commands/results, demonstrated behavior, remaining evidence gaps, and the next dependency. Mert reads those reports and progress snapshots centrally. No automatic external communication, fabricated measurements or promise of unattended monitoring is implied.
+
+**Dispatch checkpoint (7 November 2026, 19:31 America/New_York / 8 November 2026, 00:31 UTC):** Mert sent the scoped engineering, scientific-evidence and dashboard assignments to the three existing work streams. All three acknowledged ownership and began work. Their checkpoints are in progress; no implementation result or scientific approval is implied by dispatch.
