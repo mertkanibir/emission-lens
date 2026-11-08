@@ -1,0 +1,576 @@
+{
+  "review_version": "visual-review-v1",
+  "author": "Mert",
+  "human_confirmed": false,
+  "scope": "full supplied recordings; pending and reserved windows remain explicit",
+  "recordings": [
+    {
+      "camera_id": "222",
+      "status": "available",
+      "clip_sha256": "8ef5814c9dd724de1df3785c641651589ab03a61d3b9decd4071dd04402f79e3",
+      "duration_s": 1229.8139999999912,
+      "metadata_sha256": "3ac62d5622c4721b3d7286382ae0ae5a039314ab81bad9cd126a51ce525f2b2a",
+      "geometry_raw_sha256": "a3a4ea0cd06e0f1fe8d79fb7ad86a290a1df41fc19ec779d79b34451c836372b",
+      "geometry_canonical_sha256": "c97eb6fadaf2909fa0b02f41f521dc053f9db08d186e035e2770f7a70df2913f",
+      "gates": {
+        "count-1": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
+        "count-2": "dead5f979c4a68839d3d8d8079103dc817396a6290b826867cad27d648b32808"
+      },
+      "first_pts_s": 33612.659956,
+      "last_pts_s": 34842.406956,
+      "frame_count": 17918,
+      "gaps": [],
+      "windows": [
+        {
+          "window": [
+            0.0,
+            60.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            60.0,
+            180.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "42c90334961c98e8cf31bace031f048fb3a9a66d14f7faf8f5910760333fa813",
+              "window": [
+                60.0,
+                180.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
+              "ledger_sha256": "3d04669f010716cc3b777e82de14051f54d8f138f27edf1dc02c6b22ec88a6bb",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            180.0,
+            300.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            300.0,
+            360.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            360.0,
+            480.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "7f5a2f7bcb5bea1b365624b7b5acb2f512c746f917288ac0fbe6f2ab3122f74a",
+              "window": [
+                360.0,
+                480.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
+              "ledger_sha256": "67539abce4928b4e9acd856327344a06eec5c0f42f0d5ffc9842ef8e0b22db44",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            480.0,
+            600.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            600.0,
+            720.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            720.0,
+            840.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            840.0,
+            960.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            960.0,
+            1080.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1080.0,
+            1200.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1200.0,
+            1229.8139999999912
+          ],
+          "status": "pending_visual_review"
+        }
+      ],
+      "frozen_reviews": [
+        {
+          "key": "42c90334961c98e8cf31bace031f048fb3a9a66d14f7faf8f5910760333fa813",
+          "window": [
+            60.0,
+            180.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
+          "ledger_sha256": "3d04669f010716cc3b777e82de14051f54d8f138f27edf1dc02c6b22ec88a6bb",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        },
+        {
+          "key": "7f5a2f7bcb5bea1b365624b7b5acb2f512c746f917288ac0fbe6f2ab3122f74a",
+          "window": [
+            360.0,
+            480.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b",
+          "ledger_sha256": "67539abce4928b4e9acd856327344a06eec5c0f42f0d5ffc9842ef8e0b22db44",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        }
+      ],
+      "source_filename": "222_20261107T220646Z.ts"
+    },
+    {
+      "camera_id": "223",
+      "status": "available",
+      "clip_sha256": "808476414ca24d93f3190bb4a315a8fcbefe807c18c5e4f527d115a1ba89d2a0",
+      "duration_s": 1222.4209999999948,
+      "metadata_sha256": "05a34e29dfab8c51eff7604040fd77f11e225aba88ed6e73785ec638307a129a",
+      "geometry_raw_sha256": "5165b1a2342b70b97afa35499d2b63042a44b4e9301e6528480a35eb3ed9ae29",
+      "geometry_canonical_sha256": "02491df2a5d9de12530ed8c4bccf6f3fc37a02ab0b884cbe945a14c77d4086c7",
+      "gates": {
+        "count-1": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+        "count-2": "09d7b841ffdcbcd78f804b0b1380735a04f103947d25e0faaf6ebb826f407999"
+      },
+      "first_pts_s": 33629.993956,
+      "last_pts_s": 34852.347956,
+      "frame_count": 17986,
+      "gaps": [
+        {
+          "start_s": 582.8800000000047,
+          "end_s": 598.8780000000042
+        },
+        {
+          "start_s": 627.9420000000027,
+          "end_s": 631.9420000000027
+        }
+      ],
+      "windows": [
+        {
+          "window": [
+            0.0,
+            60.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            60.0,
+            180.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "38515d32bbbcff4d76b5c3cf3a0b8b970d2c3841e6c76b1dc0279df407084458",
+              "window": [
+                60.0,
+                180.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+              "ledger_sha256": "c3de13f2c92bb034835bf41d85a0e647c0c76c5b3e4ca07d024f0249545c1a8e",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            180.0,
+            300.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            300.0,
+            360.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            360.0,
+            480.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
+              "window": [
+                360.0,
+                480.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+              "ledger_sha256": "406a7f828f7f053da0bbe213413bf2e83b370d1e02285bd33a6694729094e7ca",
+              "coverage_status": "uncertain",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            480.0,
+            600.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            600.0,
+            720.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            720.0,
+            840.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            840.0,
+            960.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            960.0,
+            1080.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1080.0,
+            1200.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1200.0,
+            1222.4209999999948
+          ],
+          "status": "pending_visual_review"
+        }
+      ],
+      "frozen_reviews": [
+        {
+          "key": "38515d32bbbcff4d76b5c3cf3a0b8b970d2c3841e6c76b1dc0279df407084458",
+          "window": [
+            60.0,
+            180.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+          "ledger_sha256": "c3de13f2c92bb034835bf41d85a0e647c0c76c5b3e4ca07d024f0249545c1a8e",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        },
+        {
+          "key": "c4887281de01c44ec8ef9cd1e9f1d585f186fc963a67caed8358d49513103e15",
+          "window": [
+            360.0,
+            480.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87",
+          "ledger_sha256": "406a7f828f7f053da0bbe213413bf2e83b370d1e02285bd33a6694729094e7ca",
+          "coverage_status": "uncertain",
+          "human_confirmed": false
+        }
+      ],
+      "source_filename": "223_20261107T220646Z.ts"
+    },
+    {
+      "camera_id": "228",
+      "status": "available",
+      "clip_sha256": "568e224559d391995eb9339c467bc9bf8cc592e4245b6959eda65f0834648d8a",
+      "duration_s": 1218.142000000007,
+      "metadata_sha256": "e1a7bd34beff69294b35fee2b0daf88c0a67b87e2456d88b930c2b2b5d664bec",
+      "geometry_raw_sha256": "998013dab9c6ab6d04ebcd23caea581957445ea9de7d3109f459dea89f43538c",
+      "geometry_canonical_sha256": "59b6ae927e0e0177cae0a3bb446b40325019cd84e9951c34f6759e7811c54396",
+      "gates": {
+        "count-1": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+        "count-2": "a818e1d058cb9629e2e0025b521919d6f762489e254878ae84230936770df2a2"
+      },
+      "first_pts_s": 33621.654956,
+      "last_pts_s": 34839.729956,
+      "frame_count": 15438,
+      "gaps": [],
+      "windows": [
+        {
+          "window": [
+            0.0,
+            60.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "9c3330dc97dd84cc3014f4229e3685ec7dd28054a53b4cb216e5805f94ba0e14",
+              "window": [
+                0.0,
+                60.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+              "ledger_sha256": "1c76f4b0b0344f560a26601e883dc5d0e8f7d68f49dbfcd6ae7044fb6b3d2cbb",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            60.0,
+            180.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "e6bd7d6e6dc6bda52c507909a22375624243933332511b419f3e8fd46b31c05e",
+              "window": [
+                60.0,
+                180.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+              "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            180.0,
+            300.0
+          ],
+          "status": "partial_assisted_review",
+          "reviews": [
+            {
+              "key": "fdc95ab5d18a2fe90b07df6c2a3529706513e2f94011fa5ea933db234b6c0110",
+              "window": [
+                180.0,
+                300.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+              "ledger_sha256": "549bf443721738bc202ca145462ecf407ca8757f4e9aee58d43b474e78a47a6f",
+              "coverage_status": "partial",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            300.0,
+            360.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            360.0,
+            480.0
+          ],
+          "status": "frozen_assisted_review",
+          "reviews": [
+            {
+              "key": "1fd9ea8f7049dc7ee5907897938890ca3e999cf4f274b7e8a9a59aca27558faa",
+              "window": [
+                360.0,
+                480.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+              "ledger_sha256": "6a25b8549579906ec64bbb70ad99f7da754df9b0b951df352fd86895d207cfb5",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            },
+            {
+              "key": "1fd9ea8f7049dc7ee5907897938890ca3e999cf4f274b7e8a9a59aca27558faa",
+              "window": [
+                360.0,
+                480.0
+              ],
+              "gate": "count-1",
+              "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+              "ledger_sha256": "8eeb54e9d0b09c896e4680ed60f13ee5b737a08f8000e06dea6c594af4c3bead",
+              "coverage_status": "complete_assisted_sequence",
+              "human_confirmed": false
+            }
+          ]
+        },
+        {
+          "window": [
+            480.0,
+            600.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            600.0,
+            720.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            720.0,
+            840.0
+          ],
+          "status": "reserved_unviewed",
+          "reserved_window": [
+            720.0,
+            840.0
+          ]
+        },
+        {
+          "window": [
+            840.0,
+            960.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            960.0,
+            1080.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1080.0,
+            1200.0
+          ],
+          "status": "pending_visual_review"
+        },
+        {
+          "window": [
+            1200.0,
+            1218.142000000007
+          ],
+          "status": "pending_visual_review"
+        }
+      ],
+      "frozen_reviews": [
+        {
+          "key": "1fd9ea8f7049dc7ee5907897938890ca3e999cf4f274b7e8a9a59aca27558faa",
+          "window": [
+            360.0,
+            480.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+          "ledger_sha256": "6a25b8549579906ec64bbb70ad99f7da754df9b0b951df352fd86895d207cfb5",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        },
+        {
+          "key": "1fd9ea8f7049dc7ee5907897938890ca3e999cf4f274b7e8a9a59aca27558faa",
+          "window": [
+            360.0,
+            480.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+          "ledger_sha256": "8eeb54e9d0b09c896e4680ed60f13ee5b737a08f8000e06dea6c594af4c3bead",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        },
+        {
+          "key": "9c3330dc97dd84cc3014f4229e3685ec7dd28054a53b4cb216e5805f94ba0e14",
+          "window": [
+            0.0,
+            60.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+          "ledger_sha256": "1c76f4b0b0344f560a26601e883dc5d0e8f7d68f49dbfcd6ae7044fb6b3d2cbb",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        },
+        {
+          "key": "e6bd7d6e6dc6bda52c507909a22375624243933332511b419f3e8fd46b31c05e",
+          "window": [
+            60.0,
+            180.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+          "ledger_sha256": "f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e",
+          "coverage_status": "complete_assisted_sequence",
+          "human_confirmed": false
+        },
+        {
+          "key": "fdc95ab5d18a2fe90b07df6c2a3529706513e2f94011fa5ea933db234b6c0110",
+          "window": [
+            180.0,
+            300.0
+          ],
+          "gate": "count-1",
+          "geometry_sha256": "59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35",
+          "ledger_sha256": "549bf443721738bc202ca145462ecf407ca8757f4e9aee58d43b474e78a47a6f",
+          "coverage_status": "partial",
+          "human_confirmed": false
+        }
+      ],
+      "source_filename": "228_20261107T220646Z.ts"
+    },
+    {
+      "camera_id": "220",
+      "status": "missing_media",
+      "windows": []
+    }
+  ]
+}

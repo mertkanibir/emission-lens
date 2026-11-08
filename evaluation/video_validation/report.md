@@ -1,0 +1,57 @@
+# Video validation status
+
+**Owner:** Mert. **Updated:** 7 November 2026, 21:47 America/New_York / 8 November 2026, 02:47 UTC.
+
+Mert completed the first independent assisted review of `[360,480)` for cameras 222, 223, 228, with immutable private ledgers frozen before human/model reference access. All selected chronological sequence frames were inspected, with native-cadence candidate revisits. These are assisted estimates with `human_confirmed=false`, not additional human ground truth. Camera 220 media is unavailable locally. Mert has deferred broad full-file counting until223/228 acceptance is resolved; the public [manifest](./manifest.json) preserves every pending interval.
+
+## Held-out evidence
+
+| Camera | Source frames reviewed | Additional native review | Candidate passages | Excluding ambiguous crossings | Ledger SHA256 |
+|---|---:|---:|---:|---:|---|
+|222|594|68|66 (19 positive,47 negative)|59|`67539abce4928b4e9acd856327344a06eec5c0f42f0d5ffc9842ef8e0b22db44`|
+|223|600|candidate sheets inspected at 373.5–376 and 382.5–385.5s|136 (67 positive,69 negative)|125|`406a7f828f7f053da0bbe213413bf2e83b370d1e02285bd33a6694729094e7ca`|
+|228|528|281|120 (45 positive,75 negative)|105|`6a25b8549579906ec64bbb70ad99f7da754df9b0b951df352fd86895d207cfb5`|
+
+All counts are directional finite-gate passages. A turning vehicle can contribute once in each direction. Ambiguity bounds are not confidence intervals. Selected-frame spans are222 360.032–479.887s,223 360.034–479.823s,228 360.029–479.884s. Small boundary slivers and sampling uncertainty remain explicit; this is not inspection of every 15 FPS source frame. Requested 5 FPS selects actual original frames; source cadence causes some intervals around0.267s.223 remains marked uncertain because of endpoint and dense-release assignment ambiguity.228 retains its original pre-reference freeze and one metadata-only uncertainty correction with no event/time/count change.
+
+Existing `count-1` gates were retained.223/228 selected-geometry semantic hashes are `58d449f9790dd44275eec47f19eeb8c3c9af26b97e3c787793f8a8ebc1f6da87` and `59dd678caa801e0aea7e1554b83663702fec8ba61a56468d973f796a99910c35`;222 is `4b0e2e66413f260c2008acf224d0c9a6bdd095f3dae2f418300d2669109faa8b`.223/228 gate suitability was selected from partial practice sequence inspection before held-out access; this did not constitute a full practice count.222 briefly exposed the initial9.4s held-out scene through the wrong count-2 overlay before a gate-only correction; count-1 geometry was pre-existing and unchanged, and no human/model results had been seen. This limitation is retained.
+
+## Three-source comparisons
+
+Canonical matches use same direction and 1.5 s tolerance, maximum cardinality then minimum total time gap. The existing greedy matcher remains a separate compatibility result. Model recipe is pretrained n/640, requested 15 FPS.The existing GPU checker retains inclusive-end decoding. No exact endpoint frame existed in these actual windows, so the decoded/sample sets also satisfy `[360,480)`. Job175884 supplied clip/geometry hashes matching the frozen inputs; no checker boundary implementation change is implied. Their processed frame counts were 1787 and 1284 respectively; requested FPS is not achieved source cadence.
+
+| Comparison | Reference / observed | TP / FP / FN | Recall | Precision | Relative total error |
+|---|---:|---:|---:|---:|---:|
+|222 Carter literal interior → assisted|64 /66|62 /4 /2|96.88%|93.94%|+3.13%|
+|222 Carter literal interior → model|64 /67|60 /7 /4|93.75%|89.55%|+4.69%|
+|222 assisted → model|66 /67|64 /3 /2|96.97%|95.52%|+1.52%|
+|223 assisted candidates → model|136 /129|125 /4 /11|91.91%|96.90%|−5.15%|
+|223 excluding 11 ambiguous crossings → model|125 /129|123 /6 /2|98.40%|95.35%|+3.20%|
+|228 assisted candidates → model|120 /69|69 /0 /51|57.50%|100.00%|−42.50%|
+|228 excluding 15 ambiguous crossings → model|105 /69|68 /1 /37|64.76%|98.55%|−34.29%|
+
+Only222 has Carter's separate supplied event reference.223/228 recall/precision describe agreement with assisted visual review, not measured human accuracy. Their human-reference metrics remain null/pending. No new camera acceptance is asserted.223's direction difference is model minus assisted −10 positive,+3 negative;228 is−30 positive,−21 negative. Total agreement alone cannot establish direction accuracy.222 model versus Carter interior direction differences are+4 positive,−1 negative; assisted versus Carter is+1 in each direction.
+
+Carter's original 222 key has 66 annotations, including two distinct noncanonical `7:60.0 +` entries interpreted numerically as480s by the original parser. The literal `[360,480)` sensitivity above explicitly flags and excludes those unresolved endpoint annotations, preserving the raw key. It is not corrected ground truth. Original numeric-boundary-compatible Carter→assisted comparison is66/66 with 63 canonical matches (95.45% recall/precision), versus 61 greedy matches; literal-interior Carter→assisted has 62 canonical versus 60 greedy. The existing original model acceptance record is preserved and the separate [numerical audit](../calibration/222-count-audit.md) explains its compatibility results.
+
+## Disagreements and limitations
+
+Mert inspected actual disputed 228 sequences around 371–377,409–415 and 443.954–448.554s after freeze. Multiple parallel directional passages are visible; the substantial deficit survives exclusion of all 15 endpoint candidates. Dense discharge, partial occlusion, ground-contact placement and track maturity/hysteresis/road eligibility are tentative causes. Per-track eligibility/detection state has not been inspected, so a root cause is not established. Some visual candidate assignments/times remain uncertain. Original ledger and model output remain immutable; full per-event adjudication is still open.
+
+Mert inspected 222 native sequences 385–388,406–410 and adjacent 476–482s. The two unmatched interior positive annotations are near delicate finite-left-endpoint turns. Boundary footage shows several distinct approach passages before480s, but does not uniquely map Carter's two rounded end annotations to vehicles. Human adjudication remains required; no retiming/deduplication or revised truth has been applied. Private comparison JSON retains all direction-specific discrepancy times and match pairs.
+
+**Reservation note (7 November 2026, 21:47 America/New_York / 8 November 2026, 02:47 UTC):**228 `[720,840)` is reserved as an actually unviewed fresh evaluation segment before any prospective repair. Both reviewers confirm no rendering/opening/review of it. This supersedes the temporary 900–1020 suggestion; only one segment is reserved. The renderer rejects overlap with the active reservation. No geometry/policy/model change is proposed or authorized by the diagnostic hypothesis. Any future repair must be selected on practice, frozen, then evaluated on fresh reserved evidence; the original6:00–8:00 failure cannot become fresh held-out evidence.
+
+## Full recording queue
+
+Local source video durations are222 1229.814s,223 1222.421s,228 1218.142s. Clip SHA256, raw/canonical/semantic geometry hashes, source PTS and per-window coverage are in the manifest.223 has source gaps 582.880–598.878s and 627.942–631.942s; those missing observations cannot be repaired by invented zeros.220 is pending clip acquisition.
+
+228 practice `[60,180)` is independently frozen after all 547 selected frames plus 172 native frames were reviewed: SHA`f09143cfc4d09e4049af77e071836ccaa6a1af2f559237cbddd1ee3bfcca7e4e`,138 candidates (69 positive,69 negative),30 uncertain endpoint/occluded positives, inclusion bound108–138.228 `[0,60)` is frozen after 298 selected frames: SHA`1c76f4b0b0344f560a26601e883dc5d0e8f7d68f49dbfcd6ae7044fb6b3d2cbb`,13 negative passages and supported zero positive passages in the reviewed gate sequence.222 practice is frozen after587 sampled frames and90 native frames,46 candidates (10 positive,36 negative),3 ambiguous crossings, SHA`3d04669f010716cc3b777e82de14051f54d8f138f27edf1dc02c6b22ec88a6bb`.223 practice is frozen after600 sampled frames and native candidate review,158 candidates with15 ambiguous crossings, SHA`c3de13f2c92bb034835bf41d85a0e647c0c76c5b3e4ca07d024f0249545c1a8e`. Broad remaining-file expansion is deferred by Mert while223/228 acceptance/disputes are resolved; rendered-only and partially viewed windows remain distinct from complete sampled review. Every unreviewed interval remains pending; no all-video completion claim is made.
+
+## Verification and scope
+
+`python3 -m unittest tests.test_video_validation -v` passes 14 tests, including actual synthetic video decode with nonzero PTS, half-open boundaries, simultaneous distinct vehicles, crowded maximum matching/legacy sensitivity, reference/geometry mismatch, freeze tampering, totals-only/missing human keys, privacy constraints and reserved-window protection. Syntax compilation and whitespace checks pass. Private inventory/render/freeze/adapter/compare commands were executed on the real recordings; the public manifest exports allowlisted scalar provenance only.
+
+Changes are confined to this package, its focused test file and the required narrow worklog entry. No changes to shared checker, camera settings, detector/tracker/weights, physical calibration, emissions, transport/backend/frontend or scientific contract. Remaining requirements are full-file coverage around the reservation,220 acquisition, human review of223/228 and disputes, and any fresh-window validation after a separately approved practice-only repair.
+
+**Scope/checkpoint note (7 November 2026, 21:50 America/New_York / 8 November 2026, 02:50 UTC):** Mert prioritized223/228 adjudication before additional recordings.222 alignment and practice review are complete for this checkpoint; broad remaining windows are pending/deferred. Fourteen focused tests pass. The original model checker boundary behavior is disclosed above; actual frozen-window sample sets contain no end frame. No camera activation or repair is included.
