@@ -1,0 +1,122 @@
+{
+  "owner": "Mert",
+  "checked_at_utc": "2026-11-08T05:26:49.474766+00:00",
+  "job_id": "176092",
+  "status": "bounded_delivery_recovery_passed_with_abrupt_status_gap",
+  "replay_seconds": 100.0,
+  "actual_device": "cuda:0",
+  "processed_frames": 1333,
+  "buffer_drops": 0,
+  "queued_exact_batches_during_outage": 7,
+  "http_503_requests": 11,
+  "captured_bodies_successfully_delivered": 7,
+  "dropped_acknowledgements": 1,
+  "duplicate_receipts": 1,
+  "crossings": 32,
+  "completed_traversals": 8,
+  "unique_completed_evidence_matches_runtime": true,
+  "per_traversal_emission_arithmetic_checked": true,
+  "supported_minute_estimated_g_only": {
+    "co2": 35.741459375498366,
+    "nox": 0.0065337364924251285
+  },
+  "whole_window_estimated_g": {
+    "co2": null,
+    "nox": null
+  },
+  "legacy_delivery": {
+    "enabled": true,
+    "delivered_batches": 36,
+    "attempts": 48,
+    "pending_batches": 0
+  },
+  "measurement_delivery": {
+    "enabled": true,
+    "delivered_batches": 20,
+    "attempts": 20,
+    "pending_batches": 0
+  },
+  "live_traffic_rows": 0,
+  "live_emissions_rows": 0,
+  "backend_reload_records_equal": true,
+  "snapshot_bytes_unchanged_on_reload": true,
+  "graceful_status": "offline",
+  "abrupt_122s_controlled_status": "degraded",
+  "abrupt_offline_acceptance": false,
+  "source_capture_utc_available": false,
+  "hashes": {
+    "runtime": "c0e08820d7375e2f6cfc002825b624d16a7bf0ec777db175787b06079b0a565a",
+    "queue_capture": "4258c0cc6cb5ad4aedb344d2c4aa2a266ec3faca76a327f3be7e6fd14a136821",
+    "events": "7bc74789945d022a9dd2bfc0ceab316d902d9d34557926aa5496c93f4dbe04e3",
+    "snapshot": "353918854fafe73dd78a7fbf354ad4276b828f50defa9767e8c1a85f55e12728",
+    "recipe": "ac3c932a56e9e6cd01120a6ebb72cb1b276cbf5fcab3dc00ff928c146953403a"
+  },
+  "limitations": [
+    "Bounded replay delivery, not field accuracy or continuous loss-free performance.",
+    "Controlled publication omission tests stale status; abrupt mid-inference termination was not performed.",
+    "Supported-minute sums omit insufficient-evidence minutes; they are not full-window totals.",
+    "Carter approvals retain assumption-based scale/fleet/weather limits; no additional scientific validation.",
+    "No source-stream outage, disk-full/power-loss or shared-host persistence test."
+  ],
+  "scheduler": {
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:01:50",
+    "wall_cap": "00:05:00",
+    "slices": 1,
+    "allocation": "H100 MIG1g.10gb"
+  },
+  "source": {
+    "archive_commit": "5cccc43ee059a5151af597bafd60e221b51320d8",
+    "archive_sha256": "0d1075f8cfddd04f82d8a18365adbd08994909f72296d227a61342ded774cef0",
+    "worker_main_sha256": "20ec7e4eaabf7972260ac5be2b5b0ec4953963138f27bdfaf795a729e9e71713",
+    "driver_sha256": "c6515a04dea8294b50d997dbd97232f88dc9b0811da7c1eb6685e7ab65627a61",
+    "batch_sha256": "f734650353de3c5322a04beee824b92c99ff0c7155550219889388cd30ce8269",
+    "controller_sha256": "2206777e5faaf22a062a34f8c8e44a21e15ca94f7dd3d905a681fbe3f1a608fb",
+    "verifier_sha256": "62c82caf1852593ee42e250958d04b3e8bd247e87f00a8a68adcb7dda97d7568",
+    "backend_source_manifest_sha256": "baf8f0391c0cf82e09a9856d51c97ff95f9d0c7ea022f684562c2ca67e202ade",
+    "clock_method": "hls-min-anchor-v1",
+    "minute_basis": "estimated_hls_media_utc",
+    "runtime_git_metadata_limitation": "Surrounding checkout metadata does not identify copied source; archive and per-file hashes identify executed bytes."
+  },
+  "profile_sha256": {
+    "registry.json": "e244d2633ff6c59ff7446c991486fffcf01a2638cdfccd46fc4b27953bf273f9",
+    "geometry.json": "ab1b684086ce1d2543bba2c9df41748aad8e2c8af4ce164c9e2dbbd95188e674",
+    "traversals.json": "5c114e23b66025231bae6ab90ddaac96e4a1c54382e346c864e73495a6e13b85"
+  },
+  "clip_sha256": "e6db50f024cd61dc13140f24d60dbaa2070d962fda1bde6f2da52f10475401d3",
+  "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "cleanup": {
+    "relay_closed": true,
+    "worker_stopped": true,
+    "token_removed": true,
+    "remote_token_removed": true,
+    "owned_login_forward_cancelled": true,
+    "live176075_still_running": true,
+    "job176092_absent_from_queue": true,
+    "login53221_not_listening": true,
+    "remote_token_absent_rechecked": true
+  },
+  "controlled": {
+    "owner": "Mert",
+    "kind": "controlled_trajectory_not_video",
+    "queued_exact_batches": 2,
+    "outage_http_503": true,
+    "publisher_restart_exact_bytes": true,
+    "lost_ack_duplicate_receipts": 1,
+    "count": 1,
+    "completed_traversals": 1,
+    "backend_restart_evidence_equal": true,
+    "live_rows": 0,
+    "expected_overlap_http_409_retained": true,
+    "abrupt_after_122s": "degraded",
+    "graceful": "offline",
+    "abrupt_offline_not_implemented": true,
+    "finished_at_utc": "2026-11-08T05:21:12.696856+00:00"
+  },
+  "verification_correction": {
+    "initial_assertion": "Whole read envelopes compared advancing from/to timestamps.",
+    "observed_difference": "Only traffic/emissions from/to timestamps differed; record rows and totals matched.",
+    "resolution": "Compare persisted record fields; rerun passed, with unchanged snapshot bytes."
+  }
+}
