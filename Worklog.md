@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 19:38 America/New_York / 8 November 2026, 00:38 UTC
+
+- **Who:** Mert
+- **Done:** Reviewed all three active implementation streams and the published measurement-readiness proposal. Prioritized a tested software checkpoint, real one-camera scientific evidence, then single-host integration/replay rehearsal. Accepted a separate internal per-traversal stopped-time input for scenarios while preserving observation-minute stopped-time semantics and contract 1.1. Identified independent scaled road references as the unresolved live-emissions dependency.
+- **Completed:** Recorded the handoff decision and fastest completion sequence in `Coordination.md`. Existing local persistence/preview/SSH architecture remains the first demonstration target; extra context, model training, redesign and multi-instance hosting stay off this immediate dependency chain. Documentation scope/whitespace were checked; concurrent runtime edits are preserved. No live calibration, mapping, transport field or emissions output is approved by this decision.
+- **Still open:** The three code checkpoints are in progress. Real geometry/crossing review, physical reference measurements and validation, accepted completed-traversal evidence, class mappings, stable-revision combined tests, outage/replay rehearsal and submission verification remain necessary. No completion percentage or field-validation ETA is claimed without supporting evidence.
+
 ### 7 November 2026, 19:35 America/New_York / 8 November 2026, 00:35 UTC
 
 - **Who:** Mert

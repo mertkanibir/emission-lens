@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 19:31 America/New_York / 8 November 2026, 00:31 UTC
+**Updated:** 7 November 2026, 19:38 America/New_York / 8 November 2026, 00:38 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -43,3 +43,19 @@ Each stream owns its package documentation and must add its own narrow timestamp
 Every stream reports in its own conversation: completed paths and commit, commands/results, demonstrated behavior, remaining evidence gaps, and the next dependency. Mert reads those reports and progress snapshots centrally. No automatic external communication, fabricated measurements or promise of unattended monitoring is implied.
 
 **Dispatch checkpoint (7 November 2026, 19:31 America/New_York / 8 November 2026, 00:31 UTC):** Mert sent the scoped engineering, scientific-evidence and dashboard assignments to the three existing work streams. All three acknowledged ownership and began work. Their checkpoints are in progress; no implementation result or scientific approval is implied by dispatch.
+
+## Finish-line decisions — 7 November 2026, 19:38 America/New_York / 8 November 2026, 00:38 UTC
+
+Mert directed the fastest complete, evidence-backed demonstration while continuing independent useful work in parallel. The existing persistent single-host architecture is the first operational target. Shared multi-instance/serverless hosting, additional context layers, further training and cosmetic redesign do not block that local acceptance checkpoint; they remain later work rather than silently certified features.
+
+1. **Software checkpoint:** finish and publish the independent backend/scenario, calibration-arithmetic and dashboard-readiness work, then run combined checks on a stable revision. Synthetic inputs are explicitly labeled; passing arithmetic does not prove camera calibration.
+2. **Scientific checkpoint:** obtain a camera-222 source clip and reviewed selected-gate events, independently scaled road references with held-out validation, documented class mappings and accepted calibrated completed traversals. If any input is absent, state the precise dependency and keep affected quantities unavailable. This remains required for the live-emissions milestone; its finish time is not inferred from code readiness.
+3. **Operational checkpoint:** run the actual runtime settings through the demonstrated single-host delivery/replay path, perform bounded forced-outage and restart checks, verify evidence retention and mode separation, and rehearse the three-minute demonstration plus submission checklist. Expand accepted measurements to the other cameras after the first validated camera.
+
+### Traversal/scenario handoff decision
+
+Mert accepts the internal per-completed-traversal scenario input described in `evaluation/measurement-readiness.md` and the engineering `ScenarioTraversal` proposal: each completed traversal has its own `stopped_time_s`, or null when unavailable. It is distinct from `traffic_minute.stopped_vehicle_seconds`, which retains its general observation-minute meaning. Never subtract road-wide minute stopped seconds from a completed-traversal cohort's duration.
+
+Keep original completion timestamps/cohort fixed for baseline/scenario comparison, compute speed and RUNEX factors per traversal before summing, retain signed changes, and withhold a positive-reduction scenario if linked stopped evidence is missing. Real outputs still require accepted calibration, class mapping and explicit meteorology. Hypothetical rows never enter observed live totals. Internal calculation inputs/evidence may be implemented and tested now. This approval does not change contract 1.1, authorize new public batch fields, or approve camera geometry/class mixtures; any persistence/transport extension needs a concrete schema and validation proposal first.
+
+Engineering owns the integration/consumer side; the scientific stream owns the documented producer evidence and calibration primitives. The current scene-wide stopped total is not a substitute for traversal-linked evidence. These decisions remove the internal calculation handoff blocker while preserving the scientific acceptance gate.
