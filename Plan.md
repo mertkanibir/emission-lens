@@ -5,7 +5,7 @@
 **Track:** Environment  
 **Document version:** 1.0 — 7 November 2026  
 **Submission deadline:** 8 November 2026, 11:00 America/New_York  
-**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. Estimated HLS media-clock alignment and a held-out detector comparison are recorded; the tuned candidate was not promoted. Validated crossing/tracking observations, road calibration, class mappings, calibrated traversals and hosted shared persistence remain open.
+**Status:** Four-camera GPU tracking, authenticated local status/preview delivery, durable local ingestion, the dashboard and scoped CARB factors are demonstrated. The separate measurement path now persists reviewed-input calculations, per-pollutant scenarios and traceable briefs; independent synthetic HTTP checks cover restart, export, revocation and retraction. Estimated HLS media-clock alignment and a held-out detector comparison are recorded; the tuned candidate was not promoted. Accepted count review, physical road calibration, class mappings, live calibrated traversals and hosted shared persistence remain open.
 
 ---
 
@@ -121,6 +121,8 @@ flowchart TD
 Pin dependencies and model weights after checking compatibility on the actual compute node.
 
 Long-running video processing runs in a worker, separate from web request handlers.
+
+**Operational target (7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC):** Mert selected the existing persistent single-host application as the first complete integration target. Authenticated worker and measurement routes share one atomic local snapshot; private server registries control calibration/mapping approval. The separately versioned measurement v1.0 envelope leaves core worker contract 1.1 unchanged. Supabase/PostgreSQL and independent serverless hosting remain planned deployment work; no hosted database is configured or certified by the local checks. See [coordination](./Coordination.md) and the [exact measurement interface](./backend/MEASUREMENT-INGESTION.md).
 
 ## 6. GPU deployment
 
@@ -639,15 +641,15 @@ Do not claim deployment to NYSDOT or Binghamton. Describe that as a possible fut
 
 ## 21. Immediate unresolved items
 
-**Status reconciliation (7 November 2026, 18:55 America/New_York / 23:55 UTC):** Mert synchronized these remaining items with the delivered worker, timing correction, factor catalog and evaluation records. Fine-tuning completed with no candidate promotion; validated traffic/emissions and hosted deployment remain open. See [timing alignment](./evaluation/timing-alignment.md) and [evaluation](./evaluation/README.md).
+**Status reconciliation (7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC):** Mert reconciled the server measurement path, scenario/brief binding and independent synthetic acceptance with the remaining scientific and operational work. Passing software fixtures do not approve real geometry or class mixtures. Fine-tuning completed with no candidate promotion. See [coordination](./Coordination.md), [timing alignment](./evaluation/timing-alignment.md) and [evaluation](./evaluation/README.md).
 
-1. Confirm visual-to-CARB class mappings; the scoped RUNEX factor table is acquired and validated (7 November 2026, 16:25 America/New_York / 21:25 UTC).
-2. Extend the bounded four-camera GPU/delivery verification to long-duration operation and forced-failure recovery; the 120-second benchmark and local authenticated delivery are verified.
-3. Loopback-only SSH forwarding is verified for local delivery; a hosted shared persistence adapter remains required for deployment.
-4. Configure and validate each camera’s road region and gates.
-5. Keep contract 1.1 validation and local persistence aligned while adding a hosted shared-store adapter.
-6. Four-camera bounded performance is recorded; evaluate longer runs, dropped-frame effects and held-out tracking accuracy.
-7. Select the minimum contextual layer that adds demonstrated value.
+1. Finish Mert and Carter's crossing-by-crossing count review, including held-out tracking and dropped-frame effects. Preserve the working model while this evidence is collected.
+2. Review and enable actual camera regions/gates only after acceptance; independently support physical movement distances and calibration. Saved drawings remain disabled/unvalidated.
+3. Approve documented visual-to-CARB class mixtures and explicit meteorology assumptions for each applicable mode/window. The scoped RUNEX factor table is acquired and validated; its availability alone does not enable physical estimates.
+4. Install reviewed server registry records and opt-in worker settings, then demonstrate one actual completed camera traversal through persisted CO₂/NOₓ, scenario and brief. Synthetic approvals never authorize live or replay output.
+5. Extend bounded GPU/delivery evidence to longer operation, forced outages and full labeled-replay rehearsal using the final runtime. Preserve null/stale/offline semantics and mode isolation.
+6. Provision and verify shared hosted persistence/preview delivery if a hosted demonstration is required. The working local snapshot is a single-host target, not a Supabase deployment or multi-instance database.
+7. Complete demo/submission materials, attribution and final rehearsal. Add contextual layers only if they demonstrate value after the core path; avoid delaying the finish for optional data or training.
 
 ## 22. Sources
 

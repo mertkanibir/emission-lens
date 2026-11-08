@@ -2,7 +2,7 @@
 
 **Owner:** Mert
 
-**Updated:** 7 November 2026, 20:25 America/New_York / 8 November 2026, 01:25 UTC
+**Updated:** 7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC
 
 Mert authorized centralized project coordination on 7 November 2026. `Plan.md` remains the master plan. This record allocates the next implementation checkpoints; it does not certify unfinished measurements or alter contract 1.1.
 
@@ -34,7 +34,7 @@ Each stream owns its package documentation and must add its own narrow timestamp
 
 - Test longer operation and forced outages; verify reconnect/overlap handling and the actual runtime model/settings on held-out traffic footage.
 - Decide and implement a deployable persistence/preview topology. The current file store and in-memory previews support one persistent application host, not independent serverless instances.
-- Implement defensible scenario sensitivity ranges and evidence-backed brief content. Current scenario grams and comprehensive uncertainty remain unfinished.
+- Validate live scenario inputs and defensible sensitivity ranges. Per-traversal scenario grams and evidence-backed briefs now have a persisted software path; comprehensive uncertainty and field validation remain open.
 - Add weather and nearby schools only after the core measurement path; keep community layers and further model tuning optional.
 - Rehearse the complete live and labeled-replay demonstration, verify source/licence attribution and submission status, and ensure Mert and Carter can explain the system before 8 November 2026, 11:00 America/New_York.
 
@@ -73,3 +73,29 @@ Mert directed completion of the independently implementable backend while Mert a
 Use controlled labeled fixtures to exercise authenticated ingest → durable reload → traffic/emissions reads → baseline/scenario → brief/export, plus denied/malformed/unapproved/missing evidence, duplicate/revision/retraction, reconnect/overlap and public-data privacy boundaries. Private traversal IDs and registry paths never enter public responses or exports. Atomically related records must share one authoritative commit; separate independent file renames are not presented as a database transaction.
 
 A passing software path means reviewed inputs can be installed without another architectural rewrite. Actual live counts still require accepted gate/model checks; physical emissions require independently supported calibration and explicit class/meteorology assumptions. Shared hosted storage and a real Supabase project remain separate deployment configuration/adapter work; unavailable credentials or scientific evidence do not block completion of the working single-host software path.
+
+## Software acceptance and supporting work — 7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC
+
+Mert verified the server measurement path using temporary synthetic-only registry approvals and an independently started production HTTP server. `evaluation/check_measurement_path.py` exercises authenticated ingest, exact retry, application stop/restart and durable reload, original retained CARB CSV rates, separate observation/completed cohorts, independent pollutant scenarios, private evidence authorization, exact brief attachment export, producer-distance rejection, immediate registry revocation and atomic retraction. All nine checks pass. Its fixed synthetic clock deliberately matches the application's labeled demo fixtures and must remain within ingestion retention; no real camera, mapping or field emission is approved by this test.
+
+The completed traversal producer and measurement bridge are committed. Their synthetic checks include the actual TypeScript parser and isolated server ingestion, ordered partial clock rebins, immutable evidence identities, durable pending plans and unchanged-byte HTTP retries. Engineering's opt-in runtime adapter uses separate worker/measurement endpoints and outboxes, persists private bridge checkpoints before delivery and recovers pending plans before flushing. A simulated-frame check exercises the actual worker orchestration without a detector or GPU. Production camera settings remain disabled/unvalidated; reviewed settings and server approval records still have to be installed privately.
+
+Dashboard routes now consume the measurement summaries and per-pollutant scenarios. Exact temperature/humidity assumptions survive mixed-minute windows and brief export; small NOₓ totals remain distinguishable from zero. Desktop/phone acceptance covers camera navigation, live/replay/synthetic separation, missing evidence, scenario bounds and local export. The finished cream/forest layout is preserved.
+
+The combined checkpoint includes server/runtime revision `55bfaa1`, bridge `60ca6df`, dashboard `9e3b082` with final verification `95195ff`, and branding revision `d96ae5b`. Mert independently reran all 99 backend tests, 24 frontend tests using the frontend TypeScript configuration, 37 measurement/adapter tests, root type checks, production build and all nine production HTTP acceptance checks. Engineering also recorded 172 worker tests plus 112 subtests. The ignored duplicate generated route declaration was removed before the passing final build/type checks; its local recurrence and cleanup are documented in the dashboard acceptance record.
+
+The separate [four GPU count comparisons and two-minute four-camera benchmark](./evaluation/count-check-175806.md) add bounded execution evidence. They ran the previous runtime revision, do not include the new configured measurement path, and do not establish accuracy: Carter's accepted manual crossing answer key remains pending. They do not replace the final configured replay/outage demonstration.
+
+### Branding and contributor display
+
+Mert reviewed the new Junction Lens identity direction for Emission Lens, then requested a green center leaf and thinner surrounding corner bars. Revision `d96ae5b` replaces the diamond with the leaf and reduces bar thickness from 12 to 7 units; all variants/icons retain their existing asset paths. The compact mark and favicon are integrated; vector wordmarks, reversed/monochrome variants and raster submission icons are available in `frontend/public/brand/`, with usage and font attribution in `branding/README.md`. Branding does not change scientific claims or camera readiness.
+
+The Release & Submission Manager owns the stale GitHub contributor display. Current reachable main-history attribution and GitHub's contributor API were reconciled to Mert and Carter; the homepage still showed cached older contributors. A support request was submitted after Mert's separate approval. Repository-setting workarounds remain subject to their explicit approval and publication coordination. No history rewrite, forced push or successful display removal is implied by the support submission.
+
+### Remaining gates
+
+1. Mert and Carter finish the selected-gate count/tracking review; no labels, weights or runtime model promotion belongs to this backend checkpoint.
+2. Accept one camera's geometry and independently supported physical movement calibration; approve documented visual-to-CARB assumptions and explicit meteorology, then install the versioned private settings/registry.
+3. Demonstrate actual reviewed completed traversals through worker → persisted estimated CO₂/NOₓ → scenario → brief, followed by bounded forced-outage and labeled-replay rehearsal on the final runtime.
+4. Configure a shared hosted database and preview topology if the demo must run beyond the verified single persistent host. Supabase is not yet provisioned or wired.
+5. Finish Devpost/demo materials and final rehearsal; contributor-cache resolution remains with the release stream. Optional context layers and further training do not block the local software checkpoint.
