@@ -1,26 +1,30 @@
 # Evaluation
 
-**Owner:** Mert  
-**Updated:** 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC
+**Owner:** Mert
+
+**Updated:** 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC
 
 ## Current evidence index
 
-**Delivery scheduling checkpoint (8 November 2026, 03:33 America/New_York / 08:33 UTC):** Mert verified [controlled local background-delivery scheduling](./delivery-scheduling.md): three paired synthetic-work/loopback HTTP trials retained exact ordered bytes and drained queues, with a 76.6% lower median processing-loop wall time. This is I/O scheduling evidence, not measured GPU frame rate or field accuracy; runtime replacement remains separately reviewed.
+**Documentation reconciliation — 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC — Mert:** Start with the latest accepted application and camera-specific evidence. Each receipt retains its exact source, settings, time window and limits; execution success is separate from scientific accuracy.
 
-**Documentation reconciliation (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Current count/readiness evidence is listed first. Original dated run records below retain their original model, sampler, software and acceptance scope.
+| Evidence | What it supports |
+|---|---|
+| [Installed refinement acceptance](../frontend/REFINEMENT.md) | Later map/report polish, readable units and labeled synthetic demonstration with actual installed PDF/browser checks. |
+| [Pipeline acceptance](../frontend/HOME-STRETCH-ACCEPTANCE.md) and [scalar receipt](./home-stretch-20261108.json) | Two-camera bounded processing, supported-minute workspace, actual signed PDF download and native-video cadence; processing and playback FPS remain distinct. |
+| [Camera-222 human-reference audit](./calibration/222-count-audit.md) | The original count-1 result, endpoint/direction sensitivity and limited review scope. |
+| [Independent assisted review](./video_validation/report.md) and [protocol](./video_validation/README.md) | Frozen ledgers and explicit human-confirmation limits. Camera 223 is owner-enabled on assisted review; 220/228 remain excluded. |
+| [Four-recording status](./four-recording-status.md) and [220 aligned result](./video_validation/220-review-status.md) | Completed offline baseline execution, reviewed windows and failed 220 count screen. Native gaps and reserved 228 footage prevent full-coverage claims. |
+| [Calibration readiness](./measurement-readiness.md) and [Carter's camera-222 graphics](../docs/media/carter-2026-11-08/README.md) | Documented movement assumptions and visual reference geometry; independent scale/path/traversal validation remains open. |
+| [Measurement interface](../backend/MEASUREMENT-INGESTION.md) and [runtime setup](../worker/RUNTIME-MEASUREMENTS.md) | Validated producer/ingest/persistence/scenario interfaces; fixture checks do not establish field accuracy. |
+| [Delivery scheduling](./delivery-scheduling.md) and [reliability](./reliability/README.md) | Controlled scheduling and bounded recovery evidence, with sustained source/outage limits kept separate. |
+| [Read-performance receipt](./read-performance-20261108.json) and [indexed composition](./read-performance-indexed-20261108.json) | Scoped local query comparisons with preserved outputs; not GPU or sustained end-to-end latency. |
+| [Fine-tuning comparison](./empire-ai-175644-comparison.md) | Candidate underperformed the pretrained comparator and was not promoted. |
+| [HLS clock alignment](./timing-alignment.md) and [queue portability](../worker/QUEUE-PORTABILITY.md) | Estimated media timing and platform durability boundaries; capture UTC remains unavailable. |
 
-- [Camera-222 GPU checks and 15 FPS four-camera benchmark](./count-check-175806.md): four requested count JSONs delivered to Carter; job 175806 completed. Four-camera YOLO11s/1280 processing reached 59.94 aggregate FPS with 780 reader-buffer drops over 120 seconds, not loss-free sustained operation.
-- [222 human-reference audit](./calibration/222-count-audit.md): original result reproduced, image count-1 enabled by Carter, count-2 unaccepted; endpoint/direction sensitivity and pending human adjudication remain visible.
-- [223/228 acquisition and frozen baseline](./count-validation-223-228.md): job 175884, unchanged pretrained n/640 at requested 15 FPS; all four result hashes/CUDA devices verified. These are execution checks, not additional camera approvals.
-- [Independent assisted review](./video_validation/report.md) and [protocol](./video_validation/README.md): selected practice/held-out windows for 222/223/228, immutable ledgers and separately labeled human/model comparisons. 223/228 still need human adjudication; 228 has a substantial unresolved deficit. Follow the current supersession record for any corrected practice ledger. Full-file expansion is deferred; the unviewed 228 `[720,840)` segment remains reserved and 220 media pending locally.
-- [Software integration readiness](./integration-readiness.md), [runtime setup](../worker/RUNTIME-MEASUREMENTS.md) and [measurement interface](../backend/MEASUREMENT-INGESTION.md): producer, bridge, persistence, per-pollutant scenarios and exact brief export are implemented/tested on controlled inputs; physical field acceptance remains separate.
-- [Native queue portability](../worker/QUEUE-PORTABILITY.md): Windows/Linux normal-operation and restart evidence, with platform-specific durability limits.
-- [HLS media-clock alignment](./timing-alignment.md): per-session minimum-offset clock, earlier-observation rebins, ordered retractions, and the [204-frame live timing check](./hls-clock-20261107.json). A 25.060645-second anchor improvement is not a capture-latency measurement. [Timing CI](https://github.com/mertkanibir/emission-lens/actions/runs/42427132206) passed; capture UTC remains unavailable.
-- [Four-camera CUDA benchmark](./empire-ai-175627-benchmark.json) and [local delivery](./empire-ai-175627-delivery.json): bounded performance, persisted status and matching previews; frame drops and limits are recorded.
-- [Fine-tuning comparison](./empire-ai-175644-comparison.md) and [training provenance](./empire-ai-175644-training.json): completed training, underperforming candidate, no model promotion.
-- [Geometry/calibration guide](./calibration-guide.md): configured-image review and independent physical calibration remain necessary before claiming validated traffic metrics or emissions.
+## Historical run index
 
-The dated sections below retain their original run settings and limitations. The 50-frame smoke test is an earlier experiment, not the full current project status.
+The following sections describe earlier experiments and deployments. Their pending states, model/settings, test counts and job status are historical; they do not override the current evidence index. The [previous README](../docs/README-HISTORY.md) and [Worklog](../Worklog.md) preserve the wider chronology.
 
 ## Empire AI GPU smoke test
 

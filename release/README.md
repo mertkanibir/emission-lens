@@ -1,12 +1,22 @@
 # Release and submission readiness
 
 **Owner:** Mert
-**Updated:** 8 November 2026, 02:26 America/New_York / 07:26 UTC
+
+**Updated:** 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC
+
 **Status:** Draft package prepared for review; the approved AGPL project-code licence is implemented. Final rehearsal, submission artifacts, remaining licence/source obligations and submission confirmation remain open.
 
-This package owns release preparation only. [Plan.md](../Plan.md) remains authoritative. [DEVPOST.md](./DEVPOST.md) supplies reviewable copy; [DEMO.md](./DEMO.md) supplies the three-minute script and replay fallback. No public release, Devpost submission, external message or contributor/branch/settings change is authorized by these documents. Contributor settings remain on hold.
+## Latest evidence entry point
 
-## Current accepted local deployment
+**Documentation reconciliation — 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC — Mert:** Use the [10:08 New York / 15:08 UTC application acceptance](../frontend/HOME-STRETCH-ACCEPTANCE.md) for the verified 3152 consumer / 3151 gateway / 3155 writer, two-camera live scope and visual PDF. The local deployment and observation rows below retain their earlier dated evidence and are not claims that the old jobs or ports still run. New [camera-222 reference images](../docs/media/carter-2026-11-08/README.md) include original-byte provenance, static-image captions and media attribution limits.
+
+The [contributor display operation](./CONTRIBUTOR-DISPLAY.md) was separately authorized and completed after the original hold described below. Its result does not authorize further settings changes. Final submission, human rehearsal, complete third-party obligations, shared hosting and broader scientific validation remain separate; this refresh publishes documentation and the requested annotated stills only.
+
+This package owns release preparation only. [Plan.md](../Plan.md) remains authoritative. [DEVPOST.md](./DEVPOST.md) supplies reviewable copy; [DEMO.md](./DEMO.md) supplies the three-minute script and replay fallback. Preparation alone does not authorize Devpost submission, external messages or further contributor/branch/settings changes. The separately authorized contributor refresh is documented above.
+
+The later [10:30 installed refinement acceptance](../frontend/REFINEMENT.md) records the current consumer polish and opt-in synthetic demonstration with actual PDF/browser checks; it preserves live-store and registry authority.
+
+## Historical accepted local deployment — 02:26 checkpoint
 
 **Deployed local application — 8 November 2026, 02:26 America/New_York / 07:26 UTC.** [Open the working dashboard](http://127.0.0.1:3151/?camera=222&view=emissions). Source `685dc72` now runs camera 222 and 223 end to end with independent counts/traversals/outboxes, configured visible-approach queue observations, traversal-linked stopped time, supported-minute estimated CO₂/NOₓ, explicit complete-minute scenarios and brief export. Actual new LIVE frames/records, positive queue observations on both cameras, current authenticated evidence, original-CARB calculations and sealed-generation durable reload are verified. The user's browser has switched from 3150 to 3151. [Backend acceptance](../backend/LIVE-3151-176075-4.md), [runtime/cleanup handoff](../worker/LIVE-3151-176075-4.md) and [actual browser/phone acceptance](../frontend/FINAL-ACCEPTANCE.md) and [matching source CI](https://github.com/mertkanibir/emission-lens/actions/runs/42457790794) retain evidence and limits.
 

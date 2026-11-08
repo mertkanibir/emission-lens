@@ -1,7 +1,20 @@
 # Frontend
 
-**Owner:** Mert  
-**Updated:** 8 November 2026, 01:05 America/New_York / 8 November 2026, 06:05 UTC
+**Owner:** Mert
+
+**Updated:** 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC
+
+## Current workspace guide
+
+**Documentation reconciliation — 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC — Mert:** The [latest accepted application record](./HOME-STRETCH-ACCEPTANCE.md) is the entry point for the compact supported-minute workspace, native processed video, two-page signed visual PDF and actual desktop/phone acceptance. Its test counts and performance samples belong to the dated source named in that record. The later [10:30 installed refinement acceptance](./REFINEMENT.md) records map/report polish, readable units and the [opt-in rich synthetic demonstration](../backend/SYNTHETIC-DEMO.md), including actual PDF/browser checks. Source checks alone do not establish an installed build.
+
+The root workspace combines network, selected-camera evidence, external context, durable review and scoped planning. Detailed methods live in disclosures. Complete-minute selection, live/replay/synthetic isolation, unavailable values and 220/228 count exclusions remain explicit. Open-Meteo and CAMS context are separate modeled inputs; neither is a measured camera concentration. Review annotations preserve original evidence and do not approve scientific inputs.
+
+For a fresh local synthetic preview, follow the [root setup instructions](../README.md#run-a-local-preview). A production build uses `npm run build` from the root. Runtime stores, credentials, registry approvals and preview delivery require separate private configuration. Carter's [camera-222 illustrations](../docs/media/carter-2026-11-08/README.md) are static documentation references.
+
+## Dated implementation history
+
+The notes below preserve earlier layouts, test counts and service states. Their statements of pending work or live status apply to their own timestamps; use the linked acceptance record above for the latest verified deployment checkpoint.
 
 The four-camera Torrance dashboard reads the shared backend contract and the separately versioned measurement read model. The server reads worker status, retained observations and accepted measurement snapshots from the protected local store. Dated history and processing freshness are independent: retained records do not make an offline worker live. Live, replay and labeled synthetic records remain separate.
 

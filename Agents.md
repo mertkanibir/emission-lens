@@ -152,15 +152,13 @@ The every-turn rules above are mandatory. In addition, every completion report s
 
 ## Immediate unresolved items (from Plan.md)
 
-**Status note (7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC):** Mert reconciled this summary with the completed traversal/measurement runtime, GPU count/benchmark evidence and current independent assisted review. Ownership, publication rules and scientific acceptance requirements are unchanged. See [evaluation](./evaluation/README.md) and [current review status](./evaluation/video_validation/report.md).
+**Documentation reconciliation — 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC — Mert:** This summary follows the updated Plan §21 and [latest accepted application checkpoint](./frontend/HOME-STRETCH-ACCEPTANCE.md). Ownership, publication rules and scientific acceptance requirements are unchanged.
 
-1. Confirm visual-to-CARB class mappings; the scoped RUNEX factor table is acquired and validated.
-2. Extend bounded GPU/delivery checks to longer operation and forced-outage recovery.
-3. Add shared hosted persistence; loopback-only SSH relay is verified locally.
-4. Carter enabled only camera 222/count-1 for image counts; count-2 is unaccepted. The 220/223/228 image configurations remain disabled/unvalidated. Resolve 223/228 human adjudication and the 228 deficit before expansion; retain the reserved fresh segment. All physical calibrations remain missing.
-5. Keep contract 1.1 validation and local persistence aligned with any hosted-store adapter.
-6. Extend held-out traffic/tracking and forced-outage evidence. Job 175806 reached near-target four-camera throughput with 780 buffer drops; this is not loss-free sustained acceptance. Assisted review is not human ground truth. Fine-tuning underperformed the pretrained comparator and was not promoted.
-7. Select the minimum contextual layer that adds demonstrated value.
+1. Independently validate physical scale, path eligibility and manual traversal timing for configured 222/223 movements; retain fleet/weather/mapping assumptions and limits.
+2. Extend human-reference review beyond 222's scoped count-1 audit. Camera 223 remains owner-enabled on assisted review; 220/228 remain excluded after failed count screens. Protect frozen ledgers and reserved 228 footage.
+3. Extend sustained source/outage/recovery evidence and separately review retained pending envelopes. Bounded successful delivery and processing/video cadence samples are not loss-free continuous acceptance.
+4. Add verified shared hosted persistence if required; the accepted consumer/gateway/writer currently share protected single-host authority.
+5. Complete human rehearsal, final source/licence/media obligations and confirmed submission. Context/review/PDF implementation is complete at its dated acceptance checkpoint; broader scientific validity and environmental benefit remain unproven.
 
 ---
 

@@ -1,115 +1,92 @@
 # Emission Lens
 
-Live intersection cameras → traffic metrics → modeled emissions estimates → evidence-backed planning tools.
+**Public intersection cameras → observed traffic → estimated emissions → evidence-backed planning.**
 
-**Team:** Mert and Carter  
-**Event:** NYCAIRR × HackBU 2026 (Environment track)  
-**Setting:** Four signalized intersections in Torrance, California (Caltrans CCTV 222, 223, 228, 220)
+Built by **Mert and Carter** for the **NYCAIRR × HackBU 2026 Environment track**. The demonstration covers four Caltrans intersections in Torrance, California, with counting and completed-movement estimates enabled for cameras **222 and 223**.
 
-## Pitch
+Emission Lens tracks vehicles independently at each camera, counts line crossings and estimates tailpipe **CO₂ and NOₓ** from completed movements using documented CARB EMFAC factors. A single workspace brings together processed video, dated traffic evidence, camera-point emissions maps, hypothetical shorter-stop comparisons and downloadable investigation reports.
 
-Existing cameras show us traffic. Emission Lens helps us understand its environmental footprint and explore what could improve it.
+Outputs are **estimated emissions**. They do not measure air quality, pollutant concentrations or health effects.
 
-## What it does
+## What you can inspect
 
-Emission Lens observes public intersection camera feeds, runs GPU vehicle detection and tracking, estimates traffic-related tailpipe **CO₂** and **NOₓ** with documented regional factors, and lets users inspect the evidence behind each estimate. Planners can also explore explicit hypothetical changes (for example shorter queues or a different fleet mix).
+- **Traffic evidence:** processed frames, line crossings, completed traversals and provisional visible-queue lower bounds, with freshness and coverage shown separately.
+- **Traceable estimates:** supported-minute CO₂/NOₓ, calibration and fleet assumptions, factor provenance and unavailable values that remain unavailable.
+- **Planning tools:** explicit same-cohort scenarios, durable evidence-review annotations and a two-page visual PDF bound to its reviewed source text and aggregate snapshot.
+- **Separate context:** timestamped weather and regional CAMS model data, kept distinct from camera-derived emissions.
 
-Outputs are **modeled emissions estimates**, not measured air quality.
+## Camera geometry and calibration
 
-## Status
+![Camera 222 annotated road region, excluded areas and entry/counting lines](./docs/media/carter-2026-11-08/camera-222.png)
 
-**Current operating state — 8 November 2026, 04:23 America/New_York / 8 November 2026, 09:23 UTC.** The [new workspace](http://127.0.0.1:3152/?camera=222&view=emissions) remains available. Original GPU allocation176075 failed at04:12 New York; live processing is offline. Dated retained evidence, saved reviews, timestamped context and scoped brief exports remain usable. The prepared continuation was held and its unused relay closed. Pending envelopes are preserved; no complete-delivery claim or automatic recovery is made. See [terminal evidence](./evaluation/runtime-stop-176075-20261108.json). New work stops at6% account allowance remaining, protecting the requested5% floor.
+*Static camera-222 reference supplied by Carter: green road region, red excluded areas, yellow count-1 and blue count-3 entry line. The grey count-2 line is unused. The image's baked-in LIVE label describes the source illustration; this README is not a live camera view.*
 
+<details>
+<summary>View the camera-to-ground calibration reference</summary>
 
-**Technical workspace — 8 November 2026, 03:52 America/New_York / 8 November 2026, 08:52 UTC.** [Open the completed local workspace](http://127.0.0.1:3152/?camera=222&view=emissions). Exact web source `4051e98` combines the network/camera views, transparent calculation-input register, timestamped model weather, durable evidence review and scoped planning/export on one scrolling page. Actual annotation/state/restart persistence, exact draft download, excluded-camera/mode behavior and canonical interval-preserving navigation pass. [Acceptance and limits](./frontend/TECHNICAL-ACCEPTANCE.md) record source CI, data preservation and phone checks. The healthy3151 ingestion/preview producer remains protected; this consumer reads its authority. Model/physical/scientific limits remain unchanged; no fine-tune promotion or environmental benefit is claimed. Earlier dated checkpoints below retain their historical scope.
+![Camera 222 calibration correspondences, projected ground grid and aerial comparison](./docs/media/carter-2026-11-08/homography-222.png)
 
+*Carter's reference shows fit/check correspondences, a projected 5 m grid and a configured 20 m separation between the movement lines. These are documented calibration inputs, not independent surveyed validation. See the [image provenance and limitations](./docs/media/carter-2026-11-08/README.md).*
 
-**Deployed local application — 8 November 2026, 02:26 America/New_York / 07:26 UTC.** [Open the working dashboard](http://127.0.0.1:3151/?camera=222&view=emissions). Source `685dc72` now runs camera 222 and 223 end to end with independent counts/traversals/outboxes, configured visible-approach queue observations, traversal-linked stopped time, supported-minute estimated CO₂/NOₓ, explicit complete-minute scenarios and brief export. Actual new LIVE frames/records, positive queue observations on both cameras, current authenticated evidence, original-CARB calculations and sealed-generation durable reload are verified. The user's browser has switched from 3150 to 3151. [Backend acceptance](./backend/LIVE-3151-176075-4.md), [runtime/cleanup handoff](./worker/LIVE-3151-176075-4.md) and [actual browser/phone acceptance](./frontend/FINAL-ACCEPTANCE.md) and [matching source CI](https://github.com/mertkanibir/emission-lens/actions/runs/42457790794) retain evidence and limits.
+</details>
 
-Positive queues are provisional visible lower bounds (`≥N`), not complete physical queues. Unknown latest observations stay unavailable; older positive values are not substituted. New run retains all 735 prior worker batches and 60 measurement sources. The guarded worker's nominal command bound is **04:17:33 New York / 09:17:33 UTC**, with a **04:20:25 New York / 09:20:25 UTC** scheduler-step limit; sources/guards/network can end it sooner. Old 3138/3139/3150 and both original jobs remain protected; 3150 retains four previews. Cameras 220/228 remain excluded from new inference/metrics. This completes the requested bounded local implementation/deployment checkpoint; broader field accuracy, sustained operation, shared public hosting and final human rehearsal/submission are separate. Earlier checkpoints below retain their dated historical scope.
+## Verified checkpoint and limits
 
-**Current implementation checkpoint — 8 November 2026, 01:51 America/New_York / 06:51 UTC.** The combined application source `692d739` builds successfully and has passing application/worker CI. A separate frozen acceptance app at `http://127.0.0.1:3151` includes supported-minute CO₂/NOₓ cards, conservative latest-minute queue semantics and explicitly selected complete-minute shorter-stop scenarios. It has passed four-camera registry refresh, original-source preservation, current authenticated evidence and independent fresh-process reload checks; protected apps 3138/3139/3150 remain unchanged. The 3151 copy is not a new live deployment merely because it contains retained live history. Actual new 222/223 stopped-policy replay and final visual acceptance are in progress.
+The [8 November 2026, 10:30 America/New_York / 15:30 UTC refinement acceptance](./frontend/REFINEMENT.md) records the installed map/report polish, readable units, labeled rich synthetic demonstration and actual PDF/browser checks. The [earlier 10:08 New York / 15:08 UTC acceptance](./frontend/HOME-STRETCH-ACCEPTANCE.md) retains the detailed pipeline and performance evidence. The tested application topology uses a consumer on **3152**, a preview gateway on **3151** and one authoritative writer on **3155**, sharing protected single-host persistence. These are local services, not a public hosted deployment; their availability depends on the running processes and bounded GPU allocation.
 
-Camera 223's original-file GPU replay **176174** already passed configured delivery, original-factor arithmetic, private evidence, durable reload, heat-map and export checks; see [its scoped report](./backend/223-REPLAY-176174.md). Camera 222's actual live stopped-policy **176255** now passes generation-aware authenticated evidence and factor/scenario/reload acceptance; see [the superseding audit](./backend/STOPPED-LIVE-176255.md). Camera 220 and 228 count screens fail and remain disabled, despite live previews or supplied physical registries. The all-four allowed-recording baseline batch **176183** is completed; visual/accuracy acceptance is distinct. See [the recording matrix](./evaluation/four-recording-status.md). Earlier dated checkpoints below retain their historical scope.
+| Camera | Location | Counting and estimate scope |
+|---|---|---|
+| 222 | SR-107 at Carson Boulevard | Owner-enabled count-1; configured 20 m completed movement. [Human-reference count audit](./evaluation/calibration/222-count-audit.md). |
+| 223 | SR-107 at Torrance Boulevard | Owner-enabled count-1 based on assisted review; configured 15 m completed movement. Human-reference accuracy remains unavailable. |
+| 228 | SR-107 at 182nd Street | Excluded from counting/estimates after failed assisted count screens. Reserved fresh footage remains protected. |
+| 220 | SR-1 at Crenshaw Boulevard | Excluded from counting/estimates after failed assisted count screens. |
 
-**Current live recovery: 8 November 2026, 00:23 America/New_York / 05:23 UTC.** Camera 222 is live again on GPU job **176075**. One production application at `http://127.0.0.1:3138` receives real counts, traversal evidence and previews; its heat map shows supported-minute estimated CO₂/NOₓ. Independent checks verify advancing heartbeats, frames and counts rather than a retained image alone. The allocation is capped at **06:12:38 America/New_York / 11:12:38 UTC**; the authenticated Terminal, laptop and network remain required. This is startup evidence, not a completed six-hour test. Incomplete whole-window totals and shorter-stop scenarios remain unavailable. See [the startup checkpoint](./evaluation/222-live-restart-176075.md), [current assignments](./Coordination.md) and [release checklist](./release/README.md). Earlier dated results below retain their historical scope.
+The deployed baseline remains pretrained YOLO11n/640; the fine-tuned candidate was not promoted. Independent physical/traversal validation, broader human-reference evaluation, sustained outage recovery and shared hosting remain open. Processing FPS and delivered-video FPS are different measurements. The map is a camera-point visualization, not a dispersion model, and scenario changes are hypothetical rather than demonstrated savings.
 
-**Real delivery checkpoint: 7 November 2026, 23:02 America/New_York / 8 November 2026, 04:02 UTC.** Camera 222 completed a bounded GPU replay/live test using Carter's approved eastern 20 m movement and documented fleet/weather assumptions. The 90-second replay retained **30 crossings and 8 completed traversals**; the 60-second live test retained **17 crossings and 4 completed traversals**. Each mode has a supported minute with persisted estimated CO₂/NOₓ and another minute without completed traversals. The broader window therefore remains unavailable rather than silently summing partial coverage or substituting zero. Stopped time and positive shorter-stop scenarios remain unavailable. Fresh-process reload, private arithmetic, actual-record brief/export and dashboard checks pass. Live recorded 265 buffer drops and the worker has ended. Independent scale/path/traversal validation, shared hosting and continuous-performance evidence remain open. See [the delivery evidence](./evaluation/222-integration-175979.md) and [coordination](./Coordination.md). Earlier dated checkpoints below retain their historical scope.
+## Run a local preview
 
-**Heat map update: 7 November 2026, 23:31 America/New_York / 8 November 2026, 04:31 UTC.** The overview now includes a camera-point emissions heat layer using each camera's latest approved supported-minute snapshot. It retains timestamp/offline labels and unavailable whole-window totals; other cameras receive no invented zero or glow. Live/replay/synthetic isolation and the Traffic toggle pass browser checks. The single-host consumer reads the actual camera-222 ingestion store and refreshes normally; the stopped worker is correctly offline. See [heat-map behavior and verification](./frontend/HEATMAP.md).
+Use **Node.js 24** (matching CI), npm and the checked-in lockfile. From the repository root:
 
-Carter enabled camera 223/count-1 in `4c5a5ea` using explicitly assisted review and recorded its 15 m southbound calibration; its original configured replay delivery subsequently passed on job 176174. Human-reference metrics remain unavailable. Camera 228 stays unapproved: score-fusion changes introduced duplicates, while native-resolution and larger-pretrained comparisons still fail both assisted count bounds. No new model is promoted. Carter's labels/training remain unchanged; the [review report](./evaluation/video_validation/report.md) preserves reference uncertainties and the untouched fresh window.
-
-**Count/evaluation update: 7 November 2026, 22:00 America/New_York / 8 November 2026, 03:00 UTC.** Carter enabled only camera 222's designated `count-1` image-space crossing path in `b1a5edf`; `count-2` is unaccepted, and the 220/223/228 image configurations stay disabled/unvalidated. The [222 audit](./evaluation/calibration/222-count-audit.md) reproduces the original human-reference result and preserves endpoint/directional limitations. Independent assisted practice/held-out review now covers selected windows for 222/223/228; these frozen ledgers have `human_confirmed=false`, and human adjudication of 223/228 is prioritized. The [current review report](./evaluation/video_validation/report.md) records 223's provisional aggregate agreement and 228's substantial deficit; it also tracks any superseded practice ledger. No additional camera is approved. Broader full-recording work is deferred, and 220 media remains unavailable in the local review inventory.
-
-The [four camera-222 GPU comparisons](./evaluation/count-check-175806.md) completed at requested 15 FPS. Its two-minute four-camera YOLO11s/1280 benchmark processed **59.94 aggregate FPS**, **14.59–15.63 FPS per camera**, with **780 reader-buffer drops**. This is bounded execution evidence, not loss-free sustained operation. [Frozen 223/228 baseline execution](./evaluation/count-validation-223-228.md) and subsequent assisted comparisons remain separate from human acceptance. Physical calibration, calibrated speed and live estimated emissions were unavailable at that 22:00 checkpoint; the later scoped delivery test above supersedes that software state for camera 222 only. The public count-review-not-reported wording remains a conservative display gap; it does not revoke Carter's separately recorded 222 decision.
-
-**Integration update: 7 November 2026, 21:08 America/New_York / 8 November 2026, 02:08 UTC.** The separately versioned [measurement path](./backend/MEASUREMENT-INGESTION.md) adds authenticated ingestion, server-controlled calibration/mapping approvals, one atomic traffic/emissions/private-evidence snapshot, per-traversal CO₂/NOₓ scenarios and traceable brief export. The independent [HTTP acceptance command](./evaluation/check_measurement_path.py) checks the production routes, restart/reload, original CARB arithmetic, privacy, exact export, revocation and retraction using temporary synthetic-only inputs. Build the frontend first, then run `python3 evaluation/check_measurement_path.py`; the fixed synthetic demo clock must remain inside ingestion retention. These checks establish software behavior, not real calibration or model accuracy.
-
-The cream/forest [identity kit](./branding/README.md) supplies the application mark, favicon and submission-ready wordmarks/icons. The single persistent host remains the operational target; a shared Supabase database and hosted deployment are not configured. The later camera-222 test supplies scoped real estimated-minute delivery under approved assumptions; independent scale/path validation and broader-camera acceptance remain open. See [current assignments and acceptance](./Coordination.md).
-
-**Updated: 7 November 2026, 18:55 America/New_York / 23:55 UTC.** Mert demonstrated four-camera CUDA tracking and delivery to the local dashboard on Empire AI job `175627`. A 90-second run delivered 18 persisted batches and 47 temporary annotated previews, with no pending uploads; shutdown correctly marked cameras offline. A separate 120-second benchmark processed 2,655 frames across four cameras and recorded 82 buffer drops across two cameras. This is bounded performance evidence, not evaluated accuracy or capture-to-dashboard latency.
-
-Implemented at the 18:55 checkpoint: per-camera ingestion/tracking, authenticated delivery with restartable retries, validated contract 1.1 records, a durable local store, live/replay/synthetic isolation, synchronized expiring previews, dashboard/history/scenarios/briefs, and 1,296 traceable CARB running-exhaust factors. At that point no real camera geometry was enabled and calibrated traversals, speeds and live emissions were unavailable. The later count and scoped delivery updates above supersede that software state for camera 222 only; they retain the stated scientific limits.
-
-Camera-minutes now use a session-local **estimated HLS media clock**, with rebucketing and explicit revisions when startup backlog improves the time alignment. Capture UTC remains unavailable. The [timing record](./evaluation/timing-alignment.md) documents the method, live check and remaining limitations.
-
-The file store supports one persistent host. Hosted shared persistence and deployment remain open. Fine-tuning job `175644` completed, but its candidate underperformed pretrained YOLO11s in the [held-out comparison](./evaluation/empire-ai-175644-comparison.md) and was not promoted. The scoped 222/count-1 review does not establish four-camera count accuracy, measured air quality or environmental savings.
-
-See [GPU evidence](./evaluation/README.md), [worker setup](./worker/README.md), [ingestion](./backend/INGESTION.md), [Plan.md](./Plan.md), [Agents.md](./Agents.md) and [Worklog.md](./Worklog.md).
-
-## Current demonstration stack
-
-| Layer | Default |
-|---|---|
-| Vision worker | Python, FFmpeg/OpenCV, Ultralytics YOLO, ByteTrack |
-| GPU | Empire AI (PyTorch/CUDA) |
-| Persistence | One atomic durable local snapshot on a persistent application host |
-| Web app | Next.js + TypeScript, MapLibre |
-| Hosting | Single persistent Next.js process; private loopback SSH delivery from the GPU worker |
-
-## Repository layout
-
-```text
-Plan.md
-Agents.md
-Worklog.md
-contracts/
-config/cameras/
-worker/
-emissions/
-backend/
-frontend/
-infra/
-tests/
-evaluation/
+```bash
+npm ci
+npm run dev -w @emission-lens/frontend -- --port 3000
 ```
 
-## Cameras
+Open [the labeled synthetic workspace](http://localhost:3000/?mode=synthetic&camera=222). Synthetic records are demonstration data and never enter live or replay totals. An unconfigured local preview does not start a GPU worker or supply live observations.
 
-| ID | Location |
+For the optional richer synthetic example, set `EMISSION_LENS_SYNTHETIC_DEMO=rich` in the web consumer environment before starting it. See [demo scope and isolation](./backend/SYNTHETIC-DEMO.md); its fictional movement assumptions never approve real cameras.
+
+For real ingestion, use the private server settings described in [.env.example](./.env.example), [backend setup](./backend/INGESTION.md) and [worker setup](./worker/README.md). Keep tokens, approval registries, stores, outboxes, model weights and raw recordings outside Git. The current file-store architecture needs a persistent host; local setup does not provision hosted persistence.
+
+Useful checks:
+
+```bash
+npm test
+npm run typecheck
+npm run test:emissions
+```
+
+A production frontend build uses `npm run build`; Python dependencies and worker checks are documented in the [worker package](./worker/README.md).
+
+## Project guide
+
+| Start here | Purpose |
 |---|---|
-| 222 | SR-107 at Carson Boulevard |
-| 223 | SR-107 at Torrance Boulevard |
-| 228 | SR-107 at 182nd Street |
-| 220 | SR-1 at Crenshaw Boulevard |
+| [Master plan](./Plan.md) · [coordination](./Coordination.md) · [repository rules](./Agents.md) | Scope, ownership and publication rules. |
+| [Frontend](./frontend/README.md) · [backend](./backend/README.md) · [contracts](./contracts/README.md) | Workspace, ingestion, persistence and data meanings. |
+| [Worker](./worker/README.md) · [emissions](./emissions/README.md) | Independent tracking, calibrated movements and reproducible RUNEX calculations. |
+| [Evaluation index](./evaluation/README.md) · [latest application acceptance](./frontend/HOME-STRETCH-ACCEPTANCE.md) | Run receipts, validation boundaries and measured test scope. |
+| [Release package](./release/README.md) · [identity assets](./branding/README.md) | Submission preparation, source availability and attribution. |
+| [Worklog](./Worklog.md) · [previous README checkpoints](./docs/README-HISTORY.md) | Dated project history. |
 
-Use the stable Caltrans HLS master playlists documented in `Plan.md`. Do not hardcode temporary media segment URLs.
+## Scientific and privacy boundaries
 
-## Privacy
+`null` means unavailable; zero requires supporting evidence. Live, replay and synthetic modes remain separate, and retained frames do not establish current live processing. Video reports **stopped time**, not whether an engine is running. EMFAC running-exhaust factors already include ordinary driving-cycle idling, so no extra ordinary-idle process is added. Missing completed traversals never silently become zero emissions.
 
-No plate recognition, facial identification, or person tracking. Prefer aggregates and provenance in persistent records. Do not commit raw footage to this public repository.
+Vehicle identities are temporary and camera-session scoped. There is no plate recognition, facial identification or person tracking. Raw footage is excluded from the public repository. External briefs are drafts and exports; the application does not send messages or contact agencies automatically.
 
-## Licence and attribution
+## Licence and sources
 
-Camera feeds and metadata are from Caltrans / CWWP public traveler-information sources. Emissions methodology targets CARB EMFAC factors with full provenance. Factor provenance, the approved AGPL-3.0-only project licence and selected dependency notices are retained in [the release package](./release/README.md). Remaining model/transitive/binary obligations are explicitly tracked.
+Covered project code is **AGPL-3.0-only**: see [LICENSE](./LICENSE), [NOTICE](./NOTICE), [source availability](./release/SOURCE-AVAILABILITY.md) and [third-party notices](./release/THIRD-PARTY-NOTICES.md). Camera imagery/metadata comes from Caltrans/CWWP; factors come from CARB EMFAC. The [release inventory](./release/README.md) records remaining model, media and dependency obligations separately.
 
-## Disclaimer
-
-This repository defines the intended hackathon implementation. It does not certify that the application, models, GPU deployment, or environmental estimates have already been validated.
-
-**Operating status (8 November 2026, 08:28 America/New_York / 8 November 2026, 13:28 UTC) — Mert:** Fresh GPU job176773 is running on cuda:0 with cameras222/223; advancing heartbeats and previews reach the technical workspace on local3152. The worker has a two-hour wall bound from08:25:30 New York; scheduler allocation ends10:30:55 New York (15:30:55 UTC). Cameras220/228 remain excluded. Old pending envelopes remain preserved and unrecovered. At95% account usage consumed, Mert stops at the requested5% reserve. See [restart evidence](./evaluation/live-restart-176773.json).
-
-**Presentation update (8 November 2026, 08:49 America/New_York / 8 November 2026, 13:49 UTC) — Mert:** The running3152 workspace now has satellite camera mapping, clearer dated emissions markers, native map tabs and aligned comparison/evidence sections. See [verification and limits](./frontend/SATELLITE-ACCEPTANCE.md). The active222/223 producer and existing private persistence are preserved.
-
-**PDF/analytics accepted (8 November 2026, 09:05 America/New_York / 8 November 2026, 14:05 UTC) — Mert:** Running3152/source8322597 now includes exact scoped PDF briefs, interval analytics, independent timestamped CAMS context and faster validated preview pickup. All86 frontend checks, TypeScript, production build and actual PDF/browser checks pass. Same private persistence/3151 producer and active222/223 worker are preserved. See [acceptance](./frontend/PDF-ANALYTICS-ACCEPTANCE.md).
+**Documentation update — 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC — Mert:** Reorganized the project entry points, reconciled dated status summaries and added Carter's two annotated camera-222 references. Earlier README checkpoints are preserved in the linked archive. No contract, camera approval or runtime configuration changed.
