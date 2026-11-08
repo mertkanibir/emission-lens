@@ -23,3 +23,8 @@ export { build_completed_traversal_report } from "./traversal-report.ts";
 export type { CompletedTraversalReport, CompletedTraversalReportInput, ReportTraversal } from "./traversal-report.ts";
 export { compare_completed_traversal_scenario, SCENARIO_METHOD_VERSION } from "../../emissions/src/scenario.ts";
 export type { CompletedTraversalScenario, ScenarioTraversal, TraversalScenarioAdjustment, TraversalScenarioInput } from "../../emissions/src/scenario.ts";
+export type { MeasurementWindowView, MeasurementMinuteView, MeasurementScenarioView, MeasurementPollutantComparison, MeasurementRegistryStatus } from "./measurement-types.ts";
+export { get_measurement_registry_status } from "./registry.ts";
+export { ingest_measurement_batch, refresh_measurements, read_measurement_window, localMeasurementRepository } from "./measurements.ts";
+export type { MeasurementReceipt, MeasurementRepository } from "./measurements.ts";
+export { handleMeasurementPost, handleMeasurementGet, handleMeasurementEvidenceGet, handleMeasurementRefreshPost } from "./measurement-http.ts";

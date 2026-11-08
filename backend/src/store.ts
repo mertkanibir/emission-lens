@@ -17,11 +17,13 @@ export function statusesFor(mode: Mode): CameraStatus[] {
 }
 
 export function trafficFor(mode: Mode): TrafficMinute[] {
-  if (mode === "synthetic") return SYNTHETIC_TRAFFIC;
-  return readWorkerStore().traffic.filter((row) => row.mode === mode);
+  const store = readWorkerStore();
+  if (mode === "synthetic" && !store.measurement_batches.some(row => row.mode === mode)) return SYNTHETIC_TRAFFIC;
+  return store.traffic.filter((row) => row.mode === mode);
 }
 
 export function emissionsFor(mode: Mode): EmissionsMinute[] {
-  if (mode === "synthetic") return SYNTHETIC_EMISSIONS;
-  return readWorkerStore().emissions.filter((row) => row.mode === mode);
+  const store = readWorkerStore();
+  if (mode === "synthetic" && !store.measurement_batches.some(row => row.mode === mode)) return SYNTHETIC_EMISSIONS;
+  return store.emissions.filter((row) => row.mode === mode);
 }

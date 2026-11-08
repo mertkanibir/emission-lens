@@ -168,7 +168,7 @@ export function get_emissions_window(input: {
   const note =
     quality_state === "ok"
       ? "Estimated emissions use the loaded factor table for this window."
-      : calibration.validation_status !== "valid"
+      : quality_state === "calibration_invalid" || (rows.length === 0 && calibration.validation_status !== "valid")
         ? `CARB ${get_factor_catalog_status().model_version} factors are validated for Los Angeles (SC), 2026. Camera calibration is not valid, so estimated emissions stay unavailable. This is not a zero.`
         : "CARB factors are validated. Estimated emissions still require completed traversals and a documented class mapping. This is not a zero.";
   return {

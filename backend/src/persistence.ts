@@ -3,6 +3,9 @@ import { dirname, isAbsolute } from "node:path";
 import { randomUUID } from "node:crypto";
 import { parseWorkerBatch, type WorkerBatch } from "../../contracts/src/ingest.ts";
 import type { CameraStatus, EmissionsMinute, TrafficMinute, WorkerRun } from "@emission-lens/contracts";
+import type { StoredMeasurement } from "./measurement-types.ts";
+import { composeMeasurements, validateStoredMeasurement } from "./measurement-core.ts";
+import { loadRegistry } from "./registry.ts";
 
 export const MAX_STORED_BATCHES = 5000;
 export const STORE_RETENTION_MS = 24 * 60 * 60 * 1000;
@@ -25,6 +28,7 @@ export interface WorkerSnapshot {
   schema_version: 1;
   next_sequence: number;
   batches: StoredBatch[];
+  measurement_batches?: StoredMeasurement[];
 }
 
 export interface WorkerStore {
@@ -33,6 +37,7 @@ export interface WorkerStore {
   traffic: TrafficMinute[];
   emissions: EmissionsMinute[];
   batches: Array<{ batch_id: string; revision: number; accepted_at: string }>;
+  measurement_batches: Array<{ batch_id: string; revision: number; mode: WorkerRun["mode"]; accepted_at: string }>;
 }
 
 export function storePath(): string | null {
@@ -59,6 +64,16 @@ export function readSnapshot(path: string): WorkerSnapshot {
       if (ids.has(item.batch.batch_id)) throw new Error("Duplicate batch receipt.");
       sequences.add(item.sequence);
       ids.add(item.batch.batch_id);
+    }
+    if (raw.measurement_batches !== undefined) {
+      if (!Array.isArray(raw.measurement_batches) || raw.measurement_batches.length > 1000) throw new Error("Invalid measurement ledger.");
+      for (const item of raw.measurement_batches) {
+        if (!Number.isSafeInteger(item.sequence) || item.sequence < 0 || item.sequence >= raw.next_sequence || sequences.has(item.sequence) || !Number.isFinite(Date.parse(item.accepted_at))) throw new Error("Invalid measurement receipt.");
+        validateStoredMeasurement(item);
+        if (ids.has(item.source.batch_id)) throw new Error("Duplicate receipt identity.");
+        ids.add(item.source.batch_id);
+        sequences.add(item.sequence);
+      }
     }
     return raw;
   } catch {
@@ -98,20 +113,21 @@ export function materialize(snapshot: WorkerSnapshot): WorkerStore {
       if (!emissions.has(key) || eventTime >= emissions.get(key)!.time) emissions.set(key, { value: row, time: eventTime });
     }
   }
-  return {
+  return composeMeasurements({
     runs: [...runs.values()],
     statuses: [...statuses.values()].map((row) => row.value),
     traffic: [...traffic.values()].map((row) => row.value),
     emissions: [...emissions.values()].map((row) => row.value),
     batches: snapshot.batches.map(({ batch, accepted_at }) => ({ batch_id: batch.batch_id, revision: batch.revision, accepted_at })),
-  };
+    measurement_batches: [],
+  }, snapshot, loadRegistry());
 }
 
 let cachedRead: { path: string; signature: string; value: WorkerStore } | undefined;
 
 function immutable(store: WorkerStore): WorkerStore {
   // All materialized records are flat. Freezing prevents one reader changing another's cache.
-  for (const collection of [store.runs, store.statuses, store.traffic, store.emissions, store.batches]) {
+  for (const collection of [store.runs, store.statuses, store.traffic, store.emissions, store.batches, store.measurement_batches]) {
     for (const row of collection) Object.freeze(row);
     Object.freeze(collection);
   }
@@ -127,7 +143,7 @@ export function readWorkerStore(): WorkerStore {
       return immutable(materialize(empty()));
     }
     const stat = statSync(/* turbopackIgnore: true */ path, { bigint: true });
-    const signature = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+    const signature = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}:${loadRegistry().digest}`;
     if (cachedRead?.path === path && cachedRead.signature === signature) return cachedRead.value;
     const value = immutable(materialize(readSnapshot(path)));
     cachedRead = { path, signature, value };

@@ -1,89 +1,65 @@
 # Engineering integration readiness
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 19:41 America/New_York / 8 November 2026, 00:41 UTC
-**Status:** First engineering software checkpoint complete; live measurement-to-emissions acceptance remains open.
-**Authority:** [Plan.md](../Plan.md), [Coordination.md](../Coordination.md), contract 1.1.
+**Updated:** 7 November 2026, 20:49 America/New_York / 8 November 2026, 01:49 UTC
+**Status:** Persistent server measurement/scenario software checkpoint complete; opt-in runtime bridge in progress; real scientific acceptance remains open.
+**Authority:** [Plan.md](../Plan.md), [Coordination.md](../Coordination.md), core contract 1.1 and the separately versioned [measurement interface](../backend/MEASUREMENT-INGESTION.md).
 
-## Acceptance and current boundary
+## Current software path
 
-The next live milestone requires one camera to produce reviewed crossings and calibrated completed traversals, server-side traceable CO₂/NOₓ estimates, persisted evidence, and a shorter-stop comparison. The complete live emissions path is **not finished**. It requires additional code as well as physical evidence; it is not only configuration work.
-
-| Layer | Current implementation | Remaining dependency |
+| Layer | Delivered behavior | Remaining dependency |
 |---|---|---|
-| GPU ingestion/tracking | Four independent pipelines and bounded status/preview delivery demonstrated. | Longer runs, controlled source interruptions, held-out traffic/tracking evaluation. |
-| Image observations | Reviewed geometry can drive selected-gate crossings and optional image-space queues. Repository example is disabled. | Scientific review of actual camera configurations and crossing error. Saving a drawing does not validate it. |
-| Completed traversals | Standalone estimator accepts a supplied completed cohort. Worker aggregation still leaves distance, completed traversals, traversal time and stopped seconds null. | Entry/exit traversal producer and approved physical calibration, with explicit run/session and clock provenance. |
-| Emissions | Validated CARB RUNEX catalog and per-completed-traversal arithmetic exist. Worker emits no emissions. | Trusted calibration/class-mapping registries, server orchestration and authoritative composed minute writes. |
-| Scenarios | Independent per-traversal calculator/report is implemented and tested on explicit synthetic inputs. Aggregate-only dashboard API still has null grams, and now suppresses nonzero-change traversal time when its stopped cohort is not linked. | Persisted completed-cohort evidence and an agreed additive UI/brief handoff; minute-average factors are not a substitute. |
-| Persistence | Validated atomic single-host file store and revisioned worker batches. | Shared hosted adapter and a versioned calculation-evidence ledger. Existing SQL drafts are not applied. |
-| Previews | Exact frame/overlay pairs expire in one Node process within 60 seconds. | Single-process deployment or an explicitly shared ephemeral transport; multi-instance memory is not shared. |
+| GPU ingestion/tracking | Independent camera pipelines, estimated media clock, bounded status/preview delivery, and selected-gate image observations. | Longer forced-failure runs and accepted held-out crossing/tracking checks. |
+| Completed traversals | Isolated producer with entry/exit, same-session continuity, source-gap rejection, linked stopped intervals and explicit unavailable states. | Engineering runtime/config/publisher adapter is in progress. Actual accepted movement and stopped policies remain required. |
+| Registry | Strict versioned server JSON loader checks review/evidence, camera/mode/time scope, gate references, nonsingular metre transform, fixed movement distances and CARB VMT weights. Default has no approval. | Independently supported real calibration and reviewed class mixtures must be installed privately. |
+| Ingestion/evidence | Authenticated separately versioned v1.0 snapshots; hashed private session/traversal identities; source revisions, traffic, CO₂/NOₓ and private contributions in one POSIX snapshot commit. | Single-host persistent volume/credential configuration. A shared hosted adapter is deferred. |
+| Corrections | Exact retries, same-revision content denial, higher-revision replacement, corrected minutes, explicit retraction, cross-run/minute ownership and duplicate completed identities. Linked worker revisions invalidate physics atomically. | Source video overlap across reconnects remains a review problem; identities do not deduplicate repeated footage across sessions. |
+| Read/scenario/brief | Existing aggregate reads consume composed results. Per-traversal scenarios keep the original cohort, apply nonlinear factors per vehicle and expose signed CO₂/NOₓ differences. Briefs include quantities and evidence references. | UI owns thin routes, render/export checks and the combined production build. No physical quantity is inferred from a fixture. |
+| Revocation/privacy | Registry fingerprint changes immediately suppress cached distance/grams; authenticated refresh or exact source retry recomputes derivations. Public summaries contain no private traversal/session IDs or registry paths. | Historical detailed calculation bodies are not retained after correction; only current evidence and up to 64 superseded source receipt hashes per batch. |
+| Previews | Matching frame/overlay pairs expire within 60 seconds in one Node process. | Multi-instance deployment needs explicitly shared latest-frame transport; memory is not shared between processes. |
 
-## Proposed measurement-to-calculation handoff
+## Observation and scientific boundaries
 
-Coordination accepted the internal per-completed-traversal stopped-time calculation path in `da94f99`. The scientific [measurement-readiness proposal](./measurement-readiness.md) agrees on completion-minute attribution and separate observed-versus-completed stopped cohorts. Registry/evidence publication details below remain proposals, not permission to mark geometry valid or enable a class mixture. Core contract 1.1 records are retained. No new required worker-packet fields or calibration registry are silently activated.
+Crossings and general observed stopped seconds are independent of completed entry-to-exit traversals. Composition preserves supported count, image queue, general stopped and coverage columns; completion-only nulls do not erase them. Completed-cohort stopped time is linked to those same completed vehicles and is never substituted with the road-wide minute stopped total. No cohort or a queue that has not cleared yields insufficient evidence, never zero grams.
 
-1. **One coherent source scope:** camera ID, worker run, live/replay/synthetic mode, UTC reporting minute, immutable observation revision and time basis. The existing media clock is estimated HLS UTC (`t:hls-min-anchor-v1`), not verified capture UTC. A replay clock describes playback unless original recording context is supplied.
-2. **Completed cohort:** existing `CompletedTraversal` fields (`session_id`, opaque `traversal_id`, `completed_at`, `vehicle_class`, `distance_m`, `traversal_time_s`) plus optional per-traversal `stopped_time_s`. The producer must observe the configured entry-to-exit path within one camera session. Distances need independently supported road calibration. Completion timestamps must fall in the requested reporting minute; convert UTC `+00:00` values to canonical `Z` at the boundary without pretending capture UTC was measured.
-3. **Stopped-time cohort:** per-traversal stopped seconds refer to those same completed vehicles, within their own total traversal times. `traffic_minute.stopped_vehicle_seconds` can include other vehicles still in view; it cannot be subtracted from completed traversal time as if the cohorts matched.
-4. **Trusted calibration registry:** use the existing `CameraCalibration` ID/version/status/gates/reference-measurements/transform shape. The scientific stream must propose the concrete reference/transform representation, coordinate frame, measured units, independent validation evidence and validity limits. A versioned JSON carrier shared by Python and the server is preferred to two manually divergent registries, subject to coordination. The current server registry remains missing for every camera. A worker's assertion of `valid` is not approval.
-5. **Explicit mapping registry:** engineering can load a versioned `ClassMapping` only after its VMT weights and evidence/scenario assumptions are reviewed. No default car-to-LDA, truck-weight mixture or Tesla EV discount enters live totals. The retained CARB factors already include regional fuel/model-year mixtures. Temperature/humidity remain explicit supported assumptions, not current weather observations.
-6. **Calculation evidence:** retain calibration/mapping/factor/method versions, meteorology, source run/revision/time basis and per-traversal factor/bin contributions under a private evidence reference. Keep raw footage, plate/person identities and model weights out of this ledger. Opaque traversal identities exist only for camera/session deduplication and traceability; they are not cross-camera vehicle identities.
+The producer requests versions/movement IDs; the server resolves approval and fixed supported metre distances. Worker distances, transforms, valid flags and gram totals are unsupported transport fields. Synthetic-only review records cannot enable live/replay. Calibration validity checks include the observation source interval; public readiness describes approval at the reporting clock. Historical per-minute validity can differ from current readiness.
 
-### Proposed server composition boundary
+Only RUNEX is used; ordinary driving-cycle stops are already included. No additional ordinary-idle term, engine-running claim, EV discount or uncertainty interval is introduced. Unknown/unmapped classes withhold the whole pollutant total. Temperature/humidity are explicit assumptions within the retained Los Angeles (SC), 2026 factor scope. No current weather observation is implied.
 
-The implemented [build_completed_traversal_report](../backend/TRAVERSAL-REPORT.md) is a pure calculation/report boundary: validated supplied traversals → contract-shaped completion aggregates + emissions + optional per-traversal scenario evidence. Its stage is `calculation_only`; it does not register calibration, publish a live record, overwrite a crossing snapshot or write persistence.
+## Timing, identity and atomicity
 
-Crossing counts and completed traversals are different observations. The report leaves line `count`, all-observed stopped seconds, queue and coverage unavailable unless their proper producer supplies them. Before publication, a server orchestrator must compose the crossing snapshot with the completed-cohort output for the **same** camera/run/mode/minute/revision. Blindly upserting report rows with null counts over worker crossing rows would erase supported counts; summing the two would also be wrong.
+Source UTC is explicitly estimated as `min(received_at - media_time) + media_time` per camera session. It does not establish capture UTC or minimum transport delay. Advancing-frame processing heartbeats still determine status freshness. Reconnects have independent clocks and identities. Cross-run overlap conflicts rather than silently overwriting counts; repeated source footage needs independent review.
 
-The authoritative composed batch should update traffic and both pollutant rows together, with matching evidence/revision references. If media-clock alignment changes a reporting minute, retract/recompute its dependent traffic, emissions and scenarios coherently; the current empty-revision mechanism must not leave old emissions behind in another batch. A private evidence table/ledger and the registry/transport linkage need a concrete proposal and coordination decision before a producer/consumer contract changes. No migration is applied in this checkpoint. The legacy aggregate-only scenario no longer subtracts general observation-minute stops from completed-cohort duration; nonzero changes withhold scenario traversal time until linked per-traversal evidence exists.
+One writer lock and one fsynced atomic file replacement commit the authoritative source revision, composed traffic, both pollutant rows and private evidence. There is no second independently renamed evidence file presented as a transaction. Worker 1.1 remains accepted unchanged; observation reference changes trigger dependent recalculation/withholding under that same transaction. A measurement UUID correction may move its minute; the old derived minute disappears when the replacement commits. Retraction removes measurement-owned results and preserves independently supplied legacy observations. Exact retries never increment counts.
 
-## Independent scenario calculation
+The local snapshot retains up to 5,000 worker batches and 1,000 measurement batches, bounded by a 24-hour acceptance horizon and a shared 32 MiB ceiling. Corruption fails closed and preserves the file. Source identities are hashed with camera/run scope before persistence. Public scenarios, brief/export text and measurement/camera reads contain aggregates/evidence references only; per-traversal contributions require bearer authentication.
 
-The implemented [scenario engine](../emissions/SCENARIOS.md) uses the existing per-traversal RUNEX estimator with identical calibration, class mapping, factor catalog and meteorology on both sides. For each completed vehicle, hold distance and the original cohort fixed and set:
+## Scenario binding
+
+For each original completed vehicle:
 
 ```text
-scenario traversal time = observed total time - observed stopped time × reduction fraction
+scenario traversal time = observed total time - linked stopped time × reduction fraction
 ```
 
-Then select each traversal's own speed bin and sum its grams. Do not apply a nonlinear factor to a whole-minute average. Stops are already included in RUNEX; add no separate ordinary-idle term. Missing stopped evidence or a zero remaining duration withholds the scenario instead of inventing zero emissions or infinite speed. Zero reduction may return the unchanged supported baseline. A faster scenario can increase a pollutant estimate across factor bins; do not clamp it to a saving.
+Keep distance, original reporting membership, class mix, meteorology and factor catalog fixed. Select each vehicle's scenario speed bin before summing. Signed changes may increase a pollutant; do not clamp them to savings. Missing linked stopped evidence withholds positive-reduction scenarios while retaining supported baseline estimates. Zero reduction may preserve baseline without stopped evidence. A zero remaining duration or speed outside factor support withholds the requested scenario. Hypothetical outputs never enter observed live totals.
 
-The cohort retains its original reporting membership for comparison. This is not a prediction that signal changes move the same vehicles between minutes, and it omits network effects and displaced queues. Unsupported EV replacement and statistical confidence intervals remain out of scope. Explicit synthetic calibration/mapping inputs can verify this arithmetic without activating them for a real camera.
+The additive public scenario fields name CO₂ and NOₓ separately. The legacy unlabeled `estimate_g` remains null. General observation stopped seconds retain their original descriptive meaning; the explicit `completed_cohort` reports the linked comparison cohort.
 
-## Reliability coverage and topology
+## Verification completed at the server checkpoint
 
-Published GPU evidence covers a 120-second four-camera benchmark and a separate 90-second local delivery run, with 82 measurement buffer drops in the benchmark. This does not establish six-hour reliability or forced source-outage recovery. Stream reconnect unit tests use scripted capture failures; tracker callback tests check actual persistence/reset on synthetic boxes. HTTP/outbox tests cover transient failures and exact retry identity, while backend tests cover atomic revisions, corrupt-store failure and receipt ordering. These must not be described as a forced live HLS outage.
+`npm test -w @emission-lens/backend` passes **95 tests**; `npx tsc -p backend/tsconfig.json` and `npx tsc -p contracts/tsconfig.json` pass. Thirteen new measurement integration checks cover ingest → durable reload → reads → per-pollutant scenario → brief, source integrity and privacy, immutable retries, revisions/retractions/clock corrections, mode/run overlap, missing/unapproved/time-scoped registries, immediate revocation, observation-reference changes, missing stops, unknown classes/movements, HTTP authentication and body/query bounds. Approval records exist only in temporary synthetic test stores.
 
-A deployable first topology can retain the current stack: **one persistent Node application process**, a private durable POSIX data volume, server-side worker credential, and an authenticated outbound worker connection through TLS or the verified SSH relay. No public GPU endpoint is needed. This is a topology proposal, not a provisioned deployment. Review TLS, backup/restore and credential provisioning before publication; none is created by this checkpoint.
+The preceding 82-test checkpoint includes pure estimator/report/scenario arithmetic and independent atomic reader, failed commit, lost acknowledgement and stale-lock recovery checks. An abandoned recovery claim fails closed rather than being recursively reaped. These tests do not constitute a forced live HLS outage or measured crossing accuracy.
 
-For independent application instances or a serverless frontend, replace local persistence with a shared database adapter and route reads/writes through the same authority. Existing sync query/store calls would need an explicit async/read-adapter boundary; copying a local JSON file into a serverless filesystem is not shared persistence. Keep preview JPEGs in a separate latest-frame transport/cache with bounded TTL and camera/mode isolation, or route them through one persistent preview service. Do not persist raw previews as long-term database evidence. Current per-process memory cannot support random load-balanced preview reads.
+Engineering does not run the production web build during this shared wave; UI owns it and coordination runs independent final HTTP acceptance. No new GPU training, model promotion, hosting, public port, physical calibration or production class mapping is activated here.
 
-## Next dependencies
+## Remaining acceptance
 
-- Scientific stream: measurement-readiness proposal, actual reviewed image geometry, entry/exit and reference/transform representation, independently supported distances and per-completed-vehicle stopped evidence.
-- Coordination: approve calibration registry/clock/observation-revision linkage, calculation-evidence persistence and authoritative composed minute ownership before incompatible interfaces are implemented.
-- Engineering: the pure report/scenario checkpoint is complete. Next implement the approved producer/orchestrator/persistence wiring. Live emissions remain unavailable until both code and evidence pass.
-- Dashboard: consume explicit per-pollutant scenario evidence after that handoff; retain existing nulls while no supported source exists. Aggregate-only scenario grams remain unfinished.
+1. Complete and test the default-disabled runtime bridge using the producer and additive measurement transport; publish exact private configuration/setup steps.
+2. UI/coordination finish combined route/render/export and HTTP restart/revocation checks on a stable published revision.
+3. Install independently supported calibration and accepted movement/class/stopped evidence privately after Mert/Carter count review; demonstrate one camera end to end before expansion.
+4. Run the actual configured pipeline through bounded source outage/reconnect/restart and replay acceptance, then rehearse the demonstration and retain its limitations.
+5. Provision shared hosted storage only if moving beyond the persistent single-host topology. Promise-based ingestion transactions are ready for an adapter; synchronous compatibility reads still require deliberate migration.
 
-## Completed checkpoint and exact verification
-
-- `displayedState` preserves an explicitly stored offline state as its last heartbeat ages. Stale active states still become degraded. A focused regression covers both behaviors.
-- `build_completed_traversal_report` validates supplied cohorts, produces existing completion aggregates and per-traversal estimated emissions, and optionally attaches a separate hypothetical scenario. `count`, general-observation stopped seconds, queues and coverage remain null. This function writes no store and approves no calibration.
-- `compare_completed_traversal_scenario` computes baseline/scenario per vehicle, preserves the original cohort, and returns signed CO₂/NOₓ changes. Tests use retained factors with explicitly synthetic calibration and mapping assumptions; no live configuration is activated.
-- Aggregate-only `compare_scenario` retains the illustrative stopped-time reduction but withholds nonzero-change traversal durations/speeds/grams because road-wide stops are not a completed cohort. Zero change can preserve original supported traversal duration.
-- A narrow recovery-claim fix serializes stale writer-lock reapers and rereads the current owner before deletion. [Six reliability checks](../backend/RELIABILITY.md) cover active-owner contention, confirmed dead-owner recovery, held recovery claims, controlled concurrent reapers, independent atomic readers, failed transactions and a lost HTTP acknowledgement followed by an idempotent retry. An abandoned recovery claim fails closed and requires controlled operator recovery; it is not recursively reaped.
-
-Verification on this checkpoint: `npm test` passes **82 backend tests**; `npx tsc -p backend/tsconfig.json` and `npx tsc -p contracts/tsconfig.json` pass. The 12 scenario tests and 11 report tests exercise supported synthetic inputs, nonlinear bins, missing evidence, mode/window/identity validation and input immutability. Initial test-orchestration and expectation errors were corrected before the passing runs. No production web build is run by engineering during this wave; dashboard acceptance owns that build and coordination arranges combined validation. No new GPU job, training, hosting, source-stream collection, public port or camera activation occurs in this checkpoint.
-
-## Rough effort and next dependency
-
-The immediate target remains the existing persistent single-host demonstration. This is a dependency assessment, not a promised delivery time:
-
-| Remaining software work | Relative effort after accepted inputs | Required first |
-|---|---|---|
-| Same-session entry/exit producer with per-traversal stopped evidence and continuity rejection | Medium, one or two focused implementation/clip-test checkpoints | Scientific movement/gate semantics, actual reviewed geometry, supported distance method and stopped policy. |
-| Trusted calibration/mapping loader and authoritative composed traffic/emissions writer with private evidence revisions | Medium, one coordinated checkpoint plus tests | Approved shared representation, version/provenance linkage and explicit mapping assumptions. |
-| Scenario/read/brief handoff and one-camera delivery/replay/outage acceptance | One combined checkpoint | Persisted accepted cohort/evidence and coordinated UI per-pollutant consumption. |
-| Multi-instance hosting | Deferred | Complete and rehearse the single-host path first. |
-
-Missing physical references and independent held-out validation can block live acceptance regardless of software progress. They have no credible completion time derived from this engineering checkpoint. No camera/class evidence is replaced by the synthetic test fixtures.
+Missing physical references and held-out validation can block live acceptance regardless of software progress. No synthetic test fixture replaces that evidence or supplies a credible field-acceptance time.

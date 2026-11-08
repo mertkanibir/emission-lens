@@ -33,3 +33,5 @@ export type {
 export { sumStrict, validateEmissionsMinute, validateTrafficMinute } from "./validate.ts";
 export { parseWorkerBatch } from "./ingest.ts";
 export type { WorkerBatch } from "./ingest.ts";
+export { MEASUREMENT_VERSION, parseMeasurementBatch } from './measurement.ts';
+export type { MeasurementBatch, MeasurementObservation, MeasurementTraversal } from './measurement.ts';

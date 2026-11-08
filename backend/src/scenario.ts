@@ -1,5 +1,12 @@
-import { calibrationFor, sumStrict, type Mode, type VehicleClass } from "@emission-lens/contracts";
+import {
+  calibrationFor,
+  sumStrict,
+  type Mode,
+  type VehicleClass,
+} from "@emission-lens/contracts";
 import { get_emissions_window, get_traffic_window } from "./queries.ts";
+import { read_measurement_window } from "./measurements.ts";
+import type { MeasurementScenarioView } from "./measurement-types.ts";
 
 export interface ClassComparison {
   vehicle_class: VehicleClass;
@@ -31,6 +38,10 @@ export interface ScenarioComparison {
   baseline: ScenarioSide;
   scenario: ScenarioSide;
   limitations: string[];
+  pollutants: MeasurementScenarioView["pollutants"];
+  completed_cohort: MeasurementScenarioView["completed_cohort"];
+  evidence_refs: string[];
+  calculation_assumptions: string[];
 }
 
 function adjustTiming(
@@ -54,7 +65,9 @@ function sideFrom(
   allowSpeed: boolean,
 ): ScenarioSide {
   const average_speed_m_s =
-    allowSpeed && distance !== null && traversal !== null && traversal > 0 ? distance / traversal : null;
+    allowSpeed && distance !== null && traversal !== null && traversal > 0
+      ? distance / traversal
+      : null;
   return {
     count,
     distance_m: distance,
@@ -74,18 +87,39 @@ export function compare_scenario(input: {
 }): ScenarioComparison {
   const reduction = input.stoppedTimeReductionPct;
   if (!Number.isFinite(reduction) || reduction < 0 || reduction > 100) {
-    throw new Error("Stopped-time reduction must be a percentage from 0 to 100.");
+    throw new Error(
+      "Stopped-time reduction must be a percentage from 0 to 100.",
+    );
   }
   const share = input.electricFleetShare ?? null;
   if (share !== null && (!Number.isFinite(share) || share < 0 || share > 1)) {
-    throw new Error("Electric fleet share must be between 0 and 1, or omitted.");
+    throw new Error(
+      "Electric fleet share must be between 0 and 1, or omitted.",
+    );
   }
 
-  const traffic = get_traffic_window({ cameraId: input.cameraId, mode: input.mode, now: input.now });
+  const traffic = get_traffic_window({
+    cameraId: input.cameraId,
+    mode: input.mode,
+    now: input.now,
+  });
+  const measurement = read_measurement_window({
+    cameraId: input.cameraId,
+    mode: input.mode,
+    now: input.now,
+    stoppedTimeReductionPct: reduction,
+  });
+  const measured = measurement.minutes.length > 0;
   const calibration = calibrationFor(input.cameraId);
-  const allowSpeed = calibration.validation_status === "valid";
+  const allowSpeed = measured
+    ? measurement.scenario.completed_cohort.baseline.distance_m !== null
+    : calibration.validation_status === "valid";
   const classes: ClassComparison[] = traffic.rows.map((row) => {
-    const next = adjustTiming(row.stopped_vehicle_seconds, row.traversal_time_s, reduction);
+    const next = adjustTiming(
+      row.stopped_vehicle_seconds,
+      row.traversal_time_s,
+      reduction,
+    );
     return {
       vehicle_class: row.vehicle_class,
       count: row.count,
@@ -97,7 +131,11 @@ export function compare_scenario(input: {
     };
   });
 
-  const emissions = get_emissions_window({ cameraId: input.cameraId, mode: input.mode, now: input.now });
+  const emissions = get_emissions_window({
+    cameraId: input.cameraId,
+    mode: input.mode,
+    now: input.now,
+  });
   const limitations = [
     "This is a hypothetical stopped-time change. It does not show that a signal adjustment would produce it.",
     "Network effects and displaced queues are not modeled.",
@@ -105,6 +143,10 @@ export function compare_scenario(input: {
     "Scenario ranges are not statistical confidence intervals.",
     "Observed minute stopped seconds and completed-traversal durations can describe different vehicles. Nonzero changes need per-traversal stopped evidence before scenario traversal time, speed or grams can be calculated.",
   ];
+  if (measured) {
+    limitations.splice(4, 1);
+    limitations.push(...measurement.scenario.limitations);
+  }
   if (!allowSpeed) {
     limitations.push(
       "Calibration is not valid. Average speed and distance-based emissions are suppressed. Counts and stopped time remain.",
@@ -116,7 +158,9 @@ export function compare_scenario(input: {
     );
   }
   if (traffic.rows.length === 0) {
-    limitations.push("No completed traversals in this window. Emissions evidence is insufficient, not zero.");
+    limitations.push(
+      "No completed traversals in this window. Emissions evidence is insufficient, not zero.",
+    );
   }
 
   return {
@@ -131,16 +175,24 @@ export function compare_scenario(input: {
       traffic.totals.count,
       allowSpeed ? traffic.totals.distance_m : traffic.totals.distance_m,
       traffic.totals.stopped_vehicle_seconds,
-      traffic.totals.traversal_time_s,
+      measured
+        ? measurement.scenario.completed_cohort.baseline.traversal_time_s
+        : traffic.totals.traversal_time_s,
       allowSpeed,
     ),
     scenario: sideFrom(
       traffic.totals.count,
       traffic.totals.distance_m,
       sumStrict(classes.map((row) => row.scenario_stopped_vehicle_seconds)),
-      sumStrict(classes.map((row) => row.scenario_traversal_time_s)),
+      measured
+        ? measurement.scenario.completed_cohort.scenario.traversal_time_s
+        : sumStrict(classes.map((row) => row.scenario_traversal_time_s)),
       allowSpeed,
     ),
     limitations,
+    pollutants: measurement.scenario.pollutants,
+    completed_cohort: measurement.scenario.completed_cohort,
+    evidence_refs: measurement.evidence_refs,
+    calculation_assumptions: measured ? measurement.scenario.assumptions : [],
   };
 }

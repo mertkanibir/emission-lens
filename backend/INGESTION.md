@@ -33,7 +33,7 @@ This is a single-host store for a local or self-hosted demonstration. Do not pla
 - Ended runs publish offline camera states. An old retry cannot resurrect that run.
 - The local ledger prunes on successful writes to the most recently accepted **5,000 batches within 24 hours**. History and duplicate receipts are limited to that retention horizon. It is not a permanent archive. A separate **32 MiB** snapshot ceiling returns HTTP 507 before replacing the existing store. Old batches without an event in the current 24-hour window are rejected.
 
-Synthetic writes cannot alter the dashboard's labeled synthetic fixtures. Persisted live and replay rows are read separately. Synthetic data never enters live totals.
+Legacy synthetic worker writes do not alter the labeled synthetic fixtures. The separate measurement path may create an explicitly synthetic persisted test namespace; when its receipts exist, synthetic reads use that namespace, including after retraction, rather than resurrecting static fixtures. Live/replay remain separate and synthetic data never enters live totals.
 
 ## Scientific limits
 
@@ -48,3 +48,6 @@ By default the runtime publishes empty traffic/emissions arrays. Explicitly enab
 **Preview note (7 November 2026, 18:30 America/New_York / 23:30 UTC):** `POST /api/frames` uses the same private bearer token and a bounded JSON body containing one JPEG with matching worker-drawn overlays. `GET /api/cameras/[id]/frame?mode=live|replay` returns the latest labeled frame. The process holds at most eight camera/mode frames, removes them within 60 seconds, and never writes them to disk or the aggregate ledger. Multi-process or multi-host deployments need a separate ephemeral preview transport; this implementation is verified in one local server process.
 
 **Documentation note (7 November 2026, 18:53 America/New_York / 23:53 UTC):** Mert reconciled these instructions with the implemented media-clock correction, empty-batch retractions and optional reviewed image measurements. Contract 1.1 fields are unchanged. [Timing evidence and limitations](../evaluation/timing-alignment.md) remain distinct from capture-time, calibration or environmental-impact validation.
+
+
+**Measurement extension (7 November 2026, 20:49 America/New_York / 8 November 2026, 01:49 UTC):** [Measurement v1.0](./MEASUREMENT-INGESTION.md) extends the same private atomic snapshot with source revisions, completed-cohort evidence and authoritative CO₂/NOₓ rows. Worker contract 1.1 still rejects caller-supplied unsupported physical quantities. Measurement distances and mixture approval resolve solely from the private server registry. Observation-revision changes atomically invalidate their dependent calculation while preserving independent crossing/queue/general-stop fields. Read-cache identity includes the current registry fingerprint, so revoked approval cannot leave old physical values cached. Public reads never expose raw traversal/session identifiers. The old static-calibration statement below applies to the legacy route; no real calibration is activated by this extension.

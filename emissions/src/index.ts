@@ -249,3 +249,6 @@ export function estimate_completed_traversals(input: EstimateInput): EstimateRes
   });
   return base;
 }
+
+/** Registry loaders validate reviewed mixtures without activating a camera. */
+export { validateMapping as validate_class_mapping };

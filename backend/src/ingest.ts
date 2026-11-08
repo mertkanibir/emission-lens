@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 import { parseWorkerBatch, type WorkerBatch } from "../../contracts/src/ingest.ts";
 import { IngestError, materialize, MAX_STORED_BATCHES, STORE_RETENTION_MS, storePath, trafficKey, withStoreLock } from "./persistence.ts";
+import { refreshDerivedMeasurements } from "./measurement-core.ts";
+import { loadRegistry } from "./registry.ts";
 
 export { IngestError, readWorkerStore } from "./persistence.ts";
 
@@ -33,6 +35,7 @@ export function ingestWorkerBatch(value: unknown, now = new Date()): IngestRecei
   if (batch.run.ended_at !== null && batch.statuses.some((row) => row.state !== "offline")) throw new IngestError("An ended run must publish offline camera statuses.", 400);
   return withStoreLock<IngestReceipt>(path, (snapshot) => {
     const retained = snapshot.batches.filter((row) => Date.parse(row.accepted_at) >= nowMs - STORE_RETENTION_MS);
+    if (snapshot.measurement_batches?.some(row => row.source.batch_id === batch.batch_id)) throw new IngestError("Batch identity already belongs to measurement ingestion.", 409);
     const previous = retained.find((row) => row.batch.batch_id === batch.batch_id);
     if (previous) {
       if (batch.revision < previous.batch.revision) throw new IngestError("Batch revision is older than its stored revision.", 409);
@@ -48,13 +51,14 @@ export function ingestWorkerBatch(value: unknown, now = new Date()): IngestRecei
     if (previousRun?.device !== undefined && previousRun.device !== null && previousRun.device !== batch.run.device) throw new IngestError("An established worker device cannot change or become unavailable.", 409);
     if (previousRun?.ended_at !== null && previousRun?.ended_at !== undefined && previousRun.ended_at !== batch.run.ended_at) throw new IngestError("A completed worker run cannot be reopened or change its end time.", 409);
     for (const row of batch.traffic) {
+      if (snapshot.measurement_batches?.some(entry => !entry.source.retract && entry.source.camera_id === row.camera_id && entry.source.mode === row.mode && Date.parse(entry.source.minute) === Date.parse(row.minute) && entry.source.run.run_id !== row.run_id)) throw new IngestError("A measured camera-minute belongs to another worker run. Resolve restart overlap explicitly.", 409);
       if (current.traffic.some((stored) => trafficKey(stored) === trafficKey(row) && stored.run_id !== row.run_id)) throw new IngestError("A camera-minute class already belongs to another worker run. Do not overwrite overlapping observations.", 409);
     }
     const accepted_at = now.toISOString();
     const entry = { sequence: previous?.sequence ?? snapshot.next_sequence, accepted_at, batch };
     const next = retained.filter((row) => row.batch.batch_id !== batch.batch_id).concat(entry).sort((a, b) => Date.parse(a.accepted_at) - Date.parse(b.accepted_at)).slice(-MAX_STORED_BATCHES).sort((a, b) => a.sequence - b.sequence);
     return {
-      snapshot: { schema_version: 1, next_sequence: previous ? snapshot.next_sequence : snapshot.next_sequence + 1, batches: next },
+      snapshot: refreshDerivedMeasurements({ ...snapshot, schema_version: 1, next_sequence: previous ? snapshot.next_sequence : snapshot.next_sequence + 1, batches: next }, loadRegistry()),
       result: { batch_id: batch.batch_id, revision: batch.revision, duplicate: false, accepted_at },
     };
   });
