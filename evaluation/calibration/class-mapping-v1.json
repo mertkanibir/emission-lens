@@ -1,0 +1,63 @@
+{
+ "version": "pretrained-visual-to-emfac2007-v1",
+ "region": "Los Angeles (SC)",
+ "calendar_year": 2026,
+ "classes": {
+  "car": [
+   {
+    "emfac_class": "LDA",
+    "vmt_share": 0.5
+   },
+   {
+    "emfac_class": "LDT1",
+    "vmt_share": 0.1
+   },
+   {
+    "emfac_class": "LDT2",
+    "vmt_share": 0.4
+   }
+  ],
+  "truck": [
+   {
+    "emfac_class": "LDT2",
+    "vmt_share": 0.5
+   },
+   {
+    "emfac_class": "MDV",
+    "vmt_share": 0.21
+   },
+   {
+    "emfac_class": "LHDT2",
+    "vmt_share": 0.11
+   },
+   {
+    "emfac_class": "MHDT",
+    "vmt_share": 0.11
+   },
+   {
+    "emfac_class": "HHDT",
+    "vmt_share": 0.07
+   }
+  ],
+  "bus": [
+   {
+    "emfac_class": "UBUS",
+    "vmt_share": 1.0
+   }
+  ],
+  "motorcycle": [
+   {
+    "emfac_class": "MCY",
+    "vmt_share": 1.0
+   }
+  ]
+ },
+ "basis": {
+  "truck": "Shares of the 58 human-labeled trucks in the 60 held-out test frames at these cameras: 41 pickup (LDT2 0.50, MDV 0.21), 13 box truck (LHDT2 0.11, MHDT 0.11), 4 tractor-trailer (HHDT 0.07). Every vehicle on a fixed segment drives the same distance, so vehicle share equals VMT share there.",
+  "car": "Explicit scenario assumption, not measured: the detector does not separate sedans from SUVs and minivans. LDA 0.50, LDT1 0.10, LDT2 0.40. Replace with EMFAC Los Angeles (SC) 2026 VMT shares when available.",
+  "bus": "Assumption: transit bus (UBUS). Shuttles seen at these cameras are cutaway vans, so this may overstate bus emissions slightly.",
+  "motorcycle": "EMFAC MCY.",
+  "ev": "Fuel-aggregated factors already include the regional EV share; no extra EV discount."
+ },
+ "applies_to": "pretrained yolo11n/yolo11s classes car, truck, bus, motorcycle"
+}
