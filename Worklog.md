@@ -40,6 +40,19 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 - **Done:** Read the recent completed work and user constraints for the three existing implementation work streams. Established centralized direction in `Coordination.md` and linked it from the master plan. Defined disjoint engineering, scientific-evidence and dashboard ownership, protected Carter's training/labeling work, and set one verified camera-to-emissions/scenario flow as the next milestone. Defined shared-checkout safeguards, contract proposal gates and report requirements.
 - **Completed:** The existing work streams were identified and their last assignments were complete. Published the coordination scope, sent all three authorized task assignments, and verified that each acknowledged its ownership and began work. This changes project coordination documentation only; no runtime, schema, model, calibration or class mixture is changed.
 - **Still open:** Review the three in-progress implementation checkpoints, verify their evidence and resolve handoffs. Physical calibration, approved mappings, complete traffic/emissions/scenario integration, longer reliability checks, hosted deployment and final demo/submission remain open. No new accuracy, live-emissions or environmental-impact claim is made.
+### 7 November 2026, 19:30 America/New_York (00:30 UTC)
+
+- **Who:** Carter
+- **Done:** Added `evaluation/check_counts.py`, which exports a stretch of a recorded clip with gates and a clip clock for manual counting, and runs the live worker's detector, tracker, and gate metrics on the same stretch using an in-memory reviewed copy of the geometry.
+- **Completed:** All tests pass. Camera 222's review video (clip time 1:00 to 3:00) and model count are written to the ignored `data/raw/count_check/`; the model count is held back until Carter's manual count is done.
+- **Still open:** Carter's manual count for 222, then cameras 220, 223, and 228. Retraining with more data is deferred until the product works on the pretrained model; the MIO-TCD converter was removed.
+
+### 7 November 2026, 19:05 America/New_York (00:05 UTC)
+
+- **Who:** Carter
+- **Done:** Drew road regions, parking exclusions, and counting gates for cameras 220, 222, 223, and 228 (`config/cameras/<id>.measurement.json`, version v1, disabled and unvalidated). The drawing tool now checks each outline when Enter is pressed and previews the closing edge. Re-ran the detector comparison on Mert's tuned model (job 175644).
+- **Completed:** All four configs load with `MetricsConfig.from_dict`. The independent comparison reproduces Mert's result: tuned any-vehicle F1 83% vs 90% pretrained; truck precision rose from 21% to 32% but truck recall fell from 58% to 27%; bus, motorcycle, tractor-trailer, and Tesla got worse or stayed at zero. The pretrained model stays in use.
+- **Still open:** Gate counts need checking against manual crossing counts on recorded clips before any camera is marked reviewed. The tuned weights stay local in `weights/` and are not committed.
 
 ### 7 November 2026, 18:55 America/New_York (23:55 UTC)
 

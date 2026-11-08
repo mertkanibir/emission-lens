@@ -41,6 +41,15 @@ def test_a_shape_with_too_few_points_is_not_stored():
     assert draft.road_region == []
 
 
+def test_a_crossing_outline_is_refused_at_enter_and_kept_for_fixing():
+    draft = GeometryDraft("220")
+    for point in [(0.1, 0.1), (0.9, 0.9), (0.9, 0.1), (0.2, 0.6)]:  # Lopsided bow tie.
+        draft.click(point)
+    error = draft.finish()
+    assert "crossing edges" in error and "u to undo" in error
+    assert draft.road_region == [] and len(draft.points) == 4
+
+
 def test_validate_reports_the_workers_own_error():
     draft = drawn(("road", SQUARE), ("gate", [(0.05, 0.5), (0.8, 0.5)]))  # Starts outside the road.
     assert "inside the road region" in validate(draft)
