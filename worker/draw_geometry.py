@@ -24,7 +24,7 @@ import cv2
 import numpy as np
 
 from worker.config import DEFAULT_CAMERA_DIR, load_cameras
-from worker.metrics import MetricsConfig
+from worker.metrics import MetricsConfig, _polygon
 
 CLIP_DIR = Path(__file__).resolve().parents[1] / "data" / "raw" / "clips"
 FRAME_AT_S = 60.0
@@ -57,15 +57,21 @@ class GeometryDraft:
         self.points = []
         self.mode = mode
 
-    def finish(self) -> None:
-        """Store the current shape; too few points is ignored."""
-        if self.mode == "road" and len(self.points) >= 3:
-            self.road_region = self.points
-        elif self.mode == "excluded" and len(self.points) >= 3:
-            self.excluded_regions.append(self.points)
+    def finish(self) -> str | None:
+        """Store the current shape, or return why it cannot be stored and keep its points."""
+        if self.mode in ("road", "excluded"):
+            try:
+                _polygon(self.points, f"{self.mode} region")
+            except ValueError as error:
+                return f"{error} Press u to undo points, or {self.mode[0]} to start over."
+            if self.mode == "road":
+                self.road_region = self.points
+            else:
+                self.excluded_regions.append(self.points)
         elif self.mode == "gate" and len(self.points) == 2:
             self.gates.append((self.points[0], self.points[1]))
         self.points = []
+        return None
 
     def undo(self) -> None:
         if self.points:
@@ -160,6 +166,9 @@ def render(frame: np.ndarray, draft: GeometryDraft, message: str) -> np.ndarray:
         cv2.putText(canvas, f"count-{i + 1} +", px(tip), cv2.FONT_HERSHEY_SIMPLEX, 0.6, COLORS["gate"], 2)
     for a, b in zip(draft.points, draft.points[1:]):
         cv2.line(canvas, px(a), px(b), COLORS["drawing"], 2)
+    if draft.mode != "gate" and len(draft.points) >= 3:
+        # The edge Enter will add, so a crossing is visible before it happens.
+        cv2.line(canvas, px(draft.points[-1]), px(draft.points[0]), COLORS["drawing"], 1, cv2.LINE_AA)
     for p in draft.points:
         cv2.circle(canvas, px(p), 4, COLORS["drawing"], -1)
     banner = f"camera {draft.camera_id} | drawing: {draft.mode} | r road  x exclude  g gate  enter finish  u undo  d delete  s save  esc quit"
@@ -198,8 +207,7 @@ def main() -> None:
                        "excluded": "Click around a parking lot or sidewalk, then enter.",
                        "gate": "Click two points across the lanes to count."}[draft.mode]
         elif key in (13, 10):
-            draft.finish()
-            message = "Shape stored."
+            message = draft.finish() or "Shape stored."
         elif key == ord("u"):
             draft.undo()
         elif key == ord("d"):
