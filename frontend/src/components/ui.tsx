@@ -3,6 +3,7 @@ import type { CameraState, QualityState } from "@emission-lens/contracts";
 import { qualityLabel, stateLabel } from "@/lib/format";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { scenarioValue } from "@/lib/scenario-presentation";
+import { queueValueDescription } from "@/lib/observation-presentation";
 
 /** Three-lamp signal head: green lit for live, amber for degraded, unlit for offline. */
 export function SignalHead({
@@ -54,6 +55,23 @@ export function Quantity({
     <span className="q">
       <AnimatedNumber value={value} digits={digits} />
       {unit ? <span className="q-unit">{unit}</span> : null}
+    </span>
+  );
+}
+
+/** Positive queue observations support a visible lower bound, never a complete physical queue. */
+export function QueueQuantity({ value, unavailable = "No queue observation" }: {
+  value: number | null;
+  unavailable?: string;
+}) {
+  if (value === null || !Number.isInteger(value) || value < 0) return <Quantity value={null} unavailable={unavailable} />;
+  const description = queueValueDescription(value);
+  return (
+    <span role="img" aria-label={description} title={description}>
+      <span className="q" aria-hidden="true">
+        {value > 0 ? "≥" : null}<AnimatedNumber value={value} digits={0} />
+        <span className="q-unit">vehicles</span>
+      </span>
     </span>
   );
 }

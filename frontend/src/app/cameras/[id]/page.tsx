@@ -26,7 +26,7 @@ import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
 import { MeasurementScope } from "@/components/MeasurementScope";
 import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
 import { latestSupportedMapEstimate } from "@/lib/map-emissions";
-import { measurementSupport, queueObservation } from "@/lib/observation-presentation";
+import { measurementSupport, queueObservation, queueValueDescription, queueScopeDescription } from "@/lib/observation-presentation";
 import { measurementScope } from "@/lib/measurement-scope";
 import { ScenarioPollutants } from "@/components/ScenarioPollutants";
 import { registryCalibrationState, scenarioPollutantRows, observationStoppedRows } from "@/lib/measurement";
@@ -34,6 +34,7 @@ import { recordedMinuteHistory } from "@/lib/minute-history";
 import {
   Panel,
   Quantity,
+  QueueQuantity,
   EmissionQuantity,
   QualityChip,
   Readout,
@@ -291,14 +292,12 @@ export default async function CameraPage({
           <article className="summary-card summary-card--queue">
             <span className="section-kicker">Latest queue observation</span>
             <strong>
-              <Quantity
+              <QueueQuantity
                 value={queue.value}
-                digits={0}
-                unit="vehicles"
                 unavailable={queue.label}
               />
             </strong>
-            <p>{queue.value !== null && queue.minute ? <>Latest observation · {formatInstant(queue.minute, PACIFIC)}. Image count, not length.</> : queue.detail}</p>
+            <p>{queue.value !== null && queue.minute ? <>{queueValueDescription(queue.value)} · <time dateTime={queue.minute}>{formatInstant(queue.minute, PACIFIC)}</time>. {queueScopeDescription(queue.value)}</> : queue.detail}</p>
           </article>
           <article className="summary-card summary-card--coverage">
             <span className="section-kicker">Recorded-minute coverage</span>
@@ -501,11 +500,9 @@ export default async function CameraPage({
                     cannot establish whether an engine is running.
                   </p>
                   <dl className="readouts readouts-2">
-                    <Readout label="Latest queue observation" detail={queue.value !== null && queue.minute ? formatInstant(queue.minute, PACIFIC) : queue.detail}>
-                      <Quantity
+                    <Readout label="Latest queue observation" detail={queue.value !== null && queue.minute ? <>{queueValueDescription(queue.value)} · <time dateTime={queue.minute}>{formatInstant(queue.minute, PACIFIC)}</time>. {queueScopeDescription(queue.value)}</> : queue.detail}>
+                      <QueueQuantity
                         value={queue.value}
-                        unit="vehicles"
-                        digits={0}
                         unavailable={queue.label}
                       />
                     </Readout>

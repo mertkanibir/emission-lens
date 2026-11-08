@@ -26,9 +26,9 @@ import { SupportedMinuteEstimate } from "@/components/SupportedMinuteEstimate";
 import { SelectedEmissionMetric } from "@/components/SelectedEmissionMetric";
 import type { measurementScope } from "@/lib/measurement-scope";
 import type { MapEmissionEstimate } from "@/lib/map-emissions";
-import { queueObservation, type measurementSupport } from "@/lib/observation-presentation";
+import { queueObservation, queueValueDescription, queueScopeDescription, type measurementSupport } from "@/lib/observation-presentation";
 import { scenarioValue } from "@/lib/scenario-presentation";
-import { Quantity, StateChip, EmissionQuantity } from "@/components/ui";
+import { Quantity, QueueQuantity, StateChip, EmissionQuantity } from "@/components/ui";
 import {
   formatAge,
   formatInstant,
@@ -181,10 +181,10 @@ export function OverviewBoard({
             <VideoCamera size={19} />
           </div>
           <strong>
-            <Quantity value={queue.value} digits={0} unit="vehicles" unavailable={queue.label} />
+            <QueueQuantity value={queue.value} unavailable={queue.label} />
           </strong>
           <span className="metric-caption">
-            {queue.value !== null && queue.minute ? <>Image count · {formatInstant(queue.minute, PACIFIC)}; not queue length</> : queue.detail}
+            {queue.value !== null && queue.minute ? <>{queueValueDescription(queue.value)} · <time dateTime={queue.minute}>{formatInstant(queue.minute, PACIFIC)}</time><br />{queueScopeDescription(queue.value)}</> : queue.detail}
           </span>
         </section>
         <SelectedEmissionMetric estimate={selected.mapEstimate} windowCo2={selected.emissions.estimate_g_by_pollutant.co2} cameraId={selectedId} mode={mode} state={selected.status.displayed_state} support={selected.measurementSupport} />
@@ -422,8 +422,9 @@ export function OverviewBoard({
                         />
                       </td>
                       <td className="num">
-                        <Quantity value={rowQueue.value} digits={0} unavailable={rowQueue.label} />
+                        <QueueQuantity value={rowQueue.value} unavailable={rowQueue.label} />
                         {rowQueue.value !== null && rowQueue.minute ? <small className="camera-support"><time dateTime={rowQueue.minute}>{formatInstant(rowQueue.minute, PACIFIC)}</time></small> : null}
+                        {rowQueue.value !== null ? <small className="camera-support" title={queueScopeDescription(rowQueue.value)}>{rowQueue.value > 0 ? "Visible stopped · provisional lower bound" : "Observed image-area zero"}</small> : null}
                       </td>
                       <td>
                         {mode !== "synthetic" && item.mapEstimate === null ? <Quantity value={null} unavailable={item.measurementSupport.label} /> : <EmissionQuantity value={mode === "synthetic" ? item.emissions.estimate_g_by_pollutant.co2 : item.mapEstimate?.co2_g ?? null} />}
@@ -464,7 +465,7 @@ export function OverviewBoard({
             ) : null}
             <p className="table-caption">
               <Info size={13} /> Counts are unique line crossings. Unavailable
-              means no supported value, not zero. Queue counts are latest recorded observations; estimated emissions are completed-movement minute snapshots, separate from whole-hour totals.
+              means no supported value, not zero. Positive queues are lower bounds (≥) of visible stopped vehicles under provisional image-area and motion assumptions. Queue minutes and supported emissions snapshots remain separate from whole-hour totals.
             </p>
           </section>
         </div>

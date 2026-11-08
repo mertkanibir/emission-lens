@@ -1,16 +1,32 @@
 import type { MeasurementRegistryStatus, TrafficWindow } from "@emission-lens/backend";
 import type { MapEmissionEstimate } from "./map-emissions";
 
+export function queueValueDescription(value: number) {
+  return value > 0
+    ? `At least ${value.toLocaleString("en-US")} visible stopped vehicles`
+    : "0 observed visible stopped vehicles";
+}
+
+export function queueScopeDescription(value: number | null) {
+  return value === null ? "Queue state is unknown; no zero is inferred."
+    : value > 0
+      ? "Lower bound on the physical queue under provisional image-area and motion assumptions. Unobserved or uncertain vehicles may add to it."
+      : "Observed zero within the configured image area and motion policy; the physical queue outside that image scope is unobserved.";
+}
+
 /** A queue is a camera-minute observation, never a sum over classes or an hour. */
 export function queueObservation(traffic: Pick<TrafficWindow, "camera_id" | "mode" | "from" | "to" | "rows" | "queue_count" | "queue_observation">) {
   const reported = traffic.queue_observation;
+  const instant = reported?.minute === null || reported?.minute === undefined ? Number.NaN : Date.parse(reported.minute);
+  const supportedReported = reported?.state === "observed" && traffic.queue_count !== null
+    && Number.isFinite(traffic.queue_count) && Number.isInteger(traffic.queue_count) && traffic.queue_count >= 0
+    && Number.isFinite(instant) && instant % 60_000 === 0
+    && instant >= Date.parse(traffic.from) && instant < Date.parse(traffic.to);
   if (reported) return {
-    value: reported.state === "observed" && traffic.queue_count !== null
-      && Number.isFinite(traffic.queue_count) && Number.isInteger(traffic.queue_count) && traffic.queue_count >= 0
-      ? traffic.queue_count : null,
+    value: supportedReported ? traffic.queue_count : null,
     minute: reported.minute,
-    label: reported.state === "ambiguous" ? "Conflicting observations" : reported.state === "observed" ? "Recorded observation" : "No queue observation",
-    detail: reported.reason,
+    label: reported.state === "ambiguous" ? "Conflicting observations" : supportedReported ? "Recorded observation" : "No queue observation",
+    detail: reported.state === "observed" && !supportedReported ? "A supported queue count and exact observation minute are not both available." : reported.reason,
   };
   const from = Date.parse(traffic.from);
   const to = Date.parse(traffic.to);
