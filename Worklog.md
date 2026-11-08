@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 23:44 America/New_York / 8 November 2026, 04:44 UTC
+
+- **Who:** Mert
+- **Done:** Corrected the heat-map NOₓ display in frontend/src/components/OverviewBoard.tsx and CameraMap.tsx. Emissions view now labels and renders NOₓ from the same supported snapshot as the CO₂ pin, with its timestamp; Traffic keeps the strict reporting-window result under an explicit label. Added a dated explanation to frontend/HEATMAP.md.
+- **Completed:** Independently confirmed the source API already contains 0.003161844094161299 g live and 0.0065337364924251285 g replay NOₓ while incomplete window totals are null. Browser checks verify 0.003162/0.006534 g in the correct modes, matching timestamps, precise pin/accessible text and unchanged unavailable Traffic-window totals; no browser errors. All 41 frontend tests, TypeScript, isolated production build and whitespace checks pass. Independent scope/null/precision review passes, and a screenshot remains outside Git.
+- **Still open:** This is an estimated supported-minute value, not a whole-hour or measured concentration result. Incomplete windows and unavailable NOₓ remain unavailable; heat color still represents CO₂. The bounded worker is stopped and rolling records age normally. Physical validation, camera-223 delivery, camera-228 acceptance, longer reliability checks, hosted persistence and final rehearsal remain open. No backend, contract, calculation, model, registry or source timestamp changed.
+
 ### 7 November 2026, 23:34 America/New_York / 8 November 2026, 04:34 UTC
 
 - **Who:** Mert

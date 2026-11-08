@@ -262,6 +262,9 @@ export function OverviewBoard({
                         : `${item.traffic.totals.count} crossings`,
                   href: cameraHref(item.camera.id),
                   emissions: item.mapEstimate,
+                  secondaryValueLabel: view === "emissions" && item.mapEstimate
+                    ? `NOₓ ${scenarioValue(item.mapEstimate.nox_g, "g")} · same snapshot`
+                    : null,
                 }))}
               />
               <span className="map-location-pill">
@@ -501,9 +504,11 @@ export function OverviewBoard({
                 </dd>
               </div>
               <div>
-                <dt>Estimated NOₓ</dt>
+                <dt>Estimated NOₓ · {view === "emissions" ? "snapshot" : "reporting window"}</dt>
                 <dd>
-                  <EmissionQuantity value={selected.emissions.estimate_g_by_pollutant.nox} />
+                  <EmissionQuantity value={view === "emissions"
+                    ? selected.mapEstimate?.nox_g ?? null
+                    : selected.emissions.estimate_g_by_pollutant.nox} />
                 </dd>
               </div>
               <div>
@@ -513,6 +518,9 @@ export function OverviewBoard({
                 </dd>
               </div>
             </dl>
+            {view === "emissions" && selected.mapEstimate ? (
+              <p className="fine">Snapshot: {formatInstant(selected.mapEstimate.minute, PACIFIC)}.</p>
+            ) : null}
             <Link
               className="button button-primary"
               href={hrefWith(`/cameras/${selectedId}`, { mode })}

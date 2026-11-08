@@ -31,3 +31,9 @@ Camera 222's supported live minute renders **17.3 g CO₂** at **7 November, 20:
 The review page is **http://127.0.0.1:3138/?camera=222&view=emissions**. Its private process/source pointer is retained outside Git at `/tmp/emission-lens-heatmap-path.json`; records age out of the rolling reporting hour normally. The screenshot is retained outside the public repository. No source timestamps are rewritten to keep a demonstration visible.
 
 Map behavior follows the [MapLibre heatmap example](https://maplibre.org/maplibre-gl-js/docs/examples/create-a-heatmap-layer/) and [style specification](https://maplibre.org/maplibre-style-spec/layers/).
+
+## NOₓ snapshot display — 7 November 2026, 23:44 America/New_York / 8 November 2026, 04:44 UTC
+
+The selected map pin now includes NOₓ from the same supported minute as its CO₂ value. In emissions view, the side card explicitly reads **Estimated NOₓ · snapshot** and shows the matching local timestamp. Its earlier generic NOₓ label read the strict whole-window total, so it remained unavailable despite an available supported-minute record. Traffic view retains that strict result under **Estimated NOₓ · reporting window**. No partial snapshot is substituted into a whole-window total.
+
+Browser checks verify live **0.003162 g** (source 0.003161844094161299 g) at 20:00 PST and replay **0.006534 g** (source 0.0065337364924251285 g) at 19:58 PST. Traffic's incomplete window remains unavailable. Small values retain precision, null stays unavailable, and no pollutant is borrowed from another minute or mode. Heat colors remain weighted by CO₂; NOₓ is a separately labeled estimate. All 41 frontend tests, TypeScript and the production build pass, with no browser errors. The underlying store, registry, calculations and worker state are unchanged.

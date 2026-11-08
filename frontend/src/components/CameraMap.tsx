@@ -20,6 +20,7 @@ export interface MapCamera {
   valueLabel: string;
   href: string;
   emissions: MapEmissionEstimate | null;
+  secondaryValueLabel: string | null;
 }
 const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 function softenStyle(style: StyleSpecification): StyleSpecification {
@@ -203,7 +204,7 @@ export function CameraMap({
       anchor.dataset.selected = String(camera.id === selectedId);
       anchor.setAttribute(
         "aria-label",
-        `Camera ${camera.id}, ${camera.name}, ${camera.stateLabel}, ${camera.valueLabel}${view === "emissions" && camera.emissions ? `, latest supported minute ${formatInstant(camera.emissions.minute, PACIFIC)}` : ""}`,
+        `Camera ${camera.id}, ${camera.name}, ${camera.stateLabel}, ${camera.valueLabel}${camera.secondaryValueLabel ? `, ${camera.secondaryValueLabel}` : ""}${view === "emissions" && camera.emissions ? `, latest supported minute ${formatInstant(camera.emissions.minute, PACIFIC)}` : ""}`,
       );
       anchor.title = anchor.getAttribute("aria-label")!;
       if (camera.id === selectedId) anchor.setAttribute("aria-current", "true");
@@ -218,6 +219,11 @@ export function CameraMap({
       const reading = document.createElement("strong");
       reading.textContent = camera.valueLabel;
       detail.append(street, reading);
+      if (camera.secondaryValueLabel) {
+        const secondary = document.createElement("small");
+        secondary.textContent = camera.secondaryValueLabel;
+        detail.append(secondary);
+      }
       anchor.append(number, detail);
       anchor.addEventListener("click", (event) => {
         if (
