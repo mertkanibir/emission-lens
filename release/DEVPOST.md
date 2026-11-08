@@ -76,6 +76,7 @@ Scoped evaluation results; reference type and validation scope differ by row:
 | Camera 222 ground calibration | Validation RMS 1.41 m; movement 20.0 m (19.3–20.5 m leave-one-out) | Held-back aerial points | [movement](../evaluation/calibration/222-movement-eastbound.json) |
 | Camera 223 ground calibration | Validation RMS 1.08 m; movement 15.0 m (14.5–15.4 m) | Held-back aerial points | [movement](../evaluation/calibration/223-movement-southbound.json) |
 | Stopped-time thresholds | Balanced accuracy 95.4% (222), 95.9% (223) | Calibration-derived ground speed, not human | [222](../evaluation/calibration/222-stop-threshold.json), [223](../evaluation/calibration/223-stop-threshold.json) |
+| Stopped time on recorded video (222 + 223) | 79 completed traversals, all 0 s linked stopped time; 20% shorter-stop scenario correctly 0% change; zero reader drops | Independent original-CARB arithmetic check | [replay check](../backend/STOPPED-REPLAY-222-223-176075-2.md) |
 
 ## What we learned
 

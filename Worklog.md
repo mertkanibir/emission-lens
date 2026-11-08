@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 02:32 America/New_York (07:32 UTC)
+
+- **Who:** Carter
+- **Done:** Added the recorded-video stopped-time result to the measured-results table in `release/DEVPOST.md`, linking Mert's replay check.
+- **Completed:** The draft's stopped-time text and table now agree with `backend/STOPPED-REPLAY-222-223-176075-2.md`.
+- **Still open:** Morning review of the draft, submission, and the live GPU restart before judging.
+
 ### 8 November 2026, 01:16 America/New_York (06:16 UTC)
 
 - **Who:** Carter
