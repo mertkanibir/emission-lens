@@ -12,6 +12,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
+_WINDOWS = os.name == "nt"
+
 
 class PublishError(RuntimeError):
     """Delivery failed without exposing endpoint or credential details."""
@@ -24,11 +26,48 @@ class _NoRedirect(HTTPRedirectHandler):
 
 
 def _sync_directory(directory):
+    # The Windows CRT rejects directory opens. Its publication path below uses
+    # a write-through native move instead; real POSIX sync failures still fail.
+    if _WINDOWS:
+        return
     descriptor = os.open(directory, os.O_RDONLY)
     try:
         os.fsync(descriptor)
     finally:
         os.close(descriptor)
+
+
+def _windows_replace(source, destination):
+    """Same-volume replacement with native write-through, using closed files."""
+    import ctypes
+    from ctypes import wintypes
+
+    move = ctypes.WinDLL("kernel32", use_last_error=True).MoveFileExW
+    move.argtypes = [wintypes.LPCWSTR, wintypes.LPCWSTR, wintypes.DWORD]
+    move.restype = wintypes.BOOL
+    # No COPY_ALLOWED fallback: source and destination must stay on one volume.
+    if not move(os.fsdecode(source), os.fsdecode(destination), 0x1 | 0x8):
+        raise ctypes.WinError(ctypes.get_last_error())
+
+
+def _replace_file(source, destination):
+    if _WINDOWS:
+        _windows_replace(source, destination)
+    else:
+        os.replace(source, destination)
+        _sync_directory(Path(destination).parent)
+
+
+def _remove_acknowledged(path):
+    if _WINDOWS:
+        # Retire the HTTP name with write-through before deleting it. A crash
+        # or denied cleanup leaves a private marker, never a resendable batch.
+        acknowledged = path.with_suffix(".acked")
+        _replace_file(path, acknowledged)
+        acknowledged.unlink()
+    else:
+        path.unlink()
+        _sync_directory(path.parent)
 
 
 class HttpSender:
@@ -115,20 +154,22 @@ class Outbox:
                 handle.write(body)
                 handle.flush()
                 os.fsync(handle.fileno())
-            os.replace(temporary, path)
-            _sync_directory(self.directory)
+            _replace_file(temporary, path)
         finally:
             if os.path.exists(temporary):
                 os.unlink(temporary)
 
     def flush(self, limit: int = 8) -> int:
         sent = 0
+        if _WINDOWS:
+            # Failed cleanup blocks later HTTP revisions until it is resolved.
+            for acknowledged in sorted(self.directory.glob("*.acked")):
+                acknowledged.unlink()
         for path in self.pending()[:limit]:
             self.attempts += 1
             if not self.sender(path.read_bytes()):
                 break
-            path.unlink()
-            _sync_directory(self.directory)
+            _remove_acknowledged(path)
             sent += 1
             self.delivered += 1
         return sent
@@ -527,12 +568,7 @@ def _write_measurement_checkpoint(path, checkpoint):
             handle.write(body)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(temporary, path)
-        directory = os.open(path.parent, os.O_RDONLY)
-        try:
-            os.fsync(directory)
-        finally:
-            os.close(directory)
+        _replace_file(temporary, path)
     finally:
         if os.path.exists(temporary):
             os.unlink(temporary)

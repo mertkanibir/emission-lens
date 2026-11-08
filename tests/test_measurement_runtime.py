@@ -2,6 +2,7 @@
 
 import copy
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import tempfile
@@ -173,9 +174,11 @@ class RuntimeMeasurementTests(unittest.TestCase):
                 self.assertNotIn(private, body)
             self.assertEqual(bridge.publish(run, outbox=outbox), 0)
             self.assertEqual(len(outbox.pending()), 1)
-            self.assertEqual(
-                (Path(folder) / "bridge.checkpoint").stat().st_mode & 0o777, 0o600
-            )
+            # POSIX mode bits do not describe Windows ACLs.
+            if os.name == "posix":
+                self.assertEqual(
+                    (Path(folder) / "bridge.checkpoint").stat().st_mode & 0o777, 0o600
+                )
 
     def test_linked_stop_intervals_require_explicit_policy_and_do_not_use_general_stopped_totals(
         self,

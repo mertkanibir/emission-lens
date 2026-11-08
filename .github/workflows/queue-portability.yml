@@ -1,0 +1,67 @@
+name: Queue portability
+
+on:
+  push:
+    paths:
+      - '.github/workflows/queue-portability.yml'
+      - 'worker/publish.py'
+      - 'worker/measurement.py'
+      - 'worker/traversal.py'
+      - 'worker/main.py'
+      - 'worker/metrics.py'
+      - 'worker/aggregate.py'
+      - 'worker/timing.py'
+      - 'worker/config.py'
+      - 'contracts/**'
+      - 'backend/src/**'
+      - 'tests/test_publish*.py'
+      - 'tests/test_measurement*.py'
+      - 'package-lock.json'
+  pull_request:
+    paths:
+      - '.github/workflows/queue-portability.yml'
+      - 'worker/**'
+      - 'contracts/**'
+      - 'backend/src/**'
+      - 'tests/test_publish*.py'
+      - 'tests/test_measurement*.py'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: queue-portability-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  queue:
+    name: Queue (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install focused Python dependencies
+        run: python -m pip install pytest==9.2.0 PyYAML==6.0.3
+      - name: Install contract and backend test runtime
+        run: npm ci --workspace backend --workspace contracts --include-workspace-root=false
+      - name: Record platform and require conformance runtime
+        run: |
+          python -c "import platform; print(platform.platform()); print(platform.python_version())"
+          node -e "require('node:fs').accessSync('node_modules/tsx/package.json'); console.log(process.version)"
+      - name: Verify queues and measurement recovery
+        run: python -m pytest tests/test_publish.py tests/test_publish_portability.py tests/test_measurement.py tests/test_measurement_runtime.py -q -ra
