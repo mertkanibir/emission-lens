@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 09:06 America/New_York / 8 November 2026, 14:06 UTC
+
+- **Who:** Mert
+- **Done:** Verified and installed exact scoped PDF exports, interval analytics, independent CAMS context and validated faster preview pickup; retained Carter submission changes and same private persistence.
+- **Completed:** All86 frontend checks, TypeScript and immutable build pass. Actual browser PDF download matches visible source byte-for-byte; three pages rendered/inspected. Scoped minute navigation, desktop/phone layout, real contextual values and fresh installed snapshots pass. Camera222/223 remain live.
+- **Still open:** Source HLS bursts and unchanged3-second producer previews still limit visible cadence; no detector speedup or sustained latency claim. Prior pending envelopes, independent scientific validation and hosted persistence remain open.99% account allowance consumed, no reset.
+
 ### 8 November 2026, 08:58 America/New_York (13:58 UTC)
 
 - **Who:** Carter

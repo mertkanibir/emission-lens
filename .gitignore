@@ -59,3 +59,6 @@ models/weights/
 *.log
 *-*.out
 slurm-*.out
+
+# Generated local investigation exports
+/output/pdf/
