@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
-from worker.publish import HttpSender, Outbox
+from worker.publish import HttpSender, Outbox, TraversalBridge, measurement_url, recover_measurement_outbox
 
 
 def utc_now() -> datetime:
@@ -235,6 +235,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--replay-file", type=Path, help="Local clip for one --camera; visibly published as replay.")
     result.add_argument("--measurement-config", type=Path, help="Optional reviewed image ROI/gates JSON; no geometry enabled by default.")
     result.add_argument("--count-gate-id", help="Required explicit counting gate when a measurement config has multiple gates.")
+    result.add_argument("--traversal-config", type=Path, help="Optional private v1 movement/stop policy; disabled by default. Server registry approval remains separate.")
     return result
 
 
@@ -303,6 +304,21 @@ def run(args, stop_requested=None) -> dict:
             if len(run_record["model_version"]) > 256:
                 raise ValueError("Model, measurement version and gate identifiers exceed the provenance field length.")
 
+    traversal_bridge = measurement_outbox = None
+    if getattr(args, "traversal_config", None):
+        traversal_bytes = args.traversal_config.read_bytes()
+        traversal_raw = json.loads(traversal_bytes)
+        if traversal_raw != {"bridge_version": "1.0", "enabled": False}:
+            run_record["model_version"] += "|v:" + hashlib.sha256(traversal_bytes).hexdigest()[:16]
+            if len(run_record["model_version"]) > 256:
+                raise ValueError("Model and measurement provenance exceed the supported field length.")
+        state_path = args.outbox / "measurements" / "bridge.checkpoint" if url else None
+        traversal_bridge = TraversalBridge.from_config(traversal_raw, measurement_config, run_record, state_path)
+        if traversal_bridge and url:
+            endpoint = os.environ.get("EMISSION_LENS_MEASUREMENT_URL") or measurement_url(url)
+            measurement_outbox = Outbox(args.outbox / "measurements", HttpSender(endpoint, token))
+            recover_measurement_outbox(measurement_outbox)
+
     class ReplayReader(StreamReader):
         def run(self):
             capture = cv2.VideoCapture(str(args.replay_file))
@@ -341,10 +357,17 @@ def run(args, stop_requested=None) -> dict:
             # Unconfigured metrics are unavailable, not empty observations.
             # Do not reserve a camera-minute with an all-null placeholder.
             outbox.enqueue(envelope(run_record, statuses, []))
-            if aggregate:
-                for batch in aggregate.batches(run_record):
-                    outbox.enqueue(batch)
+        observation_batches = aggregate.batches(run_record) if aggregate else []
+        if outbox:
+            for batch in observation_batches:
+                outbox.enqueue(batch)
             outbox.flush()
+        if traversal_bridge:
+            traversal_bridge.publish(run_record, observation_batches, measurement_outbox)
+            # Publish linked legacy observations before dependent calculations.
+            # The bridge checkpoint is committed before this outbox can flush.
+            if measurement_outbox and (not outbox or not outbox.pending()):
+                measurement_outbox.flush()
 
     for reader in readers.values():
         reader.start()
@@ -370,6 +393,8 @@ def run(args, stop_requested=None) -> dict:
                 progress[camera.id].observe(frame, vehicles, time.perf_counter() - before, processed_at, time.monotonic())
                 if metrics and camera.id == measurement_config.camera_id:
                     aggregate.observe(frame, metrics.update(frame, vehicles))
+                if traversal_bridge and camera.id == measurement_config.camera_id:
+                    traversal_bridge.observe(frame, vehicles)
                 if previews:
                     previews.submit(frame, vehicles, run_record["run_id"], mode, processed_at, time.monotonic())
             if time.monotonic() >= next_publish:
@@ -390,7 +415,7 @@ def run(args, stop_requested=None) -> dict:
         shutdown_error = None
         try:
             publish(ended=True)
-            if args.require_delivery and outbox.pending():
+            if args.require_delivery and (outbox.pending() or (measurement_outbox and measurement_outbox.pending())):
                 raise RuntimeError("Required worker delivery is incomplete; queued batches retained.")
         except Exception as error:
             if failure is None:
@@ -419,10 +444,12 @@ def run(args, stop_requested=None) -> dict:
                 "delivery": {"enabled": bool(outbox), "delivered_batches": outbox.delivered if outbox else 0, "attempts": outbox.attempts if outbox else 0, "pending_batches": len(outbox.pending()) if outbox else 0},
                 "previews": {"enabled": bool(previews), **(previews.diagnostic() if previews else {})},
                 "measurements": {**aggregate.diagnostic(), "config_sha256": measurement_hash} if aggregate else {"enabled": False},
+                "completed_traversals": traversal_bridge.diagnostic() if traversal_bridge else {"enabled": False},
+                "measurement_delivery": {"enabled": bool(measurement_outbox), "delivered_batches": measurement_outbox.delivered if measurement_outbox else 0, "attempts": measurement_outbox.attempts if measurement_outbox else 0, "pending_batches": len(measurement_outbox.pending()) if measurement_outbox else 0},
                 "failure": failure,
                 "limitations": [
                     "Tracked detection observations are repeated per-frame observations, not unique vehicle crossings or evaluated accuracy.",
-                    "Counts/image queues require explicitly enabled reviewed image geometry; physical calibration, stopped time, speed and emissions remain unavailable.",
+                    "Counts/image queues require reviewed image geometry. Completed traversals/linked stops require explicit movement and interval policies; physical quantities require separate approved server registries.",
                     "Camera-minutes use a session-local estimated HLS media clock, not receipt windows or verified capture UTC; capture-to-dashboard latency is unavailable.",
                     "Tracking timing includes preprocessing/postprocessing and first-frame model warmup.",
                     "No raw frames, video, or temporary track identifiers are persisted by this runtime; optional annotated previews are sent transiently in memory.",

@@ -1,7 +1,7 @@
 # Camera worker
 
 **Owner:** Mert, runtime integration; Carter, detection, tracking and labeling.
-**Updated:** 7 November 2026, 18:49 America/New_York (23:49 UTC).
+**Updated:** 7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC.
 
 From the repository root, inside the verified compute-node Python environment:
 
@@ -64,3 +64,6 @@ Replay uses the same reader sampler, buffer and tracker, with a paced local inpu
 Delivery and tracking do not validate calibration, vehicle-count accuracy, stopped time, fuel type, CARB class mixtures or emissions. GPU benchmark results belong in `evaluation/`, with job IDs and explicit limitations.
 
 **Timing verification (7 November 2026, 18:49 America/New_York / 23:49 UTC):** Mert reproduced a 25.060645-second session-anchor improvement across 204 advancing live camera-222 frames with zero reader drops. This was a timing-only check, not a detector/vehicle-count or capture-latency measurement. Controlled tests cover 30-second startup backlog, minute boundaries, rebins after publication, queue ordering, reconnect isolation and retraction persistence. See [timing evidence](../evaluation/timing-alignment.md). No core contract fields changed.
+
+
+**Runtime measurement checkpoint (7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC):** Added default-disabled `--traversal-config` integration using the isolated traversal producer and versioned measurement bridge. The runtime validates private movement/view/stop context, uses session-minimum media clocks, keeps per-vehicle stopped evidence distinct, and publishes measurement v1.0 through a separate durable outbox/endpoint. A pending checkpoint is persisted before enqueuing and committed before flushing; restart recovery finishes retained plans first. Actual `worker.main` orchestration and forced partial enqueue/restart are tested with controlled frames. No detector/tracker/camera setting or scientific approval is changed. See [exact private setup and remaining acceptance](./RUNTIME-MEASUREMENTS.md). Legacy image rows keep unsupported physical columns null; server composition owns supported completed-cohort quantities and estimated emissions.

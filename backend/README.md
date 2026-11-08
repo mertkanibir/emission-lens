@@ -1,7 +1,7 @@
 # Backend
 
 **Owner:** Mert  
-**Updated:** 7 November 2026, 20:49 America/New_York / 8 November 2026, 01:49 UTC
+**Updated:** 7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC
 
 Read path for camera status, traffic windows, estimated emissions, scenarios, investigation priorities, and draft briefs. The store reads validated live/replay worker batches when `EMISSION_LENS_STORE_PATH` is configured, with separate labeled synthetic fixtures. `db/` is a Postgres draft and has not been applied.
 
@@ -22,4 +22,6 @@ Run `npm test` and `npm run typecheck` from the repository root after install.
 
 **Measurement checkpoint (7 November 2026, 20:49 America/New_York / 8 November 2026, 01:49 UTC):** Implemented the separately versioned [measurement ingestion/read interface](./MEASUREMENT-INGESTION.md). Server-controlled, camera/mode/time-scoped calibration and class-mapping approvals resolve fixed movement distances. One authoritative snapshot commits completed-cohort aggregates, both estimated pollutants and private hashed-identity evidence together. Exact retries, revisions, corrected minutes, retractions, overlap denial and linked-observation invalidation are covered. Registry changes immediately withhold stale physical reads; authenticated refresh or exact source retry recomputes server derivations. Existing traffic reads, per-pollutant scenarios and draft briefs consume persisted results without erasing independent crossing/queue/general-stop observations. Public responses contain no traversal/session identities or private registry paths.
 
-All **95 backend tests**, backend TypeScript and contract TypeScript checks pass for this server checkpoint. Controlled approvals are temporary synthetic fixtures only. Core contract 1.1 is unchanged; the additive measurement envelope is v1.0. The opt-in runtime producer bridge is being completed next. Real calibrated emissions remain unavailable until reviewed movements/distances, class mappings and supported completed evidence are installed privately. Shared hosted persistence is still separate; the initial adapter requires one durable POSIX authority.
+All **95 backend tests**, backend TypeScript and contract TypeScript checks pass for this server checkpoint. Controlled approvals are temporary synthetic fixtures only. Core contract 1.1 is unchanged; the additive measurement envelope is v1.0. The opt-in runtime producer bridge is connected; see [runtime setup](../worker/RUNTIME-MEASUREMENTS.md). Real calibrated emissions remain unavailable until reviewed movements/distances, class mappings and supported completed evidence are installed privately. Shared hosted persistence is still separate; the initial adapter requires one durable POSIX authority.
+
+**Runtime/boundary completion (7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC):** The server suite now passes 99 tests, including half-open window membership, equivalent UTC legacy-row composition and duplicate completed identities across adjacent-minute batches. Identity remains camera/run scoped; migration requires retraction of the old owner. Worker writes prune expired measurement receipts under the same transaction. The default-disabled runtime is wired to the committed producer/bridge and separate durable measurement endpoint/outbox. Real physical approval remains missing.

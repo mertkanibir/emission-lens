@@ -379,7 +379,7 @@ export function read_measurement_window(input: {
       (row) =>
         row.camera_id === input.cameraId &&
         row.mode === input.mode &&
-        row.minute === entry.source.minute,
+        Date.parse(row.minute) === Date.parse(entry.source.minute),
     ),
     emissions: derived[i].emissions,
   }));

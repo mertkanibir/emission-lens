@@ -34,6 +34,7 @@ export function ingestWorkerBatch(value: unknown, now = new Date()): IngestRecei
   if (eventTimes.length === 0 || Math.max(...eventTimes) < nowMs - STORE_RETENTION_MS) throw new IngestError("Batch has no event inside the 24-hour local retention window.", 400);
   if (batch.run.ended_at !== null && batch.statuses.some((row) => row.state !== "offline")) throw new IngestError("An ended run must publish offline camera statuses.", 400);
   return withStoreLock<IngestReceipt>(path, (snapshot) => {
+    snapshot = { ...snapshot, measurement_batches: snapshot.measurement_batches?.filter(row => Date.parse(row.accepted_at) >= nowMs - STORE_RETENTION_MS) };
     const retained = snapshot.batches.filter((row) => Date.parse(row.accepted_at) >= nowMs - STORE_RETENTION_MS);
     if (snapshot.measurement_batches?.some(row => row.source.batch_id === batch.batch_id)) throw new IngestError("Batch identity already belongs to measurement ingestion.", 409);
     const previous = retained.find((row) => row.batch.batch_id === batch.batch_id);

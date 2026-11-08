@@ -717,3 +717,119 @@ test("mixed meteorology remains explicit per minute and in scenario/brief assump
     assert.match(brief.text, /temperature 80 °F; relative humidity 60%/);
     assert.match(brief.text, /temperature 70 °F; relative humidity 60%/);
   }));
+
+test("measurement and legacy windows share an exclusive upper minute boundary", () =>
+  isolated(async () => {
+    const source = batch();
+    source.minute = "2026-11-07T20:05:00Z";
+    source.timing.sessions[0].anchor_utc = "2026-11-07T19:59:30Z";
+    source.traversals[0].completed_at = "2026-11-07T20:05:30Z";
+    await ingest_measurement_batch(source, NOW);
+    assert.equal(readWorkerStore().traffic.length, 1);
+    assert.equal(read().minutes.length, 0);
+    assert.equal(
+      get_traffic_window({ cameraId: "222", mode: "synthetic", now: NOW }).rows
+        .length,
+      0,
+    );
+    assert.equal(
+      get_emissions_window({ cameraId: "222", mode: "synthetic", now: NOW })
+        .rows.length,
+      0,
+    );
+  }));
+test("equivalent UTC spellings preserve independent legacy classes in the composed public minute", () =>
+  isolated(async () => {
+    const source = batch();
+    const legacy: WorkerBatch = {
+      contract_version: "1.1",
+      batch_id: randomUUID(),
+      revision: 0,
+      run: source.run,
+      statuses: [],
+      traffic: [
+        {
+          camera_id: "222",
+          minute: "2026-11-07T20:04:00+00:00",
+          mode: source.mode,
+          run_id: source.run.run_id,
+          vehicle_class: "bus",
+          count: 2,
+          stopped_vehicle_seconds: null,
+          queue_count: null,
+          queue_length_m: null,
+          coverage: null,
+          completed_traversals: null,
+          traversal_time_s: null,
+          distance_m: null,
+        },
+      ],
+      emissions: [],
+    };
+    ingestWorkerBatch(legacy, NOW);
+    await ingest_measurement_batch(source, NOW);
+    assert.equal(
+      read().minutes[0].traffic.find((r) => r.vehicle_class === "bus")!.count,
+      2,
+    );
+    assert.equal(
+      get_traffic_window({ cameraId: "222", mode: "synthetic", now: NOW })
+        .totals.count,
+      5,
+    );
+  }));
+test("completed identities cannot migrate to another batch/minute before old ownership is retracted", () =>
+  isolated(async () => {
+    const source = batch();
+    await ingest_measurement_batch(source, NOW);
+    const moved = batch();
+    moved.minute = "2026-11-07T20:03:00Z";
+    moved.timing.sessions[0].anchor_utc = "2026-11-07T19:57:30Z";
+    moved.traversals[0].completed_at = "2026-11-07T20:03:30Z";
+    await assert.rejects(ingest_measurement_batch(moved, NOW), code(409));
+    const otherCamera = structuredClone(moved);
+    otherCamera.batch_id = randomUUID();
+    otherCamera.camera_id = "223";
+    await ingest_measurement_batch(otherCamera, NOW);
+    const otherRun = structuredClone(moved);
+    otherRun.batch_id = randomUUID();
+    otherRun.run.run_id = "separate-run";
+    await ingest_measurement_batch(otherRun, NOW);
+    otherRun.revision++;
+    otherRun.retract = true;
+    otherRun.observations = [];
+    otherRun.traversals = [];
+    await ingest_measurement_batch(otherRun, NOW);
+    source.revision++;
+    source.retract = true;
+    source.observations = [];
+    source.traversals = [];
+    await ingest_measurement_batch(source, NOW);
+    await ingest_measurement_batch(moved, NOW);
+    assert.equal(read().minutes.length, 1);
+  }));
+
+test("measurement-only multi-minute runs retain established device and final end metadata", () =>
+  isolated(async () => {
+    const initial = batch();
+    initial.run.device = null;
+    await ingest_measurement_batch(initial, NOW);
+    const next = batch();
+    next.run.device = "verified-test-device";
+    next.minute = "2026-11-07T20:03:00Z";
+    next.traversals[0].traversal_id = "next-private-traversal";
+    next.timing.sessions[0].anchor_utc = "2026-11-07T19:57:30Z";
+    next.traversals[0].completed_at = "2026-11-07T20:03:30Z";
+    await ingest_measurement_batch(next, NOW);
+    assert.equal(readWorkerStore().runs[0].device, "verified-test-device");
+    const changed = structuredClone(initial);
+    changed.batch_id = randomUUID();
+    changed.run.device = "changed-device";
+    await assert.rejects(ingest_measurement_batch(changed, NOW), code(409));
+    next.revision++;
+    next.run.ended_at = "2026-11-07T20:04:55Z";
+    await ingest_measurement_batch(next, NOW);
+    assert.equal(readWorkerStore().runs[0].ended_at, next.run.ended_at);
+    changed.run.device = "verified-test-device";
+    await assert.rejects(ingest_measurement_batch(changed, NOW), code(409));
+  }));

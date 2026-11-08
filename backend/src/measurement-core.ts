@@ -315,6 +315,14 @@ export function composeMeasurements(
     const source = entry.source;
     const prior = store.runs.find((r) => r.run_id === source.run.run_id);
     if (!prior) store.runs.push(source.run);
+    else {
+      const index = store.runs.indexOf(prior);
+      store.runs[index] = {
+        ...source.run,
+        device: prior.device ?? source.run.device,
+        ended_at: source.run.ended_at ?? prior.ended_at,
+      };
+    }
     if (source.retract) continue;
     const derived = visibleDerived(entry, snapshot, registry);
     const matches = (r: { camera_id: string; minute: string; mode: string }) =>

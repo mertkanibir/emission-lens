@@ -1,8 +1,8 @@
 # Engineering integration readiness
 
 **Owner:** Mert
-**Updated:** 7 November 2026, 20:49 America/New_York / 8 November 2026, 01:49 UTC
-**Status:** Persistent server measurement/scenario software checkpoint complete; opt-in runtime bridge in progress; real scientific acceptance remains open.
+**Updated:** 7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC
+**Status:** Persistent server measurement/scenario and opt-in runtime software path complete; real scientific acceptance remains open.
 **Authority:** [Plan.md](../Plan.md), [Coordination.md](../Coordination.md), core contract 1.1 and the separately versioned [measurement interface](../backend/MEASUREMENT-INGESTION.md).
 
 ## Current software path
@@ -10,7 +10,7 @@
 | Layer | Delivered behavior | Remaining dependency |
 |---|---|---|
 | GPU ingestion/tracking | Independent camera pipelines, estimated media clock, bounded status/preview delivery, and selected-gate image observations. | Longer forced-failure runs and accepted held-out crossing/tracking checks. |
-| Completed traversals | Isolated producer with entry/exit, same-session continuity, source-gap rejection, linked stopped intervals and explicit unavailable states. | Engineering runtime/config/publisher adapter is in progress. Actual accepted movement and stopped policies remain required. |
+| Completed traversals | Isolated producer with entry/exit, same-session continuity, source-gap rejection, linked stopped intervals and explicit unavailable states. | Runtime/config/publisher adapter is connected and default-disabled. Actual accepted movement and stopped policies remain required. |
 | Registry | Strict versioned server JSON loader checks review/evidence, camera/mode/time scope, gate references, nonsingular metre transform, fixed movement distances and CARB VMT weights. Default has no approval. | Independently supported real calibration and reviewed class mixtures must be installed privately. |
 | Ingestion/evidence | Authenticated separately versioned v1.0 snapshots; hashed private session/traversal identities; source revisions, traffic, CO₂/NOₓ and private contributions in one POSIX snapshot commit. | Single-host persistent volume/credential configuration. A shared hosted adapter is deferred. |
 | Corrections | Exact retries, same-revision content denial, higher-revision replacement, corrected minutes, explicit retraction, cross-run/minute ownership and duplicate completed identities. Linked worker revisions invalidate physics atomically. | Source video overlap across reconnects remains a review problem; identities do not deduplicate repeated footage across sessions. |
@@ -48,7 +48,7 @@ The additive public scenario fields name CO₂ and NOₓ separately. The legacy 
 
 ## Verification completed at the server checkpoint
 
-`npm test -w @emission-lens/backend` passes **95 tests**; `npx tsc -p backend/tsconfig.json` and `npx tsc -p contracts/tsconfig.json` pass. Thirteen new measurement integration checks cover ingest → durable reload → reads → per-pollutant scenario → brief, source integrity and privacy, immutable retries, revisions/retractions/clock corrections, mode/run overlap, missing/unapproved/time-scoped registries, immediate revocation, observation-reference changes, missing stops, unknown classes/movements, HTTP authentication and body/query bounds. Approval records exist only in temporary synthetic test stores.
+`npm test -w @emission-lens/backend` passes **99 tests**; `npx tsc -p backend/tsconfig.json` and `npx tsc -p contracts/tsconfig.json` pass. Seventeen new measurement integration checks cover ingest → durable reload → reads → per-pollutant scenario → brief, source integrity and privacy, immutable retries, revisions/retractions/clock corrections, mode/run overlap, missing/unapproved/time-scoped registries, immediate revocation, observation-reference changes, missing stops, unknown classes/movements, HTTP authentication and body/query bounds. Approval records exist only in temporary synthetic test stores.
 
 The preceding 82-test checkpoint includes pure estimator/report/scenario arithmetic and independent atomic reader, failed commit, lost acknowledgement and stale-lock recovery checks. An abandoned recovery claim fails closed rather than being recursively reaped. These tests do not constitute a forced live HLS outage or measured crossing accuracy.
 
@@ -56,10 +56,14 @@ Engineering does not run the production web build during this shared wave; UI ow
 
 ## Remaining acceptance
 
-1. Complete and test the default-disabled runtime bridge using the producer and additive measurement transport; publish exact private configuration/setup steps.
+1. Runtime wiring and [private configuration/setup](../worker/RUNTIME-MEASUREMENTS.md) are complete. Install reviewed inputs when available; default camera/physical approvals remain disabled/missing.
 2. UI/coordination finish combined route/render/export and HTTP restart/revocation checks on a stable published revision.
 3. Install independently supported calibration and accepted movement/class/stopped evidence privately after Mert/Carter count review; demonstrate one camera end to end before expansion.
 4. Run the actual configured pipeline through bounded source outage/reconnect/restart and replay acceptance, then rehearse the demonstration and retain its limitations.
 5. Provision shared hosted storage only if moving beyond the persistent single-host topology. Promise-based ingestion transactions are ready for an adapter; synchronous compatibility reads still require deliberate migration.
 
 Missing physical references and held-out validation can block live acceptance regardless of software progress. No synthetic test fixture replaces that evidence or supplies a credible field-acceptance time.
+
+**Runtime verification (7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC):** Nine focused adapter/orchestration tests cover actual main-loop sender binding with simulated frames, linked stops, source-clock rebins, legacy reference updates, cross-session rejection and forced partial enqueue/restart. Outbox/checkpoint ordering persists the complete plan before any dependent delivery. Existing producer/bridge tests independently validate actual TypeScript parser and server ingestion compatibility. This checkpoint starts no detector, GPU job, training, source-media collection or real calibration activation.
+
+**Final engineering checks (7 November 2026, 21:04 America/New_York / 8 November 2026, 02:04 UTC):** 99 backend tests and backend/contract type checks pass. The focused worker suite passes 172 tests plus 112 subtests with isolated pinned Python dependencies, including nine adapter/main-loop checks and the committed producer/bridge's TypeScript parser/server compatibility checks. Measurement-only runs now retain established device and final end metadata across multiple minute snapshots, preserving restart/provenance denial. The three reviewed window/timestamp/identity boundaries have focused regressions. Scientific evidence and the real configured delivery/replay/outage checkpoint remain open.
