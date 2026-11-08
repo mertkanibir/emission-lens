@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:25 America/New_York / 8 November 2026, 08:25 UTC
+
+- **Who:** Mert
+- **Done:** Refined the existing vector leaf/corner identity and regenerated every brand variant, favicon, icon and preview.
+- **Completed:** Seven SVGs parse without external resources or live text; all five RGBA icon dimensions and ICO render; primary/reversed/monochrome and 16–64 px review sheet visually inspected.
+- **Still open:** Combined new workspace presentation and browser acceptance; scientific/runtime acceptance remains independent.
+
 ### 8 November 2026, 03:23 America/New_York / 8 November 2026, 08:23 UTC
 
 - **Who:** Mert

@@ -23,13 +23,14 @@ INK = "#24392E"
 CREAM = "#F1E7D8"
 PANEL = "#FFF9F0"
 WHITE = "#FFFCF6"
+# Preserve the four-corner silhouette; soften the optical joins and center the leaf.
 MARK = (
-    "M8 28C9.5 17 17 9.5 28 8V15C20.6 16.3 16.3 20.6 15 28Z "
-    "M36 8C47 9.5 54.5 17 56 28H49C47.7 20.6 43.4 16.3 36 15Z "
-    "M56 36C54.5 47 47 54.5 36 56V49C43.4 47.7 47.7 43.4 49 36Z "
-    "M28 56C17 54.5 9.5 47 8 36H15C16.3 43.4 20.6 47.7 28 49Z "
-    "M24 40C20 27 29 22 42 22C42 35 36 43 24 40Z "
-    "M25 39C27.5 35 30.5 32 35 29L36 30C31.8 33.3 28.8 36.2 26.5 40Z"
+    "M8 27.5C9.65 16.55 17.05 9.25 28 8V14.5C20.65 15.8 15.85 20.6 14.5 28H8Z "
+    "M36 8C46.95 9.25 54.35 16.55 56 27.5V28H49.5C48.15 20.6 43.35 15.8 36 14.5Z "
+    "M56 36.5C54.35 47.45 46.95 54.75 36 56V49.5C43.35 48.2 48.15 43.4 49.5 36H56Z "
+    "M28 56C17.05 54.75 9.65 47.45 8 36.5V36H14.5C15.85 43.4 20.65 48.2 28 49.5Z "
+    "M23.5 40.5C19.8 29.2 26.8 21.5 42 21.5C42.5 36.7 34.8 43.5 23.5 40.5Z "
+    "M24.4 40.4C27.1 35.3 31.1 31.4 36.7 27.6C32.2 32.3 29.3 36.2 27.3 41.1Z"
 )
 
 
@@ -107,7 +108,7 @@ def sheet(pieces: list[tuple[str, str]], width: float) -> str:
         body += f'<text x="{x}" y="782" fill="{INK}" font-family="Arial,sans-serif" font-size="14">{size} px</text>'
         x += 116
     body += f'<g transform="translate(696 688) scale(.5)">{contents(primary)}</g>'
-    body += f'<text x="696" y="782" fill="{INK}" font-family="Arial,sans-serif" font-size="14">Sidebar / compact lockup</text>'
+    body += f'<text x="696" y="782" fill="{INK}" font-family="Arial,sans-serif" font-size="14">Header / compact lockup</text>'
     for x, color, label in ((64, GREEN, "Forest / #058247"), (340, INK, "Ink / #24392E"), (616, CREAM, "Cream / #F1E7D8"), (892, PANEL, "Panel / #FFF9F0")):
         body += f'<rect x="{x}" y="830" width="244" height="40" rx="6" fill="{color}" stroke="{INK}" stroke-opacity=".15"/>'
         body += f'<text x="{x}" y="902" fill="{INK}" font-family="Arial,sans-serif" font-size="15">{label}</text>'
@@ -141,7 +142,7 @@ def main() -> None:
         "name": "Junction Lens", "team": ["Mert", "Carter"],
         "colors": {"forest": GREEN, "ink": INK, "cream": CREAM, "panel": PANEL, "reversed": WHITE},
         "wordmark": {"family": "Manrope", "weight": 800, "outlined": True},
-        "mark": {"center": "leaf", "corner_bar_nominal_grid_units": 7, "grid_units": 64},
+        "mark": {"center": "leaf", "corner_bar_nominal_grid_units": 6.5, "revision": "optical-leaf-v2", "grid_units": 64},
         "clear_space": "At least 8 units on the 64-unit mark grid; keep its built-in padding.",
         "minimum_sizes": {"standalone_mark_px": 24, "badge_favicon_px": 16, "horizontal_lockup_width_px": 168},
         "status": "Compact mark and favicon activated; full wordmarks available for demo and submission materials."
