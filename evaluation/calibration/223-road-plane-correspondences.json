@@ -1,0 +1,384 @@
+{
+ "camera_id": "223",
+ "status": "candidate; not an accepted calibration",
+ "transform": "image pixels (1280x720) -> ground metres (east, north) about the aerial image centre",
+ "aerial_source": "esri_world",
+ "aerial_request": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-13175193.308471464,4006942.9328805953,-13175000.680714395,4007135.560637666&bboxSR=3857&imageSR=3857&size=1100,1100&format=png&f=image",
+ "aerial_center_latlon": [
+  33.83777,
+  -118.35391
+ ],
+ "mercator_scale_cos_lat": 0.8306175726347614,
+ "aerial_note": "Aerial imagery is not committed; re-request it from the URL above.",
+ "pairs": [
+  {
+   "image_px": [
+    1048.0,
+    333.0
+   ],
+   "aerial_px": [
+    619.0,
+    821.0
+   ],
+   "role": "rejected",
+   "ground_m": [
+    10.109,
+    -39.491
+   ]
+  },
+  {
+   "image_px": [
+    152.0,
+    195.0
+   ],
+   "aerial_px": [
+    876.0,
+    825.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    47.491,
+    -40.073
+   ]
+  },
+  {
+   "image_px": [
+    1228.0,
+    421.0
+   ],
+   "aerial_px": [
+    586.0,
+    814.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    5.309,
+    -38.473
+   ]
+  },
+  {
+   "image_px": [
+    8.0,
+    213.0
+   ],
+   "aerial_px": [
+    890.0,
+    793.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    49.527,
+    -35.418
+   ]
+  },
+  {
+   "image_px": [
+    645.0,
+    285.0
+   ],
+   "aerial_px": [
+    711.0,
+    830.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    23.491,
+    -40.8
+   ]
+  },
+  {
+   "image_px": [
+    522.0,
+    391.0
+   ],
+   "aerial_px": [
+    705.0,
+    757.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    22.618,
+    -30.182
+   ]
+  },
+  {
+   "image_px": [
+    848.0,
+    301.0
+   ],
+   "aerial_px": [
+    665.0,
+    845.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    16.8,
+    -42.982
+   ]
+  },
+  {
+   "image_px": [
+    1218.0,
+    699.0
+   ],
+   "aerial_px": [
+    566.0,
+    723.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    2.4,
+    -25.236
+   ]
+  },
+  {
+   "image_px": [
+    445.0,
+    246.0
+   ],
+   "aerial_px": [
+    771.0,
+    831.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    32.218,
+    -40.945
+   ]
+  },
+  {
+   "image_px": [
+    744.0,
+    317.0
+   ],
+   "aerial_px": [
+    680.0,
+    820.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    18.982,
+    -39.345
+   ]
+  },
+  {
+   "image_px": [
+    902.0,
+    173.0
+   ],
+   "aerial_px": [
+    709.0,
+    970.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    23.2,
+    -61.164
+   ]
+  },
+  {
+   "image_px": [
+    766.0,
+    141.0
+   ],
+   "aerial_px": [
+    758.0,
+    959.0
+   ],
+   "role": "rejected",
+   "ground_m": [
+    30.327,
+    -59.564
+   ]
+  },
+  {
+   "image_px": [
+    1098.0,
+    115.0
+   ],
+   "aerial_px": [
+    678.0,
+    1081.0
+   ],
+   "role": "rejected",
+   "ground_m": [
+    18.691,
+    -77.309
+   ]
+  },
+  {
+   "image_px": [
+    919.0,
+    521.0
+   ],
+   "aerial_px": [
+    623.0,
+    739.0
+   ],
+   "role": "fit",
+   "ground_m": [
+    10.691,
+    -27.564
+   ]
+  },
+  {
+   "image_px": [
+    375.0,
+    500.0
+   ],
+   "aerial_px": [
+    692.0,
+    658.0
+   ],
+   "role": "rejected",
+   "ground_m": [
+    20.727,
+    -15.782
+   ]
+  },
+  {
+   "image_px": [
+    65.0,
+    252.0
+   ],
+   "aerial_px": [
+    856.0,
+    778.0
+   ],
+   "role": "validation",
+   "ground_m": [
+    44.582,
+    -33.236
+   ]
+  }
+ ],
+ "homography": [
+  [
+   -0.0672370390038496,
+   -0.012908972972815954,
+   104.02344557975162
+  ],
+  [
+   -0.0430013283809757,
+   0.040802670204526444,
+   -79.6808287686328
+  ],
+  [
+   -1.830187856812373e-05,
+   0.004814787220890821,
+   1.0
+  ]
+ ],
+ "residuals": [
+  {
+   "pair": 1,
+   "role": "rejected",
+   "error_m": 3.728
+  },
+  {
+   "pair": 2,
+   "role": "fit",
+   "error_m": 0.488
+  },
+  {
+   "pair": 3,
+   "role": "fit",
+   "error_m": 0.098
+  },
+  {
+   "pair": 4,
+   "role": "fit",
+   "error_m": 0.288
+  },
+  {
+   "pair": 5,
+   "role": "fit",
+   "error_m": 0.683
+  },
+  {
+   "pair": 6,
+   "role": "fit",
+   "error_m": 0.428
+  },
+  {
+   "pair": 7,
+   "role": "fit",
+   "error_m": 0.967
+  },
+  {
+   "pair": 8,
+   "role": "validation",
+   "error_m": 1.528
+  },
+  {
+   "pair": 9,
+   "role": "validation",
+   "error_m": 0.402
+  },
+  {
+   "pair": 10,
+   "role": "validation",
+   "error_m": 0.882
+  },
+  {
+   "pair": 11,
+   "role": "fit",
+   "error_m": 0.576
+  },
+  {
+   "pair": 12,
+   "role": "rejected",
+   "error_m": 4.627
+  },
+  {
+   "pair": 13,
+   "role": "rejected",
+   "error_m": 2.375
+  },
+  {
+   "pair": 14,
+   "role": "fit",
+   "error_m": 0.713
+  },
+  {
+   "pair": 15,
+   "role": "rejected",
+   "error_m": 6.416
+  },
+  {
+   "pair": 16,
+   "role": "validation",
+   "error_m": 1.17
+  }
+ ],
+ "summary": {
+  "fit": {
+   "pairs": 8,
+   "rms_m": 0.587,
+   "max_m": 0.967
+  },
+  "validation": {
+   "pairs": 4,
+   "rms_m": 1.077,
+   "max_m": 1.528
+  }
+ },
+ "rejected_pairs": [
+  {
+   "pair": 1,
+   "reason": "camera point sits in the gap between crosswalk stripes while the aerial point sits on a stripe; feature mismatch"
+  },
+  {
+   "pair": 12,
+   "reason": "camera point lies on a queued vehicle in the turn lane, not the road surface"
+  },
+  {
+   "pair": 13,
+   "reason": "camera point lies on plain asphalt under the timestamp overlay; no feature matches the aerial lane-line point"
+  },
+  {
+   "pair": 15,
+   "reason": "camera point lies on plain asphalt with no identifiable road feature to match"
+  }
+ ]
+}

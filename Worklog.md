@@ -6,6 +6,20 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 7 November 2026, 23:04 America/New_York (04:04 UTC)
+
+- **Who:** Carter
+- **Done:** Calibrated camera 223 to the ground from 16 clicked pairs; rejected 4 with recorded reasons (one on a queued car, two on unmarked asphalt, one stripe/gap mismatch). Added `count-3` to `223.measurement.json` (`223-image-v2`, enabled and reviewed; `count-1` unchanged) as a ground line 15 m before `count-1`, clipped to the road region, and proposed movement `223-southbound-through` (15.0 m). Evidence: `evaluation/calibration/223-road-plane-correspondences.json` and `223-movement-southbound.json`. The private registry now holds both 222 and 223 (`data/raw/registry/registry.json`).
+- **Completed:** Fit RMS 0.59 m (8 pairs), validation RMS 1.08 m and max 1.53 m (4 pairs). The registry passes `parseRegistry` and the 223 traversal config loads with `TraversalBridge.from_config`.
+- **Still open:** Mert installs the combined registry and runs 223 with its traversal config. 223 counts are validated by automated assisted review only.
+
+### 7 November 2026, 22:54 America/New_York (03:54 UTC)
+
+- **Who:** Carter
+- **Done:** Enabled camera 223 (`223-image-v1`, reviewed) on gate `count-1`, validated by Mert's automated assisted review rather than a human count. Record: `evaluation/calibration/223-count-acceptance.json`. Downloaded 223's aerial imagery (ignored `data/raw/aerial/223/`) for ground calibration.
+- **Completed:** Held-out clip 6:00-8:00 against the assisted review: recall 91.9%, precision 96.9%, total -5.2% (98.4%, 95.4%, +3.2% excluding 11 ambiguous crossings), the same bar as 222. A laptop rerun reproduces the model's 129 count-1 crossings; count-2 caught only 8, all one direction, so it is not usable.
+- **Still open:** 223 ground calibration and movement. DevPost wording: 222 counts are human-validated; 223 counts are validated by automated review.
+
 ### 7 November 2026, 23:04 America/New_York / 8 November 2026, 04:04 UTC
 
 - **Who:** Mert

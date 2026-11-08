@@ -1,8 +1,8 @@
 {
   "camera_id": "223",
-  "version": "223-image-v1",
-  "enabled": false,
-  "image_geometry_status": "unvalidated",
+  "version": "223-image-v2",
+  "enabled": true,
+  "image_geometry_status": "reviewed",
   "road_region": [
     [
       0.0016,
@@ -149,6 +149,18 @@
       "end": [
         0.8266,
         0.9292
+      ],
+      "direction": "both"
+    },
+    {
+      "id": "count-3",
+      "start": [
+        0.0204,
+        0.5028
+      ],
+      "end": [
+        0.7703,
+        0.8188
       ],
       "direction": "both"
     }
