@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 03:29 America/New_York / 8 November 2026, 08:29 UTC
+
+- **Who:** Mert
+- **Done:** Added a judging-ready responsibility ledger connecting model selection, camera exclusions, null semantics, data roles and review boundaries to committed evidence.
+- **Completed:** All relative evidence links resolve; 220 held-out and 228 practice failures are distinguished; no field accuracy, measured pollution, fine-tune promotion or positive saving is invented.
+- **Still open:** New contextual/review/workspace browser acceptance and final human rehearsal/submission remain separate.
+
 ### 8 November 2026, 03:27 America/New_York / 8 November 2026, 08:27 UTC
 
 - **Who:** Mert
