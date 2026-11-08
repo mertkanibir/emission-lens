@@ -7,6 +7,7 @@ import {
 } from "@emission-lens/backend";
 import { AppShell } from "@/components/AppShell";
 import { OverviewBoard } from "@/components/OverviewBoard";
+import { workspaceQuery } from "@/lib/workspace-query";
 import { CameraDetail } from "@/components/CameraDetail";
 import { registryCalibrationState } from "@/lib/measurement";
 import { latestSupportedMapEstimate } from "@/lib/map-emissions";
@@ -16,9 +17,9 @@ import { hrefWith, parseMode, parseView } from "@/lib/format";
 export default async function OverviewPage({
   searchParams,
 }: {
-  searchParams: Promise<{ mode?: string; camera?: string; view?: string; reduce?: string; from?: string; to?: string }>;
+  searchParams: Promise<{ mode?: string; camera?: string; view?: string; reduce?: string; from?: string; to?: string; window?: string }>;
 }) {
-  const query = await searchParams;
+  const query = workspaceQuery(await searchParams);
   const mode = parseMode(query.mode);
   const view = parseView(query.view);
   const now = new Date();

@@ -19,6 +19,7 @@ import Link from "next/link";
 import { ReductionInput } from "@/components/ReductionInput";
 import { ScenarioWindowControls } from "@/components/ScenarioWindowControls";
 import { latestCompleteScenarioMinute } from "@/lib/scenario-window";
+import { RetainedWindowControls } from "@/components/RetainedWindowControls";
 import { CameraPreview } from "@/components/CameraPreview";
 import { MeasurementReadiness } from "@/components/MeasurementReadiness";
 import { MeasurementSnapshots } from "@/components/MeasurementSnapshots";
@@ -89,7 +90,7 @@ function Difference({
   );
 }
 
-export type CameraQuery = { mode?: string; reduce?: string; from?: string; to?: string };
+export type CameraQuery = { mode?: string; reduce?: string; from?: string; to?: string; window?: string };
 
 /** Shared server evidence view for the workspace and camera deep links. */
 export function CameraDetail({ id, query, now = new Date(), embedded = false }: {
@@ -223,6 +224,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
             <span>{modeLabel(mode)}</span>
           </div>
         </header>
+        <RetainedWindowControls cameraId={id} mode={mode} reduction={validReduction ? reduction : 20} from={query.from} to={query.to} now={now} embedded={embedded} />
         <nav className="camera-switcher" aria-label="Choose intersection">
           {listCameras().map((item) => (
             <Link
@@ -280,14 +282,14 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
           <a href="#observation">Observation</a>
           <a href="#traffic">Traffic & history</a>
           <a href="#emissions">Estimated emissions</a>
-          <a href="#scenario">Explore a scenario</a>
+          <a href="#scenario">Counterfactual</a>
           <a href="#evidence">Evidence & calibration</a>
         </nav>
         <div className="split">
           <div className="stack">
             <section id="observation">
               <Panel
-                title="Camera observation"
+                title="Source imagery and processing"
                 meta={<span>Caltrans District 7 · {modeLabel(mode)}</span>}
                 flush
               >
@@ -537,7 +539,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
           <div className="stack">
             <section id="emissions">
               <Panel
-                title="Estimated emissions"
+                title="Estimated tailpipe emissions"
                 meta={<QualityChip state={emissions.quality_state} />}
               >
                 <MeasurementScope scope={measurementScope(measurement)} />
@@ -617,13 +619,11 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
             </section>
             <section id="scenario">
               <Panel
-                title="What if stops were shorter?"
+                title="Stopped-time counterfactual"
                 meta={<span className="chip chip-draft">Hypothetical</span>}
               >
                 <p>
-                  Explore how less stopped time would change the same traffic
-                  sample. This does not predict what a signal adjustment would
-                  achieve.
+                  Recalculate the same completed movement cohort under an explicit stopped-time reduction. This is not a prediction of signal-timing performance.
                 </p>
                 <ScenarioWindowControls workspace={embedded} cameraId={id} mode={mode} reduction={validReduction ? reduction : 20} from={scenarioMeasurement.from} to={scenarioMeasurement.to} explicit={explicitScenarioWindow} candidate={completeMinute} error={scenarioWindowError} />
                 {scenarioMeasurement.scenario.completed_cohort.count !== null
@@ -839,7 +839,7 @@ export function CameraDetail({ id, query, now = new Date(), embedded = false }: 
             </section>
             <section id="evidence">
               <Panel
-                title="Calibration & evidence readiness"
+                title="Scientific inputs and evidence gates"
                 meta={
                   <span
                     className={

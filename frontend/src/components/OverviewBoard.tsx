@@ -453,6 +453,20 @@ export function OverviewBoard({
 
 
       </div>
+      <section className="operational-matrix" aria-label="Operational and acceptance matrix">
+        <header><h2>Processing and evidence gates</h2><p>Runtime freshness, declared count eligibility and scientific input authority are independent.</p></header>
+        <div className="table-scroll"><table className="data-table">
+          <thead><tr><th>Station</th><th>Processing</th><th>Declared count policy</th><th>Measurement registry</th><th>Supported estimate</th><th>Scope / limitation</th></tr></thead>
+          <tbody>{cameras.map((item) => <tr key={item.camera.id}>
+            <th scope="row">{item.camera.id}</th><td><StateChip state={item.status.displayed_state} /><small className="camera-support">{item.status.heartbeat_at ? `Heartbeat ${formatAge(item.status.heartbeat_at, item.status.as_of)} old` : "No heartbeat"}</small></td>
+            <td>{item.camera.id === "222" || item.camera.id === "223" ? "Enabled image-count gate" : "Excluded · failed count screen"}</td>
+            <td>{item.calibration === "valid" ? "Camera/mode inputs approved" : item.calibration === "invalid" ? "Invalid · estimates withheld" : "No approved physical inputs"}</td>
+            <td>{item.mapEstimate ? <><time dateTime={item.mapEstimate.minute}>{formatInstant(item.mapEstimate.minute, PACIFIC)}</time><small className="camera-support">Dated completed-movement minute</small></> : "No supported minute in this hour"}</td>
+            <td>{item.camera.id === "222" ? "Eastbound · fixed 20 m assumption" : item.camera.id === "223" ? "Southbound · fixed 15 m assumption" : "No new quantitative processing"}</td>
+          </tr>)}</tbody>
+        </table></div>
+        <p className="table-caption">Declared project eligibility is separate from the current registry and does not certify human field accuracy. Missing records, source capture UTC and unobserved roads remain unavailable. Live/replay/synthetic records never share totals.</p>
+      </section>
       <p className="network-method-note"><strong>Metric scope:</strong> 222 eastbound / 20 m and 223 southbound / 15 m use approved model assumptions. Cameras <strong>220 and 228 are excluded from quantitative processing after failed count screens</strong>; a video preview does not remove that exclusion. Estimates describe completed movements, not the full intersection. Select a camera below to inspect source timing, queues, calibration and calculations.</p>
 
     </section>

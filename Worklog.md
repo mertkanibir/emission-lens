@@ -1245,3 +1245,9 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 
 **8 November 2026, 03:30:29 America/New_York / 08:30:29 UTC — Mert:** Connected `worker/main.py` to bounded background evidence delivery. Durable enqueue and pending-checkpoint publication stay synchronous; HTTP is outside the processing loop, core FIFO precedes dependent measurements, fatal sender failures surface, and shutdown drains for at most 30 seconds before retaining incomplete evidence and failing required delivery. Reports include sender diagnostics. Completed: an instrumented full-runtime test processed a new frame while its first core HTTP call was held, then verified drained queues and a stopped sender; all 42 measurement/runtime, 11 runtime utility and 5 sender tests pass, plus scoped diff check. Corrected the preceding helper note timestamp to its actual 03:27/08:27 checkpoint. Open: controlled before/after benchmark, broader failure checks and root-reviewed runtime continuity deployment; no active worker, source configuration, model, calibration, factor or approval changed.
+
+## 8 November 2026, 03:30 America/New_York / 08:30 UTC — Mert
+
+- **Done:** Added bounded dated retained-minute navigation and an operational/evidence matrix; changed camera section labels to concise scientific terminology.
+- **Completed:** Paired-bound navigation/reset/malformed-selection semantics pass seven focused checks and nonincremental frontend TypeScript. Default reporting-hour totals remain honest after worker expiry; stale history never implies fresh processing.
+- **Open:** Context/review/planning panel composition and combined application/browser acceptance remain in progress. No running service, worker, factor, geometry or record was changed.
