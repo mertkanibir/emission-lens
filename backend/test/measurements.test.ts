@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 import {
   parseMeasurementBatch,
@@ -202,6 +203,13 @@ const request = (value: unknown, authenticated = true) =>
     },
     body: JSON.stringify(value),
   });
+const evidenceRequest = (reference: string) =>
+  handleMeasurementEvidenceGet(
+    new Request(
+      `http://localhost/api/measurements/evidence?reference=${reference}`,
+      { headers: { Authorization: `Bearer ${TOKEN}` } },
+    ),
+  );
 
 // These approvals exist only in a temporary synthetic namespace; no camera is activated.
 test("authenticated ingest persists one atomic source/traffic/pollutant/evidence snapshot and binds scenarios and briefs", () =>
@@ -467,6 +475,110 @@ test("linked legacy observations survive completion replacement, and observation
     assert.equal(readWorkerStore().traffic[0].completed_traversals, null);
     assert.equal(readWorkerStore().emissions.length, 0);
   }));
+test("advancing observation generations retire old evidence and current HTTP evidence equals a fresh snapshot reload", () =>
+  isolated(async ({ path }) => {
+    const source = batch();
+    const observed: WorkerBatch = {
+      contract_version: "1.1",
+      batch_id: randomUUID(),
+      revision: 0,
+      run: source.run,
+      statuses: [],
+      traffic: [{
+        camera_id: source.camera_id, minute: source.minute, mode: source.mode,
+        run_id: source.run.run_id, vehicle_class: "car", count: 3,
+        stopped_vehicle_seconds: 900, queue_count: 4, queue_length_m: null,
+        coverage: 0.5, completed_traversals: null, traversal_time_s: null,
+        distance_m: null,
+      }],
+      emissions: [],
+    };
+    ingestWorkerBatch(observed, NOW);
+    source.observations = [];
+    source.observation_ref = { batch_id: observed.batch_id, revision: 0 };
+    const first = await ingest_measurement_batch(source, NOW);
+    assert.equal((await evidenceRequest(first.evidence_ref)).status, 200);
+
+    // A linked worker revision rederives measurements in the same atomic write.
+    // Frozen references are not durable aliases to a newer evidence generation.
+    observed.revision++;
+    observed.traffic[0].count = 4;
+    ingestWorkerBatch(observed, NOW);
+    assert.equal((await evidenceRequest(first.evidence_ref)).status, 404);
+    const intermediate = await (await evidenceRequest(read().evidence_refs[0])).json();
+    assert.equal(intermediate.current, true);
+    assert.equal(intermediate.approved_input, null);
+    assert.ok(intermediate.calculation.rows.every((row: { estimate_g: number | null }) => row.estimate_g === null));
+
+    source.revision++;
+    source.observation_ref.revision = observed.revision;
+    const next = await ingest_measurement_batch(source, NOW);
+    const publicResponse = await handleMeasurementGet(new Request(
+      "http://localhost/api/measurements?camera=222&mode=synthetic&reduce=20",
+    ));
+    const publicView = await publicResponse.json();
+    assert.deepEqual(publicView.evidence_refs, [next.evidence_ref]);
+    const http = await evidenceRequest(next.evidence_ref);
+    assert.equal(http.status, 200);
+    assert.equal(http.headers.get("cache-control"), "no-store");
+    const current = await http.json();
+    assert.equal(current.current, true);
+    assert.equal(current.source.observation_ref.revision, observed.revision);
+    assert.equal(current.approved_input.traversals.length, 1);
+    assert.deepEqual(current.source, readSnapshot(path).measurement_batches![0].source);
+    const frozenPath = path + ".frozen";
+    writeFileSync(frozenPath, readFileSync(path), { mode: 0o600 });
+    const moduleUrl = new URL("../src/measurements.ts", import.meta.url).href;
+    const child = spawnSync(process.execPath, ["--import", "tsx", "--input-type=module", "-e",
+      `import {read_measurement_evidence,read_measurement_window} from ${JSON.stringify(moduleUrl)};
+       console.log(JSON.stringify({evidence:read_measurement_evidence(process.argv[1]),view:read_measurement_window({cameraId:"222",mode:"synthetic",stoppedTimeReductionPct:20})}));`,
+      next.evidence_ref,
+    ], { env: { ...process.env, EMISSION_LENS_STORE_PATH: frozenPath }, encoding: "utf8" });
+    assert.equal(child.status, 0, child.stderr);
+    const reloaded = JSON.parse(child.stdout);
+    assert.deepEqual(reloaded.evidence, current);
+    assert.deepEqual(reloaded.view, publicView);
+
+    // A matching revision alone cannot approve evidence from another camera.
+    observed.revision++;
+    observed.traffic[0].camera_id = "223";
+    ingestWorkerBatch(observed, NOW);
+    source.revision++;
+    source.observation_ref.revision = observed.revision;
+    const wrongSource = await ingest_measurement_batch(source, NOW);
+    const invalid = await (await evidenceRequest(wrongSource.evidence_ref)).json();
+    assert.equal(invalid.current, true);
+    assert.equal(invalid.approved_input, null);
+    assert.ok(invalid.calculation.rows.every((row: { estimate_g: number | null }) => row.estimate_g === null));
+    assert.equal(read().scenario.available, false);
+  }));
+
+test("authenticated stale evidence cannot make revoked or unapproved physics current", () =>
+  isolated(async ({ install }) => {
+    const source = batch();
+    const initial = await ingest_measurement_batch(source, NOW);
+    const revoked = registry();
+    revoked.calibrations[0].approval.status = "rejected";
+    install(revoked);
+    const stale = await (await evidenceRequest(initial.evidence_ref)).json();
+    assert.equal(stale.current, false);
+    assert.equal(read().scenario.available, false);
+    await refresh_measurements(NOW);
+    assert.equal((await evidenceRequest(initial.evidence_ref)).status, 404);
+    const unavailable = await (await evidenceRequest(read().evidence_refs[0])).json();
+    assert.equal(unavailable.current, true);
+    assert.equal(unavailable.approved_input, null);
+    assert.ok(unavailable.calculation.rows.every((row: { estimate_g: number | null }) => row.estimate_g === null));
+    const unapproved = registry();
+    unapproved.calibrations[0].approval.status = "pending";
+    install(unapproved);
+    await refresh_measurements(NOW);
+    const pending = await (await evidenceRequest(read().evidence_refs[0])).json();
+    assert.equal(pending.approved_input, null);
+    assert.equal(read().scenario.pollutants.co2.baseline_g, null);
+    assert.equal(read().scenario.pollutants.co2.scenario_g, null);
+  }));
+
 test("missing linked stop evidence withholds nonzero scenarios, never subtracts general minute stopped seconds", () =>
   isolated(async () => {
     const source = batch();

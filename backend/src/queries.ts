@@ -41,6 +41,11 @@ export interface TrafficWindow {
   totals: TrafficTotals;
   queue_count: number | null;
   queue_length_m: number | null;
+  queue_observation?: {
+    state: "observed" | "unavailable" | "ambiguous";
+    minute: string | null;
+    reason: string;
+  };
   note: string;
 }
 
@@ -65,6 +70,38 @@ function uniqueOrNull(values: Array<number | null>): number | null {
   if (present.length === 0) return null;
   const first = present[0];
   return present.every((value) => value === first) ? first : null;
+}
+
+/** Queue columns describe one image observation, never an hour/class sum. */
+export function latestQueueObservation(rows: TrafficMinute[]): {
+  queue_count: number | null;
+  queue_length_m: number | null;
+  queue_observation: NonNullable<TrafficWindow["queue_observation"]>;
+} {
+  const latest = rows.reduce((at, row) => Math.max(at, Date.parse(row.minute)), -Infinity);
+  if (!Number.isFinite(latest)) return {
+    queue_count: null,
+    queue_length_m: null,
+    queue_observation: { state: "unavailable", minute: null, reason: "No traffic minute is available in this reporting window." },
+  };
+  const current = rows.filter((row) => Date.parse(row.minute) === latest);
+  const observed = current.filter((row) => row.queue_count !== null);
+  const minute = new Date(latest).toISOString();
+  if (observed.length === 0) return {
+    queue_count: null,
+    queue_length_m: null,
+    queue_observation: { state: "unavailable", minute, reason: "The latest traffic minute has no queue observation; older observations are not substituted." },
+  };
+  if (observed.length > 1) return {
+    queue_count: null,
+    queue_length_m: null,
+    queue_observation: { state: "ambiguous", minute, reason: "The latest traffic minute has multiple queue observations across class rows; no unique observation is supported." },
+  };
+  return {
+    queue_count: observed[0].queue_count,
+    queue_length_m: observed[0].queue_length_m,
+    queue_observation: { state: "observed", minute, reason: "One image-based queue observation is retained for the latest traffic minute; this is not a reporting-window total." },
+  };
 }
 
 export function displayedState(status: CameraStatus, asOfIso: string): CameraState {
@@ -109,8 +146,7 @@ export function get_traffic_window(input: {
     distance_m: sumStrict(rows.map((row) => row.distance_m)),
     coverage: uniqueOrNull(rows.map((row) => row.coverage)),
   };
-  const queueCount = uniqueOrNull(rows.map((row) => row.queue_count));
-  const queueLength = uniqueOrNull(rows.map((row) => row.queue_length_m));
+  const queue = latestQueueObservation(rows);
   let note = "No traffic rows in this window.";
   if (input.mode === "replay") note = rows.length === 0
     ? "No replay traffic aggregates in this window. Replay is not mixed into live totals."
@@ -139,8 +175,7 @@ export function get_traffic_window(input: {
     to,
     rows,
     totals,
-    queue_count: queueCount,
-    queue_length_m: queueLength,
+    ...queue,
     note,
   };
 }

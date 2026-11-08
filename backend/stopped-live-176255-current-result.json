@@ -1,0 +1,64 @@
+{
+  "state": "PASS_current_generation_HTTP_original_CARB20_reload",
+  "checked_at": "2026-11-08T06:33:01.901262+00:00",
+  "generation_races_reacquired": 0,
+  "superseded_frozen_references_return_404": 4,
+  "legacy_worker_entries_preserved": 192,
+  "legacy_measurement_entries_preserved": 18,
+  "public_full_window20_remains_null": true,
+  "other_three_new_metrics_unavailable": true,
+  "fresh_process_evidence_and_entire_public_view_equal": true,
+  "original_CARB_csv_baseline_and20_math": true,
+  "literal_threshold": 0.0225,
+  "running_application_and_services_unchanged": true,
+  "limits": [
+    "Two advancing samples, not sustained/recovery or field accuracy acceptance.",
+    "20% is hypothetical estimated emissions; supported zero/null results remain intact."
+  ],
+  "job_id": "176255",
+  "source_commit": "b1081f19883e1950ab3c6cf28af22be41e7ec30e",
+  "registry_sha256": "7ed03ca706bd8b674d14b6459ce697f818574ab93a07a8d13f29201c5ecab85a",
+  "traversal_policy_sha256": "6ffbac2983c8f2d465b2495a3d2238aaa7fd7c679776277b69f71ac607234b36",
+  "samples": [
+    {
+      "captured_at": "2026-11-08T06:32:54.757948+00:00",
+      "snapshot_sha256": "2f338c2bf62d030b92fba32b5a7cf28369d939e35976462470f2c660b8a5750a",
+      "heartbeat": "2026-11-08T06:32:51.667202+00:00",
+      "current_authenticated_reads": 25,
+      "positive_stops": 5,
+      "zero_stops": 37,
+      "null_stops": 0,
+      "new_minutes": 25,
+      "completed_candidates": 42,
+      "supported_baseline_minutes": 19,
+      "unavailable_baseline_minutes": 6,
+      "supported_scenario_changes_g": [
+        0.0
+      ]
+    },
+    {
+      "captured_at": "2026-11-08T06:33:01.758058+00:00",
+      "snapshot_sha256": "6214aa9a196fc70b54ea264daeb39c126725bc5cc7136cc05c2e647f1cb970f3",
+      "heartbeat": "2026-11-08T06:32:53.616696+00:00",
+      "current_authenticated_reads": 25,
+      "positive_stops": 5,
+      "zero_stops": 37,
+      "null_stops": 0,
+      "new_minutes": 25,
+      "completed_candidates": 42,
+      "supported_baseline_minutes": 19,
+      "unavailable_baseline_minutes": 6,
+      "supported_scenario_changes_g": [
+        0.0
+      ]
+    }
+  ],
+  "previous_partial_checkpoint": "stopped-live-176255-result.json",
+  "defect_disposition": "Verifier generation mismatch. Advancing ingestion replaces derivation references; the evidence endpoint requires no semantic relaxation.",
+  "verification": {
+    "backend_tests": 118,
+    "backend_typecheck": true,
+    "contracts_typecheck": true,
+    "new_latest_minute_queue_runtime_acceptance": false
+  }
+}

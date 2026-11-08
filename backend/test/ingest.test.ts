@@ -103,6 +103,62 @@ test("clock rebins retract the prior minute before filling its corrected minute 
   assert.equal(readWorkerStore().traffic.length, 2);
 }));
 
+test("queue summaries use the latest canonical minute and never reuse older queue evidence", () => withStore(() => {
+  const older = fixture();
+  older.statuses = [];
+  older.emissions = [];
+  older.traffic[0].minute = "2026-11-07T22:59:00Z";
+  older.traffic[0].queue_count = 7;
+  ingestWorkerBatch(older, NOW);
+  const newest = fixture();
+  newest.statuses = [];
+  newest.emissions = [];
+  newest.traffic[0].queue_count = 3;
+  newest.traffic.push({ ...newest.traffic[0], minute: "2026-11-07T23:00:00.000+00:00", vehicle_class: "bus", count: 1, queue_count: null });
+  ingestWorkerBatch(newest, NOW);
+  const read = () => get_traffic_window({ cameraId: "222", mode: "live", now: NOW });
+  assert.equal(read().queue_count, 3);
+  assert.equal(read().totals.count, 9);
+  assert.equal(read().queue_observation?.state, "observed");
+  assert.equal(read().queue_observation?.minute, "2026-11-07T23:00:00.000Z");
+  assert.equal(read().queue_length_m, null);
+
+  newest.revision++;
+  newest.traffic[0].queue_count = 0;
+  ingestWorkerBatch(newest, NOW);
+  assert.equal(read().queue_count, 0);
+  assert.equal(read().queue_observation?.state, "observed");
+
+  newest.revision++;
+  newest.traffic[0].queue_count = null;
+  ingestWorkerBatch(newest, NOW);
+  assert.equal(read().queue_count, null);
+  assert.equal(read().queue_observation?.state, "unavailable");
+  assert.equal(read().queue_observation?.minute, "2026-11-07T23:00:00.000Z");
+  assert.match(read().queue_observation!.reason, /older observations are not substituted/);
+
+  newest.revision++;
+  newest.traffic[0].queue_count = 2;
+  newest.traffic[1].queue_count = 4;
+  ingestWorkerBatch(newest, NOW);
+  assert.equal(read().queue_count, null);
+  assert.equal(read().queue_observation?.state, "ambiguous");
+  assert.equal(read().queue_length_m, null);
+
+  // Repeated non-null per-class observations are not a single supported queue.
+  newest.revision++;
+  newest.traffic[1].queue_count = 2;
+  ingestWorkerBatch(newest, NOW);
+  assert.equal(read().queue_count, null);
+  assert.equal(read().queue_observation?.state, "ambiguous");
+  const empty = get_traffic_window({ cameraId: "223", mode: "live", now: NOW });
+  assert.equal(empty.queue_count, null);
+  assert.deepEqual(empty.queue_observation, {
+    state: "unavailable", minute: null,
+    reason: "No traffic minute is available in this reporting window.",
+  });
+}));
+
 test("traffic windows disclose estimated or mixed timing bases without changing synthetic provenance", () => {
   for (const mode of ["live", "replay"] as const) withStore(() => {
     const syntheticNote = get_traffic_window({ cameraId: "222", mode: "synthetic", now: NOW }).note;
