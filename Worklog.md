@@ -6,6 +6,13 @@ Times are shown in America/New_York and UTC. Authors are Mert and Carter only.
 
 ---
 
+### 8 November 2026, 10:08 America/New_York / 8 November 2026, 15:08 UTC
+
+- **Who:** Mert
+- **Done:** Published the installed compact dashboard, signed two-page report, source-pinned gateway/writer/worker topology, exact preservation/recovery evidence and measured processing versus actual native-video delivery. Updated master plan and frontend status.
+- **Completed:** Actual PDF attachment/layout checks and browser source/video/alignment/navigation/reflow checks pass;140 backend/96 frontend/66 allocated worker checks plus types/build pass. Job176899 is healthy with empty current outboxes and15FPS settled processing; all retained baseline and pending evidence preserved.
+- **Still open:** Browser native delivery remains about8–11distinctFPS, with source/startup drops and periodic publication gaps disclosed.220/228 quantitative exclusions, physical calibration, independent scientific validation, shared hosted persistence and long-duration acceptance remain open.
+
 ### 8 November 2026, 10:00 America/New_York / 8 November 2026, 15:00 UTC
 
 - **Who:** Mert

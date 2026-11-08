@@ -1,0 +1,59 @@
+{
+  "date_utc": "2026-11-08T15:08:15Z",
+  "owner": "Mert",
+  "web_source": "aa64458705f33966142cd3a5cb09cb7044e1c593",
+  "gateway_source": "6791e5861f7b14a204e75818659175c309084780",
+  "worker_source": "aa64458705f33966142cd3a5cb09cb7044e1c593",
+  "worker_job": "176899",
+  "source_sampling_fps": 15,
+  "allocated_cpus": 24,
+  "distinct_h100_1g_10gb_slices": 2,
+  "quantity_floor_utc": "2026-11-08T15:06:00Z",
+  "approximate_soft_stop_utc": "2026-11-08T16:59:30Z",
+  "allocation_hard_end_utc": "2026-11-08T17:01:39Z",
+  "sample_scope": "Bounded final settled 20-second processing and separate native-stream delivery samples; not sustained/loss-free acceptance.",
+  "cameras": {
+    "222": {
+      "processing_fps": 15.003,
+      "new_reader_drops_settled": 0,
+      "preview_post_fps": 10.65,
+      "preview_failures": 0,
+      "native_distinct_fps": 8.4,
+      "median_public_frame_get_ms": 2.28
+    },
+    "223": {
+      "processing_fps": 15.0,
+      "new_reader_drops_settled": 0,
+      "preview_post_fps": 10.73,
+      "preview_failures": 0,
+      "native_distinct_fps": 8.45,
+      "median_public_frame_get_ms": 1.66,
+      "earlier_startup_reader_drops": 53
+    }
+  },
+  "public_frame_gets": 442,
+  "public_frame_get_errors": 0,
+  "current_core_pending": 0,
+  "current_measurement_pending": 0,
+  "unchanged_baseline_core_entries": 3445,
+  "unchanged_baseline_measurement_entries": 485,
+  "unchanged_prior_pending_files": 519,
+  "new_quantity_floor_violations": 0,
+  "current_guard_rejections": 0,
+  "verification": {
+    "backend_tests": 140,
+    "frontend_tests": 96,
+    "allocated_runtime_worker_tests": 66,
+    "typescript": "pass",
+    "immutable_production_build": "pass",
+    "actual_browser_pdf_pages": 2,
+    "actual_pdf_source_sha256": "bdd9e36122084d4168db8d83b0fbb1eab944d72ae671917ac98ede90d23123eb"
+  },
+  "limits": [
+    "Browser throughput is below processing throughput.",
+    "Startup/source drops and bounded source-processing pauses remain disclosed.",
+    "220 and228 remain excluded from quantitative processing.",
+    "Unknown/unmapped traversal classes withhold unsupported estimates.",
+    "Physical calibration, independent scientific validation and shared hosted persistence remain open."
+  ]
+}
