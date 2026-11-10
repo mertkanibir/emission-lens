@@ -1,4 +1,47 @@
-# Emission Lens
+<h1 align="center">Emission Lens</h1>
+
+<p align="center">Camera-based vehicle tracking, calibrated movement estimates, and traceable CO2 / NOx analysis.</p>
+
+<p align="center">
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-000000?style=plastic&logo=nextdotjs&logoColor=white" alt="Next.js" /></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-149ECA?style=plastic&logo=react&logoColor=white" alt="React" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=plastic&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js%2024-339933?style=plastic&logo=nodedotjs&logoColor=white" alt="Node.js 24" /></a>
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=plastic&logo=python&logoColor=white" alt="Python" /></a>
+  <a href="https://docs.ultralytics.com/"><img src="https://img.shields.io/badge/YOLO-111F68?style=plastic&logo=yolo&logoColor=white" alt="YOLO" /></a>
+  <a href="https://opencv.org/"><img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=plastic&logo=opencv&logoColor=white" alt="OpenCV" /></a>
+  <a href="https://maplibre.org/"><img src="https://img.shields.io/badge/MapLibre-396CB2?style=plastic&logo=maplibre&logoColor=white" alt="MapLibre" /></a>
+</p>
+
+<p align="center">Built for <strong>NYCAIRR × HackBU 2026</strong> · <a href="https://devpost.com/software/emission-lens">Devpost</a></p>
+
+## Project preview
+
+<p align="center">
+  <a href="https://devpost.com/software/emission-lens"><img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/005/815/848/datas/original.png" alt="Static Emission Lens camera 223 dashboard capture with processed vehicle boxes and a dated supported-movement estimate" width="960" /></a>
+</p>
+
+*Static Devpost capture from 8 November 2026. The camera image, LIVE label, and estimates describe the captured session, not current service availability or independently validated field accuracy.*
+
+<details>
+<summary>View the synthetic network map and planning PDF</summary>
+
+<p align="center">
+  <a href="https://devpost.com/software/emission-lens"><img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/005/815/849/datas/original.png" alt="Emission Lens network map and camera register displaying explicitly labeled synthetic sample data" width="960" /></a>
+</p>
+
+*The network view uses labeled synthetic examples. Its four illustrated stations do not expand live or replay camera eligibility.*
+
+<p align="center">
+  <a href="https://devpost.com/software/emission-lens"><img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/005/815/846/datas/original.png" alt="Dated Emission Lens planning PDF for camera 223 with estimated CO2, evidence coverage, and review notes" width="960" /></a>
+</p>
+
+*Dated planning PDF with scoped estimated emissions, not measured air quality. Images are from the [team Devpost gallery](https://devpost.com/software/emission-lens); existing Caltrans, mapping, and third-party attribution boundaries still apply.*
+
+</details>
 
 **Public intersection cameras → observed traffic → estimated emissions → evidence-backed planning.**
 
@@ -89,4 +132,6 @@ Vehicle identities are temporary and camera-session scoped. There is no plate re
 
 Covered project code is **AGPL-3.0-only**: see [LICENSE](./LICENSE), [NOTICE](./NOTICE), [source availability](./release/SOURCE-AVAILABILITY.md) and [third-party notices](./release/THIRD-PARTY-NOTICES.md). Camera imagery/metadata comes from Caltrans/CWWP; factors come from CARB EMFAC. The [release inventory](./release/README.md) records remaining model, media and dependency obligations separately.
 
-**Documentation update — 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC — Mert:** Reorganized the project entry points, reconciled dated status summaries and added Carter's two annotated camera-222 references. Earlier README checkpoints are preserved in the linked archive. No contract, camera approval or runtime configuration changed.
+**Documentation update: 8 November 2026, 10:32 America/New_York / 8 November 2026, 15:32 UTC: Mert:** Reorganized the project entry points, reconciled dated status summaries and added Carter's two annotated camera-222 references. Earlier README checkpoints are preserved in the linked archive. No contract, camera approval or runtime configuration changed.
+
+**Presentation update: 9 November 2026, 19:47 America/New_York / 10 November 2026, 00:47 UTC, Mert:** Added verified stack badges and static Devpost gallery previews. Screenshot captions distinguish dated camera output, synthetic examples, and scoped estimated emissions. Existing scientific limits, camera eligibility, contracts, runtime settings, and attribution boundaries remain unchanged.
